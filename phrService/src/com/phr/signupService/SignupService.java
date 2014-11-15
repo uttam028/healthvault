@@ -19,14 +19,25 @@ import javax.xml.bind.JAXBElement;
 
 import org.json.JSONObject;
 
+import com.phr.util.DatabaseUtil;
+
+
+
+
+
 
 @Path("/signup")
 public class SignupService {
 	
-	    private Connection connect = null;
-	    private Statement statement = null;
+	    private Connection connection = null;
+	    private Statement statement ;
 	    private PreparedStatement preparedStatement = null;
 	    private ResultSet resultSet = null;
+	    
+	    
+	    static{    	
+	    	DatabaseUtil.loadDriver();
+	    }
 
 	    @Path("{userid}")
 	    @GET
@@ -34,28 +45,32 @@ public class SignupService {
 	    public String getUser(@PathParam("userid") String userid) {
 	       
 	    	try {
-				Class.forName("com.mysql.jdbc.Driver");
 			
             // setup the connection with the DB.
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/PHR?"
-                    + "user=root&password=admin123");
-            statement = connect.createStatement();
-            
-            preparedStatement = connect
-                    .prepareStatement("SELECT * FROM PHR.USERS WHERE EMAIL=?");
-            preparedStatement.setString(1,userid ); 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-            	return "TRUE"; 
-            
-            }
-	    	} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//            connect = DriverManager.getConnection("jdbc:mysql://localhost/PHR?"
+//                    + "user=hasini&password=admin123");
+	    	System.out.println("Connecting database...");
+	    	connection = DatabaseUtil.connectToDatabase(); 
+            try{
+                
+                statement = connection.createStatement();              
+                preparedStatement = connection.prepareStatement("SELECT * FROM PHR.USERS WHERE EMAIL=?");
+                preparedStatement.setString(1,userid ); 
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()){
+                	return "TRUE"; 
+                
+                }
+              }
+    	      catch (SQLException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+	    	}  finally {
+	    	    System.out.println("Closing the connection.");
+	    	    if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+	    	}	    	
+	    	
 	    	return "FALSE";
 	    }
 
@@ -64,29 +79,31 @@ public class SignupService {
 	    @Produces(MediaType.APPLICATION_XML)
 	    public String createUser(JAXBElement<UserProfile> userProfileJAXBElement){
 	        UserProfile userProfile = userProfileJAXBElement.getValue();
-	        if( saveUser(userProfile))
-	            return "The user "+ userProfile.getEmail() + " created successfully !!" ;
-	        else
-	            return "Error in user creation";
+	        return saveUser(userProfile);
+	         
 	    }
 
-	    private boolean saveUser(UserProfile userProfile){
+	    private String saveUser(UserProfile userProfile){
 
-	        boolean success = false;
+	        String success = "";
 	        try {
-	            Class.forName("com.mysql.jdbc.Driver");
+	
 	            // setup the connection with the DB.
-	            connect = DriverManager.getConnection("jdbc:mysql://localhost/PHR?"
-	                    + "user=root&password=admin123");
-	            statement = connect.createStatement();
+//	            connect = DriverManager.getConnection("jdbc:mysql://localhost/PHR?"
+//	                    + "user=hasini&password=admin123");
 	            
-	            preparedStatement = connect
+	        	System.out.println("Connecting database...");
+	        	connection = DatabaseUtil.connectToDatabase(); 
+	           try{
+	        	statement = connection.createStatement();
+	            
+	            preparedStatement = connection
 	                    .prepareStatement("insert into  PHR.USERS values ( ?,?)");
 	            preparedStatement.setString(1, userProfile.getEmail() );
 	            preparedStatement.setString(2, userProfile.getPassword());
 	            preparedStatement.execute();
 	            
-	            preparedStatement = connect
+	            preparedStatement = connection
 	                    .prepareStatement("insert into  PHR.USER_PROFILE values ( ?,?, ?, ?, ? , ?)");
 	            preparedStatement.setString(1, userProfile.getEmail() );
 	            preparedStatement.setString(2, userProfile.getFirstName() );
@@ -96,13 +113,18 @@ public class SignupService {
 	            preparedStatement.setLong(6, userProfile.getMobileNum() );
 
 	            preparedStatement.execute();
-	            success = true;
-	        } catch (ClassNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (SQLException e) {
+	            success = "The user " + userProfile.getEmail() + " successfully signed up." ;
+//	        } catch (MySQLIntegrityConstraintViolationException e){
+//	        	success = "The user " + userProfile.getEmail() + " already exist in the system." ;
+            }
+	           catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	        return success;
+	    } finally {
+    	    System.out.println("Closing the connection.");
+    	    if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
+    	}	
+	        return "Error in user creation. Please refer server logs for more information";
 	    }
 	    
 	    

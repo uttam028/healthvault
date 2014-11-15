@@ -68,7 +68,7 @@ public class signupTest {
 		}
 
 	   private static URI getBaseURI() {
-	    return UriBuilder.fromUri("http://localhost:8080/phrService").build();
+	    return UriBuilder.fromUri("http://m-health.cse.nd.edu:8000/phrService").build();
 	  }
 	
 }
