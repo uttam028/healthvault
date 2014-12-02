@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.json.JSONObject;
 
-import com.phr.signupService.UserProfile;
+import com.phr.util.UserProfile;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

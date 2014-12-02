@@ -17,8 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
-import com.phr.signupService.UserProfile;
 import com.phr.util.DatabaseUtil;
+import com.phr.util.UserProfile;
 
 @Path("/login")
 public class loginService {
