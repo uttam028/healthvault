@@ -26,5 +26,9 @@
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/login/*</url-pattern>
 	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<url-pattern>/profile/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>
