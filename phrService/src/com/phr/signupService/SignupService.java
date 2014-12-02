@@ -20,6 +20,7 @@ import javax.xml.bind.JAXBElement;
 import org.json.JSONObject;
 
 import com.phr.util.DatabaseUtil;
+import com.phr.util.UserProfile;
 
 
 
@@ -108,8 +109,8 @@ public class SignupService {
 	            preparedStatement.setString(1, userProfile.getEmail() );
 	            preparedStatement.setString(2, userProfile.getFirstName() );
 	            preparedStatement.setString(3, userProfile.getLastName() );
-	            preparedStatement.setString(4, userProfile.getBirthDay() );
-	            preparedStatement.setString(5, userProfile.getAddress() );
+	            preparedStatement.setString(4, userProfile.getAddress());
+	            preparedStatement.setString(5, userProfile.getBirthDay());
 	            preparedStatement.setLong(6, userProfile.getMobileNum() );
 
 	            preparedStatement.execute();
@@ -118,13 +119,14 @@ public class SignupService {
 //	        	success = "The user " + userProfile.getEmail() + " already exist in the system." ;
             }
 	           catch (SQLException e) {
+	        	   success = "Error in user creation. Please refer server logs for more information";
 	            e.printStackTrace();
 	        }
 	    } finally {
     	    System.out.println("Closing the connection.");
     	    if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
     	}	
-	        return "Error in user creation. Please refer server logs for more information";
+	        return success;
 	    }
 	    
 	    
