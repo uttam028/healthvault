@@ -10,6 +10,9 @@ import UIKit
 
 class StartViewController: UIViewController {
 
+	@IBOutlet weak var emailField: UITextField!
+	@IBOutlet weak var passwordField: UITextField!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,8 +23,11 @@ class StartViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
+	@IBAction func login(sender: UIButton) {
+		
+	}
+	
     /*
     // MARK: - Navigation
 
