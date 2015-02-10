@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A3C602F1A8A938500996C77 /* HealthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3C602E1A8A938500996C77 /* HealthTableViewController.swift */; };
 		4AA129601A80509900BD4514 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA1295F1A80509900BD4514 /* AppDelegate.swift */; };
 		4AA129651A80509900BD4514 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA129631A80509900BD4514 /* Main.storyboard */; };
 		4AA129671A80509900BD4514 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA129661A80509900BD4514 /* Images.xcassets */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A3C602E1A8A938500996C77 /* HealthTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthTableViewController.swift; sourceTree = "<group>"; };
 		4AA1295A1A80509900BD4514 /* Health.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Health.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA1295E1A80509900BD4514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AA1295F1A80509900BD4514 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,9 +84,10 @@
 				4AA1295F1A80509900BD4514 /* AppDelegate.swift */,
 				4AB74E3E1A80554C00B7D5CE /* StartViewController.swift */,
 				4AB74E401A80866200B7D5CE /* RegistrationViewController.swift */,
+				4A3C602E1A8A938500996C77 /* HealthTableViewController.swift */,
 				4AA129631A80509900BD4514 /* Main.storyboard */,
-				4AA129661A80509900BD4514 /* Images.xcassets */,
 				4AA129681A80509900BD4514 /* LaunchScreen.xib */,
+				4AA129661A80509900BD4514 /* Images.xcassets */,
 				4AA1295D1A80509900BD4514 /* Supporting Files */,
 			);
 			path = Health;
@@ -218,6 +221,7 @@
 				4AB74E411A80866200B7D5CE /* RegistrationViewController.swift in Sources */,
 				4AA129601A80509900BD4514 /* AppDelegate.swift in Sources */,
 				4AB74E3F1A80554C00B7D5CE /* StartViewController.swift in Sources */,
+				4A3C602F1A8A938500996C77 /* HealthTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

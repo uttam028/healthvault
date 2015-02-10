@@ -20,30 +20,24 @@ class RegistrationViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 	
 	func requestEmailAvailability(email: String) -> Bool {
-		let url = NSURL(string: "http://m-health.cse.nd.edu:8000//phrService-0.0.1-SNAPSHOT/signup/signup/\(email)")
+		let url = NSURL(string: "http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT/signup/signup/\(email)")
 		let request = NSURLRequest(URL: url!)
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		let session = NSURLSession(configuration: config)
 		let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-			var jsonError: NSError?
-			if let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) {
-				println(json)
-			}
+			println("Data: " + NSString(data: data, encoding: NSUTF8StringEncoding)!)
 		})
 		task.resume()
 		return true
 	}
-
+	
 	@IBAction func join(sender: UIButton) {
 		if ((self.emailField.text) != nil) {
-			
+			if (requestEmailAvailability(self.emailField.text) == true) {
+				
+			}
 		}
 	}
 	
