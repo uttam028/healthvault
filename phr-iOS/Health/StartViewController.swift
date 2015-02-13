@@ -21,7 +21,8 @@ class StartViewController: UIViewController {
 		self.errorLabel.text = ""
     }
 	
-	func requestLogin(email: String, password: String) -> Bool {
+	func requestLogin(email: String, password: String) {
+		self.errorLabel.text = ""
 		self.view.endEditing(true)
 		var success = false
 		let url = NSURL(string: "http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT/login/login")
@@ -29,39 +30,31 @@ class StartViewController: UIViewController {
 		request.HTTPMethod = "PUT"
 		request.addValue("application/xml", forHTTPHeaderField: "Content-Type")
 		request.HTTPBody = ("<user>" +
-			"<email>\(email)</email>" +
-			"<password>\(password)</password>" +
-			"</user").dataUsingEncoding(NSUTF8StringEncoding)
-		println(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding))
+							"<email>\(email)</email>" +
+							"<password>\(password)</password>" +
+							"</user>"
+							).dataUsingEncoding(NSUTF8StringEncoding)
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		let session = NSURLSession(configuration: config)
-		let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) in
-			if (NSString(data: data, encoding: NSUTF8StringEncoding)! == "TRUE") {
-				success = true
+		let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error in
+			if (data == "TRUE".dataUsingEncoding(NSUTF8StringEncoding)) {
+				dispatch_async(dispatch_get_main_queue(), {
+					self.performSegueWithIdentifier("login", sender: self)
+				})
 			} else {
-				// Update UI in main thread rather than in closure
-				dispatch_async(dispatch_get_main_queue()) {
+				dispatch_async(dispatch_get_main_queue(), {
 					self.errorLabel.text = "Failed to log in"
-				}
+				})
 			}
-			println("Data: " + NSString(data: data, encoding: NSUTF8StringEncoding)!)
-			println(response)
-			println(error)
 		})
 		task.resume()
-		return success
 	}
 
 	@IBAction func login(sender: UIButton) {
-		/*
+		
 		if (self.emailField.text != nil && self.passwordField.text != nil) {
-			if (requestLogin(self.emailField.text, password: self.passwordField.text) == true) {
-				self.performSegueWithIdentifier("login", sender: self)
-			} else {
-				
-			}
+			requestLogin(self.emailField.text, password: self.passwordField.text)
 		}
-		*/
 	}
 	
 	@IBAction func hideKeyboard(sender: UITapGestureRecognizer) {

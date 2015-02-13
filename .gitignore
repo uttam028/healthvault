@@ -1,0 +1,4 @@
+.DS_Store
+*.pbxuser
+phr-iOS/Health.xcodeproj/xcuserdata/*
+phr-iOS/Health.xcodeproj/project.xcworkspace/xcuserdata/*

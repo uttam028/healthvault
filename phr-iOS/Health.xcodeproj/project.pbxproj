@@ -15,6 +15,7 @@
 		4AA129761A80509900BD4514 /* HealthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA129751A80509900BD4514 /* HealthTests.swift */; };
 		4AB74E3F1A80554C00B7D5CE /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB74E3E1A80554C00B7D5CE /* StartViewController.swift */; };
 		4AB74E411A80866200B7D5CE /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB74E401A80866200B7D5CE /* RegistrationViewController.swift */; };
+		4AD002981A8E9B770049EC0F /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD002971A8E9B770049EC0F /* AccountViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		4AA129751A80509900BD4514 /* HealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTests.swift; sourceTree = "<group>"; };
 		4AB74E3E1A80554C00B7D5CE /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		4AB74E401A80866200B7D5CE /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		4AD002971A8E9B770049EC0F /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				4AA1295F1A80509900BD4514 /* AppDelegate.swift */,
 				4AB74E3E1A80554C00B7D5CE /* StartViewController.swift */,
 				4AB74E401A80866200B7D5CE /* RegistrationViewController.swift */,
+				4AD002971A8E9B770049EC0F /* AccountViewController.swift */,
 				4A3C602E1A8A938500996C77 /* HealthTableViewController.swift */,
 				4AA129631A80509900BD4514 /* Main.storyboard */,
 				4AA129681A80509900BD4514 /* LaunchScreen.xib */,
@@ -219,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AB74E411A80866200B7D5CE /* RegistrationViewController.swift in Sources */,
+				4AD002981A8E9B770049EC0F /* AccountViewController.swift in Sources */,
 				4AA129601A80509900BD4514 /* AppDelegate.swift in Sources */,
 				4AB74E3F1A80554C00B7D5CE /* StartViewController.swift in Sources */,
 				4A3C602F1A8A938500996C77 /* HealthTableViewController.swift in Sources */,
