@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: UIViewController, UIBarPositioningDelegate {
 
 	@IBOutlet weak var firstNameField: UITextField!
 	@IBOutlet weak var lastNameField: UITextField!
@@ -42,7 +42,11 @@ class RegistrationViewController: UIViewController {
 		}
 	}
 	
-	@IBAction func cancel(sender: UIButton) {
+	func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+		return .TopAttached
+	}
+	
+	@IBAction func cancel(sender: UIBarButtonItem) {
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 

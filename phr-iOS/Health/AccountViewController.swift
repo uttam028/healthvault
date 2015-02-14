@@ -8,8 +8,16 @@
 
 import UIKit
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, UIBarPositioningDelegate {
 
+	@IBOutlet weak var firstNameField: UITextField!
+	@IBOutlet weak var lastNameField: UITextField!
+	@IBOutlet weak var phoneField: UITextField!
+	@IBOutlet weak var addressField: UITextField!
+	@IBOutlet weak var cityField: UITextField!
+	@IBOutlet weak var stateField: UITextField!
+	@IBOutlet weak var zipField: UITextField!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +29,11 @@ class AccountViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-	@IBAction func cancel(sender: UIButton) {
+	func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+		return .TopAttached
+	}
+	
+	@IBAction func close(sender: UIBarButtonItem) {
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 
