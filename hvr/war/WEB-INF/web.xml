@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<context-param>
+		<param-name>serverRoot</param-name>
+		<param-value>http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT</param-value>
+	</context-param>
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>greetServlet</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.GreetingServiceImpl</servlet-class>
+		<init-param>
+			<param-name>signupPath</param-name>
+			<param-value>/signup/signup/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPath</param-name>
+			<param-value>/login/login/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profilePath</param-name>
+			<param-value>/profile/profile/</param-value>
+		</init-param>
+
+	</servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/hvr/greet</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Hvr.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>
