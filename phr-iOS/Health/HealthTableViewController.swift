@@ -58,7 +58,8 @@ class HealthTableViewController: UITableViewController {
 		let sectionHeader = sectionHeaderForSection(indexPath.section)
 
         // Configure the cell...
-		cell.textLabel?.text = sections[sectionHeader!]![indexPath.row]
+		cell.textLabel?.text = self.sections[sectionHeader!]![indexPath.row]
+        cell.imageView?.image = UIImage(named: self.sections[sectionHeader!]![indexPath.row]!)
 
 		return cell
     }

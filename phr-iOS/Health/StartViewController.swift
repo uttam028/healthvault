@@ -34,10 +34,11 @@ class StartViewController: UIViewController {
 							"<password>\(password)</password>" +
 							"</user>"
 							).dataUsingEncoding(NSUTF8StringEncoding)
-		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-		let session = NSURLSession(configuration: config)
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 		let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error in
 			if (data == "TRUE".dataUsingEncoding(NSUTF8StringEncoding)) {
+				let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+				appDelegate.email = email
 				dispatch_async(dispatch_get_main_queue(), {
 					self.performSegueWithIdentifier("login", sender: self)
 				})
