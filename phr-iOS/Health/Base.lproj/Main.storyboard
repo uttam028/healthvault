@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -140,10 +140,60 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Ql2-oh-YdG" kind="show" identifier="showDetail" id="8eo-UG-7O7"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h5G-UV-wuq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1353" y="57"/>
+            <point key="canvasLocation" x="1347" y="57"/>
+        </scene>
+        <!--Health Detail View Controller-->
+        <scene sceneID="Zga-Tq-7GR">
+            <objects>
+                <viewController id="Ql2-oh-YdG" customClass="HealthDetailViewController" customModule="Health" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gxL-oi-Jsq"/>
+                        <viewControllerLayoutGuide type="bottom" id="MJa-3F-wKw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nax-2P-ArS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2J9-3p-QiK" customClass="JBChartView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="534"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blQ-J9-jZB">
+                                <rect key="frame" x="237" y="562" width="126" height="30"/>
+                                <state key="normal" title="Add Measurement">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addMeasurement:" destination="Ql2-oh-YdG" eventType="touchUpInside" id="tlY-il-uj9"/>
+                                    <segue destination="tHN-W8-YqP" kind="popoverPresentation" popoverAnchorView="blQ-J9-jZB" id="baW-pk-Q62">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="blQ-J9-jZB" secondAttribute="centerX" id="6Dw-M3-D8M"/>
+                            <constraint firstItem="MJa-3F-wKw" firstAttribute="top" secondItem="2J9-3p-QiK" secondAttribute="bottom" constant="46" id="CC3-FK-nRj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2J9-3p-QiK" secondAttribute="trailing" constant="-16" id="ESt-3g-N2W"/>
+                            <constraint firstItem="MJa-3F-wKw" firstAttribute="top" secondItem="blQ-J9-jZB" secondAttribute="bottom" constant="8" id="QIh-oM-OBg"/>
+                            <constraint firstItem="2J9-3p-QiK" firstAttribute="leading" secondItem="Nax-2P-ArS" secondAttribute="leadingMargin" constant="-16" id="gtI-uj-DjR"/>
+                            <constraint firstItem="2J9-3p-QiK" firstAttribute="top" secondItem="gxL-oi-Jsq" secondAttribute="bottom" id="p3U-IM-d7D"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="2J9-3p-QiK" id="v5a-eO-ASY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7tN-lo-nde" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2070" y="57"/>
         </scene>
         <!--Account View Controller-->
         <scene sceneID="hKX-iu-EIF">
@@ -166,7 +216,12 @@
                                                 <action selector="close:" destination="E8F-94-Crm" id="cH0-fI-b5U"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="8Qv-F7-ows"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="8Qv-F7-ows">
+                                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="logout:" destination="E8F-94-Crm" id="LDP-Vy-Hzk"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                                 <connections>
@@ -264,7 +319,45 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYs-PM-RMa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1353" y="775"/>
+            <point key="canvasLocation" x="1347" y="775"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="SRa-JZ-6x2">
+            <objects>
+                <viewController id="tHN-W8-YqP" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="t8g-I3-oIU"/>
+                        <viewControllerLayoutGuide type="bottom" id="Y7b-Fa-lRA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fzz-ui-c7x">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzv-Up-Mm0">
+                                <rect key="frame" x="276" y="553" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YbU-wn-DyV">
+                                <rect key="frame" x="285" y="515" width="30" height="30"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nzv-Up-Mm0" firstAttribute="top" secondItem="YbU-wn-DyV" secondAttribute="bottom" constant="8" id="21u-Hi-1RK"/>
+                            <constraint firstAttribute="centerX" secondItem="nzv-Up-Mm0" secondAttribute="centerX" id="2ln-Gb-oos"/>
+                            <constraint firstAttribute="centerX" secondItem="YbU-wn-DyV" secondAttribute="centerX" id="6Vk-Ms-bWq"/>
+                            <constraint firstItem="Y7b-Fa-lRA" firstAttribute="top" secondItem="nzv-Up-Mm0" secondAttribute="bottom" constant="17" id="c5B-rl-hNc"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dfS-xN-9xF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2070" y="775"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="Ky9-7q-Ktk">
