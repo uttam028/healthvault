@@ -10,10 +10,27 @@ import UIKit
 
 class HealthTableViewController: UITableViewController {
 	
-	let sections = [
-		"Health Views":[0:"Emergency profile", 1:"Weight management"],
-		"Measurements":[0:"Glucose", 1:"Blood pressure", 2:"Body dimensions", 3:"Cholesterol", 4:"Exercise"],
-		"History":[0:"Appointments", 1:"Allergies", 2:"Immunization", 3:"Medications", 4:"Procedures", 5:"Lab reports"]
+    let baseURL = "http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT/"
+    let sections: Dictionary<String, Dictionary<Int, Dictionary<String, String>>> = [
+		"Health Views": [
+            0: ["name": "Emergency profile", "url": ""],
+            1: ["name": "Weight management", "url": ""]
+        ],
+		"Measurements": [
+            0: ["name": "Glucose",          "url": "",              "legend": []],
+            1: ["name": "Blood pressure",   "url": "",              "legend": []],
+            2: ["name": "Body dimensions",  "url": "",              "legend": []],
+            3: ["name": "Cholesterol",      "url": "chol/chol/",    "legend": ["hdl", "ldl", "tryGlycaride"]],
+            4: ["name": "Exercise",         "url": "",              "legend": []]
+        ],
+		"History": [
+            0: ["name": "Appointments",     "url": ""],
+            1: ["name": "Allergies",        "url": ""],
+            2: ["name": "Immunization",     "url": ""],
+            3: ["name": "Medications",      "url": ""],
+            4: ["name": "Procedures",       "url": ""],
+            5: ["name": "Lab reports",      "url": ""]
+        ]
 	]
 
     override func viewDidLoad() {
@@ -33,7 +50,7 @@ class HealthTableViewController: UITableViewController {
 		case 2:
 			return "History"
 		default:
-			return ""
+			return nil
 		}
 	}
 
@@ -49,26 +66,37 @@ class HealthTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
 		let sectionHeader = sectionHeaderForSection(section)
-		let cellsInSection: Dictionary<Int, String>? = self.sections[sectionHeader!]
-        return cellsInSection!.count
+		let cellsInSection: AnyObject = self.sections[sectionHeader!]!
+        return cellsInSection.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
 		let sectionHeader = sectionHeaderForSection(indexPath.section)
+        let cellTitle = self.sections[sectionHeader!]![indexPath.row]!["name"]!
 
         // Configure the cell...
-		cell.textLabel?.text = sections[sectionHeader!]![indexPath.row]
+		cell.textLabel?.text = cellTitle
+        cell.imageView?.image = UIImage(named: cellTitle)
 
 		return cell
     }
 
     // MARK: - Navigation
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("showDetail", sender: self)
+    }
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "showDetail") {
+            let destinationViewController = segue.destinationViewController as! HealthDetailViewController
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            let sectionHeader = sectionHeaderForSection(indexPath!.section)
+            let urlSuffix: String = self.sections[sectionHeader!]![indexPath!.row]!["url"]!
+            destinationViewController.url = self.baseURL + urlSuffix
+            destinationViewController.data = self.sections[sectionHeader!]![indexPath!.row]!["legend"]!
+        }
     }
 	
 }

@@ -34,10 +34,13 @@ class StartViewController: UIViewController {
 							"<password>\(password)</password>" +
 							"</user>"
 							).dataUsingEncoding(NSUTF8StringEncoding)
-		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-		let session = NSURLSession(configuration: config)
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 		let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error in
 			if (data == "TRUE".dataUsingEncoding(NSUTF8StringEncoding)) {
+				let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+				appDelegate.email = email
+                appDelegate.loggedIn = true
+                
 				dispatch_async(dispatch_get_main_queue(), {
 					self.performSegueWithIdentifier("login", sender: self)
 				})
@@ -60,15 +63,5 @@ class StartViewController: UIViewController {
 	@IBAction func hideKeyboard(sender: UITapGestureRecognizer) {
 		self.view.endEditing(true)
 	}
-	
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -12,10 +12,19 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
+	var email: String?
+    var loggedIn: Bool?
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		// Override point for customization after application launch.
+        // TODO: Check keychain if user is logged in
+        // If true, skip login screen
+        if (loggedIn != nil) {
+            if (loggedIn!) {
+                self.window?.rootViewController = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("login") as? UIViewController
+            }
+        }
+        
 		return true
 	}
 
@@ -40,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationWillTerminate(application: UIApplication) {
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	}
-
 
 }
 

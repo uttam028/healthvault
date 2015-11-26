@@ -17,17 +17,33 @@ class AccountViewController: UIViewController, UIBarPositioningDelegate {
 	@IBOutlet weak var cityField: UITextField!
 	@IBOutlet weak var stateField: UITextField!
 	@IBOutlet weak var zipField: UITextField!
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+	
+	override func viewWillAppear(animated: Bool) {
+		let email = appDelegate.email
+		let url = NSURL(string: "http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT/profile/profile/\(email!)")
+		let request = NSURLRequest(URL: url!)
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+		let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error in
+			println(NSString(data: data, encoding: NSUTF8StringEncoding))
+			let jsonDict = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: nil) as! NSDictionary
+			dispatch_async(dispatch_get_main_queue(), {
+				self.firstNameField.text = jsonDict.objectForKey("firstName") as! String
+				self.lastNameField.text = jsonDict.objectForKey("lastName") as! String
+				let phone = jsonDict.objectForKey("mobileNum") as! String
+				if (phone != "0") {
+					self.phoneField.text = phone
+				}
+			})
+		})
+		task.resume()
+	}
     
 	func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
 		return .TopAttached
@@ -37,14 +53,8 @@ class AccountViewController: UIViewController, UIBarPositioningDelegate {
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func logout(sender: UIBarButtonItem) {
+        appDelegate.loggedIn = false
+        // TODO: return to login
     }
-    */
-
 }
