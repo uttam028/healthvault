@@ -20,6 +20,9 @@ public class Cholesterol implements Serializable {
 	public double getLdl() {
 		return ldl;
 	}
+	
+	
+	
 
 	public String getRecordDate() {
 		return recordDate;

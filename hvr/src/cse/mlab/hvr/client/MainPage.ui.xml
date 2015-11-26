@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
 	<ui:style>
-	
+
 	</ui:style>
 	<g:HTMLPanel ui:field="mainpagePanel">
 		<b:Container fluid="true">
@@ -14,22 +14,19 @@
 						<b:NavbarCollapseButton dataTarget="#navbar-collapse" />
 					</b:NavbarHeader>
 
-					<b:NavbarCollapse b:id="navbar-collapse"
-						addStyleNames="col-lg-offset-3">
+					<b:NavbarCollapse b:id="navbar-collapse" addStyleNames="col-lg-offset-9">
 						<b:NavbarNav>
-
 							<b:AnchorListItem ui:field="linkHome">Home</b:AnchorListItem>
+							<b:AnchorListItem ui:field="linkVoice">Voice</b:AnchorListItem>
+							<b:AnchorListItem ui:field="linkHealth">Health</b:AnchorListItem>
 							<b:AnchorListItem ui:field="linkAbout">About</b:AnchorListItem>
-							<b:AnchorListItem ui:field="linkContacts">Contacts</b:AnchorListItem>
-							<b:NavbarForm pull="LEFT">
-								<b:TextBox placeholder="Search" />
-							</b:NavbarForm>
+							<!--b:NavbarForm pull="LEFT"> <b:TextBox placeholder="Search" /> </b:NavbarForm -->
 
-							<b:ListDropDown pull="RIGHT">
+							<b:ListDropDown>
 								<b:AnchorButton dataToggle="DROPDOWN" ui:field="optionAnchor"></b:AnchorButton>
 								<b:DropDownMenu>
 									<b:AnchorListItem ui:field="buttonUpdateProfile">Profile</b:AnchorListItem>
-									<b:AnchorListItem>Settings</b:AnchorListItem>
+									<!--b:AnchorListItem>Settings</b:AnchorListItem -->
 									<b:AnchorListItem ui:field="buttonLogoutAction">Logout</b:AnchorListItem>
 								</b:DropDownMenu>
 							</b:ListDropDown>
@@ -38,55 +35,30 @@
 				</b:Navbar>
 			</b:Row>
 		</b:Container>
-
-		<g:VerticalPanel addStyleNames="col-lg-3">
-			<b:Panel addStyleNames="col-lg-offset-3 col-lg-6">
-				<b:PanelHeader dataToggle="COLLAPSE" dataTarget="#collapseOne">
-					<b:Heading size="H4" text="Health Views" />
-				</b:PanelHeader>
-				<b:PanelCollapse b:id="collapseOne">
-					<b:PanelBody>
-						<b:AnchorListItem ui:field="anchorEmergecyProfile">Emergency Profile</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorWeightManagement">Weight management</b:AnchorListItem>
-					</b:PanelBody>
-				</b:PanelCollapse>
-			</b:Panel>
-			<b:Panel addStyleNames="col-lg-offset-3 col-lg-6">
-				<b:PanelHeader dataToggle="COLLAPSE" dataTarget="#collapseTwo">
-					<b:Heading size="H4" text="Measurements" />
-				</b:PanelHeader>
-				<b:PanelCollapse b:id="collapseTwo">
-					<b:PanelBody>
-						<b:AnchorListItem ui:field="anchorGlucose">Glucose</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorBloodPressure">Blood Pressure</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorBodyDimension">Body Dimension</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorCholesterol">Cholesterol</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorExcercise">Excercise</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorHeight">Height</b:AnchorListItem>
-					</b:PanelBody>
-				</b:PanelCollapse>
-			</b:Panel>
-			<b:Panel addStyleNames="col-lg-offset-3 col-lg-6">
-				<b:PanelHeader ui:field="historyPanelCollapse" dataToggle="COLLAPSE" dataTarget="#collapseThree">
-					<g:Image url="img/down.png"/>
-				    <b:Heading size="H4" text="History"/>
-				</b:PanelHeader>
-				<b:PanelCollapse  b:id="collapseThree">
-					<b:PanelBody>
-					    <b:AnchorListItem ui:field="anchorApointments">Appointments</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorAllergies">Allergies</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorImmunization">Immunization</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorMedications">Medications</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorProcedures">Procedures</b:AnchorListItem>
-						<b:AnchorListItem ui:field="anchorLabReports">Lab Reports</b:AnchorListItem>
-					</b:PanelBody>
-				</b:PanelCollapse>
-			</b:Panel>
-		</g:VerticalPanel>
-		<g:HTMLPanel addStyleNames="col-lg-offset-3" ui:field="mainPageContentPanel">
-			<g:Label ui:field="testLabel">This is a home page template</g:Label>
-			
+		<g:HTMLPanel ui:field="leftPanel">
+			<g:VerticalPanel ui:field="healthVerticalPanel"
+				addStyleNames="col-lg-3">
+			</g:VerticalPanel>
 		</g:HTMLPanel>
+		<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-10" ui:field="mainPageContentPanel">
+			<!--g:Label ui:field="testLabel">This is a home page template</g:Label -->
 
+		</g:HTMLPanel>
+		<!--g:HTMLPanel>
+			<g:hr width="100%"/>
+		</g:HTMLPanel-->
+			<br/>
+		<g:HTMLPanel ui:field="mainPageFooter">
+			<br/>
+			<br/>
+			<g:HorizontalPanel addStyleNames="col-lg-offset-4">
+			    
+			    <g:Label ui:field="testLabel" addStyleNames="dialogVPanel10">&copy;University of Notre Dame </g:Label>
+			    <b:Button type="LINK" >Terms</b:Button>
+			    <b:Button type="LINK">Privacy</b:Button>
+			    <b:Button type="LINK">Contact</b:Button>
+			</g:HorizontalPanel>
+			<br/>
+		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

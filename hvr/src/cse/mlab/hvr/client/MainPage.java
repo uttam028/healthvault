@@ -3,17 +3,17 @@ package cse.mlab.hvr.client;
 import org.gwtbootstrap3.client.ui.AnchorButton;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.NavbarBrand;
-import org.gwtbootstrap3.client.ui.PanelHeader;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.shared.UserProfile;
@@ -31,16 +31,20 @@ public class MainPage extends Composite {
 	@UiField
 	AnchorListItem linkHome;
 	@UiField
+	AnchorListItem linkVoice;
+	@UiField
+	AnchorListItem linkHealth;
+	@UiField
 	AnchorListItem linkAbout;
-	@UiField
-	AnchorListItem linkContacts;
+	
+	//@UiField
+	//PanelHeader historyPanelCollapse;
 	
 	@UiField
-	PanelHeader historyPanelCollapse;
-	
-	
+	HTMLPanel leftPanel;
 	@UiField
-	Label testLabel;
+	VerticalPanel healthVerticalPanel;
+	
 	
 	@UiField
 	HTMLPanel mainPageContentPanel;
@@ -52,12 +56,16 @@ public class MainPage extends Composite {
 	About aboutPage;
 	ProfilePage profilePage;
 	CholesterolPage cholesterolPage;
+	VoicePage voicePage;
+	LandingPage landingPage;
+	Medications medicationPage;
 	
 	
 	private String userId;
 	private String firstName = "";
 	private String lastName = "";
 	private boolean profileUpdated = false;
+	private static String currentPage = "";
 	private static MainPageUiBinder uiBinder = GWT
 			.create(MainPageUiBinder.class);
 
@@ -68,10 +76,35 @@ public class MainPage extends Composite {
 		this.application = application;
 		this.userId = email;
 		updateUserName();
+		profilePage = new ProfilePage(this, this.userId);
 		contacts = new Contacts();
 		aboutPage = new About();
-		profilePage = new ProfilePage(this, this.userId);
 		cholesterolPage = new CholesterolPage();
+		voicePage = new VoicePage();
+		landingPage = new LandingPage(this.application);
+		medicationPage = new Medications();
+		loadLandingPage();
+	}
+	
+	
+	private void loadLandingPage(){
+		linkHome.setActive(true);
+		linkVoice.setActive(false);
+		linkHealth.setActive(false);
+		linkAbout.setActive(false);
+		this.leftPanel.clear();
+		this.mainPageContentPanel.clear();
+		this.mainPageContentPanel.add(landingPage);
+	}
+	
+	private void loadVoiceRecordingPage(){
+		linkHome.setActive(false);
+		linkVoice.setActive(true);
+		linkHealth.setActive(false);
+		linkAbout.setActive(false);
+		this.leftPanel.clear();
+		this.mainPageContentPanel.clear();
+		this.mainPageContentPanel.add(voicePage);
 	}
 
 	@UiHandler("buttonLogoutAction")
@@ -89,36 +122,56 @@ public class MainPage extends Composite {
 		this.mainPageContentPanel.add(profilePage);		
 	}
 	
-	
-	
 	@UiHandler("linkHome")
 	void loadHomePage(ClickEvent event){
-		linkHome.setActive(true);
-		linkAbout.setActive(false);
-		linkContacts.setActive(false);
-		this.mainPageContentPanel.clear();
-		this.mainPageContentPanel.add(new Label("This is a home page template"));		
+		History.newItem("homepage");
+		if(currentPage != "home"){
+			loadLandingPage();
+		}
+		currentPage = "home";
+	}
+	
+	@UiHandler("linkVoice")
+	void loadVoicePage(ClickEvent event){
+		if(currentPage != "voice"){
+			loadVoiceRecordingPage();
+		}
+		currentPage = "voice";
+		History.newItem("voicepage");		
+	}
+	
+	@UiHandler("linkHealth")
+	void loadHealthPage(ClickEvent event){
+		if(currentPage != "health"){
+			linkHome.setActive(false);
+			linkVoice.setActive(false);
+			linkHealth.setActive(true);
+			linkAbout.setActive(false);
+			this.mainPageContentPanel.clear();
+			this.mainPageContentPanel.add(medicationPage);
+			
+			this.leftPanel.clear();
+			this.leftPanel.add(this.healthVerticalPanel);
+		}
+		currentPage = "health";
+		History.newItem("healthpage");
 	}
 	
 	@UiHandler("linkAbout")
 	void loadAboutPage(ClickEvent event){
-		linkHome.setActive(false);
-		linkAbout.setActive(true);
-		linkContacts.setActive(false);
-		this.mainPageContentPanel.clear();
-		this.mainPageContentPanel.add(aboutPage);
+		if(currentPage != "about"){
+			linkHome.setActive(false);
+			linkVoice.setActive(false);
+			linkHealth.setActive(false);
+			linkAbout.setActive(true);
+			this.mainPageContentPanel.clear();
+			this.mainPageContentPanel.add(aboutPage);
+		}
+		currentPage = "about";
+		History.newItem("aboutpage");
 	}
 	
-	@UiHandler("linkContacts")
-	void loadContactsPage(ClickEvent event){
-		linkHome.setActive(false);
-		linkAbout.setActive(false);
-		linkContacts.setActive(true);
-		
-		this.mainPageContentPanel.clear();
-		this.mainPageContentPanel.add(contacts);
-		
-	}
+	
 	
 	protected void updateName(String firstName, String lastName) {
 		this.firstName = firstName;
@@ -128,10 +181,14 @@ public class MainPage extends Composite {
 	}
 	
 	private void updateUserName(){
+		
 		if(profileUpdated){
-			optionAnchor.setText(firstName + " " + lastName);			
+			//optionAnchor.setText(firstName + " " + lastName);
+			optionAnchor.setText(userId);
 			profileUpdated = false;
 		} else {
+			optionAnchor.setText(userId);
+			/*
 			greetingService.getProfile(userId, new AsyncCallback<UserProfile>() {
 				
 				@Override
@@ -151,21 +208,10 @@ public class MainPage extends Composite {
 					// TODO Auto-generated method stub
 					application.logout();
 				}
-			});
+			});*/
+			
 		}
 		
-	}
-	
-	@UiHandler("anchorGlucose")
-	void glucoseClickHandler(ClickEvent event){
-		Window.alert("Glucose has been clicked");
-	}
-	
-	@UiHandler("anchorCholesterol")
-	void cholesterolClickHandler(ClickEvent event){
-		this.mainPageContentPanel.clear();
-		this.mainPageContentPanel.add(cholesterolPage);
-	}
 		
-
+	}
 }

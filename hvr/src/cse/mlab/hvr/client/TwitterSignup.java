@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.Util;
 
@@ -170,7 +169,8 @@ public class TwitterSignup extends Composite {
 	
 	@UiHandler("buttonLoginAction")
 	void loginAction(ClickEvent event){
-//		application.loggedIn("ah@gmail.com");
+		application.loggedIn("ah@gmail.com");
+		/*
 		if(this.validationBeforeLogin()){
 			buttonLoginAction.setEnabled(false);
 			User user = new User();
@@ -197,7 +197,7 @@ public class TwitterSignup extends Composite {
 					Window.alert("Service is not available, please try again later!");
 				}
 			});
-		}
+		}*/
 	}
 	
 	
