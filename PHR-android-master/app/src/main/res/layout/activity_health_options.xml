@@ -7,7 +7,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.nd.phr.HealthOptionsActivity"
     android:background="#ffafb8"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:foregroundGravity="center_vertical">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,16 +26,16 @@
             android:paddingRight="15dp" />
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/voice_record"
-            android:gravity="center_vertical"
             android:onClick="toVoiceRecord"
             android:nestedScrollingEnabled="false"
             android:singleLine="true"
             android:textAlignment="center"
             android:paddingStart="108dp"
-            android:paddingEnd="110dp" />
+            android:paddingEnd="110dp"
+            android:gravity="center_vertical" />
 
         <TextView
             android:text="@string/health_views"
