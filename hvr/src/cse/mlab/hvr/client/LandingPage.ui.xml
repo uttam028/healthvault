@@ -1,0 +1,77 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
+	<ui:style>
+		.important {
+		font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<b:Container fluid="true">
+			<b:Row>
+				<b:Column size="MD_4">
+					<g:Label styleName="Title_Label">Contribute to Speech Research</g:Label>
+					<h:Br />
+					<h:Br />
+					<g:Label>This is placeholder for the text of how you can contribute to the speech research. We will add more text later. Start button will take 
+					    the user to start different types of speech test.</g:Label>
+					<h:Br />
+					<b:Button ui:field="startSpeechFromLanding" color="blue">Start Now</b:Button>
+				</b:Column>
+				<b:Column size="MD_5">
+					<b:Image ui:field="speechResearchImage" url="images/speech-bubble.jpg" />
+				</b:Column>
+			</b:Row>
+			<h:Br />
+			<h:Br />
+		<!--g:HTMLPanel>
+			<hr style="width:200%;" />
+		</g:HTMLPanel-->
+						<h:Br />
+			<h:Br />
+			<b:Row>
+				<b:Column size="MD_6">
+					<g:Label styleName="SubTitle_Label">How speech is related to Health</g:Label>
+					<h:Br />
+					<h:Br />
+					<g:Label>This is placeholder for the text that will give brief relationship between speech and health. 
+					    When user will click "Learn more", faq or details will be displayed.</g:Label>
+					<b:Button type="LINK">Learn more...</b:Button>
+				</b:Column>
+
+				<b:Column size="MD_6">
+					<g:Label styleName="SubTitle_Label">Manage your profile</g:Label>
+					<h:Br />
+					<h:Br />
+					<g:Label>Profile is short summary on you, it will help our research to make some conclusion from 
+					    your speech test and health record.</g:Label>
+					<b:Button type="LINK">Edit Profile</b:Button>
+				</b:Column>
+			</b:Row>
+			<h:Br />
+			<h:Br />
+			<h:Br />
+		<!--g:HTMLPanel>
+			<hr style="width:200%;" />
+		</g:HTMLPanel-->
+			<b:Row>
+			    <h:Hr width="100%"></h:Hr>
+			</b:Row>
+			<b:Row>
+				<b:Column size="MD_4">
+					<g:Label styleName="Title_Label">Manage your health records</g:Label>
+					<h:Br />
+					<h:Br />
+					<g:Label>This site is not only for speech test, here you can also manage your health 
+					    records. We will add more text later.</g:Label>
+					<h:Br />
+					<b:Button ui:field="startHealthFromLanding" color="blue">Start Now</b:Button>
+				</b:Column>
+				<b:Column size="MD_5">
+					<b:Image ui:field="voiceImage" url="images/health_record.png" />
+				</b:Column>
+			</b:Row>
+		</b:Container>
+	</g:HTMLPanel>
+</ui:UiBinder> 

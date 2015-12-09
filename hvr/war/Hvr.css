@@ -2,13 +2,28 @@
 
 
 /** Example rules used by the template application (remove for your app) */
-h1 {
+h1{
   font-size: 2em;
   font-weight: bold;
   color: #777777;
   margin: 40px 0px 70px;
   text-align: center;
 }
+
+.speech_text{
+  font-size: 500%;
+  font-weight: bold;
+  color: #777777;
+  margin: auto;
+  text-align: center;
+}
+
+.double_font{
+  font-size: 200%;
+  margin: auto;
+  text-align: center;
+}
+
 
 .sendButton {
   display: block;
@@ -20,14 +35,22 @@ h1 {
   width: 400px;
 }
 
+.leftPadding {
+  margin-left: 10%;
+}
+
 .rightPadding {
-  margin-right: 10%;
+  margin-right: 10px;
 }
 
 
 .dialogVPanel {
   margin: 5px;
 }
+.dialogVPanel10 {
+  margin: 10px;
+}
+
 
 .serverResponseLabelError {
   color: red;
@@ -37,3 +60,84 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.Title_Label{ 
+   font-size: 300%; 
+   /*font-weight: bold;*/
+   color:black;
+   /*padding:5px;
+   margin:5px;*/
+}
+
+.SubTitle_Label{ 
+   font-size: 180%; 
+   /*font-weight: bold;*/
+   color:black;
+   /*padding:5px;
+   margin:5px;*/
+}
+
+.panel_border{
+  border: 1px solid #BBBBBB;
+  /*padding: 3px;*/
+}
+
+
+#timer_circle {
+    width: 100px;
+    height: 100px;
+}
+#timer_circle > svg {
+    width: 100%;
+    display: block;
+}
+#timer_line {
+    width: 400px;
+    height: 50px;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* css for marked text */
+
+#marked_text{
+    font-size:500%;
+}
+.red {
+    color:red;
+}
+
+/* css for marquee */
+
+#marquee_body {
+    //margin: 80px;
+    //font-family:h1, sans-serif;
+    font-size:500%;
+}
+.marquee {
+    width: 500px;
+ 	margin-left: auto;
+ 	margin-right: auto;
+    height: 100px;
+    overflow: hidden;
+    border:1px solid #ccc;
+    background: white;
+    color: black;
+}
+
+
+
+
+/* added by Kevin*/
+
+.bottom_padding{
+
+margin-bottom: 2%
+
+}
+
+/* End of addition by Kevin*/
+

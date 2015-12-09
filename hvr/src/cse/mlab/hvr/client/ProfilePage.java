@@ -4,6 +4,7 @@ package cse.mlab.hvr.client;
 import org.gwtbootstrap3.client.ui.IntegerBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.json.Test;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsDate;
@@ -15,6 +16,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.UserProfile;
 
 public class ProfilePage extends Composite{
@@ -43,7 +46,18 @@ public class ProfilePage extends Composite{
 	IntegerBox textProfilePhone;
 	@UiField
 	TextArea textProfileAddress;
-	
+	@UiField
+	IntegerBox textProfileAge;
+	@UiField
+	IntegerBox textProfileFeet;
+	@UiField
+	IntegerBox textProfileInches;
+	@UiField
+	IntegerBox textProfileWeight;
+	@UiField
+	IntegerBox textProfileConcussions;
+	@UiField
+	IntegerBox textProfileDiagnosed;
 	@UiField
 	Label labelFirstNameError;
 	@UiField
@@ -52,8 +66,21 @@ public class ProfilePage extends Composite{
 	Label labelDOBError;
 	@UiField
 	Label labelPhoneError;
-	
-	
+	@UiField
+	Label labelAgeError;
+	@UiField
+	Label labelHeightError;
+	@UiField
+	Label labelWeightError;
+	@UiField
+	Label labelConcussionsError;
+	@UiField
+	Label labelDiagnosedError;
+
+	@UiField
+	ListBox listProfileSports;
+	@UiField
+	ListBox listProfileStates;
 	@UiField
 	HTMLPanel profilePagePanel;
 	
@@ -84,9 +111,83 @@ public class ProfilePage extends Composite{
 		listProfileBirthMonth.addItem("December");
 		listProfileBirthMonth.setSelectedIndex(0);
 		listProfileBirthMonth.getElement().getFirstChildElement().setAttribute("disabled", "disabled");
+		
+		
 	}
+	
+	void loadSports(){
+		listProfileSports.addItem("Pick a Sport");
+		listProfileSports.addItem("Lacrosse");
+		listProfileSports.addItem("Soccer");
+		listProfileSports.addItem("Football");
+		listProfileSports.addItem("Rugby");
+		listProfileSports.addItem("Basketball");
+		listProfileSports.addItem("Tennis");
+		listProfileSports.addItem("Baseball");
+		listProfileSports.addItem("Cricket");
+		listProfileSports.setSelectedIndex(0);
+	}
+	
+	void loadStates(){
+		listProfileStates.addItem("Pick a State");
+		listProfileStates.addItem("Alabama");
+		listProfileStates.addItem("Alaska");
+		listProfileStates.addItem("Arizona");
+		listProfileStates.addItem("Arkansas");
+		listProfileStates.addItem("California");
+		listProfileStates.addItem("Colorado");
+		listProfileStates.addItem("Connecticut");
+		listProfileStates.addItem("Delaware");
+		listProfileStates.addItem("Florida");
+		listProfileStates.addItem("Georgi");
+		listProfileStates.addItem("Hawaii");
+		listProfileStates.addItem("Idaho");
+		listProfileStates.addItem("Indiana");
+		listProfileStates.addItem("Iowa");
+		listProfileStates.addItem("Kansas");
+		listProfileStates.addItem("Kentucky");
+		listProfileStates.addItem("Louisiana");
+		listProfileStates.addItem("Maine");
+		listProfileStates.addItem("Maryland");
+		listProfileStates.addItem("Massachusetts");
+		listProfileStates.addItem("Michigan");
+		listProfileStates.addItem("Minnesota");
+		listProfileStates.addItem("Mississippi");
+		listProfileStates.addItem("Missouri");
+		listProfileStates.addItem("Montana");
+		listProfileStates.addItem("Nebraska");
+		listProfileStates.addItem("Nevada");
+		listProfileStates.addItem("New Hampshire");
+		listProfileStates.addItem("New Jersey");
+		listProfileStates.addItem("New Mexico");
+		listProfileStates.addItem("New York");
+		listProfileStates.addItem("North Carolina");
+		listProfileStates.addItem("North Dakota");
+		listProfileStates.addItem("Ohio");
+		listProfileStates.addItem("Oklahoma");
+		listProfileStates.addItem("Oregon");
+		listProfileStates.addItem("Pennsylvania");
+		listProfileStates.addItem("Rhode Island");
+		listProfileStates.addItem("South Carolina");
+		listProfileStates.addItem("South Dakota");
+		listProfileStates.addItem("Tennessee");
+		listProfileStates.addItem("Texas");
+		listProfileStates.addItem("Utah");
+		listProfileStates.addItem("Vermont");
+		listProfileStates.addItem("Virginia");
+		listProfileStates.addItem("Washington");
+		listProfileStates.addItem("West Virginia");
+		listProfileStates.addItem("Wisconsin");
+		listProfileStates.addItem("Wyoming");
+		listProfileStates.setSelectedIndex(0);
+	}
+	
+	
+	
 	@Override
 	protected void onLoad() {
+		loadSports();
+		loadStates();
 		listProfileBirthMonth.setSelectedIndex(0);
 		greetingService.getProfile(userId, new AsyncCallback<UserProfile>() {
 			
@@ -96,8 +197,12 @@ public class ProfilePage extends Composite{
 				if(result != null){
 					textProfileFirstName.setText(result.getFirstName());
 					textProfileLastName.setText(result.getLastName());
-					textProfilePhone.setText(result.getMobileNum()<=0?(""):(result.getMobileNum()+""));
-					textProfileAddress.setText(result.getAddress().replaceAll("''", "'"));
+					//textProfilePhone.setText(result.getMobileNum()<=0?(""):(result.getMobileNum()+""));
+					if(result.getAddress() == null){
+						textProfileAddress.setText("");
+					} else{
+						textProfileAddress.setText(result.getAddress().replaceAll("''", "'"));
+					}
 					
 					try {
 						DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
@@ -105,7 +210,7 @@ public class ProfilePage extends Composite{
 						
 						textProfileBirthDay.setText(result.getBirthDay().substring(8));
 						textProfileBirthYear.setText(result.getBirthDay().substring(0,4));
-						listProfileBirthMonth.setSelectedIndex(Integer.parseInt(result.getBirthDay().substring(6,7)));
+						listProfileBirthMonth.setSelectedIndex(Integer.parseInt(result.getBirthDay().substring(5,7)));
 					} catch (Exception e) {
 						// TODO: handle exception
 						listProfileBirthMonth.setSelectedIndex(0);
@@ -170,7 +275,7 @@ public class ProfilePage extends Composite{
 			if(textProfileBirthYear.getText().isEmpty()){
 				labelDOBError.setText("");
 			} else{
-				labelDOBError.setText("Invcalid Date");				
+				labelDOBError.setText("Invalid Date");				
 			}
 		}
 	}
@@ -219,6 +324,101 @@ public class ProfilePage extends Composite{
 		}
 	}
 	
+	@UiHandler("textProfileAge")
+	void ageKeyupHandler(KeyUpEvent event){
+		try {
+			int age = textProfileAge.getValueOrThrow();
+			labelAgeError.setText("");
+			if(age < 1 || age > 150){
+				labelAgeError.setText("Invalid Age");
+				return;
+			}
+		} catch (Exception e){
+			// TODO: Handle exception
+			if(textProfileAge.getText().isEmpty()){
+				labelAgeError.setText("");
+			} else {
+				labelAgeError.setText("Invalid Age");
+			}
+		}
+	}
+	
+	@UiHandler("textProfileFeet")
+	void feetKeyupHandler(KeyUpEvent event){
+		try {
+			int feet = textProfileFeet.getValueOrThrow();
+			labelHeightError.setText("");
+			if(feet < 0 || feet > 10){
+				labelHeightError.setText("Invalid Input");
+				return;
+			}
+		} catch (Exception e){
+			// TODO: Handle exception
+			if(textProfileFeet.getText().isEmpty() && textProfileInches.getText().isEmpty()){
+				labelHeightError.setText("");
+			} else {
+				labelHeightError.setText("Invalid Input");
+			}
+		}
+	}
+	
+	@UiHandler("textProfileInches")
+	void inchesKeyupHandler(KeyUpEvent event){
+		try {
+			int inch = textProfileInches.getValueOrThrow();
+			labelHeightError.setText("");
+			if(inch < 0 || inch > 11){
+				labelHeightError.setText("Invalid Input");
+				return;
+			}
+		} catch (Exception e){
+			// TODO: Handle exception
+			if(textProfileFeet.getText().isEmpty() && textProfileInches.getText().isEmpty()){
+				labelHeightError.setText("");
+			} else {
+				labelHeightError.setText("Invalid Input");
+			}
+		}
+	}
+	
+	@UiHandler("textProfileWeight")
+	void weightKeyupHandler(KeyUpEvent event){
+		try {
+			int weight = textProfileWeight.getValueOrThrow();
+			labelWeightError.setText("");
+			if(weight < 1)
+				labelWeightError.setText("Invalid Weight");
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(textProfileWeight.getText().isEmpty()){
+				labelWeightError.setText("");
+			} else {
+				labelWeightError.setText("Invalid Weight");
+			}
+		}
+	}
+	
+	@UiHandler("textProfileConcussions")
+	void concussionsKeyupHandler(KeyUpEvent event){
+		try {
+			textProfileConcussions.getValueOrThrow();
+			labelConcussionsError.setText("");
+		} catch (Exception e) {
+			// TODO: handle exception
+			labelConcussionsError.setText("Invalid Input");
+		}
+	}
+	
+	@UiHandler("textProfileDiagnosed")
+	void diagnosedKeyupHandler(KeyUpEvent event){
+		try {
+			textProfileDiagnosed.getValueOrThrow();
+			labelDiagnosedError.setText("");
+		} catch (Exception e) {
+			// TODO: handle exception
+			labelDiagnosedError.setText("Invalid Input");
+		}
+	}
 	
 	@UiHandler("buttonProfileUpdateCancel")
 	void gotoHomePage(ClickEvent event){
@@ -275,14 +475,14 @@ public class ProfilePage extends Composite{
 			profile.setAddress(textProfileAddress.getText().trim().replaceAll("'", "''"));
 			
 			try {
-				greetingService.saveProfile(profile, new AsyncCallback<String>() {
+				greetingService.saveProfile(profile, new AsyncCallback<Response>() {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
 						gotoHomePage(null);
 					}
 					@Override
-					public void onSuccess(String result) {
+					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub
 						gotoHomePage(null);
 					}

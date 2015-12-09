@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+	<ui:style>
+		.important {
+		font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel ui:field="voicePagePanel">
+		<!--g:HTMLPanel ui:field="configMicrophonePanel">
+			<b:Button ui:field="configureMicButton" addStyleNames="col-lg-offset-1">Configure
+				Microphone</b:Button>
+			<br />
+			<br />
+			<b:Button ui:field="concussionTestButton" type="LINK">Concussion Test</b:Button>
+			<br/>
+			<b:Button ui:field="dysarthiaTestButton" type="LINK">Dysarthia Test</b:Button>
+			<br/>
+		</g:HTMLPanel-->
+
+	</g:HTMLPanel>
+</ui:UiBinder> 

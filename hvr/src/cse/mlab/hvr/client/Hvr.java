@@ -1,6 +1,11 @@
 package cse.mlab.hvr.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -11,6 +16,7 @@ public class Hvr implements EntryPoint {
 //	Signup signup = null;
 	TwitterSignup twitterSignup = null;
 	MainPage mainPage = null;
+	final static SimpleEventBus eventBus = new SimpleEventBus();
 
 
 	/**
@@ -69,6 +75,30 @@ public class Hvr implements EntryPoint {
 //			}
 //		});
 
+	    History.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	          String historyToken = event.getValue();
+
+	          // Parse the history token
+	          try {
+	        	  
+	        	if(historyToken.startsWith("home")){
+	        		mainPage.loadHomePage(null);
+	        	} else if(historyToken.startsWith("voice")){
+	        		mainPage.loadVoicePage(null);
+	        	} else if(historyToken.startsWith("health")){
+	        		mainPage.loadHealthPage(null);
+	        	} else if(historyToken.startsWith("about")){
+	        		mainPage.loadAboutPage(null);
+	        	} else{
+	        		mainPage.loadHomePage(null);
+	        	}
+
+	          } catch (IndexOutOfBoundsException e) {
+	            mainPage.loadHomePage(null);
+	          }
+	        }
+	      });
 
 	}
 
@@ -88,5 +118,9 @@ public class Hvr implements EntryPoint {
 	
 	public void logout() {
 		onModuleLoad();
+	}
+	
+	public static EventBus getEventBus(){
+		return eventBus;
 	}
 }

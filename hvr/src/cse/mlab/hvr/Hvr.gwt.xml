@@ -24,6 +24,9 @@
   <!-- bootstrap for custom widgets -->
   <inherits name='org.gwtbootstrap3.GwtBootstrap3'/>
   <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
+  
+  <!-- Inherit sound support -->
+  <inherits name='com.allen_sauer.gwt.voices.gwt-voices'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cse.mlab.hvr.client.Hvr'/>

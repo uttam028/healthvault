@@ -2,6 +2,7 @@ package cse.mlab.hvr.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 
@@ -16,5 +17,5 @@ public interface GreetingServiceAsync {
 	void loginToPhr(User user, AsyncCallback<String> callback);
 	void checkEmailAvailability(String email, AsyncCallback<String> callback);
 	void getProfile(String email, AsyncCallback<UserProfile> callback);
-	void saveProfile(UserProfile userProfile, AsyncCallback<String> callback);
+	void saveProfile(UserProfile userProfile, AsyncCallback<Response> callback);
 }
