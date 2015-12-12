@@ -56,6 +56,7 @@ import org.apache.http.entity.mime.content.FileBody;
 
 public class VoiceRecordActivity extends ActionBarActivity{
 
+    //Class for a word or sentence. Contains a string and duration in milliseconds
     public class Word{
         String word;
         int duration;
@@ -66,6 +67,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Class for creating animation of the progess bar
     public class ProgressBarAnimation extends Animation{
         private ProgressBar progressBar;
         private float from;
@@ -103,25 +105,26 @@ public class VoiceRecordActivity extends ActionBarActivity{
     private RecordingCountDownTimer recordTimer;
     private PlayCountDownTimer playTimer;
     private WordCountDownTimer wordTimer;
-    private boolean stillRunning;
 
+    //Test cases initiated here
     private Word[] testCase0 = {new Word("Cheese", 1000), new Word("Sausage", 500), new Word("Ham", 2000), new Word("Sauce", 1000), new Word("Pepperoni", 500), new Word("Mushrooms", 1000)};
-    private Word[] testCase1 = {new Word("Pants", 100), new Word("Shoes", 50), new Word("Hat", 200)};
-    private Word[] testCase2 = {new Word("Lamp", 100), new Word("Desk", 50), new Word("Pencil Sharpener", 200), new Word("Chair", 100)};
+    private Word[] testCase1 = {new Word("Pants", 1000), new Word("Shoes", 500), new Word("Hat", 2000)};
+    private Word[] testCase2 = {new Word("Lamp", 1000), new Word("Desk", 500), new Word("Pencil Sharpener", 2000), new Word("Chair", 1000)};
+
+    //Add all test cases to array
     private Word[][] testCases = {testCase0, testCase1, testCase2};
 
     private int[] testCaseTimes;
     private int caseNumber = 0;
     int wordCount;
 
+    //Url to api
     public final static String apiURL = "http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload";
 
-    int timerRunning;
 
 
 
-
-    // RecordCountDownTimer class
+    // RecordCountDownTimer class to track the length of a test case
     public class RecordingCountDownTimer extends AccurateTimer
     {
         private int timerCount;
@@ -134,7 +137,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         @Override
         public void onFinish()
         {
-            timerRunning = 0;
+            //Set screen to post record mode
             wordBox.setText("");
             stopRecording();
             startButton.setText("Play");
@@ -158,7 +161,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
-    // RecordCountDownTimer class
+    // WordcountDownTimer class to notify when the word should be changed
     public class WordCountDownTimer extends AccurateTimer
     {
         private int tickCount;
@@ -171,6 +174,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         @Override
         public void onFinish()
         {
+            //Change the word on the screen by calling createWordTimer
             wordCount++;
             if(wordCount < testCases[caseNumber].length) {
                 createWordTimer();
@@ -183,7 +187,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
-    // PlayCountDownTimer class
+    // PlayCountDownTimer class to track the playback of audio
     public class PlayCountDownTimer extends AccurateTimer
     {
         public PlayCountDownTimer(long startTime, long interval)
@@ -207,6 +211,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to change the word on the screen, create new timer, and initialize animation of progress bar
     @TargetApi(11)
     private void createWordTimer(){
         wordBox.setText(testCases[caseNumber][wordCount].word);
@@ -217,6 +222,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         wordTimer.start();
     }
 
+    //Function to begin recording
     private void onRecord() {
         try {
             startRecording();
@@ -232,6 +238,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to reset screen to pre record mode
     private void onRecordAgain() {
         recordAgainButton.setVisibility(View.GONE);
         uploadButton.setVisibility(View.GONE);
@@ -243,6 +250,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         });
     }
 
+    //Function to playback audio
     private void onPlay() {
         startButton.setEnabled(false);
         recordAgainButton.setEnabled(false);
@@ -252,6 +260,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         startPlaying();
     }
 
+    //Function to begin playing audio
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
@@ -263,11 +272,13 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to stop playing audio
     private void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
     }
 
+    //Function to initialize upload
     private void onUpload() {
         caseNumber++;
         caseNumberText.setText("Test Case: " + String.valueOf(caseNumber + 1));
@@ -275,6 +286,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         onRecordAgain();
     }
 
+    //Function to begin recording audio
     private void startRecording() throws IOException {
         mRecorder = new MediaRecorder();
         AudioRecordTest();
@@ -292,6 +304,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         mRecorder.start();
     }
 
+    //Function to stop recording
     private void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
@@ -303,6 +316,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         mFileName += "/audiorecordtest.wav";
     }
 
+    //Perform all activity initializing here
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -349,6 +363,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to pause playback (not currently used)
     @Override
     public void onPause() {
         super.onPause();
@@ -363,8 +378,11 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to call API and upload audio
     private class CallAPI extends AsyncTask<String, String, String> {
         ProgressDialog progress = new ProgressDialog(VoiceRecordActivity.this);
+
+        //Do uploading here
         @Override
         protected String doInBackground(String... params) {
             String urlString = apiURL;
@@ -398,6 +416,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
             return "TRUE";
         }
 
+        //Preupload tasks including showing a progress dialog
         @Override
         protected void onPreExecute() {
 
@@ -408,6 +427,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
             progress.setCancelable(false);
         }
 
+        //Postupload tasks here inluding displaying success message8
         protected void onPostExecute(String result){
             // Dismiss progress Bar
             progress.dismiss();
