@@ -1,5 +1,6 @@
 package edu.nd.phr;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Entity;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.os.Environment;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.content.Context;
@@ -24,8 +26,13 @@ import android.util.Log;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import org.w3c.dom.Text;
+import android.animation.ObjectAnimator;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
+import android.view.animation.DecelerateInterpolator;
 
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
@@ -33,15 +40,54 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.lang.Math;
 
 import edu.nd.phr.MultiPartUtility;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.List;
+
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
 
 
 
 public class VoiceRecordActivity extends ActionBarActivity{
+
+    //Class for a word or sentence. Contains a string and duration in milliseconds
+    public class Word{
+        String word;
+        int duration;
+
+        public Word(String s, int d){
+            word = s;
+            duration = d;
+        }
+    }
+
+    //Class for creating animation of the progess bar
+    public class ProgressBarAnimation extends Animation{
+        private ProgressBar progressBar;
+        private float from;
+        private float  to;
+
+        public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
+            super();
+            this.progressBar = progressBar;
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime, Transformation t) {
+            super.applyTransformation(interpolatedTime, t);
+            float value = from + (to - from) * interpolatedTime;
+            progressBar.setProgress((int) value);
+        }
+
+    }
 
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;;
@@ -55,23 +101,31 @@ public class VoiceRecordActivity extends ActionBarActivity{
     private Button uploadButton;
     private TextView wordBox;
     private TextView caseNumberText;
+    private ProgressBar progressBar;
     private RecordingCountDownTimer recordTimer;
     private PlayCountDownTimer playTimer;
+    private WordCountDownTimer wordTimer;
 
-    private String[] testCase0 = {"Cheese", "Pepperoni", "Black Olives", "Sausage", "Sauce", "Ham"};
-    private String[] testCase1 = {"Apple", "Orange", "Banana", "Grape"};
-    private String[] testCase2 = {"Shirt", "Pants", "Shoes", "Hat", "Scarf", "Socks"};
+    //Test cases initiated here
+    private Word[] testCase0 = {new Word("Cheese", 1000), new Word("Sausage", 500), new Word("Ham", 2000), new Word("Sauce", 1000), new Word("Pepperoni", 500), new Word("Mushrooms", 1000)};
+    private Word[] testCase1 = {new Word("Pants", 1000), new Word("Shoes", 500), new Word("Hat", 2000)};
+    private Word[] testCase2 = {new Word("Lamp", 1000), new Word("Desk", 500), new Word("Pencil Sharpener", 2000), new Word("Chair", 1000)};
 
-    private String[][] testCases = {testCase0, testCase1, testCase2};
+    //Add all test cases to array
+    private Word[][] testCases = {testCase0, testCase1, testCase2};
+
+    private int[] testCaseTimes;
     private int caseNumber = 0;
+    int wordCount;
 
-    private int speed = 1000;
-
+    //Url to api
     public final static String apiURL = "http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload";
 
 
-    // RecordCountDownTimer class
-    public class RecordingCountDownTimer extends CountDownTimer
+
+
+    // RecordCountDownTimer class to track the length of a test case
+    public class RecordingCountDownTimer extends AccurateTimer
     {
         private int timerCount;
         public RecordingCountDownTimer(long startTime, long interval)
@@ -83,6 +137,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         @Override
         public void onFinish()
         {
+            //Set screen to post record mode
             wordBox.setText("");
             stopRecording();
             startButton.setText("Play");
@@ -91,6 +146,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
             uploadButton.setEnabled(true);
             recordAgainButton.setVisibility(View.VISIBLE);
             uploadButton.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             startButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     onPlay();
@@ -101,13 +157,38 @@ public class VoiceRecordActivity extends ActionBarActivity{
         @Override
         public void onTick(long millisUntilFinished)
         {
-            wordBox.setText(testCases[caseNumber][timerCount]);
             timerCount = timerCount +1;
         }
     }
 
-    // PlayCountDownTimer class
-    public class PlayCountDownTimer extends CountDownTimer
+    // WordcountDownTimer class to notify when the word should be changed
+    public class WordCountDownTimer extends AccurateTimer
+    {
+        private int tickCount;
+        public WordCountDownTimer(long startTime, long interval)
+        {
+            super(startTime, interval);
+            tickCount = 0;
+        }
+
+        @Override
+        public void onFinish()
+        {
+            //Change the word on the screen by calling createWordTimer
+            wordCount++;
+            if(wordCount < testCases[caseNumber].length) {
+                createWordTimer();
+            }
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished)
+        {
+        }
+    }
+
+    // PlayCountDownTimer class to track the playback of audio
+    public class PlayCountDownTimer extends AccurateTimer
     {
         public PlayCountDownTimer(long startTime, long interval)
         {
@@ -130,18 +211,34 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to change the word on the screen, create new timer, and initialize animation of progress bar
+    @TargetApi(11)
+    private void createWordTimer(){
+        wordBox.setText(testCases[caseNumber][wordCount].word);
+        wordTimer = new WordCountDownTimer(testCases[caseNumber][wordCount].duration, testCases[caseNumber][wordCount].duration);
+        ProgressBarAnimation anim = new ProgressBarAnimation(progressBar, 0, 100);
+        anim.setDuration(testCases[caseNumber][wordCount].duration);
+        progressBar.startAnimation(anim);
+        wordTimer.start();
+    }
+
+    //Function to begin recording
     private void onRecord() {
         try {
-
-            recordTimer = new RecordingCountDownTimer((testCases[caseNumber].length + 1) * speed, speed);
-            recordTimer.start();
-            startButton.setEnabled(false);
             startRecording();
+            startButton.setEnabled(false);
+            recordTimer = new RecordingCountDownTimer(testCaseTimes[caseNumber], testCaseTimes[caseNumber]);
+            recordTimer.start();
+            wordCount = 0;
+            progressBar.setVisibility(View.VISIBLE);
+            createWordTimer();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    //Function to reset screen to pre record mode
     private void onRecordAgain() {
         recordAgainButton.setVisibility(View.GONE);
         uploadButton.setVisibility(View.GONE);
@@ -153,15 +250,17 @@ public class VoiceRecordActivity extends ActionBarActivity{
         });
     }
 
+    //Function to playback audio
     private void onPlay() {
         startButton.setEnabled(false);
         recordAgainButton.setEnabled(false);
         uploadButton.setEnabled(false);
-        playTimer = new PlayCountDownTimer((testCases[caseNumber].length + 1) * speed, speed);
+        playTimer = new PlayCountDownTimer(testCaseTimes[caseNumber], 1);
         playTimer.start();
         startPlaying();
     }
 
+    //Function to begin playing audio
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
@@ -173,11 +272,13 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to stop playing audio
     private void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
     }
 
+    //Function to initialize upload
     private void onUpload() {
         caseNumber++;
         caseNumberText.setText("Test Case: " + String.valueOf(caseNumber + 1));
@@ -185,10 +286,10 @@ public class VoiceRecordActivity extends ActionBarActivity{
         onRecordAgain();
     }
 
+    //Function to begin recording audio
     private void startRecording() throws IOException {
         mRecorder = new MediaRecorder();
         AudioRecordTest();
-        //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath().substring(8) + "/audio/" +  System.currentTimeMillis()+ ".3gp";
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mFileName);
@@ -203,6 +304,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         mRecorder.start();
     }
 
+    //Function to stop recording
     private void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
@@ -214,6 +316,7 @@ public class VoiceRecordActivity extends ActionBarActivity{
         mFileName += "/audiorecordtest.wav";
     }
 
+    //Perform all activity initializing here
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -226,6 +329,9 @@ public class VoiceRecordActivity extends ActionBarActivity{
         uploadButton.setVisibility(View.GONE);
         wordBox = (TextView) findViewById(R.id.wordBox);
         caseNumberText = (TextView) findViewById(R.id.caseNumberText);
+        caseNumberText.setText("Test Case: 1");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -244,8 +350,20 @@ public class VoiceRecordActivity extends ActionBarActivity{
                 onUpload();
             }
         });
+
+        testCaseTimes = new int[testCases.length];
+        int i, k;
+        int length;
+        for(i = 0; i < testCases.length; i++){
+            length = 0;
+            for(k = 0; k < testCases[i].length; k++){
+                length = length + testCases[i][k].duration;
+            }
+            testCaseTimes[i] = length;
+        }
     }
 
+    //Function to pause playback (not currently used)
     @Override
     public void onPause() {
         super.onPause();
@@ -260,7 +378,11 @@ public class VoiceRecordActivity extends ActionBarActivity{
         }
     }
 
+    //Function to call API and upload audio
     private class CallAPI extends AsyncTask<String, String, String> {
+        ProgressDialog progress = new ProgressDialog(VoiceRecordActivity.this);
+
+        //Do uploading here
         @Override
         protected String doInBackground(String... params) {
             String urlString = apiURL;
@@ -268,24 +390,72 @@ public class VoiceRecordActivity extends ActionBarActivity{
             File uploadFile1 = new File(params[0]);
             String response = "";
 
-            //HTTP POST
             try {
-                MultiPartUtility multipart = new MultiPartUtility(urlString, charset);
+                URL url = new URL("http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
 
-                multipart.addFilePart("fileUpload", uploadFile1);
+                FileBody fileBody = new FileBody(uploadFile1);
+                MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.STRICT);
+                multipartEntity.addPart("file", fileBody);
 
-                response = multipart.finish();
-
+                connection.setRequestProperty("Content-Type", multipartEntity.getContentType().getValue());
+                OutputStream out = connection.getOutputStream();
+                try {
+                    multipartEntity.writeTo(out);
+                } finally {
+                    out.close();
+                }
+                int status = connection.getResponseCode();
+                System.out.println("status:" + status);
+                return Integer.toString(status);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
                 e.printStackTrace();
-                return e.getMessage();
             }
-            return response;
-
+            return "TRUE";
         }
+
+        //Preupload tasks including showing a progress dialog
+        @Override
+        protected void onPreExecute() {
+
+            progress.setTitle("Uploading");
+            progress.setMessage("Wait while uploading...");
+
+            progress.show();
+            progress.setCancelable(false);
+        }
+
+        //Postupload tasks here inluding displaying success message8
         protected void onPostExecute(String result){
-            System.out.println(result);
+            // Dismiss progress Bar
+            progress.dismiss();
+
+            //Create Alert
+            if(result.equals("200")){
+                new AlertDialog.Builder(VoiceRecordActivity.this)
+                        .setMessage("Upload Successful")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+            else{
+                new AlertDialog.Builder(VoiceRecordActivity.this)
+                        .setMessage("Upload Failed")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
         }
     } //END CALL API
 }
