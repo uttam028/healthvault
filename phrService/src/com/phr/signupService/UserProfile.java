@@ -2,13 +2,11 @@ package com.phr.signupService;
 
 
 
-import java.sql.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class UserProfile {
-
+/*
     private String email;
     private String firstName;
     private String lastName;
@@ -97,4 +95,5 @@ public class UserProfile {
     public void setMobileNum(long mobileNum) {
         this.mobileNum = mobileNum;
     }
+*/
 }

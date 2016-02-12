@@ -82,7 +82,7 @@ public class MainPage extends Composite {
 		cholesterolPage = new CholesterolPage();
 		voicePage = new VoicePage();
 		landingPage = new LandingPage(this.application);
-		medicationPage = new Medications();
+		medicationPage = new Medications(email);
 		loadLandingPage();
 	}
 	

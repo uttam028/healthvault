@@ -108,16 +108,17 @@ public class UserProfileService {
 				statement = connection.createStatement();
 
 				preparedStatement = connection
-						.prepareStatement("update PHR.USER_PROFILE set ADDRESS=?, BIRTHDAY = ?, CONTACT_NO =?, gender=?, "
-								+ "height=?, weight=? where EMAIL=?");
+						.prepareStatement("update phr.user_profile set address=?, birthday = ?, contact_no =?, gender=?, "
+								+ "height=?, weight=? where email=?");
 				preparedStatement.setString(1, userProfile.getAddress());
 				preparedStatement.setString(2, userProfile.getBirthDay());
 				preparedStatement.setLong(3, userProfile.getMobileNum());
-				preparedStatement.setString(4, userProfile.getEmail());
-				preparedStatement.setString(5, userProfile.getGender());
-				preparedStatement.setInt(6, userProfile.getHeight());
-				preparedStatement.setInt(7, userProfile.getWeight());
-
+				preparedStatement.setString(4, userProfile.getGender());
+				preparedStatement.setInt(5, userProfile.getHeight());
+				preparedStatement.setInt(6, userProfile.getWeight());
+				preparedStatement.setString(7, userProfile.getEmail());
+				
+				System.out.println("query: " + preparedStatement.toString());
 				preparedStatement.execute();
 
 				Iterator<Answer> it = userProfile.getQuestionAnswer()

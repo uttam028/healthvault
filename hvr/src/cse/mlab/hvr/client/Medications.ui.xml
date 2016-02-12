@@ -116,7 +116,7 @@
              <b:Container fluid="true">
                  <b:Row>
                     <b:Column size="MD_4">
-                       <b2:DateTimePicker minView="MONTH" format="mm/dd/yyyy" width="100px"/>  
+                       <b2:DateTimePicker ui:field="startDatePicker" minView="MONTH" format="mm/dd/yyyy" width="100px"/>  
                     </b:Column>
                     <b:Column size="MD_4">
                        <b2:DateTimePicker minView="MONTH" format="mm/dd/yyyy" width="100px"/>

@@ -1,14 +1,11 @@
 package com.phr.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.Properties;
 
 public class DatabaseUtil {
@@ -52,7 +49,7 @@ public class DatabaseUtil {
 			username =properties.getProperty("username");
 			password = properties.getProperty("password");
 			
-			System.out.println("Connecting database...");
+			System.out.println("Connecting database..., url:"+ dbUrl + ", username:"+ username+", password:"+ password);
             connection = DriverManager.getConnection(dbUrl,username,password);
             
 			

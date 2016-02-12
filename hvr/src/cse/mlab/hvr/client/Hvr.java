@@ -123,4 +123,5 @@ public class Hvr implements EntryPoint {
 	public static EventBus getEventBus(){
 		return eventBus;
 	}
+	
 }

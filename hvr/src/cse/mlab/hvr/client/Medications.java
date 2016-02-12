@@ -1,5 +1,9 @@
 package cse.mlab.hvr.client;
 
+import java.util.Date;
+
+import org.gwtbootstrap3.extras.datetimepicker.client.ui.*;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -7,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -17,6 +22,7 @@ public class Medications extends Composite {
 
    private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
 
+   private String emailId;
    //public MessageServiceAsync messageService = GWT.create(MessageService.class);
    
    
@@ -36,10 +42,11 @@ public class Medications extends Composite {
    @UiField(provided = true)
    final LoginResources res;
 */
-   public Medications() {
+   public Medications(String emailId) {
       //this.res = GWT.create(LoginResources.class);
       //res.style().ensureInjected();
       initWidget(uiBinder.createAndBindUi(this));
+      this.emailId = emailId;
    }
 
  
@@ -54,6 +61,8 @@ public class Medications extends Composite {
 
    @UiField
    Label completionLabel2;
+   @UiField
+   DateTimePicker startDatePicker;
    
    private String message1;
 
@@ -65,6 +74,8 @@ public class Medications extends Composite {
 @UiHandler("buttonSubmit")
    void doClickSubmit(ClickEvent event) {
 		//messageService.getMessage(message1, new MessageCallBack()); 
+      Date startDate = startDatePicker.getValue();
+      Window.alert("startdate:"+ startDate.getTime());
       
    }
 

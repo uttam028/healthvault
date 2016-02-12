@@ -10,6 +10,7 @@
 		<!--param-value>http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT</param-value-->
 		<param-value>http://localhost:8080/phrService-0.0.1-SNAPSHOT</param-value>
 		<!--param-value>http://m-lab.cse.nd.edu:8080/phrService-0.0.1-SNAPSHOT</param-value-->
+		<!--param-value>http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT</param-value-->
 	</context-param>
 	<!-- Servlets -->
 	<servlet>

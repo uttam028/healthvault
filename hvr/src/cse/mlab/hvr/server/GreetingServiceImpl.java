@@ -173,10 +173,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.put(ClientResponse.class, userProfile);
 		Response profileUpdateResult = nameResource.getEntity(Response.class);
 
+		System.out.println("response code:"+ profileUpdateResult.getCode());
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff update profile call: " + (end - start));
 		
 		return profileUpdateResult;
+	}
+	
+	
+	@Override
+	public Response saveMedications(Medication medication) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	public void test(){
@@ -211,17 +219,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
 				//.put(ClientResponse.class, medication);
 		WebResource service = client.resource(url);
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
+		Response response = service.accept(MediaType.APPLICATION_XML).get(
+				Response.class);
 		System.out.println("profile xml:"+ response);
 
+		/*
 		MedicationList medicationList = new Gson().fromJson(response, MedicationList.class);
 		List<Medication> medList = medicationList.getMedicationList();
 		Iterator<Medication> it = medList.iterator();
 		while (it.hasNext()) {
 			Medication med = (Medication) it.next();
 			System.out.println("id:"+ med.getId()+", email:"+ med.getEmail()+", name:"+ med.getName());
-		}
+		}*/
 		//String medicationResult = nameResource.getEntity(String.class);
 		//System.out.println("Client Response \n, code:" + medicationResult.getCode() + ", message:"+ medicationResult.getMessage());
 		System.out.println();

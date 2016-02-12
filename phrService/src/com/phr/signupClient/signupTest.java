@@ -2,10 +2,9 @@ package com.phr.signupClient;
 
 
 import java.net.URI;
-import java.sql.Date;
 
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 
 import org.json.JSONObject;
 
@@ -68,7 +67,8 @@ public class signupTest {
 		}
 
 	   private static URI getBaseURI() {
-	    return UriBuilder.fromUri("http://m-health.cse.nd.edu:8000/phrService").build();
+	    //return UriBuilder.fromUri("http://m-health.cse.nd.edu:8000/phrService").build();
+		   return UriBuilder.fromUri("http://localhost:8080/phrService").build();
 	  }
 	
 }

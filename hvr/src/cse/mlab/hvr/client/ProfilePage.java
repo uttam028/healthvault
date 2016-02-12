@@ -1,10 +1,12 @@
 package cse.mlab.hvr.client;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gwtbootstrap3.client.ui.IntegerBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.json.Test;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsDate;
@@ -24,6 +26,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.UserProfile;
 
@@ -215,6 +218,8 @@ public class ProfilePage extends Composite{
 						// TODO: handle exception
 						listProfileBirthMonth.setSelectedIndex(0);
 					}
+					
+					
 				} else{
 					gotoHomePage(null);
 				}
@@ -457,7 +462,12 @@ public class ProfilePage extends Composite{
 			}
 			String birthDay = "";
 			try {
-				birthDay = textProfileBirthYear.getText() + "/" + listProfileBirthMonth.getSelectedIndex() + "/" + textProfileBirthDay.getText();
+				if(listProfileBirthMonth.getSelectedIndex()<=0 || textProfileBirthDay.getText().isEmpty() || textProfileBirthYear.getText().isEmpty()){
+					birthDay = "";
+				} else{
+					birthDay = textProfileBirthYear.getText() + "/" + listProfileBirthMonth.getSelectedIndex() + "/" + textProfileBirthDay.getText();					
+				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -472,7 +482,23 @@ public class ProfilePage extends Composite{
 			if(!birthDay.isEmpty()){
 				profile.setBirthDay(birthDay);
 			}
+			Window.alert("user email : "+ userId );
+			
 			profile.setAddress(textProfileAddress.getText().trim().replaceAll("'", "''"));
+			
+			List<Answer> qa = new ArrayList<Answer>();
+			
+			if(!textProfileConcussions.getText().isEmpty()){
+				Answer first = new Answer();
+				first.setQuestionId(1);
+				first.setAnswer(textProfileConcussions.getText());
+				qa.add(first);
+			}
+			
+			
+			profile.setQuestionAnswer(qa);
+			
+			
 			
 			try {
 				greetingService.saveProfile(profile, new AsyncCallback<Response>() {

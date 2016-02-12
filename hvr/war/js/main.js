@@ -239,8 +239,9 @@ $(function () {
   	    var filename = name.replace(/\s/g, "") + ".wav" ;
   	    formData.append("file", blob, filename);
   	    $.ajax({
-  	        url: 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',  //Server script to process data
-  	        type: 'post',
+  	        //url: 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',  //Server script to process data
+  	    	url: 'http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT/files/upload/',
+  	    	type: 'post',
   	        contentType: 'multipart/form-data',
   	        //content: 'text/html',
   	        xhr: function() {  // Custom XMLHttpRequest

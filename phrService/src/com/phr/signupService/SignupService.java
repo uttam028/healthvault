@@ -1,11 +1,9 @@
 package com.phr.signupService;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -99,13 +97,13 @@ public class SignupService {
 	        	statement = connection.createStatement();
 	            
 	            preparedStatement = connection
-	                    .prepareStatement("insert into  PHR.USERS values ( ?,?)");
+	                    .prepareStatement("insert into  PHR.USERS (email, password) values ( ?,?)");
 	            preparedStatement.setString(1, userProfile.getEmail() );
 	            preparedStatement.setString(2, userProfile.getPassword());
 	            preparedStatement.execute();
 	            
 	            preparedStatement = connection
-	                    .prepareStatement("insert into  PHR.USER_PROFILE values ( ?,?, ?, ?, ? , ?)");
+	                    .prepareStatement("insert into  PHR.USER_PROFILE (email, first_name, last_name, address, birthday, contact_no ) values ( ?,?, ?, ?, ? , ?)");
 	            preparedStatement.setString(1, userProfile.getEmail() );
 	            preparedStatement.setString(2, userProfile.getFirstName() );
 	            preparedStatement.setString(3, userProfile.getLastName() );

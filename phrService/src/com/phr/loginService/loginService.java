@@ -1,7 +1,6 @@
 package com.phr.loginService;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.sql.Statement;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
 import com.phr.util.DatabaseUtil;
-import com.phr.util.UserProfile;
 
 @Path("/login")
 public class loginService {
@@ -60,12 +57,12 @@ try {
             try{
                 
                 statement = connection.createStatement();              
-                preparedStatement = connection.prepareStatement("SELECT * FROM PHR.USERS WHERE EMAIL=?");
+                preparedStatement = connection.prepareStatement("select * from phr.users where email=?");
                 preparedStatement.setString(1, user.getEmail()); 
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if(resultSet.next()){
                 	//check password
-                	if(user.getPassword().equals(resultSet.getString("PASSWORD"))){
+                	if(user.getPassword().equals(resultSet.getString("password"))){
                 		return "TRUE";
                 	}          
                 	System.out.println("Incorrect password");
