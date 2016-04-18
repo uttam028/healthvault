@@ -9,6 +9,7 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.visualization.Visualization"/>
+  
   <!--inherits name="com.google.gwt.ajaxloader.AjaxLoader"/-->
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
@@ -24,10 +25,13 @@
   <!-- bootstrap for custom widgets -->
   <inherits name='org.gwtbootstrap3.GwtBootstrap3'/>
   <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
-  
+  <inherits name="org.gwtbootstrap3.extras.datepicker.DatePicker"/>
+  <inherits name='com.google.gwt.visualization.Visualization'/>
+    
   <!-- Inherit sound support -->
   <inherits name='com.allen_sauer.gwt.voices.gwt-voices'/>
-
+  <inherits name='fr.hd3d.html5.video.HTML5Video'/>
+  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cse.mlab.hvr.client.Hvr'/>
 

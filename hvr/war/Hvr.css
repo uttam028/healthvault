@@ -51,6 +51,11 @@ h1{
   margin: 10px;
 }
 
+.customPlayerWindow {
+  /*width: 750px;*/
+  height: 80px;
+}
+
 
 .serverResponseLabelError {
   color: red;
@@ -95,6 +100,16 @@ h1{
     width: 400px;
     height: 50px;
 }
+
+
+.half-center-block {
+  display: block;
+  width: 50%;
+  height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .center-block {
   display: block;

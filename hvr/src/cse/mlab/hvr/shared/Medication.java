@@ -218,4 +218,10 @@ public class Medication implements Serializable{
 				+ ", end date:"+ endDate + ", is presribed:"+ isPrescribed + ", prescribed by:"+ prescribedBy + "precsribed date:"+ prescribedDate + ", instruction:"
 				+ instruction + ", pres quantity:"+ prescribedQuantity + ", note";
 	}
+	
+	public String toJsonString(){
+		String json = "";
+		
+		return json;
+	}
 }

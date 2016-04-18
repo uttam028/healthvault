@@ -17,6 +17,18 @@
 			<b:Button ui:field="dysarthiaTestButton" type="LINK">Dysarthia Test</b:Button>
 			<br/>
 		</g:HTMLPanel-->
+		<b:Modal title="Speech Test Information" closable="true" fade="true"
+			dataBackdrop="STATIC" dataKeyboard="true" b:id="voiceModal" ui:field="voicePageModal">
+			<b:ModalBody ui:field="voicePageModalBody">
+				<g:HTMLPanel ui:field = "testInformationPanel">
+				    <g:Label>This is a test Label</g:Label>
+				</g:HTMLPanel>
+			</b:ModalBody>
+			<b:ModalFooter>
+				<b:Button type="DEFAULT" ui:field="buttonModalNext" text="Next"></b:Button>
+				<!--b:Button type="DANGER" dataDismiss="MODAL">Cancel</b:Button-->
+			</b:ModalFooter>
+		</b:Modal>
 
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -170,8 +170,8 @@ public class TwitterSignup extends Composite {
 	
 	@UiHandler("buttonLoginAction")
 	void loginAction(ClickEvent event){
-		//application.loggedIn("ah@gmail.com");
-		
+		application.loggedIn("z@gmail.com");
+		/*
 		if(this.validationBeforeLogin()){
 			buttonLoginAction.setEnabled(false);
 			User user = new User();
@@ -198,7 +198,7 @@ public class TwitterSignup extends Composite {
 					Window.alert("Service is not available, please try again later!");
 				}
 			});
-		}
+		}*/
 	}
 	
 	

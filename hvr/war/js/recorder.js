@@ -66,7 +66,7 @@
       Recorder.recorder.hide();
   	  console.log("recorder.js: possible function to start recording");
     },
-
+    
     stopRecording: function() {
     	console.log("recorder.js: stop recording");
       Recorder.recorder.stopRecording();
@@ -116,6 +116,20 @@
 
     hide: function() {
     	console.log("recorder.js: hide recorder");
+    	try {
+    		//$('#recorderApp').parent().append($('#recorderApp'));
+    		$('#recorderApp').css('z-index', 9999);
+    		$("#recorderApp").css('top', -150);
+    		$("#recorderApp").css('left', -950);
+    		//var position = $('#recorderApp').position();
+    		
+  			//var position = recorderEl().Position();
+  			//console.log("print position of current window:"+ position.left + ", " + position.top);
+			
+		} catch (e) {
+			// TODO: handle exception
+			console.log("exception occured : "+ e.message);
+		}
       Recorder.recorder.hide();
     },
 
