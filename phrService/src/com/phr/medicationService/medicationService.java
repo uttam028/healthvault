@@ -14,6 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.phr.util.DatabaseUtil;
 import com.phr.util.Response;
 
@@ -29,9 +31,8 @@ public class medicationService {
 
 	@Path("{email}")
 	@GET
-	@Produces({MediaType.APPLICATION_JSON})
-	public MedicationList getMedicationHistory(
-			@PathParam("email") String email) {
+	@Produces({ MediaType.APPLICATION_JSON })
+	public MedicationList getMedicationHistory(@PathParam("email") String email) {
 
 		MedicationList medicationList = new MedicationList();
 		try {
@@ -64,18 +65,22 @@ public class medicationService {
 						temp.setDosage(0);
 					}
 					temp.setDosageUnit(resultSet.getString("dosage_unit"));
-					temp.setConsumeProcess(resultSet.getString("consume_process"));
-					temp.setConsumeFrequency(resultSet.getString("consume_frequency"));
+					temp.setConsumeProcess(resultSet
+							.getString("consume_process"));
+					temp.setConsumeFrequency(resultSet
+							.getString("consume_frequency"));
 					temp.setReason(resultSet.getString("reason"));
 					temp.setStartDate(resultSet.getString("start_date"));
 					temp.setEndDate(resultSet.getString("end_date"));
 					temp.setIsPrescribed(resultSet.getString("is_prescribed"));
 					temp.setPrescribedBy(resultSet.getString("prescribed_by"));
-					temp.setPrescribedDate(resultSet.getString("prescribed_date"));
+					temp.setPrescribedDate(resultSet
+							.getString("prescribed_date"));
 					temp.setInstruction(resultSet.getString("instruction"));
-					temp.setPrescribedQuantity(resultSet.getString("prescription_quantity"));
+					temp.setPrescribedQuantity(resultSet
+							.getString("prescription_quantity"));
 					temp.setNote(resultSet.getString("note"));
-					
+
 					medicationList.getMedicationList().add(temp);
 				}
 			} catch (SQLException e) {
@@ -114,7 +119,7 @@ public class medicationService {
 				String query = "insert into phr.medication_history (user_email, creation_date, modification_date, name, "
 						+ "strength, strength_unit, dosage, dosage_unit, consume_process, consume_frequency, reason, start_date, end_date, "
 						+ "is_prescribed, prescribed_by, prescribed_date, instruction, prescription_quantity, note) values "
-						+ "(?, curdate(), curdate(),?,?,?,?,?,?,?,?,date(?),date(?),?,?,date(?),?,?,?)";
+						+ "(?, curdate(), curdate(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 				preparedStatement = connection.prepareStatement(query);
 
@@ -178,8 +183,14 @@ public class medicationService {
 				System.out.println(preparedStatement.toString());
 				preparedStatement.execute();
 
+				query = "select last_insert_id() as id";
+				preparedStatement = connection.prepareStatement(query);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					response.setMessage(resultSet.getString("id"));
+				}
+
 				response.setCode(0);
-				response.setMessage("Medication inserted successfully");
 				// } catch (MySQLIntegrityConstraintViolationException e){
 				// success = "The user " + userProfile.getEmail() +
 				// " already exist in the system." ;
@@ -195,6 +206,52 @@ public class medicationService {
 				} catch (SQLException ignore) {
 				}
 		}
+		return response;
+	}
+
+	@Path("{email}/{list}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response deleteMedications(@PathParam("email") String email,
+			@PathParam("list") String list) {
+		Response response = new Response(0, "");
+		System.out.println("list:"+ list);
+		try {
+			String listAfterDecode = new String(Base64.decodeBase64(list));
+			String[] medList = listAfterDecode.trim().split("\\|");
+			connection = DatabaseUtil.connectToDatabase();
+			for (String medId : medList) {
+				try {
+					preparedStatement = connection
+							.prepareStatement("delete from phr.medication_history where user_email=? and medication_id= ?");
+					preparedStatement.setString(1, email);
+					preparedStatement.setInt(2, Integer.parseInt(medId));
+					int deletedRows = preparedStatement.executeUpdate();
+					System.out.println("response from delete : "+ deletedRows);
+					if (deletedRows == 0) {
+						response.setCode(-1);
+					}
+
+				} catch(SQLException e){
+					System.out.println("sqlException in individual delete " + e.getMessage());
+				}catch (Exception e) {
+					System.out.println("Exception in individual delete " + e.getMessage());
+					// TODO: handle exception
+				}
+			}
+
+		} catch (Exception ex) {
+			System.out.println("Exception in individual delete " + ex.getMessage());
+			response.setCode(-1);
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+
 		return response;
 	}
 
