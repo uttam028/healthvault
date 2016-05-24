@@ -16,75 +16,106 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
 import com.phr.util.DatabaseUtil;
+import com.phr.util.Response;
+import com.phr.util.ServiceUtil;
 
 @Path("/login")
 public class loginService {
 
-
 	private Connection connection;
 	private Statement statement;
 	private PreparedStatement preparedStatement;
-	
-    static{    	
-    	DatabaseUtil.loadDriver();
-    }
 
+	static {
+		DatabaseUtil.loadDriver();
+	}
 
-    @Path("{userid}")
-    @GET
-    @Produces("application/json")
-    public String getUser(@PathParam("userid") String userid) {
-       
-    	  	
-    	return "FALSE";
-    }
+	@PUT
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public Response login(JAXBElement<User> userJaxbElement) {
+		Response response = new Response();
+		try {
+			User user = userJaxbElement.getValue();
+			System.out.println("pass from client:"+user.getPassword());
+			connection = DatabaseUtil.connectToDatabase();
+				statement = connection.createStatement();
+				preparedStatement = connection
+						.prepareStatement("select * from phr.users where email=?");
+				preparedStatement.setString(1, user.getEmail());
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					int state = resultSet.getInt("state");
+					if(state==0){
+						response.setCode(2);
+						response.setMessage("Please verify your account before login");
+					} else {
+						// check password
+						if (user.getPassword().equals(
+								resultSet.getString("password"))) {
+							response.setCode(0);
+						} else {
+							response.setCode(3);
+							response.setMessage("Incorrect password");
+						}
+						
+					}
+				} else {
+					response.setCode(1);
+					response.setMessage("Incorrect username");
+				}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			response.setCode(-1);
+			response.setMessage("Service not available, please try later");
+			e.printStackTrace();
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+		return response;
+	}
 
-	
-	
-	
-	
-	  
-    
-    @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public String login(JAXBElement<User> userJaxbElement ) {
-    	User user;
-		
-try {
-			user = userJaxbElement.getValue();
-	    	connection = DatabaseUtil.connectToDatabase();            
-            try{
-                
-                statement = connection.createStatement();              
-                preparedStatement = connection.prepareStatement("select * from phr.users where email=?");
-                preparedStatement.setString(1, user.getEmail()); 
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if(resultSet.next()){
-                	//check password
-                	if(user.getPassword().equals(resultSet.getString("password"))){
-                		return "TRUE";
-                	}          
-                	System.out.println("Incorrect password");
-                	return "FALSE";              
-                }else{
-                	System.out.println("Incorrect Username");
-                	return "FALSE";                	
-                }
-              }
-    	      catch (SQLException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-	    	} finally {
-	    	    System.out.println("Closing the connection.");
-	    	    if (connection != null) try { connection.close(); } catch (SQLException ignore) {}
-	    	}	    	
-    	
-    	return "FALSE";
-	
-}
-	
-	
-	
+	@Path("resetpassword/{email}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	/**
+	 * 
+	 * @param email
+	 * @return code=0: success, code=-1:failure, code=1: user doesn't exist
+	 */
+	public Response resetPassword(@PathParam("email") String email) {
+		Response response = new Response();
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			statement = connection.createStatement();
+
+			preparedStatement = connection
+					.prepareStatement("select email from phr.users where state=1 and email=?");
+			preparedStatement.setString(1, email);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				String newPass = ServiceUtil.randomString(12);
+
+			} else {
+				response.setCode(1);
+				response.setMessage("User does not exist");
+			}
+		} catch (Exception ex) {
+
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return response;
+
+	}
 }

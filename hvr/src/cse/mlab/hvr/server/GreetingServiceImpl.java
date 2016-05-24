@@ -1,11 +1,14 @@
 package cse.mlab.hvr.server;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
@@ -33,10 +36,10 @@ import cse.mlab.hvr.shared.UserProfile;
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
-	String serverRoot = "";
-	String signupPath = "";
-	String loginPath = "";
-	String profilePath = "";
+	static String serverRoot = "";
+	static String signupPath = "";
+	static String loginPath = "";
+	static String profilePath = "";
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -49,7 +52,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("server root : " + serverRoot + ", signuppath : "
 				+ signupPath + ", loginpath : " + loginPath);
 	}
-
+	
 	public String greetServer(String input) throws IllegalArgumentException {
 		// // Verify that the input is valid.
 		// if (!FieldVerifier.isValidName(input)) {
@@ -71,25 +74,49 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
 	}
+	
 
 	@Override
-	public String signupToPhr(UserProfile userProfile) {
+	public Response signupToPhr(UserProfile userProfile) {
 		// TODO Auto-generated method stub
 		long start = Calendar.getInstance().getTimeInMillis();
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
+		//userProfile.setPassword("t");
+		System.out.println("f"+userProfile.getFirstName()+", l:"+ userProfile.getLastName() + ", e:"+ userProfile.getEmail()+ ", p:"+ userProfile.getPassword());
 		String url = serverRoot + signupPath;
 		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, userProfile);
-		String signupResult = nameResource.getEntity(String.class);
-		System.out.println("Client Response \n" + signupResult);
+		service.accept(MediaType.APPLICATION_XML);
+		ClientResponse nameResource = service.put(ClientResponse.class, userProfile);
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("Client Response \n" + response.getCode());
 
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff sign up call: " + (end - start));
 
-		return signupResult;
+		return response;
+		
+	}
+	
+	@Override
+	public Response resetPassword(String email) {
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + loginPath + "resetpassword/" + email;
+		System.out.println("url:"+url);
+		WebResource service = client.resource(url);
+		String result = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		Response response = new Gson().fromJson(result, Response.class);
+		System.out.println("Client Response \n" + response.getCode());
+
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff reset pass call: " + (end - start));
+
+		return response;
+		
 	}
 
 	@Override
@@ -114,7 +141,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String loginToPhr(User user) {
+	public Response loginToPhr(User user) {
 		// TODO Auto-generated method stub
 		long start = Calendar.getInstance().getTimeInMillis();
 		ClientConfig config = new DefaultClientConfig();
@@ -126,8 +153,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.put(ClientResponse.class, user);
 		// System.out.println("Client Response \n"
 		// + nameResource.getEntity(String.class));
-		String response = nameResource.getEntity(String.class);
-		System.out.println("convert response : " + response);
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("convert response : " + response.getCode());
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff login call: " + (end - start));
 
@@ -186,7 +213,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Response saveMedications(Medication medication) {
+	public Response saveMedication(Medication medication) {
 		// TODO Auto-generated method stub
 
 		long start = Calendar.getInstance().getTimeInMillis();
@@ -201,9 +228,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		System.out.println("response code:" + saveMedicResult.getCode() + "message:" + saveMedicResult.getMessage());
 		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update profile call: " + (end - start));
+		System.out.println("time diff save medic call: " + (end - start));
 		return saveMedicResult;
 
+	}
+	
+	@Override
+	public Response updateMedication(Medication medication) {
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/medication/medication/update/"+medication.getId();
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, medication);
+		Response updateMedicResult = nameResource.getEntity(Response.class);
+
+		System.out.println("response code:" + updateMedicResult.getCode() + "message:" + updateMedicResult.getMessage());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff update medic call: " + (end - start));
+		return updateMedicResult;
 	}
 
 	@Override
@@ -266,29 +312,51 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String url = serverRoot + "/medication/medication/" + email + "/" + list;
 		WebResource service = client.resource(url);
 
-		Response response = service.accept(MediaType.APPLICATION_JSON).get(
-				Response.class);
+		String result = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		Response response = new Gson().fromJson(result, Response.class);
+
 		System.out.println("delete response:"+ response.getCode());
 		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get medic list: " + (end - start));
+		System.out.println("time diff delete medic list: " + (end - start));
+		
+		return response;
+	}
+	
+	@Override
+	public Response stopUsingMedication(long id, String endDate) {
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/medication/medication/endusing/" + id + "/" + endDate;
+		WebResource service = client.resource(url);
+
+		String result = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		Response response = new Gson().fromJson(result, Response.class);
+
+		System.out.println("end using response:"+ response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff delete medic list: " + (end - start));
 
 		return response;
 	}
 	
 	
-	
 	public void test() {
 		Medication medication = new Medication();
-		medication.setEmail("tes@test.gmail.com");
-		medication.setName("test1");
-		medication.setStrength(12);
+		medication.setEmail("z@gmail.com");
+		medication.setName("tes");
+		medication.setStrength(1245);
 		medication.setStrengthUnit("kg");
 		medication.setConsumeFrequency("weekly");
-		medication.setConsumeProcess("oral");
-		medication.setDosage(323);
+		medication.setConsumeProcess("pacha");
+		medication.setDosage(3);
 		medication.setDosageUnit("stripe");
 		medication.setEndDate("2015-12-31");
-		medication.setInstruction("take it carefully");
+		medication.setInstruction("take it somehow");
 		medication.setIsPrescribed("otc");
 		medication.setNote("");
 		medication.setPrescribedBy("me");
@@ -297,42 +365,29 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		medication.setReason("");
 		medication.setStartDate("2014-12-07");
 
-		System.out.println(medication.toString());
-
 		long start = Calendar.getInstance().getTimeInMillis();
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/medication/z@gmail.com";
-		WebResource service = client.resource(url);
-		/*
-		 * ClientResponse nameResource =
-		 * service.accept(MediaType.APPLICATION_XML) .put(ClientResponse.class,
-		 * medication); Response saveMedicResult =
-		 * nameResource.getEntity(Response.class);
-		 * 
-		 * System.out.println("response code:"+ saveMedicResult.getCode()); `
-		 */
+		String url = serverRoot + "/medication/medication/z@gmail.com/1";
 
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		MedicationList medicationList = new Gson().fromJson(response,
-				MedicationList.class);
-		List<Medication> medList = medicationList.getMedicationList();
-		Iterator<Medication> it = medList.iterator();
-		while (it.hasNext()) {
-			Medication med = (Medication) it.next();
-			System.out.println("id:" + med.getId() + ", email:"
-					+ med.getEmail() + ", name:" + med.getName());
+		try {
+			System.out.println("Going to call end using....");
+			WebResource service = client.resource(url);
+			Response response = service.accept(MediaType.APPLICATION_JSON).get(
+					Response.class);
+			System.out.println("end using response:"+ response.getCode());
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("GreetingServiceImpl.test()");
+			e.printStackTrace();
 		}
-		// String medicationResult = nameResource.getEntity(String.class);
-		// System.out.println("Client Response \n, code:" +
-		// medicationResult.getCode() + ", message:"+
-		// medicationResult.getMessage());
-		System.out.println();
 		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update profile call: " + (end - start));
+		System.out.println("time diff end using: " + (end - start));
+
+		//return response;
+
 	}
 
 	/**

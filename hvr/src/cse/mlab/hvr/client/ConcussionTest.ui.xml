@@ -2,13 +2,30 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<g:HTMLPanel ui:field="concussionTestPanel">
-	    <div id="SplittedProgressBar"></div>
-	    <br/>
-	    <br/>
+		<!--div id="SplittedProgressBar"></div-->
+
+		<br />
+		<g:HTMLPanel addStyleNames="col-lg-9">
+			<ol class="progtrckr" data-progtrckr-steps="7">
+				<li class="progtrckr-todo" id="conctestprogress-1">Test 1</li>
+				<li class="progtrckr-todo" id="conctestprogress-2">Test 2</li>
+				<li class="progtrckr-todo" id="conctestprogress-3">Test 3</li>
+				<li class="progtrckr-todo" id="conctestprogress-4">Test 4</li>
+				<li class="progtrckr-todo" id="conctestprogress-5">Test 5</li>
+				<li class="progtrckr-todo" id="conctestprogress-6">Test 6</li>
+				<li class="progtrckr-todo" id="conctestprogress-7">Test 7</li>
+			</ol>
+
+		</g:HTMLPanel>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />		
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -125,7 +125,8 @@ $(function() {
 			console.log("mic level".concat(text));
 			*/
 			try {
-				window.updateVolume(arguments[1]);
+				//window.updateVolume(arguments[1]);
+				window.updateMicrophoneLevel(arguments[1].toString());
 			} catch (e) {
 				// TODO: handle exception
 				console.log("got exception to update volume text " + e.message);
@@ -248,6 +249,11 @@ $(function() {
 		$('#second').prettyCheckable('uncheck');
 		$('#second').prettyCheckable('disable');
 	}
+	
+	window.checkMicrophoneLevel = function(){
+		$('#second').prettyCheckable('check');
+	}
+	
 	
 	//progress bar splitted
 	window.initiateSplittedProgress = function(splitCount) {

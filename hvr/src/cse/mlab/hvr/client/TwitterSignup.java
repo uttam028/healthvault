@@ -16,13 +16,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
+import cse.mlab.hvr.shared.Md5Utils;
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.Util;
 
 public class TwitterSignup extends Composite {
-	
+
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
@@ -41,11 +44,11 @@ public class TwitterSignup extends Composite {
 	@UiField
 	Label labelLoginError;
 	@UiField
-	Button buttonCreateAccount;
-	
-	boolean statusLoginEmailFormatError = false, statusLoginPasswordError = false;
-	
-	
+	Button buttonCreateAccount, buttonForgotPass;
+
+	boolean statusLoginEmailFormatError = false,
+			statusLoginPasswordError = false;
+
 	@UiField
 	Form formSignup;
 	@UiField
@@ -72,11 +75,12 @@ public class TwitterSignup extends Composite {
 	Button buttonAlreadyAccount;
 	@UiField
 	Label labelSignupError;
-	
-	boolean statusFirstNameError = false, statusLastNameError = false, statusSignupEmailError = false, statusPasswordMatchError = false;
-	
+
+	boolean statusFirstNameError = false, statusLastNameError = false,
+			statusSignupEmailError = false, statusPasswordMatchError = false;
+
 	private Hvr application;
-	
+
 	private static TwitterSignupUiBinder uiBinder = GWT
 			.create(TwitterSignupUiBinder.class);
 
@@ -88,35 +92,65 @@ public class TwitterSignup extends Composite {
 		this.application = application;
 		formLogin.setVisible(true);
 		formSignup.setVisible(false);
-		
+
 	}
-	
-	public void reset(){
-		
+
+	public void reset() {
+
 	}
+
+	@UiHandler("buttonForgotPass")
+	void resetPassword(ClickEvent event) {
+		if (validationBeforeReset()) {
+			final String email = textLoginEmail.getText().trim();
+			greetingService.resetPassword(email, new AsyncCallback<Response>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					labelLoginError
+							.setText("Service is not available. Try later.");
+				}
+
+				@Override
+				public void onSuccess(Response result) {
+					// TODO Auto-generated method stub
+					if (result.getCode() == -1) {
+						labelLoginError
+								.setText("Service is not available. Try later.");
+					} else if (result.getCode() == 1) {
+						labelLoginError
+								.setText("User does not exist. Please sign up.");
+					} else {
+						Window.alert("You will receive new password by email. You can change password later.");
+					}
+				}
+			});
+		}
+	}
+
 	@UiHandler("buttonCreateAccount")
-	void enableSignupForm(ClickEvent event){
+	void enableSignupForm(ClickEvent event) {
 		formSignup.setVisible(true);
 		resetSignup();
 		formLogin.setVisible(false);
 	}
-	
+
 	@UiHandler("buttonAlreadyAccount")
-	void enableLoginForm(ClickEvent event){
+	void enableLoginForm(ClickEvent event) {
 		formLogin.setVisible(true);
 		resetLogin();
 		formSignup.setVisible(false);
 	}
-	
-	private void resetLogin(){
+
+	private void resetLogin() {
 		textLoginEmail.setText("");
 		textLoginPassword.setText("");
 		labelLoginEmailFormatError.setText("");
 		labelLoginPasswordError.setText("");
 		labelLoginError.setText("");
 	}
-	
-	private void resetSignup(){
+
+	private void resetSignup() {
 		textFirstName.setText("");
 		textLastName.setText("");
 		textSignupEmail.setText("");
@@ -128,10 +162,10 @@ public class TwitterSignup extends Composite {
 		labelPasswordMatchError.setText("");
 		labelSignupError.setText("");
 	}
-	
+
 	@UiHandler("textLoginEmail")
-	void loginEmailValueChangedAction(ValueChangeEvent<String> event){
-		if(Util.isEmailFOrmatValid(textLoginEmail.getText())){
+	void loginEmailValueChangedAction(ValueChangeEvent<String> event) {
+		if (Util.isEmailFOrmatValid(textLoginEmail.getText())) {
 			labelLoginEmailFormatError.setText("");
 			statusLoginEmailFormatError = false;
 		} else {
@@ -139,195 +173,239 @@ public class TwitterSignup extends Composite {
 			statusLoginEmailFormatError = true;
 		}
 	}
-	
+
 	@UiHandler("textLoginPassword")
-	void loginPasswordValueChangedAction(ValueChangeEvent<String> event){
-		if(textLoginPassword.getText().isEmpty()){
+	void loginPasswordValueChangedAction(ValueChangeEvent<String> event) {
+		if (textLoginPassword.getText().isEmpty()) {
 			labelLoginPasswordError.setText("Password can't be empty");
 			statusLoginPasswordError = true;
-		} else{
+		} else {
 			labelLoginPasswordError.setText("");
 			statusLoginPasswordError = false;
 		}
 	}
-	
-	private boolean validationBeforeLogin(){
-		if(textLoginEmail.getText().isEmpty()){
+
+	private boolean validationBeforeReset() {
+		if (textLoginEmail.getText().isEmpty()) {
 			labelLoginEmailFormatError.setText("Email can't be empty");
 			statusLoginEmailFormatError = true;
 		}
-		
-		if(textLoginPassword.getText().isEmpty()){
-			labelLoginPasswordError.setText("Password can't be empty");
-			statusLoginPasswordError = true;
-		}
-		
-		if(statusLoginEmailFormatError || statusLoginPasswordError){
+
+		if (statusLoginEmailFormatError) {
 			return false;
 		}
 		return true;
 	}
-	
-	@UiHandler("buttonLoginAction")
-	void loginAction(ClickEvent event){
-		application.loggedIn("z@gmail.com");
-		/*
-		if(this.validationBeforeLogin()){
-			buttonLoginAction.setEnabled(false);
-			User user = new User();
-			user.setEmail(textLoginEmail.getText());
-			user.setPassword(textLoginPassword.getText());
-			
-			greetingService.loginToPhr(user, new AsyncCallback<String>() {
-				
-				@Override
-				public void onSuccess(String result) {
-					// TODO Auto-generated method stub
-					buttonLoginAction.setEnabled(true);
-					if (result.toLowerCase().startsWith("true")) {
-						application.loggedIn(textLoginEmail.getText().trim());
-					} else {
-						labelLoginError.setText("Incorrect email or password. Please try again with correct one.");
-					}
-					
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					buttonLoginAction.setEnabled(true);
-					Window.alert("Service is not available, please try again later!");
-				}
-			});
-		}*/
+
+	private boolean validationBeforeLogin() {
+		if (textLoginEmail.getText().isEmpty()) {
+			labelLoginEmailFormatError.setText("Email can't be empty");
+			statusLoginEmailFormatError = true;
+		}
+
+		if (textLoginPassword.getText().isEmpty()) {
+			labelLoginPasswordError.setText("Password can't be empty");
+			statusLoginPasswordError = true;
+		}
+
+		if (statusLoginEmailFormatError || statusLoginPasswordError) {
+			return false;
+		}
+		return true;
 	}
-	
-	
-	
+
+	@UiHandler("buttonLoginAction")
+	void loginAction(ClickEvent event) {
+		if (textLoginEmail.getText().isEmpty()
+				&& textLoginPassword.getText().isEmpty()) {
+			application.loggedIn("z@gmail.com");
+
+		} else {
+			if (this.validationBeforeLogin()) {
+				buttonLoginAction.setEnabled(false);
+				User user = new User();
+				user.setEmail(textLoginEmail.getText().trim());
+				try {
+					user.setPassword(Md5Utils.getMD5String(textLoginPassword
+							.getText().trim()));
+				} catch (Exception e) {
+					// TODO: handle exception
+					return;
+				}
+
+				greetingService.loginToPhr(user, new AsyncCallback<Response>() {
+
+					@Override
+					public void onSuccess(Response response) {
+						// TODO Auto-generated method stub
+						buttonLoginAction.setEnabled(true);
+						if(response.getCode()==0){
+							application.loggedIn(textLoginEmail.getText()
+									.trim());
+						} else {
+							labelLoginError.setText(response.getMessage());
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						buttonLoginAction.setEnabled(true);
+						labelLoginError.setText("Service is not available, please try later!");
+					}
+				});
+			}
+
+		}
+
+	}
+
 	@UiHandler("textFirstName")
-	void firstNameValueChangedAction(ValueChangeEvent<String> event){
-		if(textFirstName.getText().isEmpty()){
+	void firstNameValueChangedAction(ValueChangeEvent<String> event) {
+		if (textFirstName.getText().isEmpty()) {
 			labelFirstNameError.setText("This can't be empty");
 			statusFirstNameError = true;
-		} else{
+		} else {
 			labelFirstNameError.setText("");
 			statusFirstNameError = false;
 		}
 	}
-	
+
 	@UiHandler("textLastName")
-	void lastNameValueChangedAction(ValueChangeEvent<String> event){
-		if(textLastName.getText().isEmpty()){
+	void lastNameValueChangedAction(ValueChangeEvent<String> event) {
+		if (textLastName.getText().isEmpty()) {
 			labelLastNameError.setText("This can't be empty");
 			statusLastNameError = true;
-		} else{
+		} else {
 			labelLastNameError.setText("");
 			statusLastNameError = false;
 		}
 	}
-	
+
 	@UiHandler("textSignupEmail")
-	void signupEmailChnagedAction(ValueChangeEvent<String> event){
-		if(Util.isEmailFOrmatValid(textSignupEmail.getText())){
+	void signupEmailChnagedAction(ValueChangeEvent<String> event) {
+		if (Util.isEmailFOrmatValid(textSignupEmail.getText())) {
 			labelSignupEmailFormatError.setText("");
 			statusSignupEmailError = false;
-		} else{
+		} else {
 			labelSignupEmailFormatError.setText("Invalid Email");
-			statusSignupEmailError = true;			
+			statusSignupEmailError = true;
 		}
 	}
-	
-	@UiHandler({"textSignupPassword","textConfirmPassword"})
-	void passwordMatchAction(ValueChangeEvent<String> event){
-		if(textSignupPassword.getText().equals(textConfirmPassword.getText())){
+
+	@UiHandler({ "textSignupPassword", "textConfirmPassword" })
+	void passwordMatchAction(ValueChangeEvent<String> event) {
+		if (textSignupPassword.getText().equals(textConfirmPassword.getText())) {
 			labelPasswordMatchError.setText("");
 			statusPasswordMatchError = false;
-		} else{
+		} else {
 			labelPasswordMatchError.setText("Password doesn't match");
 			statusPasswordMatchError = true;
 		}
 	}
-	
-	private boolean validationBeforeSignup(){
-		if(textFirstName.getText().isEmpty()){
+
+	private boolean validationBeforeSignup() {
+		if (textFirstName.getText().isEmpty()) {
 			labelFirstNameError.setText("This can't be ampty");
 			statusFirstNameError = true;
 		}
-		
-		if(textLastName.getText().isEmpty()){
+
+		if (textLastName.getText().isEmpty()) {
 			labelLastNameError.setText("This can't be empty");
 			statusLastNameError = true;
 		}
-		
-		if(textSignupEmail.getText().isEmpty()){
+
+		if (textSignupEmail.getText().isEmpty()) {
 			labelSignupEmailFormatError.setText("Invalid Email");
 			statusSignupEmailError = true;
 		}
-		if(textSignupPassword.getText().isEmpty() || textConfirmPassword.getText().isEmpty()){
+		if (textSignupPassword.getText().isEmpty()
+				|| textConfirmPassword.getText().isEmpty()) {
 			labelPasswordMatchError.setText("Password can't be empty");
 			statusPasswordMatchError = true;
 		}
-		
-		if(statusFirstNameError || statusLastNameError || statusSignupEmailError || statusPasswordMatchError){
+
+		if (statusFirstNameError || statusLastNameError
+				|| statusSignupEmailError || statusPasswordMatchError) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	@UiHandler("buttonSignupAction")
-	void signupAction(ClickEvent event){
-		if(this.validationBeforeSignup()){
+	void signupAction(ClickEvent event) {
+		if (this.validationBeforeSignup()) {
 			buttonSignupAction.setEnabled(false);
 			final String firstName = textFirstName.getText().trim();
 			final String lastName = textLastName.getText().trim();
 			final String email = textSignupEmail.getText().trim();
 			final String password = textSignupPassword.getText().trim();
-//			final UserProfile userProfile = new UserProfile(email, password,
-//					firstName, lastName, "", "", 0);
+			// final UserProfile userProfile = new UserProfile(email, password,
+			// firstName, lastName, "", "", 0);
 			final UserProfile userProfile = new UserProfile();
 			userProfile.setFirstName(firstName);
 			userProfile.setLastName(lastName);
 			userProfile.setEmail(email);
-			userProfile.setPassword(password);
-			
 			try {
-				greetingService.checkEmailAvailability(email, new AsyncCallback<String>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						labelSignupError.setText("Service is not available, please try again later!");
-						buttonSignupAction.setEnabled(true);
-					}
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						if (result.toLowerCase().equals("true")) {
-							buttonSignupAction.setEnabled(true);
-							labelSignupError.setText("This email already exist, Please try with new one.");
-						} else {
-							greetingService.signupToPhr(userProfile, new AsyncCallback<String>() {
-								public void onFailure(Throwable caught) {
-									labelSignupError.setText("Service is not available, please try again later!");
-									buttonSignupAction.setEnabled(true);									
-								};
-								public void onSuccess(String result) {
+				userProfile.setPassword(Md5Utils.getMD5String(password));
+			} catch (Exception e) {
+				// TODO: handle exception
+				Window.alert("have caught an exception" + e.getMessage());
+				return;
+			}
+			// userProfile.setPassword(password);
+
+			try {
+				greetingService.checkEmailAvailability(email,
+						new AsyncCallback<String>() {
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								labelSignupError
+										.setText("Service is not available, please try later!");
+								buttonSignupAction.setEnabled(true);
+							}
+
+							@Override
+							public void onSuccess(String result) {
+								// TODO Auto-generated method stub
+								if (result.toLowerCase().equals("true")) {
 									buttonSignupAction.setEnabled(true);
-									if(result.toLowerCase().startsWith("error")){
-										labelSignupError.setText(result);
-									} else {
-										application.signedUP(email);
-									}
-								};
-							});	
-						}
-					}
-				});
+									labelSignupError
+											.setText("This email already exist, Please try with new one.");
+								} else {
+									greetingService.signupToPhr(userProfile,
+											new AsyncCallback<Response>() {
+												public void onFailure(
+														Throwable caught) {
+													labelSignupError
+															.setText("Service is not available, please try again later!");
+													buttonSignupAction
+															.setEnabled(true);
+												};
+
+												public void onSuccess(
+														Response result) {
+													buttonSignupAction
+															.setEnabled(true);
+													if (result.getCode() == 0) {
+														application
+																.signedUP(email);
+													} else {
+														labelSignupError.setText(result
+																.getMessage());
+													}
+												};
+											});
+								}
+							}
+						});
 			} catch (Exception e) {
 				// TODO: handle exception
 				Window.alert("Service is not available, please try again later!");
-				buttonSignupAction.setEnabled(true);				
+				buttonSignupAction.setEnabled(true);
 			}
 
 		}
 	}
-	
+
 }

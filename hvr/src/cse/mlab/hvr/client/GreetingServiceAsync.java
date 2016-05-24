@@ -15,13 +15,16 @@ public interface GreetingServiceAsync {
 	void greetServer(String input, AsyncCallback<String> callback)
 			throws IllegalArgumentException;
 
-	void signupToPhr(UserProfile userProfile, AsyncCallback<String> callback);
-	void loginToPhr(User user, AsyncCallback<String> callback);
+	void signupToPhr(UserProfile userProfile, AsyncCallback<Response> callback);
+	void loginToPhr(User user, AsyncCallback<Response> callback);
+	void resetPassword(String email, AsyncCallback<Response> callback);
 	void checkEmailAvailability(String email, AsyncCallback<String> callback);
 	void getProfile(String email, AsyncCallback<UserProfile> callback);
 	void saveProfile(UserProfile userProfile, AsyncCallback<Response> callback);
-	void saveMedications(Medication medication, AsyncCallback<Response> callback);
+	void saveMedication(Medication medication, AsyncCallback<Response> callback);
+	void updateMedication(Medication medication, AsyncCallback<Response> callback);
 	void getMedications(String email, AsyncCallback<String> callback);
 	void getMedicationsList(String email, AsyncCallback<MedicationList> callback);
 	void deleteMedications(String email, String list, AsyncCallback<Response> callback);
+	void stopUsingMedication(long id, String endDate, AsyncCallback<Response> callback);
 }

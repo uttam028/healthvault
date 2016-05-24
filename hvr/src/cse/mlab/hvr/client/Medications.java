@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.gwtbootstrap3.client.shared.event.ModalHiddenEvent;
 import org.gwtbootstrap3.client.shared.event.ModalShowEvent;
 import org.gwtbootstrap3.client.shared.event.ModalShowHandler;
+import org.gwtbootstrap3.client.shared.event.ModalShownEvent;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.constants.ButtonDismiss;
+import org.gwtbootstrap3.client.ui.constants.Toggle;
 import org.gwtbootstrap3.client.ui.html.Div;
 import org.gwtbootstrap3.extras.datepicker.client.ui.DatePicker;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateEvent;
@@ -40,6 +43,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.DataView;
 import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
@@ -62,7 +66,7 @@ public class Medications extends Composite {
 	Modal medicationModal;
 
 	@UiField
-	Button buttonSubmit, buttonDeleteMedic;
+	Button buttonAddMedic, buttonSubmit, buttonDeleteMedic, buttonEditMedic;
 
 	@UiField
 	TextBox nameBox;
@@ -206,11 +210,14 @@ public class Medications extends Composite {
 	private String emailId;
 	private Boolean tableLoaded = false;
 
-
-	//private HashMap<Long, Medication> medicationMap = new HashMap<Long, Medication>();
+	// private HashMap<Long, Medication> medicationMap = new HashMap<Long,
+	// Medication>();
 	private MedicationList medicationList = new MedicationList();
 	Table medicationTable = new Table();
+	DataView dataView  = null;
 
+	private boolean modalFromEdit = false;
+	private String editMedicationId = "";
 
 	// public MessageServiceAsync messageService =
 	// GWT.create(MessageService.class);
@@ -235,7 +242,6 @@ public class Medications extends Composite {
 		medicationDiv = new Div();
 		medicationDiv.setId("medication_div");
 
-
 		medicationModal.addShowHandler(new ModalShowHandler() {
 
 			@Override
@@ -258,7 +264,7 @@ public class Medications extends Composite {
 							.setText("Pick a year between 1986 and 2016.");
 					startDateError = true;
 				} else {
-					startDateLabel.setText("in accept");
+					startDateLabel.setText("");
 					startDateError = false;
 				}
 			}
@@ -292,12 +298,12 @@ public class Medications extends Composite {
 		});
 
 	}
-	
+
 	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 		super.onLoad();
-		if(!tableLoaded){
+		if (!tableLoaded) {
 
 			// TODO Auto-generated method stub
 			medicationPanel.add(medicationDiv);
@@ -306,8 +312,8 @@ public class Medications extends Composite {
 						@Override
 						public void onSuccess(MedicationList medicList) {
 							// TODO Auto-generated method stub
-							//clickTest(result, medicationDiv.getId());
-							//addMedicationsToHashmap(result);
+							// clickTest(result, medicationDiv.getId());
+							// addMedicationsToHashmap(result);
 							medicationList = medicList;
 							medicationDiv.add(medicationTable);
 							medicationPanel.add(medicationDiv);
@@ -321,7 +327,7 @@ public class Medications extends Composite {
 
 						}
 					});
-		
+
 		}
 	}
 
@@ -338,12 +344,23 @@ public class Medications extends Composite {
 
 	boolean validateDateFormat(String dateStr) {
 		try {
-			String pattern = "MM/dd/yyyy";
+			//String pattern = "MM/dd/yyyy";
+			String pattern = "yyyy-MM-dd";
 			DateTimeFormat format = DateTimeFormat.getFormat(pattern);
 			format.parseStrict(dateStr);
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+	Date getDateFromString(String dateStr) {
+		try {
+			//String pattern = "MM/dd/yyyy";
+			String pattern = "yyyy-MM-dd";
+			DateTimeFormat format = DateTimeFormat.getFormat(pattern);
+			return format.parseStrict(dateStr);
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
@@ -357,6 +374,17 @@ public class Medications extends Composite {
 			startDateLabel.setText("");
 			return false;
 		}
+	}
+	
+	private int getIndexFromList(ListBox listBox, String item){
+		int indexToFind = -1;
+		for(int i=0;i<listBox.getItemCount();i++){
+			if(listBox.getItemText(i).equals(item)){
+				indexToFind = i;
+				break;
+			}
+		}
+		return indexToFind;
 	}
 
 	void resetAllFields() {
@@ -422,11 +450,108 @@ public class Medications extends Composite {
 		prescribDatePicker.setValue(null);
 
 		startDateLabel.setText("");
+		dosLabel.setText("");
+		idLabel.setText("");
+		strengthLabel.setText("");
+		endDateLabel.setText("");
+		prescribDateLabel.setText("");
+		strengthListLabel.setText("");
+		dosListLabel.setText("");
+		methodListLabel.setText("");
+		freqLabel.setText("");
+		reasonLabel.setText("");
+		prescribLabel.setText("");
+		prescribedLabel.setText("");
+		instructLabel.setText("");
+		quantLabel.setText("");
+		noteLabel.setText("");
+
+	}
+
+	void populateAllFields(Medication medication) {
+		medName = medication.getName();
+		medFreq = medication.getConsumeFrequency();
+		medPrescrib = medication.getPrescribedBy();
+		medQuant = medication.getPrescribedQuantity();
+		medReason = medication.getReason();
+		medInstruct = medication.getInstruction();
+		medNote = medication.getNote();
+		medStrengthLabel = medication.getStrengthUnit();
+		medDosLabel = medication.getDosageUnit();
+		medMethod = medication.getConsumeProcess();
+		medPrescribList = medication.getIsPrescribed();
+		strenString = String.valueOf(medication.getStrength());
+		dosString = String.valueOf(medication.getDosageUnit());
+		startDateString = "";
+		endDateString = "";
+		prescribeDateString = "";
+
+		strenVal = medication.getStrength();
+		dosVal = medication.getDosage();
+		strenListVal = getIndexFromList(StrengthList, medication.getStrengthUnit());
+		dosListVal = getIndexFromList(dosList, medication.getDosageUnit());
+		methodListVal = getIndexFromList(methodList, medication.getConsumeProcess());
+		prescribListVal = getIndexFromList(prescribList, medication.getIsPrescribed());
+
+		nameError = false;
+		strengthError = false;
+		strenListError = false;
+		dosError = false;
+		dosListError = false;
+		methodListError = false;
+		freqError = false;
+		reasonError = false;
+		startDateError = false;
+		endDateError = false;
+		prescribeDateError = false;
+		prescribError = false;
+		prescribedError = false;
+		instructError = false;
+		quantError = false;
+		noteError = false;
+
+		nameBox.setText(medication.getName());
+		strengthBox.setText(String.valueOf(medication.getStrength()));
+		dosBox.setText(String.valueOf(medication.getDosage()));
+		freqBox.setText(medication.getConsumeFrequency());
+		prescribedBox.setText(medication.getPrescribedBy());
+		quantBox.setText(medication.getPrescribedQuantity());
+
+		ReasonArea.setText(medication.getReason());
+		InstructArea.setText(medication.getInstruction());
+		noteArea.setText(medication.getNote());
+
+		
+		StrengthList.setSelectedIndex(strenListVal);
+		dosList.setSelectedIndex(dosListVal);
+		methodList.setSelectedIndex(methodListVal);
+		prescribList.setSelectedIndex(prescribListVal);
+
+		startDatePicker.setValue(getDateFromString(medication.getStartDate()));
+		endDatePicker.setValue(getDateFromString(medication.getEndDate()));
+		prescribDatePicker.setValue(getDateFromString(medication.getPrescribedDate()));
+
+		startDateLabel.setText("");
+		dosLabel.setText("");
+		idLabel.setText("");
+		strengthLabel.setText("");
+		endDateLabel.setText("");
+		prescribDateLabel.setText("");
+		strengthListLabel.setText("");
+		dosListLabel.setText("");
+		methodListLabel.setText("");
+		freqLabel.setText("");
+		reasonLabel.setText("");
+		prescribLabel.setText("");
+		prescribedLabel.setText("");
+		instructLabel.setText("");
+		quantLabel.setText("");
+		noteLabel.setText("");
+
 	}
 
 	@UiHandler("buttonSubmit")
 	void doClickSubmit(ClickEvent event) {
-		Medication medication = new Medication();
 		// messageService.getMessage(message1, new MessageCallBack());
 		if (medName.isEmpty()) {
 			idLabel.setText("Medicine category is a required field.");
@@ -515,14 +640,25 @@ public class Medications extends Composite {
 				|| startDateError == true || prescribError == true
 				|| prescribedError == true || instructError == true
 				|| quantError == true || noteError == true) {
-			Window.alert("Name:" + nameError + ", streng:" + strengthError
-					+ "dos:" + dosError + ", dos_list:" + dosListError
-					+ "method:" + methodListError + "freq:" + freqError
-					+ ", reason:" + reasonError + "start:" + startDateError
-					+ ", prescrib:" + prescribError + ", prescribed:"
-					+ prescribedError + ", instruct:" + instructError
-					+ ", note:" + noteError + "quant:" + quantError);
+			/*
+			 * Window.alert("Name:" + nameError + ", streng:" + strengthError +
+			 * "dos:" + dosError + ", dos_list:" + dosListError + "method:" +
+			 * methodListError + "freq:" + freqError + ", reason:" + reasonError
+			 * + "start:" + startDateError + ", prescrib:" + prescribError +
+			 * ", prescribed:" + prescribedError + ", instruct:" + instructError
+			 * + ", note:" + noteError + "quant:" + quantError);
+			 */
+			Window.alert("Please enter valid input");
 		} else {
+			final Medication medication;
+			if (modalFromEdit) {
+				medication = getMedicationObject(editMedicationId);
+				if (medication == null) {
+					return;
+				}
+			} else {
+				medication = new Medication();
+			}
 			medication.setEmail(emailId);
 			medication.setName(medName);
 			medication.setStrength(strenVal);
@@ -545,31 +681,61 @@ public class Medications extends Composite {
 			medication.setStartDate(startDateString);
 			medication.setEndDate(endDateString);
 			medication.setPrescribedDate(prescribeDateString);
+			
 			buttonSubmit.setDataDismiss(ButtonDismiss.MODAL);
-			resetAllFields();
+			// resetAllFields();
 
 			// medication.setEndDate(end_date_str);
 			// medication.setPrescribedDate(prescrib_date_str);
-		}
-
-		greetingService.saveMedications(medication,
-				new AsyncCallback<Response>() {
-
+			
+			
+			if(modalFromEdit){
+				greetingService.updateMedication(medication, new AsyncCallback<Response>() {
 					@Override
 					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub
-						if (result.getCode() == 0) {
-							buttonSubmit.setDataDismiss(ButtonDismiss.MODAL);
+						if(result.getCode()==0){
+							//success
 							resetAllFields();
+							drawMedicationTable();
+						} else {
+							//failed to update
+							Window.alert("Service not available. Try later.");
 						}
 					}
-
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-
+						Window.alert("Service not available. Try later.");
 					}
 				});
+			} else {
+				greetingService.saveMedication(medication,
+						new AsyncCallback<Response>() {
+
+							@Override
+							public void onSuccess(Response result) {
+								// TODO Auto-generated method stub
+								if (result.getCode() == 0) {
+									medication.setId(Long.parseLong(result.getMessage()));
+									medicationList.getMedicationList().add(0, medication);
+									//medicationModal.hi
+									resetAllFields();
+									drawMedicationTable();
+								}else {
+									Window.alert("Service not available. Try later.");
+								}
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								Window.alert("Service not available. Try later.");
+							}
+						});				
+			}
+
+		}
 
 	}
 
@@ -801,99 +967,163 @@ public class Medications extends Composite {
 			prescribError = false;
 		}
 	}
-	
-	@UiHandler("buttonDeleteMedic")
-	public void deleteSelectedMedications(ClickEvent event){
-		//get id's of selected list
-		//for instant let's say a string appended with |
-		String list = "6|7";
-		greetingService.deleteMedications(this.emailId, list, new AsyncCallback<Response>() {
-			@Override
-			public void onSuccess(Response result) {
-				// TODO Auto-generated method stub
-				if(result.getCode() == 0){
-					Window.alert("success to delete");
-				} else {
-					Window.alert("failed to delete");
-				}
-			}
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				Window.alert("failed to delete");
-			}
-		});
+	@UiHandler("medicationModal")
+	void modalShown(ModalShownEvent event){
+		if (modalFromEdit == false) {
+			resetAllFields();
+		} else {
+			populateAllFields(getMedicationObject(editMedicationId));
+		}
 	}
-	@UiHandler("buttonEditMedic")
-	void editSelectedMedication(ClickEvent event){
+	@UiHandler("medicationModal")
+	void modalHidden(ModalHiddenEvent event){
+		modalFromEdit = false;
+	}
+
+	@UiHandler("buttonAddMedic")
+	public void addMedicationModal(ClickEvent event) {
+		buttonAddMedic.setDataToggle(Toggle.MODAL);
+		//buttonAddMedic.setDataTargetWidget(medicationModal);
+		buttonAddMedic.setDataTarget("#"+medicationModal.getId());
+		modalFromEdit = false;
+
+	}
+
+	@UiHandler("buttonDeleteMedic")
+	public void deleteSelectedMedications(ClickEvent event) {
+		// for instant let's say a string appended with |
+		String list = "";
+		// get id's of selected list
 		ArrayList<String> checkedMedics = getCheckedMedics();
-		if(checkedMedics.size() == 0){
+		if (checkedMedics.size() == 0) {
+			Window.alert("Select an item to delete");
+		} else {
+			for (int i = 0; i < checkedMedics.size(); i++) {
+				Medication checkedMedicObject = getMedicationObject(checkedMedics
+						.get(i));
+				list += (checkedMedicObject.getId() + "|");
+				medicationList.getMedicationList().remove(checkedMedicObject);
+			}
+			list = list.substring(0, list.length() - 1);
+			greetingService.deleteMedications(this.emailId, list,
+					new AsyncCallback<Response>() {
+						@Override
+						public void onSuccess(Response result) {
+							// TODO Auto-generated method stub
+							if (result.getCode() == 0) {
+								// Window.alert("success to delete");
+							} else {
+								// Window.alert("failed to delete");
+							}
+							drawMedicationTable();
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Window.alert("failed to delete:" + caught.getMessage());
+						}
+					});
+		}
+	}
+
+	@UiHandler("buttonEditMedic")
+	void editSelectedMedication(ClickEvent event) {
+		ArrayList<String> checkedMedics = getCheckedMedics();
+		if (checkedMedics.size() == 0) {
 			Window.alert("Select an item to edit");
 		} else if (checkedMedics.size() > 1) {
 			Window.alert("Select one item to edit");
 		} else {
-			Window.alert("Checked value :"+ checkedMedics.get(0));
+			// Window.alert("Checked value :"+ checkedMedics.get(0));
+			editMedicationId = checkedMedics.get(0);
+			buttonEditMedic.setDataToggle(Toggle.MODAL);
+			//buttonEditMedic.setDataTargetWidget(medicationModal);
+			buttonEditMedic.setDataTarget("#"+medicationModal.getId());
+			modalFromEdit = true;
 		}
 	}
+
 	@UiHandler("buttonEndMedic")
-	void endSelectedMedic(ClickEvent event){
+	void endSelectedMedic(ClickEvent event) {
 		ArrayList<String> checkedMedics = getCheckedMedics();
-		if(checkedMedics.size() == 0){
+		if (checkedMedics.size() == 0) {
 			Window.alert("Select an item to edit");
 		} else if (checkedMedics.size() > 1) {
 			Window.alert("Select one item to edit");
 		} else {
 			Date date = new Date();
-			DateTimeFormat dtf = DateTimeFormat.getFormat("MM/dd/yyyy");
-			Medication checkedMedicObject = getMedicationObject(checkedMedics.get(0));
-			checkedMedicObject.setEndDate(dtf.format(date).toString());
-			//Window.alert("Checked value :"+ dtf.format(date).toString() + " " + checkedMedicObject.toString());
-			drawMedicationTable();
+			DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd");
+			Medication checkedMedicObject = getMedicationObject(checkedMedics
+					.get(0));
+			String endDate = dtf.format(date).toString();
+			checkedMedicObject.setEndDate(endDate);
+			// Window.alert("Checked value :"+ dtf.format(date).toString() + " "
+			// + checkedMedicObject.toString());
+			greetingService.stopUsingMedication(checkedMedicObject.getId(),
+					endDate, new AsyncCallback<Response>() {
+						@Override
+						public void onSuccess(Response result) {
+							// TODO Auto-generated method stub
+							drawMedicationTable();
+							if (result.getCode() == 0) {
+								// success
+							} else {
+								// failure;
+							}
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Window.alert("Service not available");
+						}
+					});
 		}
-		
 	}
-	
+
 	protected ArrayList<String> getCheckedMedics() {
 		NodeList<Element> nodelist = querySelector("[id^=medcheckbox]");
 		ArrayList<String> checkedMedics = new ArrayList<>();
-		for(int i=0;i<nodelist.getLength();i++){
+		for (int i = 0; i < nodelist.getLength(); i++) {
 			boolean checked = nodelist.getItem(i).getPropertyBoolean("checked");
-			if(checked){
+			if (checked) {
 				checkedMedics.add(nodelist.getItem(i).getId().split("-")[1]);
 			}
 		}
 		return checkedMedics;
 	}
-	
-	
+
 	protected Medication getMedicationObject(String id) {
 		List<Medication> list = medicationList.getMedicationList();
-		for(int i=0;i<list.size();i++){
-			if(list.get(i).getId() == Long.parseLong(id)){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == Long.parseLong(id)) {
 				return list.get(i);
 			}
 		}
 		return null;
 	}
 
-	public void drawMedicationTable(){
-		
-        medicationTable.draw(getDataTableFromList(), getTableOptions());
-		//medicationTable.addSelectHandler(createSelectHandler(medicationTable, dataTable));
+	public void drawMedicationTable() {
+		dataView = DataView.create(getDataTableFromList());
+		dataView.hideColumns(new int[]{1});
+		medicationTable.draw(dataView, getTableOptions());
+		// medicationTable.addSelectHandler(createSelectHandler(medicationTable,
+		// dataTable));
 	}
-	
+
 	protected Options getTableOptions() {
 		Options options = Options.create();
 		options.setAllowHtml(true);
 		options.setSort(Policy.DISABLE);
 		options.setPage(Policy.ENABLE);
-        options.setPageSize(50);
-        options.setStartPage(0);
-        options.setWidth("75%");
-        options.setHeight("75%");
+		options.setPageSize(50);
+		options.setStartPage(0);
+		options.setWidth("75%");
+		options.setHeight("75%");
 		return options;
 	}
-	
+
 	protected DataTable getDataTableFromList() {
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.STRING, "");
@@ -913,63 +1143,75 @@ public class Medications extends Composite {
 		Iterator<Medication> it = medList.iterator();
 		while (it.hasNext()) {
 			Medication med = (Medication) it.next();
-			String checkbox = "<input type=\"checkbox\" text-align=\"center\"id=\"medcheckbox-"+ med.getId() +"\">";
+			String checkbox = "<input type=\"checkbox\" text-align=\"center\"id=\"medcheckbox-"
+					+ med.getId() + "\">";
 			dataTable.setValue(rowIndex, columnIndex++, checkbox);
 			dataTable.setValue(rowIndex, columnIndex++, med.getId());
 			dataTable.setValue(rowIndex, columnIndex++, med.getName());
 			dataTable.setValue(rowIndex, columnIndex++, med.getReason());
 			dataTable.setValue(rowIndex, columnIndex++, med.getStartDate());
-			dataTable.setValue(rowIndex, columnIndex++, med.getEndDate()== null? "":med.getEndDate());
-			dataTable.setValue(rowIndex, columnIndex++, String.valueOf(med.getDosage()) + "  " + med.getDosageUnit());
-			dataTable.setValue(rowIndex, columnIndex++, String.valueOf(med.getStrength()) + "  " + med.getStrengthUnit());
+			dataTable.setValue(rowIndex, columnIndex++,
+					med.getEndDate() == null ? "" : med.getEndDate());
+			dataTable.setValue(
+					rowIndex,
+					columnIndex++,
+					String.valueOf(med.getDosage()) + "  "
+							+ med.getDosageUnit());
+			dataTable.setValue(
+					rowIndex,
+					columnIndex++,
+					String.valueOf(med.getStrength()) + "  "
+							+ med.getStrengthUnit());
 			dataTable.setValue(rowIndex, columnIndex++, med.getNote());
-			
+
 			rowIndex += 1;
 			columnIndex = 0;
 		}
 		return dataTable;
 	}
-	
-	private SelectHandler createSelectHandler(final Table table, final DataTable dataTable){
+
+	private SelectHandler createSelectHandler(final Table table,
+			final DataTable dataTable) {
 		return new SelectHandler() {
-			
+
 			@Override
 			public void onSelect(SelectEvent event) {
 				// TODO Auto-generated method stub
-				//Window.alert("selected....");
-				//getColumnSelection();
+				// Window.alert("selected....");
+				// getColumnSelection();
 				String message = "";
-	            JsArray<Selection> selections = table.getSelections();
-	            for(int i=0;i<selections.length();i++){
-	            	if(selections.get(i).isRow()){
-	            		String id = dataTable.getFormattedValue(selections.get(i).getRow(), 1);
-	            		//Window.alert("row with id " + id + "has been selected:");
-	            		message += (id + " ");
-	            	}
-	            	
-	            }
-	            //Window.alert("message: "+ message);
-	            /*if(selections.length() == 1){
-	            	Selection selection = selections.get(0);
-	            	if(selection.isRow()){
-	            		String id = dataTable.getFormattedValue(selection.getRow(), 1);
-	            		//Window.alert("row with id " + id + "has been selected:");
-	            		
-	            		
-	            	}
-	            }*/
+				JsArray<Selection> selections = table.getSelections();
+				for (int i = 0; i < selections.length(); i++) {
+					if (selections.get(i).isRow()) {
+						String id = dataTable.getFormattedValue(
+								selections.get(i).getRow(), 1);
+						// Window.alert("row with id " + id +
+						// "has been selected:");
+						message += (id + " ");
+					}
+
+				}
+				// Window.alert("message: "+ message);
+				/*
+				 * if(selections.length() == 1){ Selection selection =
+				 * selections.get(0); if(selection.isRow()){ String id =
+				 * dataTable.getFormattedValue(selection.getRow(), 1);
+				 * //Window.alert("row with id " + id + "has been selected:");
+				 * 
+				 * 
+				 * } }
+				 */
 
 			}
 		};
 	}
-	
+
 	public native void getColumnSelection(String checkboxId)/*-{
-		 
-	}-*/;
-	
+															
+															}-*/;
+
 	public final native NodeList<Element> querySelector(String selector)/*-{
 		return $wnd.document.querySelectorAll(selector);
 	}-*/;
-	
 
 }

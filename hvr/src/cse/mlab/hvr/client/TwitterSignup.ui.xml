@@ -70,7 +70,7 @@
 					</b:FormGroup>
 
 					<b:FormGroup>
-						<b:Button type="LINK" addStyleNames="col-lg-offset-2.5">Can't access account</b:Button>
+						<b:Button type="LINK" addStyleNames="col-lg-offset-2.5" ui:field="buttonForgotPass">Can't access account</b:Button>
 						<h:Span>|</h:Span>
 						<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
 					</b:FormGroup>

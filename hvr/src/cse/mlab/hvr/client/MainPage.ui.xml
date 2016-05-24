@@ -14,7 +14,7 @@
 						<b:NavbarCollapseButton dataTarget="#navbar-collapse" />
 					</b:NavbarHeader>
 
-					<b:NavbarCollapse b:id="navbar-collapse" addStyleNames="col-lg-offset-9">
+					<b:NavbarCollapse b:id="navbar-collapse" addStyleNames="col-lg-offset-8">
 						<b:NavbarNav>
 							<b:AnchorListItem ui:field="linkHome">Home</b:AnchorListItem>
 							<b:AnchorListItem ui:field="linkVoice">Voice</b:AnchorListItem>
@@ -22,7 +22,7 @@
 							<b:AnchorListItem ui:field="linkAbout">About</b:AnchorListItem>
 							<!--b:NavbarForm pull="LEFT"> <b:TextBox placeholder="Search" /> </b:NavbarForm -->
 
-							<b:ListDropDown>
+							<b:ListDropDown pull="RIGHT">
 								<b:AnchorButton dataToggle="DROPDOWN" ui:field="optionAnchor"></b:AnchorButton>
 								<b:DropDownMenu>
 									<b:AnchorListItem ui:field="buttonUpdateProfile">Profile</b:AnchorListItem>

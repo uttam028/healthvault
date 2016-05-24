@@ -1,11 +1,16 @@
 package cse.mlab.hvr.client;
 
+import org.gwtbootstrap3.client.ui.html.Br;
+import org.gwtbootstrap3.client.ui.html.Div;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -36,6 +41,10 @@ public class Hvr implements EntryPoint {
 //		RootPanel.get().add(twitterSignupButton);
 
 //		signup = new Signup(this);
+		String paramValue = Window.Location.getParameter("confirmationcode");
+		if(paramValue != null && paramValue.length()>10){
+			Window.alert("paramvalue:"+ paramValue);
+		}
 		twitterSignup = new TwitterSignup(this);
 		RootPanel.get().add(twitterSignup);
 
@@ -105,8 +114,13 @@ public class Hvr implements EntryPoint {
 	public void signedUP(String userId) {
 		// Window.alert("event has been passed to main page");
 		RootPanel.get().clear();
-		mainPage = new MainPage(this, userId);
-		RootPanel.get().add(mainPage);
+		Div div = new Div();
+		//mainPage = new (this, userId);
+		Label signupLabel = new Label("Thank you for signning up in ND Speech Repository project. You will receive confirmation email to activate your account.");
+		div.add(new Br());
+		div.add(new Br());
+		div.add(signupLabel);
+		RootPanel.get().add(div);
 	}
 
 	public void loggedIn(String userId) {

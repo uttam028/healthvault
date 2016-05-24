@@ -45,6 +45,8 @@ public class VoicePage extends Composite {
 	HorizontalPanel historyPanel;
 
 	static boolean isMicrophoneAllowed = false;
+	static boolean isMicrophoneLevelOk = false;
+	private double microphoneLevel = 0;
 
 	String selectedTest = "";
 
@@ -129,11 +131,20 @@ public class VoicePage extends Composite {
 	}
 
 	public native void startMicrophoneTest(VoicePage voicePage, String duration)/*-{
+		$wnd.updateMicrophoneLevel = $entry(function(level) {
+			console.log("update mic level");
+			voicePage.@cse.mlab.hvr.client.VoicePage::accumulateMicLevel(Ljava/lang/String;)(level);
+		});
+		
+		$wnd.FWRecorder.observeLevel();
 		setTimeout(
 				function() {
+					$wnd.FWRecorder.stopObservingLevel();
 					voicePage.@cse.mlab.hvr.client.VoicePage::updateModalAfterTest()();
 					//player.@cse.mlab.hvr.client.CustomPlayer::updateTestInstructionText(Ljava/lang/String;)("You can listen recording, if sound quality is ok upload the recording");
 					//player.@cse.mlab.hvr.client.CustomPlayer::clearPlayerTextPanel()();
+					console.log("final sum:" + voicePage.@cse.mlab.hvr.client.VoicePage::microphoneLevel);
+					
 				}, parseInt(duration));
 	}-*/;
 	
@@ -141,7 +152,21 @@ public class VoicePage extends Composite {
 		buttonModalNext.setVisible(true);
 		voicePageModal.setClosable(true);
 		microphoneTest.reloadTestTimer();
-		buttonModalNext.setText("Ok");;
+		if(microphoneLevel < 10){
+			buttonModalNext.setText("Try Again");
+		} else {
+			buttonModalNext.setText("Ok");
+			checkMicLevel();
+		}
+		
+	}
+	
+	public native void checkMicLevel()/*-{
+		$wnd.checkMicrophoneLevel();
+	}-*/;
+	public void accumulateMicLevel(String level){
+		double temp = Double.parseDouble(level);
+		microphoneLevel += temp;
 	}
 
 	@UiHandler("buttonModalNext")
@@ -156,7 +181,7 @@ public class VoicePage extends Composite {
 			if(!isMicrophoneAllowed){
 				configureMicrophone();
 			}
-		} else if (buttonModalNext.getText().toLowerCase().equals("start")) {
+		} else if (buttonModalNext.getText().toLowerCase().equals("start") || buttonModalNext.getText().toLowerCase().startsWith("try")) {
 			microphoneTest.animateTimer();
 			buttonModalNext.setVisible(false);
 			voicePageModal.setClosable(false);

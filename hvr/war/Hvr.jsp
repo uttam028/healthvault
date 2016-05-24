@@ -37,6 +37,7 @@
   
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="Medications.css">
+  <link rel="stylesheet" href="bubble_progress.css">
     
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
@@ -53,7 +54,7 @@
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
     <!--                                           -->
-    <script type="text/javascript" language="javascript" src="hvr/hvr.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="hvr/hvr.nocache.js?dummyParam=<%= "" + new java.util.Date().getTime() %>"></script>
   </head>
 
   <!--                                           -->

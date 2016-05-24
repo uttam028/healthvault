@@ -36,15 +36,18 @@ h1{
 
 .liteColText {
    font-family: Arial, Sans-serif;
-   color: #7575a3;
+   /*color: #7575a3;*/
+   color:blue;
    font-size: 11px;
    text-align: left;
-   margin-left: -1px;
+   /*margin-left: -1px;*/
+   margin-left: 12px;
 }
 
 .lightText {
    font-family: Arial, Sans-serif;
-   color: #7575a3;
+   /*color: #7575a3;*/
+   color: red;
    font-size: 11px;
    text-align: left;
    margin-left: 12px;
@@ -64,7 +67,7 @@ h1{
 .box {
    border: 1px solid #AACCEE;
    display: block;
-   font-size: 10px;
+   /*font-size: 10px;*/
    margin-top: 0px; 
    margin-bottom: 3px;
    margin-left: 12px;

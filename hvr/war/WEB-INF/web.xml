@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"
-         xmlns="http://java.sun.com/xml/ns/javaee">
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
 
 	<context-param>
 		<param-name>serverRoot</param-name>
-		<!--param-value>http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT</param-value-->
-		<!--param-value>http://localhost:8080/phrService-0.0.1-SNAPSHOT</param-value-->
-		<!--param-value>http://m-lab.cse.nd.edu:8080/phrService-0.0.1-SNAPSHOT</param-value-->
-		<param-value>http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT</param-value>
+		<!--param-value>http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT</param-value -->
+		<!--param-value>http://localhost:8080/phrService-0.0.1-SNAPSHOT</param-value -->
+		<!--param-value>http://m-lab.cse.nd.edu:8080/phrService-0.0.1-SNAPSHOT</param-value -->
+		<!--param-value>http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT</param-value -->
+		<param-value>http://10.32.10.188:8080/phrservice</param-value>
 	</context-param>
+	<context-param>
+		<param-name>signupPath</param-name>
+		<param-value>/signup/signup/</param-value>
+	</context-param>
+
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>greetServlet</servlet-name>
@@ -30,15 +35,24 @@
 		</init-param>
 
 	</servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/hvr/greet</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>Hvr.html</welcome-file>
-  </welcome-file-list>
+
+	<servlet-mapping>
+		<servlet-name>greetServlet</servlet-name>
+		<url-pattern>/hvr/greet</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Hvr.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<servlet-name>verifyEmail</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.VerifyEmailImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>verifyEmail</servlet-name>
+		<url-pattern>/verifyemail</url-pattern>
+	</servlet-mapping>
 
 </web-app>

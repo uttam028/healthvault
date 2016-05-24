@@ -21,12 +21,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import fr.hd3d.html5.video.client.VideoSource;
 import fr.hd3d.html5.video.client.VideoWidget;
@@ -70,6 +68,9 @@ public class CustomPlayer extends Composite {
 	String sampleUrl;
 
 	VideoWidget videoPlayer;
+	
+	Div timerDiv = new Div();
+
 
 	// Sound sound;
 
@@ -231,11 +232,30 @@ public class CustomPlayer extends Composite {
 		});
 	}-*/;
 
-	public void enableStopAnchor() {
+	public void replaceStopWithTimer(){
 		playerButtonPanel.clear();
-		playerButtonPanel.add(stopAnchor);
+		//playerButtonPanel.add(stopAnchor);
+		playerButtonPanel.add(new Br());
+		timerDiv.removeFromParent();
+		timerDiv = new Div();
+		timerDiv.setId("timer_circle");
+		timerDiv.setStyleName("center-block");
+		playerButtonPanel.add(timerDiv);
 		playerButtonText.setText("Recording...");
-		// playerInstructionText.setText("Record displayed text");
+		
+	}
+	
+	public void enableStopAnchor() {
+		//playerButtonPanel.clear();
+		////playerButtonPanel.add(stopAnchor);
+		//timerDiv.removeFromParent();
+		//timerDiv = new Div();
+		//timerDiv.setId("timer_circle");
+		//timerDiv.setStyleName("center-block");
+		//playerButtonPanel.add(timerDiv);
+		//playerButtonText.setText("Recording...");
+		//// playerInstructionText.setText("Record displayed text");
+		replaceStopWithTimer();
 
 		int cumulitiveTimer = 0;
 		// new MyTimer(this, this.fragments[0].text,
@@ -321,10 +341,11 @@ public class CustomPlayer extends Composite {
 
 	void updatePlayerTimer(String duration) {
 		playerAnimationPanel.clear();
-		Div timerDiv = new Div();
-		timerDiv.setId("timer_circle");
-		timerDiv.setStyleName("center-block");
-		playerAnimationPanel.add(timerDiv);
+		replaceStopWithTimer();
+		//Div timerDiv = new Div();
+		//timerDiv.setId("timer_circle");
+		//timerDiv.setStyleName("center-block");
+		//playerAnimationPanel.add(timerDiv);
 		updatePlayerTimerJS(duration);
 	}
 

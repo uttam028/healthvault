@@ -15,13 +15,19 @@ import cse.mlab.hvr.shared.UserProfile;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	  String greetServer(String name) throws IllegalArgumentException;
-	  String signupToPhr(UserProfile userProfile);
-	  String loginToPhr(User user);
+	  
+	  Response signupToPhr(UserProfile userProfile);
+	  Response loginToPhr(User user);
+	  Response resetPassword(String email);
 	  String checkEmailAvailability(String email);
+	  
 	  UserProfile getProfile(String email);
 	  Response saveProfile(UserProfile userProfile);
-	  Response saveMedications(Medication medication);
+	  
+	  Response saveMedication(Medication medication);
+	  Response updateMedication(Medication medication);
 	  String getMedications(String email);
 	  MedicationList getMedicationsList(String email);
 	  Response deleteMedications(String email, String list);
+	  Response stopUsingMedication(long id, String endDate);
 }
