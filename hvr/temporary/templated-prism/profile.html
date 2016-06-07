@@ -17,7 +17,6 @@
 	</head>
 
 	<body>
-
 		<!-- Menu -->
 			<section>
 				<div class="menu">
@@ -37,13 +36,98 @@
 
 		<!-- Small Banner -->
 			<section class="small_banner">
-				<h2>Your Speech, Your Health</h2>
+				<h2>Profile</h2>
 			</section>
 
-
-
-		<h1>Profile Page Placeholder</h1>
-
+		<!--Profile Page Form -->
+			<section id="profpage" class="wrapper style2 alt" style="text-align: center;">
+				<div class="profform">
+					<h1 style="text-align: center; font-size: 35px; margin-top: -50px; margin-bottom: -30px">Medical Information</h1>
+					<form style="margin: 100px;">
+						<fieldset>
+							Number of concussions: <input type="text" name="concussions" style="width: 50%; margin-left: 25%; "><br>
+						</fieldset>
+						<fieldset>
+							Number of diagnoses by a physician: <input type="text" name="diagnoses" style="width: 50%; margin-left: 25%;"><br>
+						</fieldset>
+						<fieldset>
+							Are you currently taking medication? <div>
+							<input type="radio" name="med" value=""> Yes  
+							<input type="radio" name="med" value=""> No </div><br>
+						</fieldset>
+						<fieldset>
+							Have you been diagnosed with a neurological disorder (e.g. ADD/ADHD, OCD, seizures, migraines, headaches, etc.)?<div>
+							<input type="radio" name="neuro" value=""> Yes
+							<input type="radio" name="neuro" value=""> No </div><br>
+						</fieldset>
+						<fieldset>
+							Have you been diagnosed with a speech/language disorder? <div>
+							<input type="radio" name="speech" value=""> Yes  
+							<input type="radio" name="speech" value=""> No </div><br>
+						</fieldset>
+						<fieldset>
+							Are you currently receiving orthodonic treatment? <div>
+							<input type="radio" name="ortho" value=""> Yes  
+							<input type="radio" name="ortho" value=""> No </div><br>
+						</fieldset>
+						<fieldset>
+							Is English your first language?<div>
+							<input type="radio" name="eng" value=""> Yes  
+							<input type="radio" name="eng" value=""> No </div><br>
+						</fieldset>
+						<fieldset>
+							What state did you live in most for the first 10 years of your life? <input type="text" name="state" style="width:50%; margin-left: 25%;"<br><br>
+						</fieldset>
+						<fieldset>
+							Do you play a sport? <div>
+							<input type="radio" name="sport" value=""> Yes
+							<input type="radio" name="sport" value=""> No </div><br>
+						</fieldset>
+					</form>
+					<!--div style="position: absolute; right: 40%; margin-top: -70px;">
+						<a href="#" class="button special" style="float: center;">Update</a>
+					</div-->
+				</div>
+				<div class="accountform" style="text-align: center;">
+					<h1 style="text-align: center; font-size: 35px; margin-bottom: -30px; margin-top: -60px;">Account Information</h1>
+					<form style="margin:100px;">
+						<fieldset>
+							First Name <input type="text" name="first" style="width: 50%; margin-left: 25%;"><br>
+						</fieldset>
+						<fieldset>
+							Last Name<input type="text" name="last" style="width: 50%; margin-left: 25%;"><br>
+						</fieldset>
+						<fieldset>
+							Birthday 
+							<div>
+							<input type="text" name="month" style="width: 25%; display: inline;" placeholder="Month">
+							<input type="text" name="day" style="width: 10%; display: inline;" placeholder="Day" maxlength="2">
+							<input type="text" name="year" style="width: 15%; display: inline;" placeholder="Year" maxlength="4">
+							</div><br>
+						</fieldset>
+						<fieldset>
+							Phone Number<input type="text" name="number" style="width: 50%; margin-left: 25%;"><br>
+						</fieldset>
+						<fieldset>
+							Address<input type="text" name="address" style="width: 50%; margin-left: 25%;"><br>
+						</fieldset>
+						<fieldset>
+							Gender<div>
+							<input type="radio" name="gender" value=""> Male
+							<input type="radio" name="gender" value=""> Female </div><br>
+						</fieldset>
+						<fieldset>
+							Height<div><input type="text" name="feet" style="width: 25%; display: inline;"> ft &nbsp; <input type="text" name="inches" style="width: 25%; display: inline;"> in </div><br>
+						</fieldset>
+						<fieldset>
+							Weight<input type="text" name="weight" style="width: 50%; margin-left: 25%;"><br><br>
+						</fieldset>
+					</form>
+					<div style="position: absolute; right: 40%; margin-top: -70px;">
+						<a href="#" class="button special" style="float: center;">Update</a>
+					</div>
+				</div>
+			</section>
 
 		<!-- Footer -->
 			<footer id="footer">
