@@ -1428,7 +1428,8 @@
 /* Type */
 
 	body {
-		background-image:url("http://www.designbolts.com/wp-content/uploads/2014/03/Sea-green-blur-background1.jpg");
+		/*background-image:url("http://www.designbolts.com/wp-content/uploads/2014/03/Sea-green-blur-background1.jpg");*/
+		background-image:url('../../images/blur-background.jpg');
 		color: #777;
 	}
 
