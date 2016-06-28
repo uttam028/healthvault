@@ -43,7 +43,7 @@ public class Hvr implements EntryPoint {
 //		signup = new Signup(this);
 		String paramValue = Window.Location.getParameter("confirmationcode");
 		if(paramValue != null && paramValue.length()>10){
-			Window.alert("paramvalue:"+ paramValue);
+			//Window.alert("paramvalue:"+ paramValue);
 		}
 		twitterSignup = new TwitterSignup(this);
 		RootPanel.get().add(twitterSignup);
@@ -90,21 +90,31 @@ public class Hvr implements EntryPoint {
 
 	          // Parse the history token
 	          try {
-	        	  
-	        	if(historyToken.startsWith("home")){
-	        		mainPage.loadHomePage(null);
-	        	} else if(historyToken.startsWith("voice")){
-	        		mainPage.loadVoicePage(null);
-	        	} else if(historyToken.startsWith("health")){
-	        		mainPage.loadHealthPage(null);
-	        	} else if(historyToken.startsWith("about")){
-	        		mainPage.loadAboutPage(null);
-	        	} else{
-	        		mainPage.loadHomePage(null);
-	        	}
+	        	  //Window.alert("history token:"+ historyToken);
+	        	  if(historyToken.equalsIgnoreCase("main")){
+	        		  mainPage.loadHomePage(null);
+	        	  } else if (historyToken.equalsIgnoreCase("concussion")) {
+					mainPage.loadConcussionPage();
+	        	  } else if (historyToken.equalsIgnoreCase("dysarthria")) {
+					mainPage.loadDysarthriaPage();
+	        	  } else {
+	        		 mainPage.loadHomePage(null); 
+	        	  }
+//	        	  
+//	        	if(historyToken.startsWith("home")){
+//	        		mainPage.loadHomePage(null);
+//	        	} else if(historyToken.startsWith("voice")){
+//	        		mainPage.loadVoicePage(null);
+//	        	} else if(historyToken.startsWith("health")){
+//	        		mainPage.loadHealthPage(null);
+//	        	} /*else if(historyToken.startsWith("about")){
+//	        		mainPage.loadAboutPage(null);
+//	        	} */else{
+//	        		mainPage.loadHomePage(null);
+//	        	}
 
 	          } catch (IndexOutOfBoundsException e) {
-	            mainPage.loadHomePage(null);
+//	            mainPage.loadHomePage(null);
 	          }
 	        }
 	      });

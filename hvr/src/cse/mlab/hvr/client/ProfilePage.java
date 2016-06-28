@@ -221,13 +221,13 @@ public class ProfilePage extends Composite{
 					
 					
 				} else{
-					gotoHomePage(null);
+//					gotoHomePage(null);
 				}
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				gotoHomePage(null);
+//				gotoHomePage(null);
 			}
 		});
 		
@@ -425,14 +425,14 @@ public class ProfilePage extends Composite{
 		}
 	}
 	
-	@UiHandler("buttonProfileUpdateCancel")
-	void gotoHomePage(ClickEvent event){
-		this.removeFromParent();
-		if(!this.textProfileFirstName.getText().isEmpty() && !this.textProfileLastName.getText().isEmpty()){
-			parent.updateName(this.textProfileFirstName.getText(), this.textProfileLastName.getText());
-		}
-		parent.loadHomePage(event);
-	}
+//	@UiHandler("buttonProfileUpdateCancel")
+//	void gotoHomePage(ClickEvent event){
+//		this.removeFromParent();
+//		if(!this.textProfileFirstName.getText().isEmpty() && !this.textProfileLastName.getText().isEmpty()){
+//			parent.updateName(this.textProfileFirstName.getText(), this.textProfileLastName.getText());
+//		}
+//		parent.loadHomePage(event);
+//	}
 	
 	private boolean validateBeforeUpdateProfile(){
 		if(textProfileFirstName.getText().isEmpty()){
@@ -505,17 +505,17 @@ public class ProfilePage extends Composite{
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						gotoHomePage(null);
+//						gotoHomePage(null);
 					}
 					@Override
 					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub
-						gotoHomePage(null);
+//						gotoHomePage(null);
 					}
 				});
 			} catch (Exception e) {
 				// TODO: handle exception
-				gotoHomePage(null);
+//				gotoHomePage(null);
 			}
 		}
 	}

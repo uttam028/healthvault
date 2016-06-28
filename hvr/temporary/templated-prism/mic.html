@@ -106,6 +106,8 @@
     	var canvasWidth  = 800;
     	var canvasHeight = 256;
     	var ctx;
+    	
+    	var counter = 0;
 
     	$(document).ready(function() {
     	    ctx = $("#canvas").get()[0].getContext("2d");
@@ -158,6 +160,9 @@
 	        // trigger the audio analysis and draw one column in the display based on the results
 	        javascriptNode.onaudioprocess = function () {
 
+	        	var time = new Date().getTime();
+	        	console.log("audio on process : "+ counter + ", time: "+ time);
+	        	counter += 1;
 	            amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
 	            analyserNode.getByteTimeDomainData(amplitudeArray);
 
@@ -179,6 +184,7 @@
 	    function drawTimeDomain() {
 	        var minValue = 9999999;
 	        var maxValue = 0;
+	        //console.log("amplitude array len:"+ amplitudeArray.length + ", array:" + amplitudeArray);
 
 	        for (var i = 0; i < amplitudeArray.length; i++) {
 	            var value = amplitudeArray[i] / 256;

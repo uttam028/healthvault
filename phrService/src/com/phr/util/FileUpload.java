@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -24,6 +23,7 @@ public class FileUpload {
 	public Response uploadFile(
 			@FormDataParam("file") InputStream _inputStream,
 			@FormDataParam("file") FormDataContentDisposition _contentDisposition) {
+		System.out.println("In upload file method:"+ _contentDisposition.getFileName());
 
 		String filePath = upload_location	+ _contentDisposition.getFileName();
 
@@ -40,6 +40,7 @@ public class FileUpload {
 	private void saveFile(InputStream _inputStream, String _location) {
 
 		try {
+			System.out.println("File write path:" + _location);
 			OutputStream _outputStream = new FileOutputStream(new File(_location));
 			int read = 0;
 			byte[] bytes = new byte[1024];
@@ -50,6 +51,7 @@ public class FileUpload {
 			}
 			_outputStream.flush();
 			_outputStream.close();
+			System.out.println("File writing completed");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

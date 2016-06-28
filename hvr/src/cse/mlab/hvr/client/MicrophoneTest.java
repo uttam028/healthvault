@@ -19,7 +19,7 @@ public class MicrophoneTest extends Composite {
 
 	boolean loded = false;
 	String header = "mictest";
-	static final int testDuration = 10 * 1000;
+	static final int testDuration = 5 * 1000;
 	Div timerDiv;
 
 	private static MicrophoneTestUiBinder uiBinder = GWT
@@ -62,6 +62,7 @@ public class MicrophoneTest extends Composite {
 		// TODO Auto-generated method stub
 		super.onLoad();
 		// initiateTestTimer();
+		
 		if (!loded) {
 			timerDiv = new Div();
 			timerDiv.setId("mic_test_timer_circle");
@@ -69,7 +70,14 @@ public class MicrophoneTest extends Composite {
 			timerPanel.add(timerDiv);
 			initiateTestTimer(String.valueOf(testDuration));
 			initiateCheckbox();
+			
+			//test for sign curve
+//			initializeSoundcloud();
+			
 			loded = true;
 		}
 	}
+	public native void initializeSoundcloud()/*-{
+		$wnd.initializeCanvas();
+	}-*/;
 }

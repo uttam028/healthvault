@@ -11,13 +11,14 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
+import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
 import cse.mlab.hvr.shared.Md5Utils;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
@@ -94,7 +95,25 @@ public class TwitterSignup extends Composite {
 		formSignup.setVisible(false);
 
 	}
+	
+	@Override
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+		super.onLoad();
+		activateAccordion();
+	}
 
+	public  native void activateAccordion()/*-{
+		var acc = $wnd.document.getElementsByClassName("accordion");
+		var i;
+		for (i = 0; i < acc.length; i++) {
+			acc[i].onclick = function() {
+				this.classList.toggle("active");
+				this.nextElementSibling.classList.toggle("show");
+			}
+		}
+
+	}-*/; 
 	public void reset() {
 
 	}
@@ -127,6 +146,8 @@ public class TwitterSignup extends Composite {
 			});
 		}
 	}
+	
+	
 
 	@UiHandler("buttonCreateAccount")
 	void enableSignupForm(ClickEvent event) {

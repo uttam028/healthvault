@@ -4,61 +4,30 @@
 	<ui:style>
 
 	</ui:style>
-	<g:HTMLPanel ui:field="mainpagePanel">
-		<b:Container fluid="true">
-			<b:Row>
-				<b:Navbar>
+	<g:HTMLPanel ui:field="mainpagePanel" addStyleNames="customBackground">
+		<!-- Menu -->
+		<section>
+			<div class="menu">
+				<ul>
+					<li>
+						<a href="results.html">History</a>
+					</li>
+					<li class="dropdown" style="float:right">
+						<a href="#" class="dropbtn">Profile&emsp;
+							<i class="fa fa-user"></i>
+						</a>
+						<div class="dropdown-content">
+							<a href="profile.html">My Profile</a>
+							<a href="#">Logout</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</section>
 
-					<b:NavbarHeader>
-						<b:NavbarBrand ui:field="welcomeUserBrand">Your Speech, Your Health</b:NavbarBrand>
-						<b:NavbarCollapseButton dataTarget="#navbar-collapse" />
-					</b:NavbarHeader>
-
-					<b:NavbarCollapse b:id="navbar-collapse" addStyleNames="col-lg-offset-8">
-						<b:NavbarNav>
-							<b:AnchorListItem ui:field="linkHome">Home</b:AnchorListItem>
-							<b:AnchorListItem ui:field="linkVoice">Voice</b:AnchorListItem>
-							<b:AnchorListItem ui:field="linkHealth">Health</b:AnchorListItem>
-							<b:AnchorListItem ui:field="linkAbout">About</b:AnchorListItem>
-							<!--b:NavbarForm pull="LEFT"> <b:TextBox placeholder="Search" /> </b:NavbarForm -->
-
-							<b:ListDropDown pull="RIGHT">
-								<b:AnchorButton dataToggle="DROPDOWN" ui:field="optionAnchor"></b:AnchorButton>
-								<b:DropDownMenu>
-									<b:AnchorListItem ui:field="buttonUpdateProfile">Profile</b:AnchorListItem>
-									<!--b:AnchorListItem>Settings</b:AnchorListItem -->
-									<b:AnchorListItem ui:field="buttonLogoutAction">Logout</b:AnchorListItem>
-								</b:DropDownMenu>
-							</b:ListDropDown>
-						</b:NavbarNav>
-					</b:NavbarCollapse>
-				</b:Navbar>
-			</b:Row>
-		</b:Container>
-		<g:HTMLPanel ui:field="leftPanel">
-			<g:VerticalPanel ui:field="healthVerticalPanel"
-				addStyleNames="col-lg-3">
-			</g:VerticalPanel>
-		</g:HTMLPanel>
-		<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-10" ui:field="mainPageContentPanel">
-			<!--g:Label ui:field="testLabel">This is a home page template</g:Label -->
+		<g:HTMLPanel ui:field="mainPageContentPanel">
 
 		</g:HTMLPanel>
-		<!--g:HTMLPanel>
-			<g:hr width="100%"/>
-		</g:HTMLPanel-->
-			<br/>
-		<g:HTMLPanel ui:field="mainPageFooter">
-			<br/>
-			<br/>
-			<g:HorizontalPanel addStyleNames="col-lg-offset-4">
-			    
-			    <g:Label ui:field="testLabel" addStyleNames="dialogVPanel10">&copy;University of Notre Dame </g:Label>
-			    <b:Button type="LINK" >Terms</b:Button>
-			    <b:Button type="LINK">Privacy</b:Button>
-			    <b:Button type="LINK">Contact</b:Button>
-			</g:HorizontalPanel>
-			<br/>
-		</g:HTMLPanel>
+
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -10,6 +10,14 @@ h1{
   text-align: center;
 }
 
+.common_inst_text{
+  font-size: 180%;
+  /*font-weight: bold;*/
+  color: #808080;
+  margin: auto;
+  text-align: center;
+}
+
 .speech_text{
   font-size: 500%;
   font-weight: bold;
@@ -82,6 +90,15 @@ h1{
    margin:5px;*/
 }
 
+.font150{ 
+   font-size: 150%; 
+}
+
+.font120{ 
+   font-size: 120%; 
+}
+
+
 .panel_border{
   border: 1px solid #BBBBBB;
   /*padding: 3px;*/
@@ -126,6 +143,10 @@ h1{
     color:red;
 }
 
+.gray{
+	color: gray;
+}
+
 /* css for marquee */
 
 #marquee_body {
@@ -167,4 +188,29 @@ margin-bottom: 2%
    background-repeat: no-repeat;
    /*background-color: green;*/
 }
+
+
+
+
+
+/*---------------start of style from jamie and erin------------------*/
+.customBackground
+{
+		background-image:url("http://www.designbolts.com/wp-content/uploads/2014/03/Sea-green-blur-background1.jpg");
+		color: #777;
+}
+
+
+.customForm {
+  position:right;
+  z-index: 1;
+  background: #fafafa;
+  margin-right:30px;
+  /*max-width: 800px;
+  /*margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;*/
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 

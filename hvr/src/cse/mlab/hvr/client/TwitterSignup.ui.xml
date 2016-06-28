@@ -5,133 +5,269 @@
 	<ui:style>
 
 	</ui:style>
-	<g:HTMLPanel>
-		<b:Container fluid="true">
-			<b:Row>
-				<b:Navbar>
-					<b:NavbarForm>
-						<b:Heading size="H1" text="Your Speech, Your Health"
-							addStyleNames="col-lg-10" />
-					</b:NavbarForm>
-				</b:Navbar>
-			</b:Row>
-		</b:Container>
-		<div>
-			<br />
-			<br />
-			<br />
-			<br />
+	<!-- Banner -->
+	<g:HTMLPanel  addStyleNames="customBackground">
+		<div style="margin-left:auto;margin-right:auto;text-align:center">
+			<section id="banner">
+				<section>
+					<h2>Your Speech, Your Health&ensp;</h2>
+					<ul class="actions">
+						<li>
+							<a href="#research" class="button special">Learn More</a>
+						</li>
+					</ul>
+				</section>
+			</section>
 		</div>
-		<b:Row>
-			<b:Carousel b:id="carousel-basic" addStyleNames="col-lg-offset-1 col-lg-6">
-				<b:CarouselIndicators>
-					<b:CarouselIndicator dataTarget="#carousel-basic" dataSlideTo="0" active="true" />
-					<b:CarouselIndicator dataTarget="#carousel-basic" dataSlideTo="1" />
-					<b:CarouselIndicator dataTarget="#carousel-basic" dataSlideTo="2" />
-				</b:CarouselIndicators>
-				<b:CarouselInner>
-					<b:CarouselSlide active="true">
-						<b:Image url="images/test1.png"/>
-    				</b:CarouselSlide>
-					<b:CarouselSlide>
-						<b:Image url="images/test2.png"/>
-    				</b:CarouselSlide>
-    				<b:CarouselSlide>
-						<b:Image url="images/test3.png"/>
-    				</b:CarouselSlide>
-				</b:CarouselInner>
-  				<b:CarouselControl dataTarget=" #carousel-basic " prev="true"/>
-				<b:CarouselControl dataTarget="#carousel-basic" next="true"/>
-			</b:Carousel>
-			<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-1 col-lg-3" ui:field="formLogin">
-				<b:FieldSet>
-					<b:Legend>Login</b:Legend>
-					<g:Label ui:field="labelLoginError" styleName="labelError"></g:Label>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:TextBox b:id="formName" ui:field="textLoginEmail"
-								maxLength="30" />
-							<g:Label ui:field="labelLoginEmailFormatError" styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:Input type="PASSWORD" b:id="formName" ui:field="textLoginPassword"
-								maxLength="30" />
-							<g:Label ui:field="labelLoginPasswordError" styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
-							<b:Button ui:field="buttonLoginAction">Log in</b:Button>
-						</g:FlowPanel>
-					</b:FormGroup>
+		<!--b:Container fluid="true"> <b:Row> <b:Navbar> <b:NavbarForm> <b:Heading 
+			size="H1" text="Your Speech, Your Health" addStyleNames="col-lg-10" /> </b:NavbarForm> 
+			</b:Navbar> </b:Row> </b:Container -->
+		<!--div> <br /> <br /> <br /> <br /> </div -->
+		<g:HTMLPanel>
+			<b:Row>
+				<b:Column size="MD_7 LG_7">
+					<g:HTMLPanel>
+						<div
+							style="display:inline-block; float:right; margin-right:30px; margin-top:80px; text-align:center">
+							<h2>About this website</h2>
+							<p>
+								Welcome to Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+								do
+								eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+								ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+								aliquip ex ea commodo consequat. Duis aute irure dolor in
+								reprehenderit in voluptate velit esse cillum dolore eu fugiat
+								nulla
+								pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+								culpa qui officia deserunt mollit anim id est laborum
+							</p>
+							<a href="#" class="button alt">Button</a>
+						</div>
 
-					<b:FormGroup>
-						<b:Button type="LINK" addStyleNames="col-lg-offset-2.5" ui:field="buttonForgotPass">Can't access account</b:Button>
-						<h:Span>|</h:Span>
-						<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
-					</b:FormGroup>
-				</b:FieldSet>
-			</b:Form>
-			<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-1 col-lg-3"
-				ui:field="formSignup">
-				<b:FieldSet>
-					<b:Legend>Signup Form</b:Legend>
-					<g:Label ui:field="labelSignupError" styleName="labelError"></g:Label>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">First Name</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:TextBox b:id="formName" ui:field="textFirstName"
-								maxLength="20" />
-							<g:Label ui:field="labelFirstNameError" styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Last Name</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:TextBox b:id="formName" ui:field="textLastName"
-								maxLength="20" />
-							<g:Label ui:field="labelLastNameError" styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:TextBox b:id="formName" ui:field="textSignupEmail"
-								maxLength="30" />
-							<g:Label ui:field="labelSignupEmailFormatError"
-								styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:Input type="PASSWORD" b:id="formName" ui:field="textSignupPassword"
-								maxLength="30" />
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<b:FormLabel for="formName" addStyleNames="col-lg-4">Confirm
-							Password</b:FormLabel>
-						<g:FlowPanel addStyleNames="col-lg-8">
-							<b:Input type="PASSWORD" b:id="formName" ui:field="textConfirmPassword"
-								maxLength="30" />
-							<g:Label ui:field="labelPasswordMatchError" styleName="labelError"></g:Label>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:FormGroup>
-						<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
-							<b:Button ui:field="buttonSignupAction">Signup</b:Button>
-						</g:FlowPanel>
-					</b:FormGroup>
-					<b:Button type="LINK" ui:field="buttonAlreadyAccount">Already have an account</b:Button>
-				</b:FieldSet>
-			</b:Form>
+					</g:HTMLPanel>
+				</b:Column>
+				<b:Column size="MD_5 LG_5">
+					<b:Row>
+						<h:Br />
+						<h:Br />
+						<h:Br />
+					</b:Row>
+				    <b:Row addStyleNames="customForm">
+						<h:Br/>
+							<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-3 col-lg-7"
+								ui:field="formLogin">
+								<b:FieldSet>
+									<b:Legend>Login</b:Legend>
+									<g:Label ui:field="labelLoginError" styleName="labelError"></g:Label>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:TextBox b:id="formName" ui:field="textLoginEmail"
+												maxLength="30" placeholder="Email" />
+											<g:Label ui:field="labelLoginEmailFormatError"
+												styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:Input type="PASSWORD" b:id="formName" ui:field="textLoginPassword"
+												maxLength="30" placeholder="Password" />
+											<g:Label ui:field="labelLoginPasswordError"
+												styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
+											<b:Button ui:field="buttonLoginAction">Log in</b:Button>
+										</g:FlowPanel>
+									</b:FormGroup>
+
+									<b:FormGroup>
+										<b:Button type="LINK" addStyleNames="col-lg-offset-2.5"
+											ui:field="buttonForgotPass">Can't access account</b:Button>
+										<h:Span>|</h:Span>
+										<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
+									</b:FormGroup>
+								</b:FieldSet>
+							</b:Form>
+
+							<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-3 col-lg-7"
+								ui:field="formSignup">
+								<b:FieldSet>
+									<b:Legend>Signup Form</b:Legend>
+									<g:Label ui:field="labelSignupError" styleName="labelError"></g:Label>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">First
+											Name</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:TextBox b:id="formName" ui:field="textFirstName"
+												maxLength="20" placeholder="First Name" />
+											<g:Label ui:field="labelFirstNameError" styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Last
+											Name</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:TextBox b:id="formName" ui:field="textLastName"
+												maxLength="20" placeholder="Last Name" />
+											<g:Label ui:field="labelLastNameError" styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:TextBox b:id="formName" ui:field="textSignupEmail"
+												maxLength="30" placeholder="Email" />
+											<g:Label ui:field="labelSignupEmailFormatError"
+												styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:Input type="PASSWORD" b:id="formName" ui:field="textSignupPassword"
+												maxLength="30" placeholder="Password" />
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<b:FormLabel for="formName" addStyleNames="col-lg-4">Confirm
+											Password</b:FormLabel>
+										<g:FlowPanel addStyleNames="col-lg-8">
+											<b:Input type="PASSWORD" b:id="formName" ui:field="textConfirmPassword"
+												maxLength="30" placeholder="Confirm Password" />
+											<g:Label ui:field="labelPasswordMatchError"
+												styleName="labelError"></g:Label>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:FormGroup>
+										<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
+											<b:Button ui:field="buttonSignupAction">Signup</b:Button>
+										</g:FlowPanel>
+									</b:FormGroup>
+									<b:Button type="LINK" ui:field="buttonAlreadyAccount">Already have an account</b:Button>
+								</b:FieldSet>
+							</b:Form>
+
+					</b:Row>
+					<b:Row>
+						<h:Br />
+						<h:Br />
+						<h:Br />
+					</b:Row>
+
+				</b:Column>
+
+
+			</b:Row>
+		</g:HTMLPanel>
+
+		<!-- div style="width:45%; margin-left:30px; display:inline-block"> <div 
+			class="login-page"> <div class="form"> <h2>Login to your account</h2> <form 
+			class="register-form"> <input type="text" placeholder="name" /> <input type="password" 
+			placeholder="password" /> <input type="text" placeholder="email address" 
+			/> <button>create</button> <p class="message"> Already registered? <a href="#">Sign 
+			In</a> </p> </form> <form class="login-form"> <input type="text" placeholder="username" 
+			/> <input type="password" placeholder="password" /> <a href="home.html" class="button 
+			special">Login</a> <p class="message"> Not registered? <a href="#"> Create 
+			an account</a> </p> <p class="message"> Can't access account? <a href="#"> 
+			Account help</a> </p> </form> </div> </div> </div -->
+
+
+
+		<b:Row>
 
 		</b:Row>
+
+		<!-- Two -->
+		<a name="research"></a>
+		<section id="two" class="wrapper style2 alt">
+			<div class="inner">
+				<div class="spotlight">
+					<div class="image">
+						<img
+							src="http://www.ascseniorcare.com/wp-content/uploads/2014/06/bigstock-Senior-Couple-On-Bicycles-3916885.jpg"
+							alt="" />
+					</div>
+					<div class="content">
+						<h3>Research</h3>
+						<p>This website contains tests to help with research related to
+							Concussion and Dysarthria detection, conducted by the Mobile
+							Computing Lab at the University of Notre Dame. Click the button
+							below to learn more about the mobile computing lab</p>
+						<ul class="actions">
+							<li>
+								<a href="http://m-lab.cse.nd.edu" class="button alt">Learn More</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="spotlight">
+					<div class="image">
+						<iframe width="420" height="345"
+							src="http://www.youtube.com/embed/k1qvcw-zqtQ"></iframe>
+					</div>
+					<div class="content">
+						<h3>Speech Test</h3>
+						<p>Watch a video of a speech test in progress. (Temp Video
+							Placeholder)</p>
+					</div>
+				</div>
+				<div class="spotlight">
+					<div class="image">
+						<img
+							src="http://www.drdavidgeier.com/wp-content/uploads/2014/04/Doctor-talking-to-older-patient.jpg"
+							alt="" />
+					</div>
+					<div class="content">
+						<h3>FAQs</h3>
+						<button class="accordion">What does this website contain?</button>
+						<div class="accordionPanel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco
+								laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+
+						<button class="accordion">What is the data from this website used for?</button>
+						<div class="accordionPanel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco
+								laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+
+						<button class="accordion">Who can take the tests on this website?</button>
+						<div class="accordionPanel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco
+								laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+
+					</div>
+				</div>
+				<ul class="actions special">
+					<li>
+						<a href="#" class="button alt">Back to login</a>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy;
+				<a href="http://nd.edu">University of Notre Dame</a>
+				. All rights reserved.
+			</div>
+		</footer>
+
+		<!-- script type="text/javascript" src="template/assets/js/accordion.js"></script -->
 
 
 	</g:HTMLPanel>

@@ -1,7 +1,7 @@
 package cse.mlab.hvr.client;
 
 
-import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Anchor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,8 +13,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LandingPage extends Composite{
 	
+//	@UiField
+//	Button startSpeechFromLanding, startHealthFromLanding;
 	@UiField
-	Button startSpeechFromLanding, startHealthFromLanding;
+	Anchor buttonConcussion, buttonDysarthria;
 
 	Hvr application;
 	private static LandingPageUiBinder uiBinder = GWT
@@ -33,13 +35,25 @@ public class LandingPage extends Composite{
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	@UiHandler("startSpeechFromLanding")
-	void loadSpeechFromLanding(ClickEvent event){
-		this.application.mainPage.loadVoicePage(null);
+//	@UiHandler("startSpeechFromLanding")
+//	void loadSpeechFromLanding(ClickEvent event){
+////		this.application.mainPage.loadVoicePage(null);
+//	}
+//	
+//	@UiHandler("startHealthFromLanding")
+//	void loadHealthFromLanding(ClickEvent event){
+////		this.application.mainPage.loadHealthPage(null);
+//	}
+	
+	@UiHandler("buttonConcussion")
+	void loadConcussionPage(ClickEvent event){
+		//this.application.mainPage.loadConcussionPage();
+		this.application.mainPage.loadVoicePage("concussion");
 	}
 	
-	@UiHandler("startHealthFromLanding")
-	void loadHealthFromLanding(ClickEvent event){
-		this.application.mainPage.loadHealthPage(null);
+	@UiHandler("buttonDysarthria")
+	void loadDysarthriaPage(ClickEvent event){
+		//this.application.mainPage.loadDysarthriaPage();
+		this.application.mainPage.loadVoicePage("dysarthria");
 	}
 }

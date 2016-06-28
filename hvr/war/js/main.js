@@ -68,6 +68,7 @@ $(function() {
 
 		case "microphone_activity":
 			// $('#activity_level').text(arguments[1]);
+			console.log("microphone activity...");
 			try {
 				/*
 				var text = "";
@@ -115,18 +116,11 @@ $(function() {
 
 		case "microphone_level":
 			// $level.css({width: arguments[1] * 50 + '%'});
-			console.log("main.js: case microphone level" + (arguments[1] * 50)
-					+ '%');
-			/*
-			var text = "";
-			for(i=0;i<arguments.length;i++){
-				text.concat(arguments[i]).concat("-");
-			}
-			console.log("mic level".concat(text));
-			*/
+			console.log("main.js: case microphone level : " + (arguments[1])
+					+ '% ' + arguments[0] + "arg 2 : "+ arguments[2]);
 			try {
 				//window.updateVolume(arguments[1]);
-				window.updateMicrophoneLevel(arguments[1].toString());
+				window.updateMicrophoneLevel((arguments[1]).toString());
 			} catch (e) {
 				// TODO: handle exception
 				console.log("got exception to update volume text " + e.message);
@@ -222,6 +216,57 @@ $(function() {
 
 	// Helper functions
 	// ---------------------------------------------------------------------------------------------------
+	/*
+	//concetanate blob
+    window.ConcatenateBlobs = function(blobs, type, callback) {
+        var buffers = [];
+        var index = 0;
+
+        function readAsArrayBuffer() {
+            if (!blobs[index]) {
+            	console.log("before return concatenateBuffers(), index value:"+ index);
+                return concatenateBuffers();
+            }
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                buffers.push(event.target.result);
+                index++;
+                console.log("going to push..., index:"+ index);
+                readAsArrayBuffer();
+            };
+            reader.readAsArrayBuffer(blobs[index]);
+        }
+
+        readAsArrayBuffer();
+
+        function concatenateBuffers() {
+        	console.log("within concatenate buffers method");
+            var byteLength = 0;
+            buffers.forEach(function(buffer) {
+                byteLength += buffer.byteLength;
+            });
+            console.log();
+            var tmp = new Uint16Array(byteLength);
+            var lastOffset = 0;
+            buffers.forEach(function(buffer) {
+                // BYTES_PER_ELEMENT == 2 for Uint16Array
+                var reusableByteLength = buffer.byteLength;
+                if (reusableByteLength % 2 != 0) {
+                    buffer = buffer.slice(0, reusableByteLength - 1)
+                }
+                tmp.set(new Uint16Array(buffer), lastOffset);
+                lastOffset += reusableByteLength;
+            });
+
+            var blob = new Blob([tmp.buffer], {
+                type: type
+            });
+            console.log("going to invoke callback method");
+            callback(blob);
+        }
+    };*/
+	
+	//block the ui
 	window.blockPage = function() {
 		$.blockUI();
 		$('.blockOverlay').click(function() {
@@ -272,14 +317,19 @@ $(function() {
 	var mic_test_circle;
 	window.initiateMicrophoneTestTimer = function(duration) {
 		mic_test_circle = new ProgressBar.Circle('#mic_test_timer_circle', {
-			color : '#F00000',
+			color : '#f00000',
 			strokeWidth : 3,
 			trailWidth : 1,
 			duration : parseInt(duration),
 			text : {
 				value : '0'
 			},
+			//from: { color: '#008000', width: 5 },
+			//to: { color: '#ff0000', width: 5 },
 			step : function(state, bar) {
+				//var d = parseInt(this.duration)/1000;
+				//var value = Math.round(d - (bar.value() * d));
+				//bar.setText(value.toFixed(0));
 				bar.setText((bar.value() * 100).toFixed(0));
 			}
 		});
@@ -294,15 +344,20 @@ $(function() {
 	
 	window.animateCircleTimer = function(duration) {
 		var circle = new ProgressBar.Circle('#timer_circle', {
-			color : '#F00000',
+			//color : '#F00000',
 			strokeWidth : 5,
 			trailWidth : 2,
 			duration : parseInt(duration),
 			text : {
 				value : '0'
 			},
+			from: { color: '#008000', width: 5 },
+			to: { color: '#FF0000', width: 5 },
 			step : function(state, bar) {
-				bar.setText((bar.value() * 100).toFixed(0));
+				var d = parseInt(this.duration)/1000;
+				var value = Math.round(d - (bar.value() * d));
+				bar.setText(value.toFixed(0));
+				//bar.setText((bar.value() * 100).toFixed(0));
 			}
 		});
 
@@ -333,7 +388,132 @@ $(function() {
 		}
 		myFunc(textToColor);
 	}
+	/*
+	// Global Variables for Drawing
+	var column = 0;
+	var canvasWidth  = 800;
+	var canvasHeight = 256;
+	var ctx;
+	window.initializeCanvas = function(){
+	    ctx = $("#canvas").get()[0].getContext("2d");
+	}
 
+    window.drawTimeDomain = function(amplitudeArray) {
+        var minValue = 9999999;
+        var maxValue = 0;
+        console.log("amplitude array len:"+ amplitudeArray.length + ", array:" + amplitudeArray);
+
+        for (var i = 0; i < amplitudeArray.length; i++) {
+        	console.log(" value:" + amplitudeArray[i] );
+            var value = amplitudeArray[i] * 256;
+            
+            if(value > maxValue) {
+                maxValue = value;
+            } else if(value < minValue) {
+                minValue = value;
+            }
+        }
+        
+        //console.log("max value:" + maxValue + ", min value : "+ minValue);
+
+        var y_lo = canvasHeight - (canvasHeight * minValue) - 1;
+        var y_hi = canvasHeight - (canvasHeight * maxValue) - 1;
+
+        ctx.fillStyle = '#562A62';
+        ctx.fillRect(column,y_lo, 1, y_hi - y_lo);
+
+        // loop around the canvas when we reach the end
+        column += 1;
+        if(column >= canvasWidth) {
+            column = 0;
+            clearCanvas();
+        }
+    }
+
+    function clearCanvas() {
+        column = 0;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.strokeStyle = '#04B376';
+        var y = (canvasHeight / 2) + 0.5;
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvasWidth-1, y);
+        ctx.stroke();
+    }
+	*/
+	
+	//////--------------------function related to upload---------------------------//////////////////
+
+	window.uploadTest_merge = function() {
+		console.log("this method has been called");
+		var blob1 = FWRecorder.getBlob("1");
+		var blob2 = FWRecorder.getBlob("2");
+		var blob3 = FWRecorder.getBlob("3");
+		
+		var blobs = [blob1, blob2, blob3];
+		console.log("blob1:"+ blob1.size + ", blob2:" + blob2.size + ", blob3:" + blob3.size + ", blobs:"+ blobs.length);
+		ConcatenateBlobs(blobs, "audio/wav", function(fileBlob){
+			console.log("size:" + fileBlob.size + ", type:" + fileBlob.type + ", blobs len:"+ blobs.length);
+			var formData = new FormData();
+			var filename = "test.wav";
+			
+			
+			formData.append("file", fileBlob, filename);
+			FWRecorder.playBack(formData);
+			$
+					.ajax({
+						// url:
+						// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
+						// //Server script to process data
+						url : 'http://10.32.10.188:8080/phrservice/files/upload/',
+						type : 'post',
+						contentType : 'multipart/form-data',
+						// content: 'text/html',
+						xhr : function() { // Custom XMLHttpRequest
+							var myXhr = $.ajaxSettings.xhr();
+							if (myXhr.upload) { // Check if upload property exists
+								myXhr.upload.addEventListener('progress',
+										progressHandlingFunction, false); // For
+																			// handling
+																			// the
+																			// progress
+																			// of
+																			// the
+																			// upload
+							}
+							return myXhr;
+						},
+						// Ajax events
+						beforeSend : beforeSendHandler,
+						success : function() {
+							console.log("file upload done....");
+						},
+						error : function() {
+							console.log("text status : " + textStatus);
+						}, // Form data
+						data : formData,
+						// Options to tell jQuery not to process data or worry about
+						// content-type.
+						cache : false,
+						contentType : false,
+						processData : false
+					});
+
+			function beforeSendHandler() {
+				console.log("let see if it calls before sending");
+			}
+
+			function progressHandlingFunction(e) {
+				// if(e.lengthComputable){
+				// $('progress').attr({value:e.loaded,max:e.total});
+				// console.log("progress : "+ {value:e.loaded,max:e.total});
+				console.log("making some progress");
+				// }
+			}			
+		});
+		
+
+
+	}
 	window.uploadTest = function(name) {
 		console.log("this method has been called");
 		var blob = FWRecorder.getBlob(name);
@@ -346,7 +526,7 @@ $(function() {
 					// url:
 					// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
 					// //Server script to process data
-					url : 'http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT/files/upload/',
+					url : 'http://10.32.10.188:8080/phrservice/files/upload/',
 					type : 'post',
 					contentType : 'multipart/form-data',
 					// content: 'text/html',
@@ -371,7 +551,6 @@ $(function() {
 					},
 					error : function() {
 						console.log("text status : " + textStatus);
-
 					}, // Form data
 					data : formData,
 					// Options to tell jQuery not to process data or worry about

@@ -309,6 +309,8 @@ public class CustomPlayer extends Composite {
 			this.playerTextPanel.add(new Br());
 			this.playerTextPanel.add(new Br());
 			playerAnimationPanel.clear();
+			playerButtonText.setText("");
+			playerButtonPanel.clear();
 		} else{
 			this.updatePlayerTimer(fragment.getDuration() + "");
 		}
@@ -419,8 +421,8 @@ public class CustomPlayer extends Composite {
 	public static native void uploadRecording(CustomPlayer player)/*-{
 		var name = player.@cse.mlab.hvr.client.CustomPlayer::header;
 		console.log("will playback from custom player ".concat(name));
-		$wnd.uploadTest(name);
-
+		//$wnd.uploadTest(name);
+		$wnd.uploadTest_merge();
 	}-*/;
 
 	@Override

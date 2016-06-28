@@ -7,7 +7,9 @@
 		font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel addStyleNames="col-lg-9" ui:field="customPlayerPanel">
+	<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-8" ui:field="customPlayerPanel">
+	    <br/>
+	    <br/>
 		<b:Panel>
 			<b:PanelHeader>
 				<b:Heading size="H3" ui:field="playerHeader" />
@@ -32,7 +34,7 @@
 			
 			<b:PanelBody>
 				<b:Row addStyleNames="panel_border">
-					<b:Row>
+					<!--b:Row-->
 						<b:Column size="MD_10">
 							<g:HTMLPanel ui:field="playerInstructionPanel">
 								<!--h:Br/ -->
@@ -49,20 +51,20 @@
 						</b:Column>
 
 						<h:Br />
-					</b:Row>
-					<b:Row>
+					<!--/b:Row-->
+					<!-- b:Row-->
 						<h:Br />
 						<g:HTMLPanel ui:field="testInstructionPanel">
 						</g:HTMLPanel>
 						<h:Br />
-					</b:Row>
-					<b:Row>
+					<!--/b:Row-->
+					<!--b:Row-->
 						<h:Br />
 						<g:HTMLPanel ui:field="fragmentInstructionPanel">
 						</g:HTMLPanel>
 						<h:Br />
-					</b:Row>
-					<b:Row>
+					<!--/b:Row-->
+					<!--b:Row-->
 						<b:Column size="MD_2">
 							<g:HTMLPanel ui:field="playerButtonPanel"></g:HTMLPanel>
 							<g:Label ui:field="playerButtonText" horizontalAlignment="ALIGN_CENTER">Click
@@ -76,11 +78,11 @@
 							<h:Br />
 						</b:Column>
 
-					</b:Row>
-					<b:Row>
+					<!--/b:Row-->
+					<!-- b:Row-->
 						<g:HTMLPanel ui:field="playerAnimationPanel"></g:HTMLPanel>
 						<h:Br />
-					</b:Row>
+					<!-- /b:Row-->
 
 				</b:Row>
 				<h:Br />
@@ -92,6 +94,22 @@
 
 			</b:PanelBody>
 		</b:Panel>
+		
+				<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+						<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy;
+				<a href="http://nd.edu">University of Notre Dame</a>
+				. All rights reserved.
+			</div>
+		</footer>
+		
 
 		<b:Modal title="" closable="true" fade="true" dataBackdrop="STATIC"
 			dataKeyboard="true" b:id="videoModal" ui:field="videoSampleModal">
