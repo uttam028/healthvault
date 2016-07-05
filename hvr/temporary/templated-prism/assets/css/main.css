@@ -3210,7 +3210,7 @@
 		background-color: #0C2340;
 		background-size: 100px 100px, cover;
 		color: rgba(255, 255, 255, 0.5);
-		padding: 3em 0 4em;
+		padding: 2em 0 4em;
 	}
 
 		#banner h2 {
@@ -3237,7 +3237,7 @@
 		@media screen and (max-width: 1366px) {
 
 			#banner {
-				padding: 3em 2.5em 1em;
+				padding: 2em 2.5em 1em;
 			}
 
 				#banner h2 {
