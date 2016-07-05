@@ -3397,7 +3397,7 @@
 		background-image: url("images/overlay.png"), linear-gradient(45deg, #4A4771 0%, #7C3875 100%);
 		background-size: 30px 30px, cover;
 		color: rgba(255, 255, 255, 0.5);
-		padding: 6em 0 1em;
+		padding: 2em 0 1em;
 	}
 
 	.small_banner h2 {
