@@ -9,7 +9,7 @@
 <body>
 	<div class="main">
 		<p style="text-align: center">Please ensure that you have headphones connected, then press start and speak clearly into the microphone for the given amount of time.</p>
-		<canvas id="canvas" width="800" height="256"></canvas>
+		<canvas id="canvas" width="450" height="256"></canvas>
 
 		<p id="controls">
 			<input type="button" id="start_button" value="Start">
@@ -62,7 +62,7 @@
 
    		// Global Variables for Drawing
     	var column = 0;
-    	var canvasWidth  = 800;
+    	var canvasWidth  = 450;
     	var canvasHeight = 256;
     	var ctx;
 
@@ -94,12 +94,12 @@
 	        });
 
 	        // Stop the audio processing
-	        $("#stop_button").click(function(e) {
+	        /*$("#stop_button").click(function(e) {
 	            e.preventDefault();
 	            javascriptNode.onaudioprocess = null;
 	            if(audioStream) audioStream.stop();
 	            if(sourceNode)  sourceNode.disconnect();
-	        });
+	        });*/
 	    });
 
 	    function setupAudioNodes(stream) {
@@ -156,9 +156,16 @@
 
 	        // loop around the canvas when we reach the end
 	        column += 1;
-	        if(column >= canvasWidth) {
+	        /*if(column >= canvasWidth) {
 	            column = 0;
 	            clearCanvas();
+	        }*/
+
+	        //Stops after 10 seconds (currentTime variable is ahead by 2 seconds)
+	        if(audioContext.currentTime > 12) {
+	        	javascriptNode.onaudioprocess = null;
+	            if(audioStream) audioStream.stop();
+	            if(sourceNode)  sourceNode.disconnect();
 	        }
 	    }
 

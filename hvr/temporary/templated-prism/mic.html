@@ -46,12 +46,12 @@
 		<!-- Microphone Test -->
 		<div class="main">
 		<h2 style="text-align: center">Please ensure that you have headphones connected, then press start and speak clearly into the microphone to ensure it is working. When you see that your voice is being picked up, press continue.</h2>
-		<canvas id="canvas" width="800" height="256"></canvas>
+		<canvas id="canvas" width="450" height="256"></canvas>
 		<p></p>
 		<p id="controls">
 			<input type="button" id="start_button" class="button" value="Start" />
 			  &nbsp; &nbsp;
-  			<input type="button" id="stop_button" value="Stop">
+  			<!--input type="button" id="stop_button" value="Stop"-->
   			  &nbsp; &nbsp;
 
   			<a href="#" class="button special">Continue <i class="fa fa-chevron-circle-right"></i></a>
@@ -67,7 +67,7 @@
     	#controls {
         	text-align: center;
     	}
-    	#start_button, #stop_button {
+    	#start_button {
     	    outline:0;
     	}
 		</style>
@@ -103,7 +103,7 @@
 
    		// Global Variables for Drawing
     	var column = 0;
-    	var canvasWidth  = 800;
+    	var canvasWidth  = 450;
     	var canvasHeight = 256;
     	var ctx;
     	
@@ -137,12 +137,12 @@
 	        });
 
 	        // Stop the audio processing
-	        $("#stop_button").click(function(e) {
+	        /*$("#stop_button").click(function(e) {
 	            e.preventDefault();
 	            javascriptNode.onaudioprocess = null;
 	            if(audioStream) audioStream.stop();
 	            if(sourceNode)  sourceNode.disconnect();
-	        });
+	        });*/
 	    });
 
 	    function setupAudioNodes(stream) {
@@ -203,9 +203,16 @@
 
 	        // loop around the canvas when we reach the end
 	        column += 1;
-	        if(column >= canvasWidth) {
+	        /*if(column >= canvasWidth) {
 	            column = 0;
 	            clearCanvas();
+	        }*/
+
+	        //Stops after 10 seconds - the currentTime variable is ahead by 2 seconds
+	        if(audioContext.currentTime > 12) {
+	        	javascriptNode.onaudioprocess = null;
+	        	if(audioStream) audioStream.stop();
+	        	if(sourceNode) sourceNode.disconnect();
 	        }
 	    }
 
