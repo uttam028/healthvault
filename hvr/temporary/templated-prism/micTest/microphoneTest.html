@@ -66,6 +66,8 @@
     	var canvasHeight = 256;
     	var ctx;
 
+    	var counter = 0; //counter to see how often threshold is reached
+
     	$(document).ready(function() {
     	    ctx = $("#canvas").get()[0].getContext("2d");
 
@@ -100,6 +102,7 @@
 	            if(audioStream) audioStream.stop();
 	            if(sourceNode)  sourceNode.disconnect();
 	        });*/
+			
 	    });
 
 	    function setupAudioNodes(stream) {
@@ -156,17 +159,24 @@
 
 	        // loop around the canvas when we reach the end
 	        column += 1;
+
 	        /*if(column >= canvasWidth) {
 	            column = 0;
 	            clearCanvas();
 	        }*/
 
+	        //increments variable each time threshold is reached
+	        if (y_lo > 50){
+	        	counter++;
+	        }
 	        //Stops after 10 seconds (currentTime variable is ahead by 2 seconds)
 	        if(audioContext.currentTime > 12) {
+	        	passedTest();
 	        	javascriptNode.onaudioprocess = null;
 	            if(audioStream) audioStream.stop();
-	            if(sourceNode)  sourceNode.disconnect();
+	            if(sourceNode)  sourceNode.disconnect(); 
 	        }
+
 	    }
 
 	    function clearCanvas() {
@@ -177,6 +187,12 @@
 	        ctx.moveTo(0, y);
 	        ctx.lineTo(canvasWidth-1, y);
 	        ctx.stroke();
+	    }
+
+	    function passedTest() {
+	    	if(counter > 10){
+	    		alert("You successfully passed the microphone test!");
+	    	}
 	    }
 
 		</script>
