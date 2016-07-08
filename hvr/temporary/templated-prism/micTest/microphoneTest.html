@@ -166,7 +166,7 @@
 	        }*/
 
 	        //increments variable each time threshold is reached
-	        if (y_lo > 50){
+	        if (y_hi < 80){
 	        	counter++;
 	        }
 	        //Stops after 10 seconds (currentTime variable is ahead by 2 seconds)
@@ -192,6 +192,9 @@
 	    function passedTest() {
 	    	if(counter > 10){
 	    		alert("You successfully passed the microphone test!");
+	    	}
+	    	else{
+	    		alert("Did not pass microphone test. Please try again.");
 	    	}
 	    }
 
