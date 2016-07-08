@@ -38,9 +38,18 @@
 
 
 		<!-- Small Banner -->
-			<section class="small_banner">
-				<h2>Microphone Test</h2>
+			<div style="margin-left:auto;margin-right:auto;text-align:center;">
+			<section id="banner">
+				<section>
+					<!-- <h2 style="margin-top: 5%;">
+						<img src="images/ndcrest.png" style="height: 10%; width: 10%; float: left; margin-left: 15%;" />
+						Speech Marker Initiative&ensp;
+						<img src="images/nsfcrest.png" style="height: 10%; width: 10%; float: right; margin-right: 15%;" />
+					</h2> -->
+					<img src="images/banner.png" style="width:100%;margin-top:3.5em" />
+				</section>
 			</section>
+		</div>
 		
 
 		<!-- Microphone Test -->
@@ -195,7 +204,7 @@
 	        var y_lo = canvasHeight - (canvasHeight * minValue) - 1;
 	        var y_hi = canvasHeight - (canvasHeight * maxValue) - 1;
 
-	        ctx.fillStyle = '#ffffff';
+	        ctx.fillStyle = '#0C2340';
 	        ctx.fillRect(column,y_lo, 1, y_hi - y_lo);
 
 	        // loop around the canvas when we reach the end
@@ -223,7 +232,7 @@
 	    function clearCanvas() {
 	        column = 0;
 	        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-	        ctx.strokeStyle = '#f00';
+	        ctx.strokeStyle = '#04B376';
 	        var y = (canvasHeight / 2) + 0.5;
 	        ctx.moveTo(0, y);
 	        ctx.lineTo(canvasWidth-1, y);
