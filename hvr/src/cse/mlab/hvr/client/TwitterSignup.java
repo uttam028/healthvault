@@ -1,9 +1,17 @@
 package cse.mlab.hvr.client;
 
+import java_cup.production;
+
+import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Input;
+import org.gwtbootstrap3.client.ui.Panel;
+import org.gwtbootstrap3.client.ui.PanelCollapse;
+import org.gwtbootstrap3.client.ui.PanelGroup;
+import org.gwtbootstrap3.client.ui.PanelHeader;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.Toggle;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,14 +19,15 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
-import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
 import cse.mlab.hvr.shared.Md5Utils;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
@@ -30,6 +39,17 @@ public class TwitterSignup extends Composite {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
+	@UiField
+	AnchorListItem patientAnchor, researcherAnchor, supportAnchor;
+	
+	@UiField
+	HTMLPanel patientCustomPanel, researcherCustomPanel, supportCustomPanel;
+	
+	@UiField
+	Button buttonFaq;
+	@UiField
+	PanelGroup generalPanelGroup, patientPanelGroup, researcherPanelGroup;
+	
 	@UiField
 	Form formLogin;
 	@UiField
@@ -81,6 +101,8 @@ public class TwitterSignup extends Composite {
 			statusSignupEmailError = false, statusPasswordMatchError = false;
 
 	private Hvr application;
+	private String currentTab = "";
+	
 
 	private static TwitterSignupUiBinder uiBinder = GWT
 			.create(TwitterSignupUiBinder.class);
@@ -93,14 +115,14 @@ public class TwitterSignup extends Composite {
 		this.application = application;
 		formLogin.setVisible(true);
 		formSignup.setVisible(false);
-
 	}
 	
 	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 		super.onLoad();
-		activateAccordion();
+		this.patientAnchorClicked(null);
+		loadPatientPanel();
 	}
 
 	public  native void activateAccordion()/*-{
@@ -117,7 +139,81 @@ public class TwitterSignup extends Composite {
 	public void reset() {
 
 	}
+	
+	@UiHandler("buttonFaq")
+	void faqButtonClicked(ClickEvent event){
+		togglePanelGroup(generalPanelGroup, true);
+		if(currentTab.equalsIgnoreCase("patient")){
+			togglePanelGroup(patientPanelGroup, true);
+			togglePanelGroup(researcherPanelGroup, false);
+		} else if (currentTab.equalsIgnoreCase("researcher")) {
+			togglePanelGroup(patientPanelGroup, false);
+			togglePanelGroup(researcherPanelGroup, true);			
+		}
+		supportAnchorClciked(null);
 
+	}
+	
+	private void togglePanelGroup(PanelGroup panelGroup, boolean openAll){
+		for(int i=0;i<researcherPanelGroup.getWidgetCount();i++){
+			try {
+				PanelCollapse tempPanelCollapse = (PanelCollapse)((Panel)panelGroup.getWidget(i)).getWidget(1);
+				tempPanelCollapse.setIn(openAll);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+	}
+	
+	@UiHandler("patientAnchor")
+	void patientAnchorClicked(ClickEvent event){
+		History.newItem("patient");
+	}
+	
+	protected void loadPatientPanel(){
+		currentTab = "patient";
+		patientAnchor.setActive(true);
+		researcherAnchor.setActive(false);
+		supportAnchor.setActive(false);
+		patientCustomPanel.setVisible(true);
+		researcherCustomPanel.setVisible(false);
+		supportCustomPanel.setVisible(false);
+		buttonFaq.setVisible(true);		
+	}
+	
+	@UiHandler("researcherAnchor")
+	void researcherAnchorClicked(ClickEvent event){
+		History.newItem("researcher");
+	}
+	
+	protected void loadResearcherPanel(){
+		currentTab = "researcher";
+		patientAnchor.setActive(false);
+		researcherAnchor.setActive(true);
+		supportAnchor.setActive(false);
+		patientCustomPanel.setVisible(false);
+		researcherCustomPanel.setVisible(true);
+		supportCustomPanel.setVisible(false);
+		buttonFaq.setVisible(true);		
+	}
+	
+	@UiHandler("supportAnchor")
+	void supportAnchorClciked(ClickEvent event){
+		History.newItem("support");
+	}
+	protected void loadSupportPanel(){
+		togglePanelGroup(generalPanelGroup, true);
+		currentTab = "support";
+		patientAnchor.setActive(false);
+		researcherAnchor.setActive(false);
+		supportAnchor.setActive(true);
+		patientCustomPanel.setVisible(false);
+		researcherCustomPanel.setVisible(false);
+		supportCustomPanel.setVisible(true);	
+		buttonFaq.setVisible(false);		
+	}
+	
 	@UiHandler("buttonForgotPass")
 	void resetPassword(ClickEvent event) {
 		if (validationBeforeReset()) {

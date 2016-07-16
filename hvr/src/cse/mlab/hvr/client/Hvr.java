@@ -12,6 +12,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sun.javafx.scene.text.HitInfo;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -29,18 +30,7 @@ public class Hvr implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		RootPanel.get().clear();
-//		Button loginButton = new Button("LogIn");
-//		Button signupButton = new Button("SignUp");
-//		Button twitterSignupButton = new Button("TwitterSignUp");
-		
 
-
-//		login = new Login(this);
-//		RootPanel.get().add(loginButton);
-//		RootPanel.get().add(signupButton);
-//		RootPanel.get().add(twitterSignupButton);
-
-//		signup = new Signup(this);
 		String paramValue = Window.Location.getParameter("confirmationcode");
 		if(paramValue != null && paramValue.length()>10){
 			//Window.alert("paramvalue:"+ paramValue);
@@ -48,58 +38,42 @@ public class Hvr implements EntryPoint {
 		twitterSignup = new TwitterSignup(this);
 		RootPanel.get().add(twitterSignup);
 
-//		loginButton.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				RootPanel.get().remove(signup);
-//				RootPanel.get().remove(twitterSignup);
-//				login.reset();
-//				RootPanel.get().add(login);
-//			}
-//		});
-//
-//		signupButton.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				RootPanel.get().remove(login);
-//				RootPanel.get().remove(twitterSignup);
-//				signup.reset();
-//				RootPanel.get().add(signup);
-//
-//			}
-//		});
-//		
-//		twitterSignupButton.addClickHandler(new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				RootPanel.get().remove(login);
-//				RootPanel.get().remove(signup);
-//				twitterSignup.reset();
-//				RootPanel.get().add(twitterSignup);
-//			}
-//		});
 
+		//History.
 	    History.addValueChangeHandler(new ValueChangeHandler<String>() {
+	    	
 	        public void onValueChange(ValueChangeEvent<String> event) {
 	          String historyToken = event.getValue();
-
 	          // Parse the history token
 	          try {
 	        	  //Window.alert("history token:"+ historyToken);
-	        	  if(historyToken.equalsIgnoreCase("main")){
-	        		  mainPage.loadHomePage(null);
-	        	  } else if (historyToken.equalsIgnoreCase("concussion")) {
-					mainPage.loadConcussionPage();
-	        	  } else if (historyToken.equalsIgnoreCase("dysarthria")) {
-					mainPage.loadDysarthriaPage();
-	        	  } else {
-	        		 mainPage.loadHomePage(null); 
-	        	  }
+	        	  if(historyToken.equalsIgnoreCase("patient")){
+	        		  twitterSignup.loadPatientPanel();
+	        	  } else if(historyToken.equalsIgnoreCase("researcher")){
+	        		  twitterSignup.loadResearcherPanel();
+	        	  } else if(historyToken.equalsIgnoreCase("support")){
+	        		  twitterSignup.loadSupportPanel();
+	        	  } else if(historyToken.equalsIgnoreCase("home")){
+		        	  if(mainPage == null){
+		        		  Window.alert("main page null");
+		        	  }
+
+	        		  mainPage.loadHomePage();
+	        	  } else if(historyToken.equalsIgnoreCase("profile")){
+		        	  if(mainPage == null){
+		        		  Window.alert("main page null");
+		        	  }
+	        		  mainPage.loadProfilePage();
+	        	  }  
+//	        	  else if(historyToken.equalsIgnoreCase("main")){
+//	        		  mainPage.loadHomePage(null);
+//	        	  } else if (historyToken.equalsIgnoreCase("concussion")) {
+//					mainPage.loadConcussionPage();
+//	        	  } else if (historyToken.equalsIgnoreCase("dysarthria")) {
+//					mainPage.loadDysarthriaPage();
+//	        	  } else {
+//	        		 mainPage.loadHomePage(null); 
+//	        	  }
 //	        	  
 //	        	if(historyToken.startsWith("home")){
 //	        		mainPage.loadHomePage(null);
@@ -115,7 +89,10 @@ public class Hvr implements EntryPoint {
 
 	          } catch (IndexOutOfBoundsException e) {
 //	            mainPage.loadHomePage(null);
-	          }
+	        	  
+	          } catch (Exception e) {
+				// TODO: handle exception
+			}
 	        }
 	      });
 
@@ -134,7 +111,7 @@ public class Hvr implements EntryPoint {
 	}
 
 	public void loggedIn(String userId) {
-		// Window.alert("event has been passed to main page");
+		Window.alert("event has been passed to main page");
 		RootPanel.get().clear();
 		mainPage = new MainPage(this, userId);
 		RootPanel.get().add(mainPage);

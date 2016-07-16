@@ -1,11 +1,14 @@
 package cse.mlab.hvr.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 
@@ -30,4 +33,8 @@ public interface GreetingService extends RemoteService {
 	  MedicationList getMedicationsList(String email);
 	  Response deleteMedications(String email, String list);
 	  Response stopUsingMedication(long id, String endDate);
+	  
+	  
+	  //speech test
+	  ArrayList<TestPrefaceModel> getAvailableSpeechTest();
 }

@@ -1,4 +1,4 @@
-package cse.mlab.hvr.client;
+package cse.mlab.hvr.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 

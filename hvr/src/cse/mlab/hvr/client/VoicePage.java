@@ -21,6 +21,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.events.TestCompletionEvent;
+import cse.mlab.hvr.client.events.TestCompletionEventHandler;
+
 public class VoicePage extends Composite {
 
 	@UiField
@@ -57,7 +60,7 @@ public class VoicePage extends Composite {
 	String selectedTest = "";
 	
 	static DysarthiaTestNew audioBasedDysarthiaTest;
-	static ConcussionTest concussionTest;
+	static ConcussionTestNew audioBasedConcussionTest;
 	
 	Hvr application;
 	
@@ -72,7 +75,7 @@ public class VoicePage extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.application = application;
 		audioBasedDysarthiaTest = new DysarthiaTestNew();
-		concussionTest = new ConcussionTest();
+		audioBasedConcussionTest = new ConcussionTestNew();
 		
 		
 //		configureMicButton = new Button("Configure Microphone");
@@ -265,12 +268,12 @@ public class VoicePage extends Composite {
 				voicePagePanel.clear();
 				if (selectedTest == "dysarthria") {
 					audioBasedDysarthiaTest.updateDysTestRunningStatus(true);
-					concussionTest.updateConTestRunningStatus(false);
+					audioBasedConcussionTest.updateConTestRunningStatus(false);
 					voicePagePanel.add(audioBasedDysarthiaTest);
 				} else if (selectedTest == "concussion") {
 					audioBasedDysarthiaTest.updateDysTestRunningStatus(false);
-					concussionTest.updateConTestRunningStatus(true);
-					voicePagePanel.add(concussionTest);
+					audioBasedConcussionTest.updateConTestRunningStatus(true);
+					voicePagePanel.add(audioBasedConcussionTest);
 				}				
 			} else{
 				voicePageModalBody.remove(testInformationPanel);
@@ -297,12 +300,12 @@ public class VoicePage extends Composite {
 			voicePagePanel.clear();
 			if (selectedTest == "dysarthria") {
 				audioBasedDysarthiaTest.updateDysTestRunningStatus(true);
-				concussionTest.updateConTestRunningStatus(false);
+				audioBasedConcussionTest.updateConTestRunningStatus(false);
 				voicePagePanel.add(audioBasedDysarthiaTest);
 			} else if (selectedTest == "concussion") {
 				audioBasedDysarthiaTest.updateDysTestRunningStatus(false);
-				concussionTest.updateConTestRunningStatus(true);
-				voicePagePanel.add(concussionTest);
+				audioBasedConcussionTest.updateConTestRunningStatus(true);
+				voicePagePanel.add(audioBasedConcussionTest);
 			}
 		}
 	}
@@ -380,8 +383,7 @@ public class VoicePage extends Composite {
 							TestCompletionEvent event) {
 						// TODO Auto-generated method stub
 						voicePagePanel.clear();
-//						constructPage();
-						application.mainPage.loadHomePage(null);
+//						application.mainPage.loadHomePage(null);
 					}
 				});
 

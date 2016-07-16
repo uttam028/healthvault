@@ -3,271 +3,316 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	<ui:style>
-
+		.left{
+			text-align:left;
+		}
+		.center{
+			float:none;
+			display: inline-block;
+		}
+		.bottom_zero{
+			margin-bottom: 0;
+		}
 	</ui:style>
 	<!-- Banner -->
-	<g:HTMLPanel  addStyleNames="customBackground">
-		<div style="margin-left:auto;margin-right:auto;text-align:center">
-			<section id="banner">
-				<section>
-					<h2>Your Speech, Your Health&ensp;</h2>
-					<ul class="actions">
-						<li>
-							<a href="#research" class="button special">Learn More</a>
-						</li>
-					</ul>
-				</section>
-			</section>
-		</div>
-		<!--b:Container fluid="true"> <b:Row> <b:Navbar> <b:NavbarForm> <b:Heading 
-			size="H1" text="Your Speech, Your Health" addStyleNames="col-lg-10" /> </b:NavbarForm> 
-			</b:Navbar> </b:Row> </b:Container -->
-		<!--div> <br /> <br /> <br /> <br /> </div -->
+	<g:HTMLPanel>
+
+		<b:Jumbotron addStyleNames="banner_color jumbo_height {style.bottom_zero}">
+			<b:Row>
+				<b:Column size="MD_2">
+					<b:Image url="template/images/ndcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
+				</b:Column>
+				<b:Column size="MD_8">
+					<g:Label addStyleNames="banner_text_color h1">Speech Marker
+						Initiative</g:Label>
+					<h:Paragraph addStyleNames="banner_text_color">A joint project of the
+						University of Notre
+						Dame and the
+						National Science Foundation</h:Paragraph>
+				</b:Column>
+				<b:Column size="MD_2">
+					<b:Image url="template/images/nsfcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
+				</b:Column>
+			</b:Row>
+		</b:Jumbotron>
+		<b:Navbar addStyleNames="container-fluid">
+			<b:NavbarCollapse>
+				<b:NavbarNav addStyleNames="{style.center}">
+					<b:AnchorListItem ui:field="patientAnchor" >Patient</b:AnchorListItem>
+					<b:AnchorListItem ui:field="researcherAnchor">Researcher</b:AnchorListItem>
+					<b:AnchorListItem ui:field="supportAnchor">Support</b:AnchorListItem>
+				</b:NavbarNav>
+			</b:NavbarCollapse>
+		</b:Navbar>
 		<g:HTMLPanel>
 			<b:Row>
-				<b:Column size="MD_7 LG_7">
-					<g:HTMLPanel>
-						<div
-							style="display:inline-block; float:right; margin-right:30px; margin-top:80px; text-align:center">
-							<h2>About this website</h2>
-							<p>
-								Welcome to Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-								do
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-								ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-								aliquip ex ea commodo consequat. Duis aute irure dolor in
-								reprehenderit in voluptate velit esse cillum dolore eu fugiat
-								nulla
-								pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-								culpa qui officia deserunt mollit anim id est laborum
-							</p>
-							<a href="#" class="button alt">Button</a>
-						</div>
+				<b:Column size="MD_7">
+					<b:Row>
+						<g:HTMLPanel ui:field="patientCustomPanel"
+							addStyleNames="col-lg-offset-2">
 
-					</g:HTMLPanel>
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2 style="float:left;">
+								<span class="glyphicon glyphicon-volume-up"></span>
+								&nbsp; Participate in voice sample collection
+							</h2>
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2 style="float:left;">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								&nbsp; Get involved in speech research
+							</h2>
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2 style="float:left;">
+								<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
+								&nbsp; Get rewarded for contribution
+							</h2>
+
+						</g:HTMLPanel>
+						<g:HTMLPanel ui:field="researcherCustomPanel"
+							addStyleNames="col-lg-offset-2">
+							<h2 style="float:left;">
+								<img src="template/images/voice2.png" />
+								&nbsp; Create your own custom speech test
+							</h2>
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2 style="float:left;">
+								<img src="template/images/search2.png" />
+								&nbsp; Inquire about aggregate data from voice samples
+							</h2>
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2 style="float:left;">
+								<img src="template/images/data2.png" />
+								&nbsp; Evaluate data with online analysis tools
+							</h2>
+
+						</g:HTMLPanel>
+						<g:HTMLPanel ui:field="supportCustomPanel"
+							addStyleNames="col-lg-offset-2">
+							<h3>General</h3>
+							<b:PanelGroup b:id="accordion"  addStyleNames="{style.left}" ui:field="generalPanelGroup">
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#generalQCollapseOne">
+										<b:Heading size="H4"
+											text="1. What is the purpose of this initiative?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="generalQCollapseOne">
+										<b:PanelBody>
+											<h:Paragraph>The purpose of the Speech Marker Initiative is to find a connection between human speech patterns and certain medical conditions. Through prior research, a link between neurological functioning and certain acoustic features of the voice has been revealed.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#generalQCollapseTwo">
+										<b:Heading size="H4" text="2. What does this website contain?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="generalQCollapseTwo">
+										<b:PanelBody>
+											<h:Paragraph>As a patient, this website contains several different speech tests, which can be completed periodically. This website as also has features for researchers, such as data analytics and comparison tools to run on the database of completed tests.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+							</b:PanelGroup>
+														
+							<h3>Patient</h3>
+							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}" ui:field="patientPanelGroup">
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#patientQCollapseOne">
+										<b:Heading size="H4"
+											text="1. How do I take the tests?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="patientQCollapseOne">
+										<b:PanelBody>
+											<h:Paragraph>Once you have created your profile, you will be given a consent form. After reading the form and agreeing to its terms, you will complete a microphone test to ensure that your voice is picked up by the program. In order to have the best sound quality, it is recommended that you use headphones. After the microphone test, the instructions will be communicated verbally and you will read the words aloud that appear on the screen.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#patientQCollapseTwo">
+										<b:Heading size="H4" text="2. What are my recordings used for?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="patientQCollapseTwo">
+										<b:PanelBody>
+											<h:Paragraph>The data that is collected from the speech recording tests is sent and processed in a secure and private manner. Acoustic features include format frequencies, pitch, shimmer, jitter, and more. These features are analyzed using significance tests and various algorithms to find a connection between neurological conditions and the human voice.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#patientQCollapseThree">
+										<b:Heading size="H4" text="3. What incentives are there for taking these tests?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="patientQCollapseThree">
+										<b:PanelBody>
+											<h:Paragraph>Contributing to the University of Notre Dame's study of the link between brain injury and voice can lead to further development in the early detection and warning signs of mild traumatic brain injuries.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+							</b:PanelGroup>
+							<h3>Researcher</h3>
+							<b:PanelGroup b:id="accordion"  addStyleNames="{style.left}" ui:field="researcherPanelGroup">
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#researchQCollapseOne">
+										<b:Heading size="H4"
+											text="1. What information can I use for research purposes?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="researchQCollapseOne">
+										<b:PanelBody>
+											<h:Paragraph>As a researcher, you will be able to specify
+												which tests you wish to obtain data from, and can narrow
+												your search with criteria such as age and gender. You can
+												use the data analytics and comparison tools on the website
+												to identify trends within your data set.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+								<b:Panel>
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+										dataTarget="#researchQCollapseTwo">
+										<b:Heading size="H4" text="2. Can I create my own speech-based test?">
+										</b:Heading>
+									</b:PanelHeader>
+									<b:PanelCollapse b:id="researchQCollapseTwo">
+										<b:PanelBody>
+											<h:Paragraph>Yes, as a researcher, you will be able to upload your own separate speech recordings, and the existing algorithm will be run on your sound file. This can eventually be added to the repository and made available for other patients.</h:Paragraph>
+										</b:PanelBody>
+									</b:PanelCollapse>
+								</b:Panel>
+							</b:PanelGroup>
+
+						</g:HTMLPanel>
+					</b:Row>
+					<h:Br />
+					<h:Br />
+					<b:Row addStyleNames="col-md-12 center-block">
+						<b:Button type="INFO" ui:field="buttonFaq">Learn More</b:Button>
+					</b:Row>
 				</b:Column>
-				<b:Column size="MD_5 LG_5">
+				<b:Column size="MD_5">
 					<b:Row>
-						<h:Br />
-						<h:Br />
-						<h:Br />
+
+						<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-2 col-lg-7"
+							ui:field="formLogin">
+							<b:FieldSet>
+								<b:Legend>Login</b:Legend>
+								<g:Label ui:field="labelLoginError" styleName="labelError"></g:Label>
+								<b:FormGroup>
+									<!--b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:TextBox b:id="formName" ui:field="textLoginEmail"
+											maxLength="30" placeholder="Email" />
+										<g:Label ui:field="labelLoginEmailFormatError"
+											styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<!-- b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textLoginPassword"
+											maxLength="30" placeholder="Password" />
+										<g:Label ui:field="labelLoginPasswordError" styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
+										<b:Button ui:field="buttonLoginAction" type="SUCCESS">Log in</b:Button>
+									</g:FlowPanel>
+								</b:FormGroup>
+
+								<b:FormGroup>
+									<b:Button type="LINK" addStyleNames="col-lg-offset-3"
+										ui:field="buttonForgotPass">Forget Password</b:Button>
+									<h:Span>|</h:Span>
+									<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
+								</b:FormGroup>
+							</b:FieldSet>
+						</b:Form>
+						<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-2 col-lg-7"
+							ui:field="formSignup">
+							<b:FieldSet>
+								<b:Legend>Signup Form</b:Legend>
+								<g:Label ui:field="labelSignupError" styleName="labelError"></g:Label>
+								<b:FormGroup>
+									<!-- b:FormLabel for="formName" addStyleNames="col-lg-4">First Name</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:TextBox b:id="formName" ui:field="textFirstName"
+											maxLength="20" placeholder="First Name" />
+										<g:Label ui:field="labelFirstNameError" styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<!-- b:FormLabel for="formName" addStyleNames="col-lg-4">Last Name</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:TextBox b:id="formName" ui:field="textLastName"
+											maxLength="20" placeholder="Last Name" />
+										<g:Label ui:field="labelLastNameError" styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<!-- b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:TextBox b:id="formName" ui:field="textSignupEmail"
+											maxLength="30" placeholder="Email" />
+										<g:Label ui:field="labelSignupEmailFormatError"
+											styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<!-- b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textSignupPassword"
+											maxLength="30" placeholder="Password" />
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<!--b:FormLabel for="formName" addStyleNames="col-lg-4">Confirm 
+										Password</b:FormLabel -->
+									<g:FlowPanel addStyleNames="col-lg-offset-3 col-lg-9">
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textConfirmPassword"
+											maxLength="30" placeholder="Confirm Password" />
+										<g:Label ui:field="labelPasswordMatchError" styleName="labelError"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
+										<b:Button ui:field="buttonSignupAction" type="SUCCESS">Signup</b:Button>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:Button type="LINK" ui:field="buttonAlreadyAccount">Already have an
+									account</b:Button>
+							</b:FieldSet>
+						</b:Form>
 					</b:Row>
-				    <b:Row addStyleNames="customForm">
-						<h:Br/>
-							<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-3 col-lg-7"
-								ui:field="formLogin">
-								<b:FieldSet>
-									<b:Legend>Login</b:Legend>
-									<g:Label ui:field="labelLoginError" styleName="labelError"></g:Label>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:TextBox b:id="formName" ui:field="textLoginEmail"
-												maxLength="30" placeholder="Email" />
-											<g:Label ui:field="labelLoginEmailFormatError"
-												styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:Input type="PASSWORD" b:id="formName" ui:field="textLoginPassword"
-												maxLength="30" placeholder="Password" />
-											<g:Label ui:field="labelLoginPasswordError"
-												styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
-											<b:Button ui:field="buttonLoginAction">Log in</b:Button>
-										</g:FlowPanel>
-									</b:FormGroup>
-
-									<b:FormGroup>
-										<b:Button type="LINK" addStyleNames="col-lg-offset-2.5"
-											ui:field="buttonForgotPass">Can't access account</b:Button>
-										<h:Span>|</h:Span>
-										<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
-									</b:FormGroup>
-								</b:FieldSet>
-							</b:Form>
-
-							<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-3 col-lg-7"
-								ui:field="formSignup">
-								<b:FieldSet>
-									<b:Legend>Signup Form</b:Legend>
-									<g:Label ui:field="labelSignupError" styleName="labelError"></g:Label>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">First
-											Name</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:TextBox b:id="formName" ui:field="textFirstName"
-												maxLength="20" placeholder="First Name" />
-											<g:Label ui:field="labelFirstNameError" styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Last
-											Name</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:TextBox b:id="formName" ui:field="textLastName"
-												maxLength="20" placeholder="Last Name" />
-											<g:Label ui:field="labelLastNameError" styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:TextBox b:id="formName" ui:field="textSignupEmail"
-												maxLength="30" placeholder="Email" />
-											<g:Label ui:field="labelSignupEmailFormatError"
-												styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Password</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:Input type="PASSWORD" b:id="formName" ui:field="textSignupPassword"
-												maxLength="30" placeholder="Password" />
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<b:FormLabel for="formName" addStyleNames="col-lg-4">Confirm
-											Password</b:FormLabel>
-										<g:FlowPanel addStyleNames="col-lg-8">
-											<b:Input type="PASSWORD" b:id="formName" ui:field="textConfirmPassword"
-												maxLength="30" placeholder="Confirm Password" />
-											<g:Label ui:field="labelPasswordMatchError"
-												styleName="labelError"></g:Label>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:FormGroup>
-										<g:FlowPanel addStyleNames="col-lg-offset-9 col-lg-3">
-											<b:Button ui:field="buttonSignupAction">Signup</b:Button>
-										</g:FlowPanel>
-									</b:FormGroup>
-									<b:Button type="LINK" ui:field="buttonAlreadyAccount">Already have an account</b:Button>
-								</b:FieldSet>
-							</b:Form>
-
-					</b:Row>
-					<b:Row>
-						<h:Br />
-						<h:Br />
-						<h:Br />
-					</b:Row>
-
 				</b:Column>
 
 
 			</b:Row>
 		</g:HTMLPanel>
-
-		<!-- div style="width:45%; margin-left:30px; display:inline-block"> <div 
-			class="login-page"> <div class="form"> <h2>Login to your account</h2> <form 
-			class="register-form"> <input type="text" placeholder="name" /> <input type="password" 
-			placeholder="password" /> <input type="text" placeholder="email address" 
-			/> <button>create</button> <p class="message"> Already registered? <a href="#">Sign 
-			In</a> </p> </form> <form class="login-form"> <input type="text" placeholder="username" 
-			/> <input type="password" placeholder="password" /> <a href="home.html" class="button 
-			special">Login</a> <p class="message"> Not registered? <a href="#"> Create 
-			an account</a> </p> <p class="message"> Can't access account? <a href="#"> 
-			Account help</a> </p> </form> </div> </div> </div -->
-
-
-
-		<b:Row>
-
-		</b:Row>
-
-		<!-- Two -->
-		<a name="research"></a>
-		<section id="two" class="wrapper style2 alt">
-			<div class="inner">
-				<div class="spotlight">
-					<div class="image">
-						<img
-							src="http://www.ascseniorcare.com/wp-content/uploads/2014/06/bigstock-Senior-Couple-On-Bicycles-3916885.jpg"
-							alt="" />
-					</div>
-					<div class="content">
-						<h3>Research</h3>
-						<p>This website contains tests to help with research related to
-							Concussion and Dysarthria detection, conducted by the Mobile
-							Computing Lab at the University of Notre Dame. Click the button
-							below to learn more about the mobile computing lab</p>
-						<ul class="actions">
-							<li>
-								<a href="http://m-lab.cse.nd.edu" class="button alt">Learn More</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="spotlight">
-					<div class="image">
-						<iframe width="420" height="345"
-							src="http://www.youtube.com/embed/k1qvcw-zqtQ"></iframe>
-					</div>
-					<div class="content">
-						<h3>Speech Test</h3>
-						<p>Watch a video of a speech test in progress. (Temp Video
-							Placeholder)</p>
-					</div>
-				</div>
-				<div class="spotlight">
-					<div class="image">
-						<img
-							src="http://www.drdavidgeier.com/wp-content/uploads/2014/04/Doctor-talking-to-older-patient.jpg"
-							alt="" />
-					</div>
-					<div class="content">
-						<h3>FAQs</h3>
-						<button class="accordion">What does this website contain?</button>
-						<div class="accordionPanel">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco
-								laboris nisi ut aliquip ex ea commodo consequat.</p>
-						</div>
-
-						<button class="accordion">What is the data from this website used for?</button>
-						<div class="accordionPanel">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco
-								laboris nisi ut aliquip ex ea commodo consequat.</p>
-						</div>
-
-						<button class="accordion">Who can take the tests on this website?</button>
-						<div class="accordionPanel">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco
-								laboris nisi ut aliquip ex ea commodo consequat.</p>
-						</div>
-
-					</div>
-				</div>
-				<ul class="actions special">
-					<li>
-						<a href="#" class="button alt">Back to login</a>
-					</li>
-				</ul>
-			</div>
-		</section>
-
-
-
-		<!-- Footer -->
-		<footer id="footer">
-			<div class="copyright">
-				&copy;
-				<a href="http://nd.edu">University of Notre Dame</a>
-				. All rights reserved.
-			</div>
-		</footer>
-
-		<!-- script type="text/javascript" src="template/assets/js/accordion.js"></script -->
 
 
 	</g:HTMLPanel>
