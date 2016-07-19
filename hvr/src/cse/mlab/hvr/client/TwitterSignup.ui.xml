@@ -4,14 +4,19 @@
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	<ui:style>
 		.left{
-			text-align:left;
+		text-align:left;
 		}
 		.center{
-			float:none;
-			display: inline-block;
+		float:none;
+		display:
+		inline-block;
 		}
 		.bottom_zero{
 			margin-bottom: 0;
+		}
+		.white{
+			color:white;
+			font-size: 60px;
 		}
 	</ui:style>
 	<!-- Banner -->
@@ -23,8 +28,9 @@
 					<b:Image url="template/images/ndcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
 				</b:Column>
 				<b:Column size="MD_8">
-					<g:Label addStyleNames="banner_text_color h1">Speech Marker
+					<g:Label addStyleNames="{style.white} h2">Speech Marker
 						Initiative</g:Label>
+					<!--h:Paragraph addStyleNames="banner_text_color h2">Speech Marker Initiative</h:Paragraph-->
 					<h:Paragraph addStyleNames="banner_text_color">A joint project of the
 						University of Notre
 						Dame and the
@@ -38,7 +44,7 @@
 		<b:Navbar addStyleNames="container-fluid">
 			<b:NavbarCollapse>
 				<b:NavbarNav addStyleNames="{style.center}">
-					<b:AnchorListItem ui:field="patientAnchor" >Patient</b:AnchorListItem>
+					<b:AnchorListItem ui:field="patientAnchor">Patient</b:AnchorListItem>
 					<b:AnchorListItem ui:field="researcherAnchor">Researcher</b:AnchorListItem>
 					<b:AnchorListItem ui:field="supportAnchor">Support</b:AnchorListItem>
 				</b:NavbarNav>
@@ -104,7 +110,8 @@
 						<g:HTMLPanel ui:field="supportCustomPanel"
 							addStyleNames="col-lg-offset-2">
 							<h3>General</h3>
-							<b:PanelGroup b:id="accordion"  addStyleNames="{style.left}" ui:field="generalPanelGroup">
+							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+								ui:field="generalPanelGroup">
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#generalQCollapseOne">
@@ -114,7 +121,11 @@
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="generalQCollapseOne">
 										<b:PanelBody>
-											<h:Paragraph>The purpose of the Speech Marker Initiative is to find a connection between human speech patterns and certain medical conditions. Through prior research, a link between neurological functioning and certain acoustic features of the voice has been revealed.</h:Paragraph>
+											<h:Paragraph>The purpose of the Speech Marker Initiative is
+												to find a connection between human speech patterns and
+												certain medical conditions. Through prior research, a link
+												between neurological functioning and certain acoustic
+												features of the voice has been revealed.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
@@ -126,54 +137,77 @@
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="generalQCollapseTwo">
 										<b:PanelBody>
-											<h:Paragraph>As a patient, this website contains several different speech tests, which can be completed periodically. This website as also has features for researchers, such as data analytics and comparison tools to run on the database of completed tests.</h:Paragraph>
+											<h:Paragraph>As a patient, this website contains several
+												different speech tests, which can be completed periodically.
+												This website as also has features for researchers, such as
+												data analytics and comparison tools to run on the database
+												of completed tests.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
 							</b:PanelGroup>
-														
+
 							<h3>Patient</h3>
-							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}" ui:field="patientPanelGroup">
+							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+								ui:field="patientPanelGroup">
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#patientQCollapseOne">
-										<b:Heading size="H4"
-											text="1. How do I take the tests?">
+										<b:Heading size="H4" text="1. How do I take the tests?">
 										</b:Heading>
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="patientQCollapseOne">
 										<b:PanelBody>
-											<h:Paragraph>Once you have created your profile, you will be given a consent form. After reading the form and agreeing to its terms, you will complete a microphone test to ensure that your voice is picked up by the program. In order to have the best sound quality, it is recommended that you use headphones. After the microphone test, the instructions will be communicated verbally and you will read the words aloud that appear on the screen.</h:Paragraph>
+											<h:Paragraph>Once you have created your profile, you will be
+												given a consent form. After reading the form and agreeing to
+												its terms, you will complete a microphone test to ensure
+												that your voice is picked up by the program. In order to
+												have the best sound quality, it is recommended that you use
+												headphones. After the microphone test, the instructions will
+												be communicated verbally and you will read the words aloud
+												that appear on the screen.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#patientQCollapseTwo">
-										<b:Heading size="H4" text="2. What are my recordings used for?">
+										<b:Heading size="H4"
+											text="2. What are my recordings used for?">
 										</b:Heading>
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="patientQCollapseTwo">
 										<b:PanelBody>
-											<h:Paragraph>The data that is collected from the speech recording tests is sent and processed in a secure and private manner. Acoustic features include format frequencies, pitch, shimmer, jitter, and more. These features are analyzed using significance tests and various algorithms to find a connection between neurological conditions and the human voice.</h:Paragraph>
+											<h:Paragraph>The data that is collected from the speech
+												recording tests is sent and processed in a secure and
+												private manner. Acoustic features include format
+												frequencies, pitch, shimmer, jitter, and more. These
+												features are analyzed using significance tests and various
+												algorithms to find a connection between neurological
+												conditions and the human voice.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#patientQCollapseThree">
-										<b:Heading size="H4" text="3. What incentives are there for taking these tests?">
+										<b:Heading size="H4"
+											text="3. What incentives are there for taking these tests?">
 										</b:Heading>
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="patientQCollapseThree">
 										<b:PanelBody>
-											<h:Paragraph>Contributing to the University of Notre Dame's study of the link between brain injury and voice can lead to further development in the early detection and warning signs of mild traumatic brain injuries.</h:Paragraph>
+											<h:Paragraph>Contributing to the University of Notre Dame's
+												study of the link between brain injury and voice can lead to
+												further development in the early detection and warning signs
+												of mild traumatic brain injuries.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
 							</b:PanelGroup>
 							<h3>Researcher</h3>
-							<b:PanelGroup b:id="accordion"  addStyleNames="{style.left}" ui:field="researcherPanelGroup">
+							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+								ui:field="researcherPanelGroup">
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#researchQCollapseOne">
@@ -194,12 +228,17 @@
 								<b:Panel>
 									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
 										dataTarget="#researchQCollapseTwo">
-										<b:Heading size="H4" text="2. Can I create my own speech-based test?">
+										<b:Heading size="H4"
+											text="2. Can I create my own speech-based test?">
 										</b:Heading>
 									</b:PanelHeader>
 									<b:PanelCollapse b:id="researchQCollapseTwo">
 										<b:PanelBody>
-											<h:Paragraph>Yes, as a researcher, you will be able to upload your own separate speech recordings, and the existing algorithm will be run on your sound file. This can eventually be added to the repository and made available for other patients.</h:Paragraph>
+											<h:Paragraph>Yes, as a researcher, you will be able to upload
+												your own separate speech recordings, and the existing
+												algorithm will be run on your sound file. This can
+												eventually be added to the repository and made available for
+												other patients.</h:Paragraph>
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>

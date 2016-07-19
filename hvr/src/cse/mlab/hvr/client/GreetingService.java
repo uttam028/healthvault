@@ -11,6 +11,7 @@ import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
 
 /**
  * The client-side stub for the RPC service.
@@ -37,4 +38,5 @@ public interface GreetingService extends RemoteService {
 	  
 	  //speech test
 	  ArrayList<TestPrefaceModel> getAvailableSpeechTest();
+	  SpeechTestMetadata getSpeechTestMetadata(String testId);
 }

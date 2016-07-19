@@ -1,0 +1,81 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+	<ui:style>
+		.important {
+		font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<!-- Small Banner -->
+		<section class="small_banner">
+			<h2>Concussion Test</h2>
+		</section>
+
+					<section id="two" class="wrapper style2 alt">
+				<div class="inner">
+					<a name="faq"></a>
+					<div class="spotlight" style="margin-top: -30px;">
+						<div class="image">
+							<img src="http://www.drdavidgeier.com/wp-content/uploads/2014/04/Doctor-talking-to-older-patient.jpg" alt="" />
+						</div>
+						<div class="content">
+							<h3>FAQs about the Concussion Test</h3>
+								<button class="accordion" style="font-size: 16px; background-color: rgb(92, 56, 114);">What does the Concussion Test measure?</button>
+								<div class="panel">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								</div>
+
+								<button class="accordion" style="font-size: 16px; background-color: rgb(128, 128, 128);">How do I take the test?</button>
+								<div class="panel">
+								  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								</div>
+
+								<button class="accordion" style="font-size: 16px; background-color: rgb(92, 56, 114);">Who should take the test?</button>
+								<div class="panel">
+								  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								</div>
+
+								<button class="accordion" style="font-size: 16px; background-color: rgb(128, 128, 128);">Are there any incentives to taking this test?</button>
+								<div class="panel">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								</div>
+
+								<button class="accordion" style="font-size: 16px; background-color: rgb(92, 56, 114);">More information about the Mobile Computing Lab</button>
+								<div class="panel">
+									<p>Read more about the Mobile Computing Lab's research <a href="http://m-lab.cse.nd.edu" target="_blank">here</a>.</p>
+								</div>
+
+						</div>
+					</div>
+				</div>
+			</section>
+		
+
+		<div class="login-page">
+			<div class="form" style="margin-top: -60px;">
+				<h2>Take the Concussion Test:</h2>
+				<!-- a href="concussion_consent.html" class="button special">Start Now</a-->
+				<b:Anchor ui:field="buttonStartConcussionTest" addStyleNames="button special">Start Now</b:Anchor>
+				<p></p>
+				<p>
+					Click
+					<a href="results.html">here</a>
+					to access previous results from this test.
+				</p>
+			</div>
+		</div>
+
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy;
+				<a href="http://nd.edu">University of Notre Dame</a>
+				. All rights reserved. Design:
+				<a href="http://templated.co">TEMPLATED</a>
+				.
+			</div>
+		</footer>
+	</g:HTMLPanel>
+</ui:UiBinder> 

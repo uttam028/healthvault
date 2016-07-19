@@ -10,6 +10,7 @@ import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -33,4 +34,6 @@ public interface GreetingServiceAsync {
 	
 	//speech test
 	void getAvailableSpeechTest(AsyncCallback<ArrayList<TestPrefaceModel>> callback);
+	void getSpeechTestMetadata(String testId, AsyncCallback<SpeechTestMetadata> callback);
+	//SpeechTestMetadata getSpeechTestMetadata(String testId);
 }

@@ -8,9 +8,15 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import cse.mlab.hvr.client.events.StartSpeechTestEvent;
+import cse.mlab.hvr.client.events.StartSpeechTestEventHandler;
+import cse.mlab.hvr.client.events.TestCompletionEvent;
+import cse.mlab.hvr.client.events.TestCompletionEventHandler;
 
 public class MainPage extends Composite {
 
@@ -53,6 +59,23 @@ public class MainPage extends Composite {
 
 		homePage = new HomePage(this.application);
 		profilePage = new ProfilePage();
+		
+		Hvr.getEventBus().addHandler(StartSpeechTestEvent.TYPE, new StartSpeechTestEventHandler() {
+			
+			@Override
+			public void actionToStartSpeechTest(StartSpeechTestEvent event) {
+				// TODO Auto-generated method stub
+				loadSpeechTest(event.getTestId());
+			}
+		});
+		
+		Hvr.getEventBus().addHandler(TestCompletionEvent.TYPE, new TestCompletionEventHandler() {
+			
+			@Override
+			public void actionAfterTestCompleted(TestCompletionEvent event) {
+				loadHomePage();
+			}
+		});
 	}
 
 	protected void onLoad() {
@@ -86,127 +109,20 @@ public class MainPage extends Composite {
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(profilePage);
 	}
+	
+	protected void loadSpeechTest(String testId) {
+		homeAnchor.setActive(false);
+		profileAnchor.setActive(false);
+		
+		mainPageContentPanel.clear();
+		mainPageContentPanel.add(new SpeechTestProcess(testId));
+		
+	}
 
 	@UiHandler("signoutAnchor")
 	void logout(ClickEvent clickEvent) {
 		this.application.logout();
 	}
 
-	//
-	//
-	// /*
-	// * This function sets the action to update the profile
-	// */
-	// @UiHandler("buttonUpdateProfile")
-	// void updateProfile(ClickEvent event){
-	// this.mainPageContentPanel.clear();
-	// this.mainPageContentPanel.add(profilePage);
-	// }
-	//
 
-	// @UiHandler("linkHome")
-	// void loadHomePage(ClickEvent event){
-	// if(currentPage != "main"){
-	// loadLandingPage();
-	// }
-	// currentPage = "main";
-	// History.newItem(currentPage);
-	// }
-	//
-	// void loadVoicePage(String selectedTest){
-	// currentPage = "voice";
-	// voicePage.setVoiceTest(selectedTest);
-	// loadVoiceRecordingPage();
-	// }
-	//
-	// @UiHandler("linkVoice")
-	// void loadVoicePage(ClickEvent event){
-	// if(currentPage != "voice"){
-	// loadVoiceRecordingPage();
-	// }
-	// currentPage = "voice";
-	// History.newItem("voicepage");
-	// }
-	//
-	// @UiHandler("linkHealth")
-	// void loadHealthPage(ClickEvent event){
-	// if(currentPage != "health"){
-	// linkHome.setActive(false);
-	// linkVoice.setActive(false);
-	// linkHealth.setActive(true);
-	// //linkAbout.setActive(false);
-	// this.mainPageContentPanel.clear();
-	// this.mainPageContentPanel.add(medicationPage);
-	//
-	// //this.leftPanel.clear();
-	// ////this.leftPanel.add(this.healthVerticalPanel);
-	// }
-	// currentPage = "health";
-	// History.newItem("healthpage");
-	// }
-	//
-	// /*
-	//
-	//
-	// protected void updateName(String firstName, String lastName) {
-	// this.firstName = firstName;
-	// this.lastName = lastName;
-	// profileUpdated = true;
-	// updateUserName();
-	// }
-	//
-	// private void updateUserName(){
-	//
-	// if(profileUpdated){
-	// //optionAnchor.setText(firstName + " " + lastName);
-	// optionAnchor.setText(userId);
-	// profileUpdated = false;
-	// } else {
-	// optionAnchor.setText(userId);
-	// /*
-	// greetingService.getProfile(userId, new AsyncCallback<UserProfile>() {
-	//
-	// @Override
-	// public void onSuccess(UserProfile result) {
-	// // TODO Auto-generated method stub
-	// if(result != null){
-	// firstName = result.getFirstName();
-	// lastName = result.getLastName();
-	// optionAnchor.setText(result.getFirstName() + " " + result.getLastName());
-	// } else{
-	// application.logout();
-	// }
-	// }
-	//
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// // TODO Auto-generated method stub
-	// application.logout();
-	// }
-	// });*/
-	//
-	// }
-	//
-	//
-	// }
-
-	// void loadConcussionPage() {
-	// if (!currentPage.equalsIgnoreCase("concussion")) {
-	// mainPageContentPanel.clear();
-	// mainPageContentPanel.add(concussionPage);
-	// }
-	// currentPage = "concussion";
-	// History.newItem(currentPage);
-	//
-	// }
-	//
-	// void loadDysarthriaPage(){
-	// if (!currentPage.equalsIgnoreCase("dysarthria")) {
-	// mainPageContentPanel.clear();
-	// mainPageContentPanel.add(dysarthriaPage);
-	// }
-	// currentPage = "dysarthria";
-	// History.newItem(currentPage);
-	//
-	// }
 }

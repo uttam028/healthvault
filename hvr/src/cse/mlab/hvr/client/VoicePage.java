@@ -310,27 +310,6 @@ public class VoicePage extends Composite {
 		}
 	}
 
-	private void constructPage() {
-//		if (!isMicrophoneAllowed) {
-//			voicePagePanel.add(configureMicButton);
-//		}
-//		voicePagePanel.add(new Br());
-//		voicePagePanel.add(new Br());
-//		voicePagePanel.add(new Br());
-//		voicePagePanel.add(testPanel);
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-		voicePagePanel.add(new Br());
-	}
 
 	public  native void activateAccordion()/*-{
 		var acc = $wnd.document.getElementsByClassName("accordion");

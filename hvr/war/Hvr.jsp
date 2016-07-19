@@ -66,7 +66,7 @@
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>Your Speech Your Health</title>
+    <title>Speech marker Project</title>
     
     <!--                                           -->
     <!-- This script loads your compiled module.   -->

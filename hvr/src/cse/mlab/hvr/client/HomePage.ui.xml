@@ -7,7 +7,14 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-
+	<g:HTMLPanel ui:field="homepagePanel">
+		<b:Row>
+		    <b:Column size="MD_6">
+		        <g:HTMLPanel ui:field="dashboardPanel"></g:HTMLPanel>
+		    </b:Column>
+		    <b:Column size="MD_6">
+		        <g:HTMLPanel ui:field="speechTestListPanel"></g:HTMLPanel>
+		    </b:Column>
+		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

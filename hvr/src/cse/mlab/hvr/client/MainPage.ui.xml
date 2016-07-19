@@ -14,6 +14,10 @@
 			width:40%;
 			height:40%;
 		}
+		.banner_white{
+			color:white;
+			font-size: 25px;
+		}
 	</ui:style>
 	<g:HTMLPanel ui:field="mainpagePanel">
 		<g:HTMLPanel addStyleNames="banner_color">
@@ -22,7 +26,7 @@
  					<b:Image url="template/images/ndcrest.png" addStyleNames="{style.half}"></b:Image>
 				</b:Column> 
 				<b:Column size="MD_8">
-					<g:Label addStyleNames="h2 banner_text_color">Speech Marker
+					<g:Label addStyleNames="{style.banner_white}">Speech Marker
 						Initiative</g:Label>
 					<h:Paragraph addStyleNames="banner_text_color">A joint project of the
  						University of Notre
