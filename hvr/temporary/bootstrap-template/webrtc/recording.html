@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>RecordRTC: WebRTC audio/video recording ® Muaz Khan</title>
+    <title>RecordRTC: WebRTC audio/video recording</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -11,34 +11,34 @@
     <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">
 
     <style>
-    audio {
-        vertical-align: bottom;
-        width: 10em;
-    }
-    video {
-        max-width: 100%;
-        vertical-align: top;
-    }
-    input {
-        border: 1px solid #d9d9d9;
-        border-radius: 1px;
-        font-size: 2em;
-        margin: .2em;
-        width: 30%;
-    }
-    p,
-    .inner {
-        padding: 1em;
-    }
-    li {
-        border-bottom: 1px solid rgb(189, 189, 189);
-        border-left: 1px solid rgb(189, 189, 189);
-        padding: .5em;
-    }
-    label {
-        display: inline-block;
-        width: 8em;
-    }
+	    audio {
+	        vertical-align: bottom;
+	        width: 10em;
+	    }
+	    video {
+	        max-width: 100%;
+	        vertical-align: top;
+	    }
+	    input {
+	        border: 1px solid #d9d9d9;
+	        border-radius: 1px;
+	        font-size: 2em;
+	        margin: .2em;
+	        width: 30%;
+	    }
+	    p,
+	    .inner {
+	        padding: 1em;
+	    }
+	    li {
+	        border-bottom: 1px solid rgb(189, 189, 189);
+	        border-left: 1px solid rgb(189, 189, 189);
+	        padding: .5em;
+	    }
+	    label {
+	        display: inline-block;
+	        width: 8em;
+	    }
     </style>
     
     <style>
@@ -81,9 +81,6 @@
 <body>
     <article>
         
-
-        <div class="github-stargazers"></div>
-        
         <section class="experiment recordrtc">
             <h2 class="header">
                 <select class="recording-media">
@@ -106,7 +103,7 @@
             
             <div style="text-align: center; display: none;">
                 <button id="save-to-disk">Save To Disk</button>
-                <button id="open-new-tab">Open New Tab</button>
+                <!-- <button id="open-new-tab">Open New Tab</button> -->
             </div>
             
             <br>
@@ -145,7 +142,7 @@
                 });
             }
             var recordingDIV = document.querySelector('.recordrtc');
-            var recordingMedia = recordingDIV.querySelector('.recording-media');
+            var recordingMedia = recordingDIV.querySelector('record-audio');
             var recordingPlayer = recordingDIV.querySelector('video');
             var mediaContainerFormat = recordingDIV.querySelector('.media-container-format');
             
@@ -473,84 +470,7 @@
                     config.onMediaCapturingFailed(error);
                 });
             }
-            /*function captureAudioPlusVideo(config) {
-                captureUserMedia({video: true, audio: true}, function(audioVideoStream) {
-                    recordingPlayer.srcObject = audioVideoStream;
-                    recordingPlayer.play();
-                    
-                    config.onMediaCaptured(audioVideoStream);
-                    
-                    audioVideoStream.onended = function() {
-                        config.onMediaStopped();
-                    };
-                }, function(error) {
-                    config.onMediaCapturingFailed(error);
-                });
-            }*/
             
-            /*function captureScreen(config) {
-                getScreenId(function(error, sourceId, screenConstraints) {
-                    if (error === 'not-installed') {
-                        document.write('<h1><a target="_blank" href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Please install this chrome extension then reload the page.</a></h1>');
-                    }
-                    if (error === 'permission-denied') {
-                        alert('Screen capturing permission is denied.');
-                    }
-                    if (error === 'installed-disabled') {
-                        alert('Please enable chrome screen capturing extension.');
-                    }
-                    
-                    if(error) {
-                        config.onMediaCapturingFailed(error);
-                        return;
-                    }
-                    delete screenConstraints.video.mozMediaSource;
-                    captureUserMedia(screenConstraints, function(screenStream) {
-                        recordingPlayer.srcObject = screenStream;
-                        recordingPlayer.play();
-                        
-                        config.onMediaCaptured(screenStream);
-                        
-                        screenStream.onended = function() {
-                            config.onMediaStopped();
-                        };
-                    }, function(error) {
-                        config.onMediaCapturingFailed(error);
-                    });
-                });
-            }*/
-            /*function captureAudioPlusScreen(config) {
-                getScreenId(function(error, sourceId, screenConstraints) {
-                    if (error === 'not-installed') {
-                        document.write('<h1><a target="_blank" href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Please install this chrome extension then reload the page.</a></h1>');
-                    }
-                    if (error === 'permission-denied') {
-                        alert('Screen capturing permission is denied.');
-                    }
-                    if (error === 'installed-disabled') {
-                        alert('Please enable chrome screen capturing extension.');
-                    }
-                    
-                    if(error) {
-                        config.onMediaCapturingFailed(error);
-                        return;
-                    }
-                    screenConstraints.audio = true;
-                    delete screenConstraints.video.mozMediaSource;
-                    captureUserMedia(screenConstraints, function(screenStream) {
-                        recordingPlayer.srcObject = screenStream;
-                        recordingPlayer.play();
-                        
-                        config.onMediaCaptured(screenStream);
-                        
-                        screenStream.onended = function() {
-                            config.onMediaStopped();
-                        };
-                    }, function(error) {
-                        config.onMediaCapturingFailed(error);
-                    });
-                });
-            }*/
             
             function captureUserMedia(mediaConstraints, successCallback, errorCallback) {
                 navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
@@ -594,30 +514,6 @@
                 }
                 setMediaContainerFormat(['WebM', 'Mp4', 'Ogg']);
             };
-            /*if(webrtcDetectedBrowser === 'edge') {
-                // webp isn't supported in Microsoft Edge
-                // neither MediaRecorder API
-                // so lets disable both video/screen recording options
-                console.warn('Neither MediaRecorder API nor webp is supported in Microsoft Edge. You cam merely record audio.');
-                recordingMedia.innerHTML = '<option value="record-audio">Audio</option>';
-                setMediaContainerFormat(['WAV']);
-            }
-            if(webrtcDetectedBrowser === 'firefox') {
-                // Firefox implemented both MediaRecorder API as well as WebAudio API
-                // Their MediaRecorder implementation supports both audio/video recording in single container format
-                // Remember, we can't currently pass bit-rates or frame-rates values over MediaRecorder API (their implementation lakes these features)
-                recordingMedia.innerHTML = '<option value="record-audio-plus-video">Audio+Video</option>' 
-                                            + '<option value="record-audio-plus-screen">Audio+Screen</option>' 
-                                            + recordingMedia.innerHTML;
-                setMediaContainerFormat(['WebM', 'Mp4']);
-            }
-            if(webrtcDetectedBrowser === 'chrome') {
-                recordingMedia.innerHTML = '<option value="record-audio-plus-video">Audio+Video</option>' 
-                                            + recordingMedia.innerHTML;
-                if(typeof MediaRecorder === 'undefined') {
-                    console.info('This RecordRTC demo merely tries to playback recorded audio/video sync inside the browser. It still generates two separate files (WAV/WebM).');
-                }
-            }*/
             
             function saveToDiskOrOpenNewTab(recordRTC) {
                 recordingDIV.querySelector('#save-to-disk').parentNode.style.display = 'block';
@@ -634,6 +530,7 @@
                 };
             }
         </script>
+
         
     </article>
 
