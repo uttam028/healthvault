@@ -6,8 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
-    <meta name="author" content="Muaz Khan">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
     <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">
@@ -446,7 +444,7 @@
                 }
             };
             
-            function captureVideo(config) {
+            /*function captureVideo(config) {
                 captureUserMedia({video: true}, function(videoStream) {
                     recordingPlayer.srcObject = videoStream;
                     recordingPlayer.play();
@@ -459,7 +457,7 @@
                 }, function(error) {
                     config.onMediaCapturingFailed(error);
                 });
-            }
+            }*/
             
             function captureAudio(config) {
                 captureUserMedia({audio: true}, function(audioStream) {
@@ -475,7 +473,7 @@
                     config.onMediaCapturingFailed(error);
                 });
             }
-            function captureAudioPlusVideo(config) {
+            /*function captureAudioPlusVideo(config) {
                 captureUserMedia({video: true, audio: true}, function(audioVideoStream) {
                     recordingPlayer.srcObject = audioVideoStream;
                     recordingPlayer.play();
@@ -488,9 +486,9 @@
                 }, function(error) {
                     config.onMediaCapturingFailed(error);
                 });
-            }
+            }*/
             
-            function captureScreen(config) {
+            /*function captureScreen(config) {
                 getScreenId(function(error, sourceId, screenConstraints) {
                     if (error === 'not-installed') {
                         document.write('<h1><a target="_blank" href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Please install this chrome extension then reload the page.</a></h1>');
@@ -520,8 +518,8 @@
                         config.onMediaCapturingFailed(error);
                     });
                 });
-            }
-            function captureAudioPlusScreen(config) {
+            }*/
+            /*function captureAudioPlusScreen(config) {
                 getScreenId(function(error, sourceId, screenConstraints) {
                     if (error === 'not-installed') {
                         document.write('<h1><a target="_blank" href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk">Please install this chrome extension then reload the page.</a></h1>');
@@ -552,7 +550,7 @@
                         config.onMediaCapturingFailed(error);
                     });
                 });
-            }
+            }*/
             
             function captureUserMedia(mediaConstraints, successCallback, errorCallback) {
                 navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
