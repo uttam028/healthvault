@@ -30,7 +30,7 @@ import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.UserProfile;
 
-public class ProfilePage extends Composite{
+public class ProfilePageOld extends Composite{
 
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);	
@@ -92,10 +92,10 @@ public class ProfilePage extends Composite{
 	private static ProfilePageUiBinder uiBinder = GWT
 			.create(ProfilePageUiBinder.class);
 
-	interface ProfilePageUiBinder extends UiBinder<Widget, ProfilePage> {
+	interface ProfilePageUiBinder extends UiBinder<Widget, ProfilePageOld> {
 	}
 
-	public ProfilePage(MainPage parent, String userId) {
+	public ProfilePageOld(MainPage parent, String userId) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.parent = parent;
 		this.userId = userId;

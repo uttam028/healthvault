@@ -26,6 +26,13 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
+import cse.mlab.hvr.client.fragments.Fragment;
+import cse.mlab.hvr.client.fragments.ImageFragment;
+import cse.mlab.hvr.client.fragments.MarkedTextFragment;
+import cse.mlab.hvr.client.fragments.MarqueeFragment;
+import cse.mlab.hvr.client.fragments.PauseFragment;
+import cse.mlab.hvr.client.fragments.SimpleTextFragment;
 import fr.hd3d.html5.video.client.VideoSource;
 import fr.hd3d.html5.video.client.VideoWidget;
 import fr.hd3d.html5.video.client.events.VideoEndedEvent;

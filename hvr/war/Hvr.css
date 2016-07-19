@@ -2,13 +2,14 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+/*
 h1{
   font-size: 2em;
   font-weight: bold;
-  color: #777777;
+  /*color: #777777;
   margin: 40px 0px 70px;
-  text-align: center;
-}
+  text-align: center;*/
+}*/
 
 .common_inst_text{
   font-size: 180%;
@@ -211,6 +212,31 @@ margin-bottom: 2%
   padding: 45px;
   text-align: center;*/
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+.banner_color{
+	/*color: #0C2340;*/
+	background-color:#0C2340 !important;
+}
+.jumbo_height{
+	height: 220px;
+}
+
+.banner_text_color{
+	color:white;
+}
+
+.banner_title{
+  font-size: 5em;
+  font-weight: bold;
+  color: white;
+  /*margin: 40px 0px 70px;*/
+  text-align: center;
+}
+.jumbo_fraction_three_fourth{
+	height: 65%; 
+	width: 65%;
 }
 
 

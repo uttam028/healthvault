@@ -15,6 +15,15 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
+import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
+import cse.mlab.hvr.client.events.TestCompletionEvent;
+import cse.mlab.hvr.client.fragments.Fragment;
+import cse.mlab.hvr.client.fragments.MarkedTextFragment;
+import cse.mlab.hvr.client.fragments.MarqueeFragment;
+import cse.mlab.hvr.client.fragments.PauseFragment;
+import cse.mlab.hvr.client.fragments.SimpleTextFragment;
+
 public class ConcussionTest extends Composite {
 
 	static int currentPlayerIndex = 0;
@@ -146,7 +155,7 @@ public class ConcussionTest extends Composite {
 									currentPlayerIndex = 0;
 									testLoaded = false;
 									Hvr.getEventBus().fireEvent(
-											new TestCompletionEvent());
+											new TestCompletionEvent("concussion"));
 								}
 
 							} catch (Exception e) {
@@ -222,7 +231,7 @@ public class ConcussionTest extends Composite {
 		updateConTestRunningStatus(false);
 		loadConcPlayerFromSaveState = true;
 		//this.concussionTestPanel.clear();
-		Hvr.getEventBus().fireEvent(new TestCompletionEvent());
+		Hvr.getEventBus().fireEvent(new TestCompletionEvent("concussion"));
 	}
 
 	public final native NodeList<Element> querySelector(String selector)/*-{

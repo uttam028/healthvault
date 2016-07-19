@@ -1,6 +1,7 @@
 package cse.mlab.hvr.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +26,9 @@ import cse.mlab.hvr.client.GreetingService;
 import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
+import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 
@@ -389,6 +392,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//return response;
 
 	}
+	
+	
+	
+	//------------------speech test----------------------//
+	@Override
+	public ArrayList<TestPrefaceModel> getAvailableSpeechTest() {
+		// TODO Change final from dummy
+		ArrayList<QA> qaList1 = new ArrayList<>();
+		qaList1.add(new QA("Can I take the Test", "If you are suffering from speech disorder, you can take the test."));
+		qaList1.add(new QA("Can I take the Test", "If you are suffering from speech disorder, you can take the test."));
+		qaList1.add(new QA("Can I take the Test", "If you are suffering from speech disorder, you can take the test."));
+		TestPrefaceModel model1 = new TestPrefaceModel("1", "Parkinson Test", "This is high level description of the test", qaList1);
+		
+		TestPrefaceModel model2 = new TestPrefaceModel("2", "Concussion Test", "This is high level description of concussion test", qaList1);
+		
+		ArrayList<TestPrefaceModel> testPrefaceModels = new ArrayList<>();
+		testPrefaceModels.add(model1);
+		testPrefaceModels.add(model2);
+		return testPrefaceModels;
+	}
+	
+	
 
 	/**
 	 * Escape an html string. Escaping data received from the client helps to

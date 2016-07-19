@@ -1,10 +1,13 @@
 package cse.mlab.hvr.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 
@@ -27,4 +30,7 @@ public interface GreetingServiceAsync {
 	void getMedicationsList(String email, AsyncCallback<MedicationList> callback);
 	void deleteMedications(String email, String list, AsyncCallback<Response> callback);
 	void stopUsingMedication(long id, String endDate, AsyncCallback<Response> callback);
+	
+	//speech test
+	void getAvailableSpeechTest(AsyncCallback<ArrayList<TestPrefaceModel>> callback);
 }
