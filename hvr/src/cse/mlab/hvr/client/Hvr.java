@@ -12,7 +12,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.sun.javafx.scene.text.HitInfo;
+
+import cse.mlab.hvr.client.events.LoadProfileItemEvent;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -37,6 +38,7 @@ public class Hvr implements EntryPoint {
 		}
 		twitterSignup = new TwitterSignup(this);
 		RootPanel.get().add(twitterSignup);
+		
 
 		// History.
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -74,9 +76,19 @@ public class Hvr implements EntryPoint {
 							History.back();
 						}
 						
-					} else if (historyToken.equalsIgnoreCase("profile")) {
+					} else if (historyToken.startsWith("profile")) {
 						if(loggedIn){
 							mainPage.loadProfilePage();
+							String [] tokens = historyToken.split("/");
+							if(tokens[1].equalsIgnoreCase("personal")){
+								getEventBus().fireEvent(new LoadProfileItemEvent(ProfilePageItem.PERSONAL));
+							} else if(tokens[1].equalsIgnoreCase("account")){
+								getEventBus().fireEvent(new LoadProfileItemEvent(ProfilePageItem.ACCOUNT));
+							} else if(tokens[1].equalsIgnoreCase("medical")){
+								getEventBus().fireEvent(new LoadProfileItemEvent(ProfilePageItem.MEDICAL));
+							} else {
+								getEventBus().fireEvent(new LoadProfileItemEvent(ProfilePageItem.PERSONAL));
+							}
 						} else {
 							History.back();
 						}

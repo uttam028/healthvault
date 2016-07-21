@@ -17,7 +17,7 @@
 
 
 			<b:PanelBody>
-				<g:HTMLPanel addStyleNames="panel_border">
+				<g:HTMLPanel addStyleNames="panel_border_blue">
 					<h:Br />
 					<g:HTMLPanel ui:field="commonInstructionPanel">
 						<g:Label ui:field="commonInstructionText" addStyleNames="common_inst_text"></g:Label>

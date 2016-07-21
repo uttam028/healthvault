@@ -76,10 +76,12 @@ public class MainPage extends Composite {
 				loadHomePage();
 			}
 		});
+//		homeAnchorClicked(null);
+		loadHomePage();
 	}
 
 	protected void onLoad() {
-		homeAnchorClicked(null);
+//		homeAnchorClicked(null);
 
 	}
 
@@ -98,7 +100,7 @@ public class MainPage extends Composite {
 
 	@UiHandler("profileAnchor")
 	void profileAnchorClicked(ClickEvent event) {
-		History.newItem("profile");
+		History.newItem("profile/personal");
 
 	}
 

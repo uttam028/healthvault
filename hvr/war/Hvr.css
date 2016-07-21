@@ -100,11 +100,15 @@ h1{
 }
 
 
-.panel_border{
+.panel_border_blue{
   border: 1px solid #BBBBBB;
   border-color: #0000ff;
   /*padding: 3px;*/
 }
+.panel_border{
+  border: 1px solid #BBBBBB;
+}
+
 
 
 #timer_circle {

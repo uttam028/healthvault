@@ -28,6 +28,7 @@ import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.speechtest.HealthStatusQuestion;
 import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
 import cse.mlab.hvr.shared.speechtest.SubTest;
 import cse.mlab.hvr.shared.speechtest.TestFragment;
@@ -494,7 +495,21 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		TestOverview testOverview= new TestOverview("1", "Parkinson test", "test1", "ahossain@nd.edu", "", "", 
 				"This is a test for parkinson patient which will take around 10 minutes.", "", 
 				3, true, true, pathRoot + "consent.pdf", 2);
-		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, null, subTests);
+		
+		ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
+		HealthStatusQuestion q1 = new HealthStatusQuestion("Have you received or are currently receiving speech therapy for your condition?"
+				, "", false, 1, true);
+		
+		HealthStatusQuestion q2 = new HealthStatusQuestion("What medication are you taking for your current condition?"
+				, "", false, 2, true);
+		HealthStatusQuestion q3 = new HealthStatusQuestion("Any other relevant medical information (Condition, Treatments, Medications?)"
+				, "Type 'NA' if not applicable", false, 3, true);
+		
+		healthQuestions.add(q1);
+		healthQuestions.add(q2);
+		healthQuestions.add(q3);
+		
+		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, healthQuestions, subTests);
 		return speechTestMetadata;
 
 	}

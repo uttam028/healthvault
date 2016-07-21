@@ -12,11 +12,11 @@
 		inline-block;
 		}
 		.bottom_zero{
-			margin-bottom: 0;
+		margin-bottom: 0;
 		}
 		.white{
-			color:white;
-			font-size: 60px;
+		color:white;
+		font-size: 60px;
 		}
 	</ui:style>
 	<!-- Banner -->
@@ -30,7 +30,7 @@
 				<b:Column size="MD_8">
 					<g:Label addStyleNames="{style.white} h2">Speech Marker
 						Initiative</g:Label>
-					<!--h:Paragraph addStyleNames="banner_text_color h2">Speech Marker Initiative</h:Paragraph-->
+					<!--h:Paragraph addStyleNames="banner_text_color h2">Speech Marker Initiative</h:Paragraph -->
 					<h:Paragraph addStyleNames="banner_text_color">A joint project of the
 						University of Notre
 						Dame and the
@@ -58,53 +58,53 @@
 							addStyleNames="col-lg-offset-2">
 
 							<br />
-							<br />
-							<br />
-							<br />
-							<h2 style="float:left;">
-								<span class="glyphicon glyphicon-volume-up"></span>
-								&nbsp; Participate in voice sample collection
-							</h2>
-							<br />
-							<br />
-							<br />
-							<br />
-							<h2 style="float:left;">
-								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-								&nbsp; Get involved in speech research
-							</h2>
-							<br />
-							<br />
-							<br />
-							<br />
-							<h2 style="float:left;">
-								<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
-								&nbsp; Get rewarded for contribution
-							</h2>
+							<h5 style="color:#666666;">Thousands of people are suffering from neurological disorder
+								like Parkinson. There are no marker (diagnosis) in our body to
+								identify them from beforehand.
+								Speech is one of the potential marker that researchers are looking
+								into, and you can also be part of the journey.</h5>
+							<g:HTMLPanel addStyleNames="col-lg-offset-2">
+								<br /><br /> <br />
+								<h2 style="float:left;">
+									<span class="glyphicon glyphicon-volume-up"></span>
+									&nbsp; Participate in voice sample collection
+								</h2>
+								<br /><br /><br />
+								<h2 style="float:left;">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									&nbsp; Get Feedback on your sample
+								</h2>
+								<br /><br /><br />
+								<h2 style="float:left;">
+									<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
+									&nbsp; Get rewarded for contribution
+								</h2>
+
+							</g:HTMLPanel>
 
 						</g:HTMLPanel>
 						<g:HTMLPanel ui:field="researcherCustomPanel"
-							addStyleNames="col-lg-offset-2">
-							<h2 style="float:left;">
+							addStyleNames="col-lg-offset-2 {style.left}">
+							<h3 style="float:left;">
 								<img src="template/images/voice2.png" />
-								&nbsp; Create your own custom speech test
-							</h2>
+								&nbsp; Create your custom speech test
+							</h3>
 							<br />
 							<br />
 							<br />
 							<br />
-							<h2 style="float:left;">
+							<h3 style="float:left;">
 								<img src="template/images/search2.png" />
-								&nbsp; Inquire about aggregate data from voice samples
-							</h2>
+								&nbsp; Investigate marker in crowdsourced speech samples
+							</h3>
 							<br />
 							<br />
 							<br />
 							<br />
-							<h2 style="float:left;">
+							<h3 style="float:left;">
 								<img src="template/images/data2.png" />
 								&nbsp; Evaluate data with online analysis tools
-							</h2>
+							</h3>
 
 						</g:HTMLPanel>
 						<g:HTMLPanel ui:field="supportCustomPanel"
@@ -248,9 +248,11 @@
 					</b:Row>
 					<h:Br />
 					<h:Br />
-					<b:Row addStyleNames="col-md-12 center-block">
+					<b:Row addStyleNames="col-lg-offset-8">
 						<b:Button type="INFO" ui:field="buttonFaq">Learn More</b:Button>
 					</b:Row>
+					<h:Br />
+					<h:Br />
 				</b:Column>
 				<b:Column size="MD_5">
 					<b:Row>
@@ -287,7 +289,7 @@
 									<b:Button type="LINK" addStyleNames="col-lg-offset-3"
 										ui:field="buttonForgotPass">Forget Password</b:Button>
 									<h:Span>|</h:Span>
-									<b:Button type="LINK" ui:field="buttonCreateAccount">Create New Account</b:Button>
+									<b:Button type="LINK" ui:field="buttonCreateAccount">Sign Up</b:Button>
 								</b:FormGroup>
 							</b:FieldSet>
 						</b:Form>

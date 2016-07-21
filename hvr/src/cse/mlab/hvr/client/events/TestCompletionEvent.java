@@ -2,16 +2,19 @@ package cse.mlab.hvr.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-public class TestCompletionEvent extends GwtEvent<TestCompletionEventHandler>{
-	
-	private String testType = "";
-	
-	public TestCompletionEvent(String testType) {
+import cse.mlab.hvr.client.SpeechTestState;
+
+public class TestCompletionEvent extends GwtEvent<TestCompletionEventHandler> {
+
+	private SpeechTestState testState;
+
+	public TestCompletionEvent(SpeechTestState testState) {
 		super();
-		this.testType = testType;
+		this.testState = testState;
 	}
 
 	public static Type<TestCompletionEventHandler> TYPE = new Type<TestCompletionEventHandler>();
+
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<TestCompletionEventHandler> getAssociatedType() {
 		// TODO Auto-generated method stub
@@ -24,7 +27,7 @@ public class TestCompletionEvent extends GwtEvent<TestCompletionEventHandler>{
 		handler.actionAfterTestCompleted(this);
 	}
 
-	public String getTestType() {
-		return testType;
+	public SpeechTestState getTestState() {
+		return testState;
 	}
 }

@@ -7,14 +7,14 @@
 			font-weight: bold;
 		}
 		.margin{
-			margin:80%;
+			margin:5%;
 		}
 		.heading_color{
 			background-color: #194719 !important;
 		}
 		
 	</ui:style>
-	<b:Panel>
+	<b:Panel addStyleNames="{style.margin}">
 		<b:PanelHeader ui:field="tpHeader">
 			<b:Heading size="H5" ui:field="tpHeading"/>
 		</b:PanelHeader>
@@ -23,11 +23,11 @@
 		        <h:Paragraph ui:field="tpDescription"></h:Paragraph>
 		    </b:Row>
 		    <b:Row>
-		        <b:Column size="MD_8">
+		        <b:Column size="MD_9">
 		        	<g:HTMLPanel ui:field="tpQuestionAnswerList"></g:HTMLPanel>
 		        </b:Column>
-		        <b:Column size="MD_4">
-		            <b:Button size="LARGE" ui:field="tpStartButton" type="PRIMARY">Begin New Test</b:Button>
+		        <b:Column size="MD_3">
+		            <b:Button ui:field="tpStartButton" type="PRIMARY">Begin New Test</b:Button>
 		        </b:Column>
 		    </b:Row>
 		</b:PanelBody>

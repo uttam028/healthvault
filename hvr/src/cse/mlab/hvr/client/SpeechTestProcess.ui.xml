@@ -8,7 +8,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-8" ui:field="testProcessPanel">
-		<b:NavTabs>
+		<!--b:NavTabs>
 			<b:TabListItem active="true" dataTarget="#tab1" text="Consent"/>
 			<b:TabListItem dataTarget="#tab2" text="Health Status"/>
 			<b:TabListItem dataTarget="#tab3" text="Test"/>
@@ -16,22 +16,22 @@
 		<b:TabContent>
 			<b:TabPane active="true" b:id="tab1">
 				<g:Label>tab 1</g:Label>
-				<!--g:HTMLPanel>
-					<div-->
+				<g:HTMLPanel>
+					<div>
 						<iframe src="http://10.32.10.188:8080/hvr/metadata/1/consent.pdf" width="100%"
 							height="100%">
 							This browser does not support PDFs. Please download the PDF to
 							view it:
 							<a href="/samples/test.pdf">Download PDF</a>
 						</iframe>
-					<!--/div>
-				</g:HTMLPanel-->
+					</div>
+				</g:HTMLPanel>
 			</b:TabPane>
 			<b:TabPane b:id="tab2">
 				<g:Label>tab 2</g:Label>
 			</b:TabPane>
 			<b:TabPane b:id="tab3" ui:field="playerTab">
 			</b:TabPane>
-		</b:TabContent>
+		</b:TabContent-->
 	</g:HTMLPanel>
 </ui:UiBinder> 
