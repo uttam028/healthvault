@@ -21,7 +21,7 @@ public class CustomPlayerCreator {
 	public AudioBasedCustomPlayer[] getAudioBasedCustomPlayer(SpeechTestMetadata metadata) {
 		ArrayList<AudioBasedCustomPlayer> customPlayers = new ArrayList<>();
 		for(int i=0;i<metadata.getSubTests().size();i++){
-			customPlayers.add(new AudioBasedCustomPlayer("Test "+ (i+1), SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
+			customPlayers.add(new AudioBasedCustomPlayer("Test "+ i, SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
 		}
 		return customPlayers.toArray(new AudioBasedCustomPlayer[customPlayers.size()]);
 	}

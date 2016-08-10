@@ -51,7 +51,8 @@ public class TestPreface extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				Hvr.getEventBus().fireEvent(new StartSpeechTestEvent(TestPreface.this.testPrefaceModel.getId()));
+//				Hvr.getEventBus().fireEvent(new StartSpeechTestEvent(TestPreface.this.testPrefaceModel.getId()));
+				Hvr.getEventBus().fireEvent(new StartSpeechTestEvent("1"));
 			}
 		});
 	}

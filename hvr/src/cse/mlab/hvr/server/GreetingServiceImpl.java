@@ -406,17 +406,23 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public ArrayList<TestPrefaceModel> getAvailableSpeechTest() {
 		// TODO Change final from dummy
 		ArrayList<QA> qaList1 = new ArrayList<>();
-		qaList1.add(new QA("Can I take the Test",
-				"If you are suffering from speech disorder, you can take the test."));
-		qaList1.add(new QA("Can I take the Test",
-				"If you are suffering from speech disorder, you can take the test."));
-		qaList1.add(new QA("Can I take the Test",
-				"If you are suffering from speech disorder, you can take the test."));
+		qaList1.add(new QA("Can I take the Test?",
+				"If you are suffering from neuorological disorder, you can take the test."));
+		qaList1.add(new QA("How long the test will be?",
+				"It is around 25 minutes, please don't refresh or back button in the test part."));
+		qaList1.add(new QA("Is there any reward for this test?",
+				"For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."));
+
+		ArrayList<QA> qaList2 = new ArrayList<>();
+		qaList2.add(new QA("Can I take the Test?",
+				"If you have possibility of concussion, you can take part."));
+		qaList2.add(new QA("How long the test will be?",
+				"It is around 15 minutes, please don't refresh or back button in the test part."));
 		TestPrefaceModel model1 = new TestPrefaceModel("1", "Parkinson Test",
-				"This is high level description of the test", qaList1);
+				"Brief description of the parkinson test", qaList1);
 
 		TestPrefaceModel model2 = new TestPrefaceModel("2", "Concussion Test",
-				"This is high level description of concussion test", qaList1);
+				"This is high level description of concussion test", qaList2);
 
 		ArrayList<TestPrefaceModel> testPrefaceModels = new ArrayList<>();
 		testPrefaceModels.add(model1);

@@ -142,13 +142,19 @@ public class TwitterSignup extends Composite {
 	
 	@UiHandler("buttonFaq")
 	void faqButtonClicked(ClickEvent event){
-		togglePanelGroup(generalPanelGroup, true);
 		if(currentTab.equalsIgnoreCase("patient")){
+			togglePanelGroup(generalPanelGroup, false);
 			togglePanelGroup(patientPanelGroup, true);
 			togglePanelGroup(researcherPanelGroup, false);
 		} else if (currentTab.equalsIgnoreCase("researcher")) {
+			togglePanelGroup(generalPanelGroup, false);
 			togglePanelGroup(patientPanelGroup, false);
 			togglePanelGroup(researcherPanelGroup, true);			
+		} else {
+			togglePanelGroup(generalPanelGroup, true);
+			togglePanelGroup(patientPanelGroup, false);
+			togglePanelGroup(researcherPanelGroup, false);			
+			
 		}
 		supportAnchorClciked(null);
 
