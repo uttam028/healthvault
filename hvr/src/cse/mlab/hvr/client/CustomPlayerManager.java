@@ -13,7 +13,7 @@ import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
 import cse.mlab.hvr.client.events.TestCompletionEvent;
-import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 
 public class CustomPlayerManager extends Composite {
 	static int currentPlayerIndex = 0;

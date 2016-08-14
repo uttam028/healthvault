@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
 import cse.mlab.hvr.client.fragments.CommonInstructionFragment;
 import cse.mlab.hvr.client.fragments.FragmentFactory;
-import cse.mlab.hvr.shared.speechtest.SubTest;
+import cse.mlab.hvr.shared.study.SubTest;
 
 public class SubtestFactory {
 	private static SubtestFactory instance = null;

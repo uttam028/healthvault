@@ -13,7 +13,7 @@
 		        <g:HTMLPanel ui:field="dashboardPanel"></g:HTMLPanel>
 		    </b:Column>
 		    <b:Column size="MD_6">
-		        <g:HTMLPanel ui:field="speechTestListPanel"></g:HTMLPanel>
+		        <g:HTMLPanel ui:field="openStudyPanel" addStyleNames="col-lg-offset-2 col-lg-9"></g:HTMLPanel>
 		    </b:Column>
 		</b:Row>
 	</g:HTMLPanel>

@@ -25,14 +25,14 @@ import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
-import cse.mlab.hvr.shared.speechtest.HealthStatusQuestion;
-import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
-import cse.mlab.hvr.shared.speechtest.SubTest;
-import cse.mlab.hvr.shared.speechtest.TestFragment;
-import cse.mlab.hvr.shared.speechtest.TestOverview;
+import cse.mlab.hvr.shared.study.HealthStatusQuestion;
+import cse.mlab.hvr.shared.study.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.StudyPrefaceModel;
+import cse.mlab.hvr.shared.study.SubTest;
+import cse.mlab.hvr.shared.study.TestFragment;
+import cse.mlab.hvr.shared.study.StudyOverview;
 
 /**
  * The server-side implementation of the RPC service.
@@ -403,8 +403,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	// ------------------speech test----------------------//
 	@Override
-	public ArrayList<TestPrefaceModel> getAvailableSpeechTest() {
-		// TODO Change final from dummy
+	public ArrayList<StudyPrefaceModel> getOpenStudies() {
+		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
+		String studyId = "1";
+		StudyOverview studyOverview1= new StudyOverview(studyId, "Notre Dame Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
+				"This is a test for parkinson patient which will take around 10 minutes.", "", 
+				 true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" , "1");
+
+		StudyOverview studyOverview2= new StudyOverview("2", "Concussion Study", "test2", "ahossain@nd.edu", "", "", 
+				"This is a test for parkinson patient which will take around 10 minutes.", "", 
+				 true, true, pathRoot + "2/" + "consent.pdf", 2, "2" , "2");
+	
+
 		ArrayList<QA> qaList1 = new ArrayList<>();
 		qaList1.add(new QA("Can I take the Test?",
 				"If you are suffering from neuorological disorder, you can take the test."));
@@ -418,13 +428,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				"If you have possibility of concussion, you can take part."));
 		qaList2.add(new QA("How long the test will be?",
 				"It is around 15 minutes, please don't refresh or back button in the test part."));
-		TestPrefaceModel model1 = new TestPrefaceModel("1", "Parkinson Test",
-				"Brief description of the parkinson test", qaList1);
+		
+		ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
+		HealthStatusQuestion q1 = new HealthStatusQuestion("Have you received or are currently receiving speech therapy for your condition?"
+				, "", false, 1, true);
+		
+		HealthStatusQuestion q2 = new HealthStatusQuestion("What medication are you taking for your current condition?"
+				, "", false, 2, true);
+		HealthStatusQuestion q3 = new HealthStatusQuestion("Any other relevant medical information (Condition, Treatments, Medications?)"
+				, "Type 'NA' if not applicable", false, 3, true);
+		
+		healthQuestions.add(q1);
+		healthQuestions.add(q2);
+		healthQuestions.add(q3);
 
-		TestPrefaceModel model2 = new TestPrefaceModel("2", "Concussion Test",
-				"This is high level description of concussion test", qaList2);
+		StudyPrefaceModel model1 = new StudyPrefaceModel(studyOverview1, qaList1, healthQuestions);
 
-		ArrayList<TestPrefaceModel> testPrefaceModels = new ArrayList<>();
+		StudyPrefaceModel model2 = new StudyPrefaceModel(studyOverview2, qaList2, healthQuestions);
+
+		ArrayList<StudyPrefaceModel> testPrefaceModels = new ArrayList<>();
 		testPrefaceModels.add(model1);
 		testPrefaceModels.add(model2);
 		return testPrefaceModels;
@@ -498,9 +520,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		subTests.add(subTest2);
 		subTests.add(subTest3);
 
-		TestOverview testOverview= new TestOverview("1", "Parkinson test", "test1", "ahossain@nd.edu", "", "", 
+		StudyOverview testOverview= new StudyOverview("1", "Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
 				"This is a test for parkinson patient which will take around 10 minutes.", "", 
-				3, true, true, pathRoot + "consent.pdf", 2);
+				 true, true, pathRoot + "consent.pdf", 2, "1" , "1");
 		
 		ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
 		HealthStatusQuestion q1 = new HealthStatusQuestion("Have you received or are currently receiving speech therapy for your condition?"
@@ -515,7 +537,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		healthQuestions.add(q2);
 		healthQuestions.add(q3);
 		
-		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, healthQuestions, subTests);
+		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, subTests);
 		return speechTestMetadata;
 
 	}

@@ -2,7 +2,7 @@ package cse.mlab.hvr.client;
 
 public class SpeechTestState {
 	public enum TestState{
-		DECLINED, SAVED, COMPLETED;
+		START, DECLINED, SAVED, COMPLETED;
 	}
 	
 	private String testId;

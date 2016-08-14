@@ -35,27 +35,30 @@ public class QuestionAnswerList extends Composite{
 	public QuestionAnswerList(ArrayList<QA> qaList) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.qaList = qaList;
-		for(QA qa:qaList){
-			Panel qaPanel = new Panel();
-			
-			PanelCollapse panelCollapse = new PanelCollapse();
-			PanelBody panelBody = new PanelBody();
-			panelBody.add(new Paragraph(qa.getAnswer()));
-			panelCollapse.add(panelBody);
-			if(qaPanelGroup.getWidgetCount()==0){
-				panelCollapse.setIn(true);
+		if(qaList != null){
+			for(QA qa:qaList){
+				Panel qaPanel = new Panel();
+				
+				PanelCollapse panelCollapse = new PanelCollapse();
+				PanelBody panelBody = new PanelBody();
+				panelBody.add(new Paragraph(qa.getAnswer()));
+				panelCollapse.add(panelBody);
+				if(qaPanelGroup.getWidgetCount()==0){
+					panelCollapse.setIn(true);
+				}
+				
+				PanelHeader panelHeader = new PanelHeader();
+				panelHeader.setDataToggle(Toggle.COLLAPSE);
+				panelHeader.setDataTargetWidget(panelCollapse);
+				Heading heading = new Heading(HeadingSize.H4, qa.getQuestion());
+				panelHeader.add(heading);
+				
+				qaPanel.add(panelHeader);
+				qaPanel.add(panelCollapse);
+				
+				qaPanelGroup.add(qaPanel);
 			}
 			
-			PanelHeader panelHeader = new PanelHeader();
-			panelHeader.setDataToggle(Toggle.COLLAPSE);
-			panelHeader.setDataTargetWidget(panelCollapse);
-			Heading heading = new Heading(HeadingSize.H4, qa.getQuestion());
-			panelHeader.add(heading);
-			
-			qaPanel.add(panelHeader);
-			qaPanel.add(panelCollapse);
-			
-			qaPanelGroup.add(qaPanel);
 		}
 	}
 

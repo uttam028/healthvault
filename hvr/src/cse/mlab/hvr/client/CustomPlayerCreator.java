@@ -2,7 +2,7 @@ package cse.mlab.hvr.client;
 
 import java.util.ArrayList;
 
-import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 
 public class CustomPlayerCreator {
 	private static CustomPlayerCreator instance = null;

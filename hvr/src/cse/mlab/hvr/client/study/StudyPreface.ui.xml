@@ -15,19 +15,19 @@
 		
 	</ui:style>
 	<b:Panel addStyleNames="{style.margin}">
-		<b:PanelHeader ui:field="tpHeader">
-			<b:Heading size="H5" ui:field="tpHeading"/>
+		<b:PanelHeader ui:field="spHeader">
+			<b:Heading size="H5" ui:field="spHeading"/>
 		</b:PanelHeader>
 		<b:PanelBody>
 		    <b:Row>
-		        <h:Paragraph ui:field="tpDescription"></h:Paragraph>
+		        <h:Paragraph ui:field="spDescription"></h:Paragraph>
 		    </b:Row>
 		    <b:Row>
 		        <b:Column size="MD_9">
-		        	<g:HTMLPanel ui:field="tpQuestionAnswerList"></g:HTMLPanel>
+		        	<g:HTMLPanel ui:field="spQuestionAnswerList"></g:HTMLPanel>
 		        </b:Column>
 		        <b:Column size="MD_3">
-		            <b:Button ui:field="tpStartButton" type="PRIMARY">Begin New Test</b:Button>
+		            <b:Button ui:field="enrollButton" type="PRIMARY">Enroll Now</b:Button>
 		        </b:Column>
 		    </b:Row>
 		</b:PanelBody>

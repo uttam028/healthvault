@@ -11,14 +11,15 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.shared.TestPrefaceModel;
+import cse.mlab.hvr.client.study.StudyPreface;
+import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class HomePage extends Composite {
 
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 	@UiField
-	HTMLPanel homepagePanel, dashboardPanel, speechTestListPanel;
+	HTMLPanel homepagePanel, dashboardPanel, openStudyPanel;
 
 	Hvr application;
 	boolean homepageLoaded = false;
@@ -39,14 +40,14 @@ public class HomePage extends Composite {
 		super.onLoad();
 		if (!homepageLoaded) {
 			greetingService
-					.getAvailableSpeechTest(new AsyncCallback<ArrayList<TestPrefaceModel>>() {
+					.getOpenStudies(new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
 
 						@Override
-						public void onSuccess(ArrayList<TestPrefaceModel> result) {
+						public void onSuccess(ArrayList<StudyPrefaceModel> result) {
 							// TODO Auto-generated method stub
-							for (TestPrefaceModel model : result) {
-								TestPreface testPreface = new TestPreface(model);
-								speechTestListPanel.add(testPreface);
+							for (StudyPrefaceModel model : result) {
+								StudyPreface openStudies = new StudyPreface(model);
+								openStudyPanel.add(openStudies);
 							}
 							homepageLoaded = true;
 						}

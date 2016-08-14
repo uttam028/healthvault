@@ -1,33 +1,26 @@
-package cse.mlab.hvr.shared.speechtest;
+package cse.mlab.hvr.shared.study;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class SpeechTestMetadata implements IsSerializable{
-	private TestOverview testOverview;
-	private ArrayList<HealthStatusQuestion> healthStatusQuestions;
+	private StudyOverview testOverview;
 	private ArrayList<SubTest> subTests;
 	public SpeechTestMetadata() {
 		// TODO Auto-generated constructor stub
 	}
-	public SpeechTestMetadata(TestOverview testOverview,
-			ArrayList<HealthStatusQuestion> healthStatusQuestions,
+	public SpeechTestMetadata(StudyOverview testOverview,
 			ArrayList<SubTest> subTests) {
 		super();
 		this.testOverview = testOverview;
-		this.healthStatusQuestions = healthStatusQuestions;
 		this.subTests = subTests;
 	}
-	public TestOverview getTestOverview() {
+	public StudyOverview getTestOverview() {
 		return testOverview;
-	}
-	public ArrayList<HealthStatusQuestion> getHealthStatusQuestions() {
-		return healthStatusQuestions;
 	}
 	public ArrayList<SubTest> getSubTests() {
 		return subTests;
 	}
-	
 	
 }

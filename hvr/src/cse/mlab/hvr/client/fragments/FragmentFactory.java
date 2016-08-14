@@ -1,6 +1,6 @@
 package cse.mlab.hvr.client.fragments;
 
-import cse.mlab.hvr.shared.speechtest.TestFragment;
+import cse.mlab.hvr.shared.study.TestFragment;
 
 public class FragmentFactory {
 	private static FragmentFactory instance = null;

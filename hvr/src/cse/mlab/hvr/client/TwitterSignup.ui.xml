@@ -65,20 +65,20 @@
 								into, and you can also be part of the journey.</h5>
 							<g:HTMLPanel addStyleNames="col-lg-offset-2">
 								<br /><br /> <br />
-								<h2 style="float:left;">
+								<h3 style="float:left;">
 									<span class="glyphicon glyphicon-volume-up"></span>
 									&nbsp; Participate in speech sample collection
-								</h2>
+								</h3>
 								<br /><br /><br />
-								<h2 style="float:left;">
+								<h3 style="float:left;">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 									&nbsp; Get Feedback on your participation
-								</h2>
+								</h3>
 								<br /><br /><br />
-								<h2 style="float:left;">
+								<h3 style="float:left;">
 									<span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
 									&nbsp; Get rewarded for contribution
-								</h2>
+								</h3>
 
 							</g:HTMLPanel>
 

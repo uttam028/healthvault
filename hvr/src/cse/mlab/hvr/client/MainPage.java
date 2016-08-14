@@ -13,10 +13,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.events.StartSpeechTestEvent;
-import cse.mlab.hvr.client.events.StartSpeechTestEventHandler;
+import cse.mlab.hvr.client.events.EnrollmentEvent;
+import cse.mlab.hvr.client.events.EnrollmentEventHandler;
 import cse.mlab.hvr.client.events.TestCompletionEvent;
 import cse.mlab.hvr.client.events.TestCompletionEventHandler;
+import cse.mlab.hvr.client.study.EnrollmentProcess;
+import cse.mlab.hvr.shared.study.StudyOverview;
+import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class MainPage extends Composite {
 
@@ -60,12 +63,12 @@ public class MainPage extends Composite {
 		homePage = new HomePage(this.application);
 		profilePage = new ProfilePage();
 		
-		Hvr.getEventBus().addHandler(StartSpeechTestEvent.TYPE, new StartSpeechTestEventHandler() {
+		Hvr.getEventBus().addHandler(EnrollmentEvent.TYPE, new EnrollmentEventHandler() {
 			
 			@Override
-			public void actionToStartSpeechTest(StartSpeechTestEvent event) {
+			public void actionForEnrollment(EnrollmentEvent event) {
 				// TODO Auto-generated method stub
-				loadSpeechTest(event.getTestId());
+				loadEnrollmentProcess(event.getState().getStudy());
 			}
 		});
 		
@@ -87,7 +90,13 @@ public class MainPage extends Composite {
 
 	@UiHandler("homeAnchor")
 	void homeAnchorClicked(ClickEvent event) {
-		History.newItem("home");
+		if(History.getToken().equalsIgnoreCase("home")){
+			loadHomePage();
+		} else{
+			History.newItem("home");			
+		}
+		//Window.alert("home button clicked...");
+		
 	}
 
 	protected void loadHomePage() {
@@ -112,12 +121,12 @@ public class MainPage extends Composite {
 		mainPageContentPanel.add(profilePage);
 	}
 	
-	protected void loadSpeechTest(String testId) {
+	protected void loadEnrollmentProcess(StudyPrefaceModel study) {
 		homeAnchor.setActive(false);
 		profileAnchor.setActive(false);
 		
 		mainPageContentPanel.clear();
-		mainPageContentPanel.add(new SpeechTestProcess(testId));
+		mainPageContentPanel.add(new EnrollmentProcess(study));
 		
 	}
 

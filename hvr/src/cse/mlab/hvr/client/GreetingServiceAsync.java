@@ -7,10 +7,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.TestPrefaceModel;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
-import cse.mlab.hvr.shared.speechtest.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -33,7 +33,7 @@ public interface GreetingServiceAsync {
 	void stopUsingMedication(long id, String endDate, AsyncCallback<Response> callback);
 	
 	//speech test
-	void getAvailableSpeechTest(AsyncCallback<ArrayList<TestPrefaceModel>> callback);
+	void getOpenStudies(AsyncCallback<ArrayList<StudyPrefaceModel>> callback);
 	void getSpeechTestMetadata(String testId, AsyncCallback<SpeechTestMetadata> callback);
 	//SpeechTestMetadata getSpeechTestMetadata(String testId);
 }

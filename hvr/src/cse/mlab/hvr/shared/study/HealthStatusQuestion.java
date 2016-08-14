@@ -1,4 +1,4 @@
-package cse.mlab.hvr.shared.speechtest;
+package cse.mlab.hvr.shared.study;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

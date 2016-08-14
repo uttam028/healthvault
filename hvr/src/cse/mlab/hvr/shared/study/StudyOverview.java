@@ -1,8 +1,8 @@
-package cse.mlab.hvr.shared.speechtest;
+package cse.mlab.hvr.shared.study;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class TestOverview implements IsSerializable {
+public class StudyOverview implements IsSerializable {
 	private String id;
 	private String name;
 	private String alias;
@@ -11,23 +11,25 @@ public class TestOverview implements IsSerializable {
 	private String modificationDate;
 	private String overview;
 	private String description;
-	private int subtestCount;
+//	private int subtestCount;
 	private boolean isActive;
 	private boolean isConsentFileAvailable;
 	private String consentFileName;
 	// 0=created by owner, 1=edit in progress, 2=pending to authorize,
 	// 3=published, 4=delete in progress, 5= deleted
 	private int publishState;
-
-	public TestOverview() {
+	private String speechTestId;
+	private String complianceId;
+	
+	public StudyOverview() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public TestOverview(String id, String name, String alias, String createdBy,
-			String creationDate, String modificationDate, String overview,
-			String description, int subtestCount, boolean isActive,
+	
+	public StudyOverview(String id, String name, String alias,
+			String createdBy, String creationDate, String modificationDate,
+			String overview, String description, boolean isActive,
 			boolean isConsentFileAvailable, String consentFileName,
-			int publishState) {
+			int publishState, String speechTestId, String complianceId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,11 +39,12 @@ public class TestOverview implements IsSerializable {
 		this.modificationDate = modificationDate;
 		this.overview = overview;
 		this.description = description;
-		this.subtestCount = subtestCount;
 		this.isActive = isActive;
 		this.isConsentFileAvailable = isConsentFileAvailable;
 		this.consentFileName = consentFileName;
 		this.publishState = publishState;
+		this.speechTestId = speechTestId;
+		this.complianceId = complianceId;
 	}
 
 	public String getId() {
@@ -76,10 +79,6 @@ public class TestOverview implements IsSerializable {
 		return description;
 	}
 
-	public int getSubtestCount() {
-		return subtestCount;
-	}
-
 	public boolean isActive() {
 		return isActive;
 	}
@@ -95,5 +94,14 @@ public class TestOverview implements IsSerializable {
 	public int getPublishState() {
 		return publishState;
 	}
+
+	public String getSpeechTestId() {
+		return speechTestId;
+	}
+
+	public String getComplianceId() {
+		return complianceId;
+	}
+
 
 }
