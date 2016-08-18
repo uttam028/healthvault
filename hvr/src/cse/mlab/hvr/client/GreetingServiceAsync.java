@@ -9,6 +9,7 @@ import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -33,7 +34,10 @@ public interface GreetingServiceAsync {
 	void stopUsingMedication(long id, String endDate, AsyncCallback<Response> callback);
 	
 	//speech test
-	void getOpenStudies(AsyncCallback<ArrayList<StudyPrefaceModel>> callback);
+	void getOpenStudies(String email, AsyncCallback<ArrayList<StudyPrefaceModel>> callback);
+	void getMyStudies(AsyncCallback<ArrayList<MyStudyDataModel>> callback);
 	void getSpeechTestMetadata(String testId, AsyncCallback<SpeechTestMetadata> callback);
+	void enrollToStudy(String testId, String email, AsyncCallback<Response> callback);
+
 	//SpeechTestMetadata getSpeechTestMetadata(String testId);
 }

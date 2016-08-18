@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
-import cse.mlab.hvr.client.events.TestCompletionEvent;
+import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.Fragment;
 import cse.mlab.hvr.client.fragments.ImageFragment;
 import cse.mlab.hvr.client.fragments.MarqueeFragment;
@@ -145,7 +145,7 @@ public class DysarthiaTest extends Composite {
 									currentDysPlayerIndex = 0;
 									testLoaded = false;
 									Hvr.getEventBus().fireEvent(
-											new TestCompletionEvent(new SpeechTestState("1", TestState.COMPLETED)));
+											new SpeechTestEvent(new SpeechTestState("1", TestState.COMPLETED)));
 								}
 
 							} catch (Exception e) {
@@ -216,7 +216,7 @@ public class DysarthiaTest extends Composite {
 		updateDysTestRunningStatus(false);
 		loadDysPlayerFromSaveState = true;
 		//this.dysarthiaTestPanel.clear();
-		Hvr.getEventBus().fireEvent(new TestCompletionEvent(new SpeechTestState("1", TestState.SAVED)));
+		Hvr.getEventBus().fireEvent(new SpeechTestEvent(new SpeechTestState("1", TestState.SAVED)));
 	}
 
 }

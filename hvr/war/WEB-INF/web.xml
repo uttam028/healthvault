@@ -14,7 +14,7 @@
 	</context-param>
 	<context-param>
 		<param-name>signupPath</param-name>
-		<param-value>/signup/signup/</param-value>
+		<param-value>/signup/</param-value>
 	</context-param>
 
 	<!-- Servlets -->
@@ -23,15 +23,15 @@
 		<servlet-class>cse.mlab.hvr.server.GreetingServiceImpl</servlet-class>
 		<init-param>
 			<param-name>signupPath</param-name>
-			<param-value>/signup/signup/</param-value>
+			<param-value>/signup/</param-value>
 		</init-param>
 		<init-param>
 			<param-name>loginPath</param-name>
-			<param-value>/login/login/</param-value>
+			<param-value>/login/</param-value>
 		</init-param>
 		<init-param>
 			<param-name>profilePath</param-name>
-			<param-value>/profile/profile/</param-value>
+			<param-value>/profile/</param-value>
 		</init-param>
 
 	</servlet>

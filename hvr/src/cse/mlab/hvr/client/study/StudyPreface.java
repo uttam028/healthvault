@@ -60,5 +60,9 @@ public class StudyPreface extends Composite {
 			}
 		});
 	}
+	
+	public StudyPrefaceModel getStudyPrefaceModel() {
+		return studyPrefaceModel;
+	}
 
 }

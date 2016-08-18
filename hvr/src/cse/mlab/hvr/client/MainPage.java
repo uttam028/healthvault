@@ -13,11 +13,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.EnrollmentState.EnrollState;
+import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.EnrollmentEvent;
 import cse.mlab.hvr.client.events.EnrollmentEventHandler;
-import cse.mlab.hvr.client.events.TestCompletionEvent;
-import cse.mlab.hvr.client.events.TestCompletionEventHandler;
+import cse.mlab.hvr.client.events.SpeechTestEvent;
+import cse.mlab.hvr.client.events.SpeechTestEventHandler;
 import cse.mlab.hvr.client.study.EnrollmentProcess;
+import cse.mlab.hvr.client.study.SpeechTestProcess;
 import cse.mlab.hvr.shared.study.StudyOverview;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -42,7 +45,7 @@ public class MainPage extends Composite {
 	HomePage homePage;
 	ProfilePage profilePage;
 
-	private String userId;
+	private static String userId;
 	private String firstName = "";
 	private String lastName = "";
 	private boolean profileUpdated = false;
@@ -56,47 +59,69 @@ public class MainPage extends Composite {
 	public MainPage(Hvr application, String email) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.application = application;
-		this.userId = email;
+		userId = email;
 		// updateUserName();
 		// profilePage = new ProfilePage(this, this.userId);
 
-		homePage = new HomePage(this.application);
+		homePage = new HomePage(this.application, userId);
 		profilePage = new ProfilePage();
-		
-		Hvr.getEventBus().addHandler(EnrollmentEvent.TYPE, new EnrollmentEventHandler() {
-			
-			@Override
-			public void actionForEnrollment(EnrollmentEvent event) {
-				// TODO Auto-generated method stub
-				loadEnrollmentProcess(event.getState().getStudy());
-			}
-		});
-		
-		Hvr.getEventBus().addHandler(TestCompletionEvent.TYPE, new TestCompletionEventHandler() {
-			
-			@Override
-			public void actionAfterTestCompleted(TestCompletionEvent event) {
-				loadHomePage();
-			}
-		});
-//		homeAnchorClicked(null);
+
+		Hvr.getEventBus().addHandler(EnrollmentEvent.TYPE,
+				new EnrollmentEventHandler() {
+
+					@Override
+					public void actionForEnrollment(EnrollmentEvent event) {
+						// TODO Auto-generated method stub
+						if (event.getState().getState() == EnrollState.START) {
+							loadEnrollmentProcess(event.getState().getStudy());
+						} else {
+							updateHomePageAfterEnrollment(event);
+						}
+					}
+				});
+
+		Hvr.getEventBus().addHandler(SpeechTestEvent.TYPE,
+				new SpeechTestEventHandler() {
+
+					@Override
+					public void actionAfterTestEvent(SpeechTestEvent event) {
+						if (event.getTestState().getState() == TestState.START) {
+							loadSpeechTestProcess(event.getTestState()
+									.getTestId());
+						} else {
+							loadHomePage();
+						}
+					}
+				});
+		// homeAnchorClicked(null);
 		loadHomePage();
 	}
 
 	protected void onLoad() {
-//		homeAnchorClicked(null);
+		// homeAnchorClicked(null);
 
 	}
 
 	@UiHandler("homeAnchor")
 	void homeAnchorClicked(ClickEvent event) {
-		if(History.getToken().equalsIgnoreCase("home")){
+		if (History.getToken().equalsIgnoreCase("home")) {
 			loadHomePage();
-		} else{
-			History.newItem("home");			
+		} else {
+			History.newItem("home");
 		}
-		//Window.alert("home button clicked...");
-		
+		// Window.alert("home button clicked...");
+
+	}
+
+	protected void updateHomePageAfterEnrollment(EnrollmentEvent event) {
+		if (event.getState().getState() == EnrollState.DECLINED) {
+			loadHomePage();
+		} else if (event.getState().getState() == EnrollState.FAILURE) {
+			loadHomePage();
+		} else if (event.getState().getState() == EnrollState.SUCCESS) {
+			homePage.removeFromOpenStudies(event.getState().getStudy().getStudyOverview().getId());
+			loadHomePage();
+		}
 	}
 
 	protected void loadHomePage() {
@@ -120,20 +145,32 @@ public class MainPage extends Composite {
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(profilePage);
 	}
-	
+
 	protected void loadEnrollmentProcess(StudyPrefaceModel study) {
 		homeAnchor.setActive(false);
 		profileAnchor.setActive(false);
-		
+
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(new EnrollmentProcess(study));
-		
+
+	}
+
+	protected void loadSpeechTestProcess(String testId) {
+		homeAnchor.setActive(false);
+		profileAnchor.setActive(false);
+
+		mainPageContentPanel.clear();
+		mainPageContentPanel.add(new SpeechTestProcess(testId));
+
 	}
 
 	@UiHandler("signoutAnchor")
 	void logout(ClickEvent clickEvent) {
 		this.application.logout();
 	}
-
+	
+	public static String getLoggedinUser() {
+		return userId;
+	}
 
 }

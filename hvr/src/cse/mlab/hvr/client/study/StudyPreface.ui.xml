@@ -23,6 +23,7 @@
 		        <h:Paragraph ui:field="spDescription"></h:Paragraph>
 		    </b:Row>
 		    <b:Row>
+		        <h:Br/>
 		        <b:Column size="MD_9">
 		        	<g:HTMLPanel ui:field="spQuestionAnswerList"></g:HTMLPanel>
 		        </b:Column>

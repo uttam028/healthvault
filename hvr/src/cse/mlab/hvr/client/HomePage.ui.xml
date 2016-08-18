@@ -4,17 +4,35 @@
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	<ui:style>
 		.important {
-			font-weight: bold;
+		font-weight: bold;
 		}
+		.margin{
+		margin:5%;
+		}
+		.text_left{
+			text-align: left;
+		}
+
 	</ui:style>
 	<g:HTMLPanel ui:field="homepagePanel">
 		<b:Row>
-		    <b:Column size="MD_6">
-		        <g:HTMLPanel ui:field="dashboardPanel"></g:HTMLPanel>
-		    </b:Column>
-		    <b:Column size="MD_6">
-		        <g:HTMLPanel ui:field="openStudyPanel" addStyleNames="col-lg-offset-2 col-lg-9"></g:HTMLPanel>
-		    </b:Column>
+			<b:Column size="MD_7">
+			    <h:Br/><h:Br/><h:Br/>
+				<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" title="My Studies">
+				    <g:Label addStyleNames="{style.text_left}">My Studies</g:Label>
+				    <hr/>
+				    <g:VerticalPanel  ui:field="dashboardPanel" ></g:VerticalPanel>
+					
+				</g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_5">
+			    <h:Br/><h:Br/><h:Br/>
+				<g:HTMLPanel  addStyleNames="col-lg-offset-1">
+				    <g:Label addStyleNames="{style.text_left}">Open Studies</g:Label>
+				    <hr/>
+				    <g:HTMLPanel ui:field="openStudyPanel"></g:HTMLPanel>				    
+				</g:HTMLPanel>
+				</b:Column>
 		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

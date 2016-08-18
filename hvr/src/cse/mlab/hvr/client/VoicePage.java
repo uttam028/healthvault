@@ -21,8 +21,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.events.TestCompletionEvent;
-import cse.mlab.hvr.client.events.TestCompletionEventHandler;
+import cse.mlab.hvr.client.events.SpeechTestEvent;
+import cse.mlab.hvr.client.events.SpeechTestEventHandler;
 
 public class VoicePage extends Composite {
 
@@ -354,12 +354,12 @@ public class VoicePage extends Composite {
 			
 		}
 
-		Hvr.getEventBus().addHandler(TestCompletionEvent.TYPE,
-				new TestCompletionEventHandler() {
+		Hvr.getEventBus().addHandler(SpeechTestEvent.TYPE,
+				new SpeechTestEventHandler() {
 
 					@Override
-					public void actionAfterTestCompleted(
-							TestCompletionEvent event) {
+					public void actionAfterTestEvent(
+							SpeechTestEvent event) {
 						// TODO Auto-generated method stub
 						voicePagePanel.clear();
 //						application.mainPage.loadHomePage(null);

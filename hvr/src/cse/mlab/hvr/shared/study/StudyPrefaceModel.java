@@ -3,11 +3,14 @@ package cse.mlab.hvr.shared.study;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.study.HealthStatusQuestion;
 
+@XmlRootElement
 public class StudyPrefaceModel implements Serializable, IsSerializable {
 	private static final long serialVersionUID = 2;
 
@@ -36,6 +39,4 @@ public class StudyPrefaceModel implements Serializable, IsSerializable {
 	public ArrayList<HealthStatusQuestion> getHealthStatusQuestions() {
 		return healthStatusQuestions;
 	}
-
-
 }

@@ -12,8 +12,8 @@ public class StudyOverview implements IsSerializable {
 	private String overview;
 	private String description;
 //	private int subtestCount;
-	private boolean isActive;
-	private boolean isConsentFileAvailable;
+	private boolean active;
+	private boolean consentFileAvailable;
 	private String consentFileName;
 	// 0=created by owner, 1=edit in progress, 2=pending to authorize,
 	// 3=published, 4=delete in progress, 5= deleted
@@ -24,11 +24,11 @@ public class StudyOverview implements IsSerializable {
 	public StudyOverview() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public StudyOverview(String id, String name, String alias,
 			String createdBy, String creationDate, String modificationDate,
-			String overview, String description, boolean isActive,
-			boolean isConsentFileAvailable, String consentFileName,
+			String overview, String description, boolean active,
+			boolean consentFileAvailable, String consentFileName,
 			int publishState, String speechTestId, String complianceId) {
 		super();
 		this.id = id;
@@ -39,8 +39,8 @@ public class StudyOverview implements IsSerializable {
 		this.modificationDate = modificationDate;
 		this.overview = overview;
 		this.description = description;
-		this.isActive = isActive;
-		this.isConsentFileAvailable = isConsentFileAvailable;
+		this.active = active;
+		this.consentFileAvailable = consentFileAvailable;
 		this.consentFileName = consentFileName;
 		this.publishState = publishState;
 		this.speechTestId = speechTestId;
@@ -80,11 +80,11 @@ public class StudyOverview implements IsSerializable {
 	}
 
 	public boolean isActive() {
-		return isActive;
+		return active;
 	}
 
 	public boolean isConsentFileAvailable() {
-		return isConsentFileAvailable;
+		return consentFileAvailable;
 	}
 
 	public String getConsentFileName() {
@@ -102,6 +102,7 @@ public class StudyOverview implements IsSerializable {
 	public String getComplianceId() {
 		return complianceId;
 	}
+	
 
 
 }

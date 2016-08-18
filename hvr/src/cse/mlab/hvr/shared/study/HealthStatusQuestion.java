@@ -5,42 +5,35 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class HealthStatusQuestion implements IsSerializable{
 	private String question;
 	private String hint;
-	private boolean isAnswerRequired;
+	private boolean answerRequired;
 	private int sequenceId;
-	private boolean isActive;
+	private boolean active;
 	public HealthStatusQuestion() {
 		// TODO Auto-generated constructor stub
 	}
 	public HealthStatusQuestion(String question, String hint,
-			boolean isAnswerRequired, int sequenceId, boolean isActive) {
+			boolean answerRequired, int sequenceId, boolean active) {
 		super();
 		this.question = question;
 		this.hint = hint;
-		this.isAnswerRequired = isAnswerRequired;
+		this.answerRequired = answerRequired;
 		this.sequenceId = sequenceId;
-		this.isActive = isActive;
+		this.active = active;
 	}
-
 	public String getQuestion() {
 		return question;
 	}
-
 	public String getHint() {
 		return hint;
 	}
-
 	public boolean isAnswerRequired() {
-		return isAnswerRequired;
+		return answerRequired;
 	}
-
 	public int getSequenceId() {
 		return sequenceId;
 	}
-
 	public boolean isActive() {
-		return isActive;
+		return active;
 	}
-	
-	
 	
 }

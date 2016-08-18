@@ -4,7 +4,7 @@ import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class EnrollmentState {
 	public enum EnrollState{
-		START, DECLINED, COMPLETED;
+		START, DECLINED, FAILURE, SUCCESS;
 	}
 
 	private StudyPrefaceModel study;

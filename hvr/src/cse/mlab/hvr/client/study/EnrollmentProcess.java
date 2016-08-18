@@ -24,14 +24,21 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.EnrollmentState;
+import cse.mlab.hvr.client.EnrollmentState.EnrollState;
 import cse.mlab.hvr.client.GreetingService;
 import cse.mlab.hvr.client.GreetingServiceAsync;
+import cse.mlab.hvr.client.Hvr;
+import cse.mlab.hvr.client.MainPage;
+import cse.mlab.hvr.client.events.EnrollmentEvent;
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.HealthStatusQuestion;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -107,6 +114,7 @@ public class EnrollmentProcess extends Composite {
 				// new TestCompletionEvent(new SpeechTestState(
 				// EnrollmentProcess.this.testId,
 				// TestState.DECLINED)));
+				Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.DECLINED)));
 			}
 		});
 
@@ -124,6 +132,26 @@ public class EnrollmentProcess extends Composite {
 				// } else {
 				// enableTestTab();
 				// }
+				String studyId = EnrollmentProcess.this.enrollmentData.getStudyOverview().getId();
+				String email = MainPage.getLoggedinUser();
+				greetingService.enrollToStudy(studyId, email, new AsyncCallback<Response>() {
+					
+					@Override
+					public void onSuccess(Response result) {
+						// TODO Auto-generated method stub
+						if(result.getCode() == 0){
+							Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.SUCCESS)));
+						}else {
+							Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.FAILURE)));
+						}
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.FAILURE)));
+					}
+				});
 			}
 		});
 
@@ -175,6 +203,7 @@ public class EnrollmentProcess extends Composite {
 			tabNavigation.add(healthTab);
 			tabContent.add(healthPane);
 		}
+		Window.alert("is consent available:"+ this.enrollmentData.getStudyOverview().isConsentFileAvailable());
 
 		if (this.enrollmentData.getStudyOverview() != null
 				&& this.enrollmentData.getStudyOverview()

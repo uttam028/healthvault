@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
-import cse.mlab.hvr.client.events.TestCompletionEvent;
+import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 
 public class CustomPlayerManager extends Composite {
@@ -86,7 +86,7 @@ public class CustomPlayerManager extends Composite {
 									currentPlayerIndex = 0;
 									testLoaded = false;
 									Hvr.getEventBus().fireEvent(
-											new TestCompletionEvent(
+											new SpeechTestEvent(
 													new SpeechTestState("1", TestState.COMPLETED)));
 								}
 

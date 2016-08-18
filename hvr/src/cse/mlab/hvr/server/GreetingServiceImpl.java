@@ -1,5 +1,6 @@
 package cse.mlab.hvr.server;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -12,6 +13,10 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -27,12 +32,14 @@ import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.study.Compliance;
 import cse.mlab.hvr.shared.study.HealthStatusQuestion;
+import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.StudyOverview;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 import cse.mlab.hvr.shared.study.SubTest;
 import cse.mlab.hvr.shared.study.TestFragment;
-import cse.mlab.hvr.shared.study.StudyOverview;
 
 /**
  * The server-side implementation of the RPC service.
@@ -227,7 +234,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/medication/";
+		String url = serverRoot + "/medication/";
 		WebResource service = client.resource(url);
 		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
 				.put(ClientResponse.class, medication);
@@ -248,7 +255,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/medication/update/"
+		String url = serverRoot + "/medication/update/"
 				+ medication.getId();
 		WebResource service = client.resource(url);
 		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
@@ -269,7 +276,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/medication/" + email;
+		String url = serverRoot + "/medication/" + email;
 		WebResource service = client.resource(url);
 
 		String response = service.accept(MediaType.APPLICATION_JSON).get(
@@ -297,7 +304,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/medication/" + email;
+		String url = serverRoot + "/medication/" + email;
 		WebResource service = client.resource(url);
 
 		String response = service.accept(MediaType.APPLICATION_JSON).get(
@@ -319,7 +326,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/medication/" + email + "/"
+		String url = serverRoot + "/medication/" + email + "/"
 				+ list;
 		WebResource service = client.resource(url);
 
@@ -341,7 +348,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/medication/endusing/" + id + "/"
+		String url = serverRoot + "/medication/endusing/" + id + "/"
 				+ endDate;
 		WebResource service = client.resource(url);
 
@@ -403,7 +410,35 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	// ------------------speech test----------------------//
 	@Override
-	public ArrayList<StudyPrefaceModel> getOpenStudies() {
+	public ArrayList<StudyPrefaceModel> getOpenStudies(String email) {
+		
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/study/open/" + email;
+		WebResource service = client.resource(url);
+
+		String response = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		
+//		ArrayList<StudyPrefaceModel> models = new Gson().fromJson(response,
+//				new Typetok);
+		Gson gson = new Gson();
+		Type listOfTestObject = new TypeToken<ArrayList<StudyPrefaceModel>>(){}.getType();
+		ArrayList<StudyPrefaceModel> list = gson.fromJson(response, listOfTestObject);
+		
+		System.out.println("response from server:" + response);
+		
+		System.out.println("length of list : "+ list.size());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff get open study: " + (end - start));
+		
+		
+		
+		return list;
+		/*
 		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
 		String studyId = "1";
 		StudyOverview studyOverview1= new StudyOverview(studyId, "Notre Dame Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
@@ -447,15 +482,37 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		StudyPrefaceModel model2 = new StudyPrefaceModel(studyOverview2, qaList2, healthQuestions);
 
 		ArrayList<StudyPrefaceModel> testPrefaceModels = new ArrayList<>();
-		testPrefaceModels.add(model1);
+		//testPrefaceModels.add(model1);
 		testPrefaceModels.add(model2);
-		return testPrefaceModels;
+		return testPrefaceModels;*/
 	}
 
 	@Override
+	public ArrayList<MyStudyDataModel> getMyStudies() {
+		// TODO Auto-generated method stub
+		try {
+			String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
+			String studyId = "1";
+			StudyOverview studyOverview1= new StudyOverview(studyId, "Notre Dame Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
+					"This is a test for parkinson patient which will take around 10 minutes.", "", 
+					 true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" , "1");
+			
+			Compliance compliance = new Compliance("1", "weekly", 1, 40);
+			ArrayList<MyStudyDataModel> myStudies = new ArrayList<>();
+			MyStudyDataModel model1 = new MyStudyDataModel(studyOverview1, compliance, "2016-08-01", "2016-08-17", 3);
+			myStudies.add(model1);
+			return myStudies;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	
+	@Override
 	public SpeechTestMetadata getSpeechTestMetadata(String testId) {
 		// TODO Auto-generated method stub
-		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/"+ testId + "/";
+		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/test/"+ testId + "/";
 		int subtestId1 = 1;
 		String subtest1Path = pathRoot + subtestId1 + "/";
 		TestFragment sub1frag1 = new TestFragment(1, "We saw several wild animals",  "", subtest1Path + 1 + "/sentences1.mp3", 
@@ -540,6 +597,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, subTests);
 		return speechTestMetadata;
 
+	}
+	
+	@Override
+	public Response enrollToStudy(String testId, String email) {
+		return new Response(0, "");
 	}
 
 	/**

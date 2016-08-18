@@ -13,7 +13,7 @@ public class TestFragment implements Serializable, IsSerializable{
 	private String text;
 	private String imageFileName;
 	private String audioFileName;
-	private boolean isTimerAvailable;
+	private boolean timerAvailable;
 	private int durationOfTimer;
 	private boolean isNextButtonAvailable;
 	private int durationToShowNextButton;
@@ -21,62 +21,55 @@ public class TestFragment implements Serializable, IsSerializable{
 	public TestFragment() {
 		// TODO Auto-generated constructor stub
 	}
-	public TestFragment(int fragmentId,
-			String text, String imageFileName, String audioFileName,
-			boolean isTimerAvailable, int durationOfTimer,
+
+	public TestFragment(int fragmentId, String text, String imageFileName,
+			String audioFileName, boolean timerAvailable, int durationOfTimer,
 			boolean isNextButtonAvailable, int durationToShowNextButton) {
 		super();
 		this.fragmentId = fragmentId;
 		this.text = text;
 		this.imageFileName = imageFileName;
 		this.audioFileName = audioFileName;
-		this.isTimerAvailable = isTimerAvailable;
+		this.timerAvailable = timerAvailable;
 		this.durationOfTimer = durationOfTimer;
 		this.isNextButtonAvailable = isNextButtonAvailable;
 		this.durationToShowNextButton = durationToShowNextButton;
 	}
 
-
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public int getFragmentId() {
 		return fragmentId;
 	}
 
-
 	public String getText() {
 		return text;
 	}
-
 
 	public String getImageFileName() {
 		return imageFileName;
 	}
 
-
 	public String getAudioFileName() {
 		return audioFileName;
 	}
 
-
 	public boolean isTimerAvailable() {
-		return isTimerAvailable;
+		return timerAvailable;
 	}
-
 
 	public int getDurationOfTimer() {
 		return durationOfTimer;
 	}
 
-
 	public boolean isNextButtonAvailable() {
 		return isNextButtonAvailable;
 	}
 
-
 	public int getDurationToShowNextButton() {
 		return durationToShowNextButton;
 	}
-	
-	
+
 }

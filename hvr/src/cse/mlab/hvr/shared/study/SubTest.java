@@ -10,7 +10,7 @@ public class SubTest implements IsSerializable {
 	private String alias;
 	private String creationDate;
 	private String modificationDate;
-	private boolean isActive;
+	private boolean active;
 	private String commonInstructionText;
 	private String commonInstrcutionAudioFileName;
 	private ArrayList<TestFragment> subtestFragments;
@@ -20,7 +20,7 @@ public class SubTest implements IsSerializable {
 	}
 
 	public SubTest(int subtestId, String name, String alias,
-			String creationDate, String modificationDate, boolean isActive,
+			String creationDate, String modificationDate, boolean active,
 			String commonInstructionText,
 			String commonInstrcutionAudioFileName,
 			ArrayList<TestFragment> subtestFragments) {
@@ -30,7 +30,7 @@ public class SubTest implements IsSerializable {
 		this.alias = alias;
 		this.creationDate = creationDate;
 		this.modificationDate = modificationDate;
-		this.isActive = isActive;
+		this.active = active;
 		this.commonInstructionText = commonInstructionText;
 		this.commonInstrcutionAudioFileName = commonInstrcutionAudioFileName;
 		this.subtestFragments = subtestFragments;
@@ -57,7 +57,7 @@ public class SubTest implements IsSerializable {
 	}
 
 	public boolean isActive() {
-		return isActive;
+		return active;
 	}
 
 	public String getCommonInstructionText() {
@@ -71,5 +71,6 @@ public class SubTest implements IsSerializable {
 	public ArrayList<TestFragment> getSubtestFragments() {
 		return subtestFragments;
 	}
+
 
 }
