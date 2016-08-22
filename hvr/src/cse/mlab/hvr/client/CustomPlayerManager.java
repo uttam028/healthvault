@@ -1,5 +1,7 @@
 package cse.mlab.hvr.client;
 
+import org.gwtbootstrap3.client.ui.ProgressBar;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -13,7 +15,7 @@ import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
-import cse.mlab.hvr.shared.study.SpeechTestMetadata;
+import cse.mlab.hvr.shared.study.SpeechTest;
 
 public class CustomPlayerManager extends Composite {
 	static int currentPlayerIndex = 0;
@@ -21,6 +23,10 @@ public class CustomPlayerManager extends Composite {
 	private Boolean testLoaded = false;
 	@UiField
 	HTMLPanel playerManagerPanel;
+	
+	@UiField
+	ProgressBar playerProgressBar;
+
 
 	final AudioBasedCustomPlayer[] players;
 
@@ -31,13 +37,14 @@ public class CustomPlayerManager extends Composite {
 			UiBinder<Widget, CustomPlayerManager> {
 	}
 
-	public CustomPlayerManager(SpeechTestMetadata metadata) {
+	public CustomPlayerManager(final String studyId, final SpeechTest metadata) {
 		initWidget(uiBinder.createAndBindUi(this));
 		players = CustomPlayerCreator.getInstance().getAudioBasedCustomPlayer(
 				metadata);
 		
 		this.playerManagerPanel.add(players[0]);
-		currentPlayerIndex = 0;
+		currentPlayerIndex=0;
+		updatePlayerProgress();
 		updateSpeechTestRunningStatus(true);
 
 		Hvr.getEventBus().addHandler(FileUploadSuccessEvent.TYPE,
@@ -49,6 +56,7 @@ public class CustomPlayerManager extends Composite {
 						// TODO Auto-generated method stub
 						if (speechTestRunning) {
 							currentPlayerIndex++;
+							updatePlayerProgress();
 							// Window.alert("I have got the fire of the event");
 							try {
 								if (currentPlayerIndex > 0) {
@@ -84,10 +92,11 @@ public class CustomPlayerManager extends Composite {
 //									loadDysPlayerFromSaveState = false;
 									updateSpeechTestRunningStatus(false);
 									currentPlayerIndex = 0;
+									updatePlayerProgress();
 									testLoaded = false;
 									Hvr.getEventBus().fireEvent(
 											new SpeechTestEvent(
-													new SpeechTestState("1", TestState.COMPLETED)));
+													new SpeechTestState(studyId, metadata.getTestId(), TestState.COMPLETED)));
 								}
 
 							} catch (Exception e) {
@@ -99,9 +108,17 @@ public class CustomPlayerManager extends Composite {
 					}
 				});
 	}
+	
+	private void updatePlayerProgress(){
+		//playerProgressBar.set
+		double percent = ((currentPlayerIndex * 1.0)/this.players.length) * 100;
+		playerProgressBar.setPercent(percent);
+		playerProgressBar.setText(Math.round(percent) + "%");
+	}
+	
+	
 	protected void updateSpeechTestRunningStatus(boolean state) {
 		speechTestRunning = state;
 	}
-
 
 }

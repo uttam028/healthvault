@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+		.margin{
+			margin-top: 5%;
+    		margin-bottom: 5%;
+    		margin-right: 10%;
+    		margin-left: 5%;
+		}
+	</ui:style>
+	<g:VerticalPanel ui:field="verticalBoard" addStyleNames="{style.margin}">
+	    
+	</g:VerticalPanel>
+</ui:UiBinder> 

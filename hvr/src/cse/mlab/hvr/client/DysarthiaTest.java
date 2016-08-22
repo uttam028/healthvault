@@ -144,8 +144,8 @@ public class DysarthiaTest extends Composite {
 									updateDysTestRunningStatus(false);
 									currentDysPlayerIndex = 0;
 									testLoaded = false;
-									Hvr.getEventBus().fireEvent(
-											new SpeechTestEvent(new SpeechTestState("1", TestState.COMPLETED)));
+//									Hvr.getEventBus().fireEvent(
+//											new SpeechTestEvent(new SpeechTestState("1", TestState.COMPLETED)));
 								}
 
 							} catch (Exception e) {
@@ -216,7 +216,7 @@ public class DysarthiaTest extends Composite {
 		updateDysTestRunningStatus(false);
 		loadDysPlayerFromSaveState = true;
 		//this.dysarthiaTestPanel.clear();
-		Hvr.getEventBus().fireEvent(new SpeechTestEvent(new SpeechTestState("1", TestState.SAVED)));
+//		Hvr.getEventBus().fireEvent(new SpeechTestEvent(new SpeechTestState("1", TestState.SAVED)));
 	}
 
 }

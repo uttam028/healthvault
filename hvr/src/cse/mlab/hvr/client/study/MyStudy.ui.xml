@@ -7,40 +7,52 @@
 		font-weight: bold;
 		}
 		.margin{
-		margin:5%;
+		bottom-margin:5%;
 		}
-		.heading_color{
-		background-color: #194719 !important;
+		.zero_margin{
+		margin:0%;
 		}
+		.text_left{
+		text-align: left;
+		}
+		.text_center{
+		text-align: center;
+		}
+		.margin_bottom{
+		margin-bottom: 10%;
+		}
+
+
 	</ui:style>
-	<b:Panel addStyleNames="{style.margin}">
-		<b:PanelHeader ui:field="msHeader">
-			<b:Heading size="H5" ui:field="msHeading" text="Parkinson Study"/>
-		</b:PanelHeader>
-		<b:PanelBody>
-			<b:Row>
-				<h:Paragraph ui:field="msDescription"></h:Paragraph>
-			</b:Row>
-			<b:Row>
-				<b:Column size="MD_6">
-				    <g:Label>Enrollment Date: 2016-07-08</g:Label>
-				    <h:Br/>
-				    <g:Label>Last participation Date: 2016-07-08</g:Label>
-				    <h:Br/>
-				    <g:Label>Total participation: 02</g:Label>
-				    <h:Br/>				    				    
-				</b:Column>
-				<b:Column size="MD_6">
-				    <g:Label>Compliance Score: 40%</g:Label>
-				    <h:Br/>
-				    <g:Label>A message related to compliance</g:Label>
-				    <h:Br/>				    					
-				</b:Column>
-			</b:Row>
-			<h:Hr/>
-			<b:Row>
-			    <b:Button ui:field="participateButton" type="SUCCESS">Participate</b:Button>
-			</b:Row>
-		</b:PanelBody>
-	</b:Panel>
+
+	<g:HTMLPanel addStyleNames=" {style.margin_bottom} panel_border {style.text_left} ">
+		<g:HTMLPanel ui:field="headerPanel" addStyleNames="panel_border">
+			<b:Heading ui:field="studyHeading" size="H4" addStyleNames="col-lg-offset-1"></b:Heading>
+		</g:HTMLPanel>
+		<g:HTMLPanel addStyleNames="{style.text_center}">
+			<b:Column size="MD_6" addStyleNames="back_color panel_border"
+				ui:field="statusColumn">
+				<g:HTMLPanel ui:field="statusPanel">
+					<b:Button type="LINK" size="LARGE">Status</b:Button>
+				</g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_6" addStyleNames="panel_border" ui:field="aboutColumn">
+				<g:HTMLPanel ui:field="aboutPanel">
+					<b:Button type="LINK" size="LARGE">About</b:Button>
+				</g:HTMLPanel>
+			</b:Column>
+		</g:HTMLPanel>
+		<g:HTMLPanel ui:field="statusContentPanel" addStyleNames="col-lg-offset-2">
+			<br />
+		</g:HTMLPanel>
+		<g:HTMLPanel ui:field="aboutContentPanel">
+		</g:HTMLPanel>
+		<hr />
+		<g:HTMLPanel>
+			<b:Button ui:field="participateButton" type="SUCCESS"
+				addStyleNames="col-lg-offset-5">Participate</b:Button>
+			<br/>
+			<br/>
+		</g:HTMLPanel>
+	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -13,9 +13,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sun.jersey.api.client.Client;
@@ -28,18 +25,14 @@ import cse.mlab.hvr.client.GreetingService;
 import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
-import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
-import cse.mlab.hvr.shared.study.Compliance;
-import cse.mlab.hvr.shared.study.HealthStatusQuestion;
+import cse.mlab.hvr.shared.study.Enrollment;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
-import cse.mlab.hvr.shared.study.SpeechTestMetadata;
-import cse.mlab.hvr.shared.study.StudyOverview;
+import cse.mlab.hvr.shared.study.Participation;
+import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
-import cse.mlab.hvr.shared.study.SubTest;
-import cse.mlab.hvr.shared.study.TestFragment;
 
 /**
  * The server-side implementation of the RPC service.
@@ -255,8 +248,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
 		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/update/"
-				+ medication.getId();
+		String url = serverRoot + "/medication/update/" + medication.getId();
 		WebResource service = client.resource(url);
 		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
 				.put(ClientResponse.class, medication);
@@ -326,8 +318,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/" + email + "/"
-				+ list;
+		String url = serverRoot + "/medication/" + email + "/" + list;
 		WebResource service = client.resource(url);
 
 		String result = service.accept(MediaType.APPLICATION_JSON).get(
@@ -348,8 +339,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + "/medication/endusing/" + id + "/"
-				+ endDate;
+		String url = serverRoot + "/medication/endusing/" + id + "/" + endDate;
 		WebResource service = client.resource(url);
 
 		String result = service.accept(MediaType.APPLICATION_JSON).get(
@@ -411,7 +401,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	// ------------------speech test----------------------//
 	@Override
 	public ArrayList<StudyPrefaceModel> getOpenStudies(String email) {
-		
+
 		// TODO Auto-generated method stub
 		long start = Calendar.getInstance().getTimeInMillis();
 
@@ -422,188 +412,331 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		String response = service.accept(MediaType.APPLICATION_JSON).get(
 				String.class);
-		
-//		ArrayList<StudyPrefaceModel> models = new Gson().fromJson(response,
-//				new Typetok);
+
+		// ArrayList<StudyPrefaceModel> models = new Gson().fromJson(response,
+		// new Typetok);
 		Gson gson = new Gson();
-		Type listOfTestObject = new TypeToken<ArrayList<StudyPrefaceModel>>(){}.getType();
-		ArrayList<StudyPrefaceModel> list = gson.fromJson(response, listOfTestObject);
-		
+		Type listOfTestObject = new TypeToken<ArrayList<StudyPrefaceModel>>() {
+		}.getType();
+		ArrayList<StudyPrefaceModel> list = gson.fromJson(response,
+				listOfTestObject);
+
 		System.out.println("response from server:" + response);
-		
-		System.out.println("length of list : "+ list.size());
+
+		System.out.println("length of list : " + list.size());
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff get open study: " + (end - start));
-		
-		
-		
+
 		return list;
 		/*
-		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
-		String studyId = "1";
-		StudyOverview studyOverview1= new StudyOverview(studyId, "Notre Dame Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
-				"This is a test for parkinson patient which will take around 10 minutes.", "", 
-				 true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" , "1");
-
-		StudyOverview studyOverview2= new StudyOverview("2", "Concussion Study", "test2", "ahossain@nd.edu", "", "", 
-				"This is a test for parkinson patient which will take around 10 minutes.", "", 
-				 true, true, pathRoot + "2/" + "consent.pdf", 2, "2" , "2");
-	
-
-		ArrayList<QA> qaList1 = new ArrayList<>();
-		qaList1.add(new QA("Can I take the Test?",
-				"If you are suffering from neuorological disorder, you can take the test."));
-		qaList1.add(new QA("How long the test will be?",
-				"It is around 25 minutes, please don't refresh or back button in the test part."));
-		qaList1.add(new QA("Is there any reward for this test?",
-				"For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."));
-
-		ArrayList<QA> qaList2 = new ArrayList<>();
-		qaList2.add(new QA("Can I take the Test?",
-				"If you have possibility of concussion, you can take part."));
-		qaList2.add(new QA("How long the test will be?",
-				"It is around 15 minutes, please don't refresh or back button in the test part."));
-		
-		ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
-		HealthStatusQuestion q1 = new HealthStatusQuestion("Have you received or are currently receiving speech therapy for your condition?"
-				, "", false, 1, true);
-		
-		HealthStatusQuestion q2 = new HealthStatusQuestion("What medication are you taking for your current condition?"
-				, "", false, 2, true);
-		HealthStatusQuestion q3 = new HealthStatusQuestion("Any other relevant medical information (Condition, Treatments, Medications?)"
-				, "Type 'NA' if not applicable", false, 3, true);
-		
-		healthQuestions.add(q1);
-		healthQuestions.add(q2);
-		healthQuestions.add(q3);
-
-		StudyPrefaceModel model1 = new StudyPrefaceModel(studyOverview1, qaList1, healthQuestions);
-
-		StudyPrefaceModel model2 = new StudyPrefaceModel(studyOverview2, qaList2, healthQuestions);
-
-		ArrayList<StudyPrefaceModel> testPrefaceModels = new ArrayList<>();
-		//testPrefaceModels.add(model1);
-		testPrefaceModels.add(model2);
-		return testPrefaceModels;*/
+		 * String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
+		 * String studyId = "1"; StudyOverview studyOverview1= new
+		 * StudyOverview(studyId, "Notre Dame Parkinson Study", "test1",
+		 * "ahossain@nd.edu", "", "",
+		 * "This is a test for parkinson patient which will take around 10 minutes."
+		 * , "", true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" ,
+		 * "1");
+		 * 
+		 * StudyOverview studyOverview2= new StudyOverview("2",
+		 * "Concussion Study", "test2", "ahossain@nd.edu", "", "",
+		 * "This is a test for parkinson patient which will take around 10 minutes."
+		 * , "", true, true, pathRoot + "2/" + "consent.pdf", 2, "2" , "2");
+		 * 
+		 * 
+		 * ArrayList<QA> qaList1 = new ArrayList<>(); qaList1.add(new
+		 * QA("Can I take the Test?",
+		 * "If you are suffering from neuorological disorder, you can take the test."
+		 * )); qaList1.add(new QA("How long the test will be?",
+		 * "It is around 25 minutes, please don't refresh or back button in the test part."
+		 * )); qaList1.add(new QA("Is there any reward for this test?",
+		 * "For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."
+		 * ));
+		 * 
+		 * ArrayList<QA> qaList2 = new ArrayList<>(); qaList2.add(new
+		 * QA("Can I take the Test?",
+		 * "If you have possibility of concussion, you can take part."));
+		 * qaList2.add(new QA("How long the test will be?",
+		 * "It is around 15 minutes, please don't refresh or back button in the test part."
+		 * ));
+		 * 
+		 * ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
+		 * HealthStatusQuestion q1 = new HealthStatusQuestion(
+		 * "Have you received or are currently receiving speech therapy for your condition?"
+		 * , "", false, 1, true);
+		 * 
+		 * HealthStatusQuestion q2 = new HealthStatusQuestion(
+		 * "What medication are you taking for your current condition?" , "",
+		 * false, 2, true); HealthStatusQuestion q3 = new HealthStatusQuestion(
+		 * "Any other relevant medical information (Condition, Treatments, Medications?)"
+		 * , "Type 'NA' if not applicable", false, 3, true);
+		 * 
+		 * healthQuestions.add(q1); healthQuestions.add(q2);
+		 * healthQuestions.add(q3);
+		 * 
+		 * StudyPrefaceModel model1 = new StudyPrefaceModel(studyOverview1,
+		 * qaList1, healthQuestions);
+		 * 
+		 * StudyPrefaceModel model2 = new StudyPrefaceModel(studyOverview2,
+		 * qaList2, healthQuestions);
+		 * 
+		 * ArrayList<StudyPrefaceModel> testPrefaceModels = new ArrayList<>();
+		 * //testPrefaceModels.add(model1); testPrefaceModels.add(model2);
+		 * return testPrefaceModels;
+		 */
 	}
 
 	@Override
-	public ArrayList<MyStudyDataModel> getMyStudies() {
-		// TODO Auto-generated method stub
+	public ArrayList<MyStudyDataModel> getMyStudies(String email) {
+		try {
+			long start = Calendar.getInstance().getTimeInMillis();
+
+			ClientConfig config = new DefaultClientConfig();
+			Client client = Client.create(config);
+			String url = serverRoot + "/study/enrolled/" + email;
+			WebResource service = client.resource(url);
+
+			String response = service.accept(MediaType.APPLICATION_JSON).get(
+					String.class);
+
+			// ArrayList<StudyPrefaceModel> models = new
+			// Gson().fromJson(response,
+			// new Typetok);
+			Gson gson = new Gson();
+			Type listOfTestObject = new TypeToken<ArrayList<MyStudyDataModel>>() {}.getType();
+			ArrayList<MyStudyDataModel> list = gson.fromJson(response,
+					listOfTestObject);
+
+			System.out.println("response from server:" + response);
+
+			System.out.println("length of list : " + list.size());
+			long end = Calendar.getInstance().getTimeInMillis();
+			System.out.println("time diff get open study: " + (end - start));
+
+			return list;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+/*
 		try {
 			String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
 			String studyId = "1";
-			StudyOverview studyOverview1= new StudyOverview(studyId, "Notre Dame Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
-					"This is a test for parkinson patient which will take around 10 minutes.", "", 
-					 true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" , "1");
-			
+			StudyOverview studyOverview1 = new StudyOverview(
+					studyId,
+					"Notre Dame Parkinson Study",
+					"test1",
+					"ahossain@nd.edu",
+					"",
+					"",
+					"This is a test for parkinson patient which will take around 10 minutes.",
+					"", true, true, pathRoot + studyId + "/" + "consent.pdf",
+					2, "1", "1");
+
 			Compliance compliance = new Compliance("1", "weekly", 1, 40);
 			ArrayList<MyStudyDataModel> myStudies = new ArrayList<>();
-			MyStudyDataModel model1 = new MyStudyDataModel(studyOverview1, compliance, "2016-08-01", "2016-08-17", 3);
+			ArrayList<QA> qaList1 = new ArrayList<>();
+			qaList1.add(new QA("Can I take the Test?",
+					"If you are suffering from neuorological disorder, you can take the test."));
+			qaList1.add(new QA(
+					"How long the test will be?",
+					"It is around 25 minutes, please don't refresh or back button in the test part."));
+			qaList1.add(new QA(
+					"Is there any reward for this test?",
+					"For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."));
+
+			MyStudyDataModel model1 = new MyStudyDataModel(studyOverview1,
+					compliance, qaList1, "2016-08-01", "2016-08-17", 3);
+			myStudies.add(model1);
 			myStudies.add(model1);
 			return myStudies;
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;
+		
+		*/
+	}
+
+	@Override
+	public SpeechTest getSpeechTestMetadata(String testId) {
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/study/metadata/" + testId;
+		WebResource service = client.resource(url);
+
+		String result = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		System.out.println("response from server : " + result);
+		SpeechTest speechTest = new Gson().fromJson(result, SpeechTest.class);
+
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff get meta data: " + (end - start));
+		return speechTest;
+
+		/*
+		 * // TODO Auto-generated method stub String pathRoot =
+		 * "http://10.32.10.188:8080/hvr/metadata/test/"+ testId + "/"; int
+		 * subtestId1 = 1; String subtest1Path = pathRoot + subtestId1 + "/";
+		 * TestFragment sub1frag1 = new TestFragment(1,
+		 * "We saw several wild animals", "", subtest1Path + 1 +
+		 * "/sentences1.mp3", false, -1, true, 5000); TestFragment sub1frag2 =
+		 * new TestFragment(2, "My physician wrote out a prescription", "",
+		 * subtest1Path + 2 + "/sentences2.mp3", false, -1, true, 5000);
+		 * TestFragment sub1frag3 = new TestFragment(3,
+		 * "The municipal judge sentenced the criminal", "", subtest1Path + 3 +
+		 * "/sentences3.mp3", false, -1, true, 5000); ArrayList<TestFragment>
+		 * test1Fragments = new ArrayList<>(); test1Fragments.add(sub1frag1);
+		 * test1Fragments.add(sub1frag2); test1Fragments.add(sub1frag3); SubTest
+		 * subTest1 = new SubTest(subtestId1, "test1", "", "", "", true,
+		 * "Please repeat the sentences after I say them", subtest1Path +
+		 * "/repeatSentences.mp3", test1Fragments);
+		 * 
+		 * int subtestId2 = 2; String subtest2Path = pathRoot + subtestId2 +
+		 * "/"; TestFragment sub2frag1 = new TestFragment(1, "Participate", "",
+		 * subtest2Path + 1 + "/comp1.mp3", false, -1, true, 2500); TestFragment
+		 * sub2frag2 = new TestFragment(2, "Application", "", subtest2Path + 2 +
+		 * "/comp2.mp3", false, -1, true, 2500); TestFragment sub2frag3 = new
+		 * TestFragment(3, "Education", "", subtest2Path + 3 + "/comp3.mp3",
+		 * false, -1, true, 2500); TestFragment sub2frag4 = new TestFragment(4,
+		 * "Difficulty", "", subtest2Path + 4 + "/comp4.mp3", false, -1, true,
+		 * 2500); TestFragment sub2frag5 = new TestFragment(5,
+		 * "Congratulations", "", subtest2Path + 5 + "/comp5.mp3", false, -1,
+		 * true, 2500); TestFragment sub2frag6 = new TestFragment(6,
+		 * "Possibility", "", subtest2Path + 6 + "/comp6.mp3", false, -1, true,
+		 * 2500); TestFragment sub2frag7 = new TestFragment(7, "Mathematical",
+		 * "", subtest2Path + 7 + "/comp7.mp3", false, -1, true, 2500);
+		 * TestFragment sub2frag8 = new TestFragment(8, "Opportunity", "",
+		 * subtest2Path + 8 + "/comp8.mp3", false, -1, true, 3000); TestFragment
+		 * sub2frag9 = new TestFragment(9, "Statistical Analysis", "",
+		 * subtest2Path + 9 + "/comp9.mp3", false, -1, true, 4000); TestFragment
+		 * sub2frag10 = new TestFragment(10, "Methodist Episcopal Church", "",
+		 * subtest2Path + 10 + "/comp10.mp3", false, -1, true, 5000);
+		 * 
+		 * ArrayList<TestFragment> test2Fragments = new ArrayList<>();
+		 * test2Fragments.add(sub2frag1); test2Fragments.add(sub2frag2);
+		 * test2Fragments.add(sub2frag3); test2Fragments.add(sub2frag4);
+		 * test2Fragments.add(sub2frag5); test2Fragments.add(sub2frag6);
+		 * test2Fragments.add(sub2frag7); test2Fragments.add(sub2frag8);
+		 * test2Fragments.add(sub2frag9); test2Fragments.add(sub2frag10);
+		 * SubTest subTest2 = new SubTest(subtestId2, "test2", "", "", "", true,
+		 * "Please repeat the words after I say them", subtest2Path +
+		 * "/repeatWords.mp3", test2Fragments);
+		 * 
+		 * 
+		 * int subtestId3 = 3; String subtest3Path = pathRoot + subtestId3 +
+		 * "/"; TestFragment sub3frag1 = new TestFragment(1, "", subtest3Path +
+		 * 1 +"/family.jpg", subtest3Path + 1 + "/picture.mp3", true, 5000,
+		 * false, -1); ArrayList<TestFragment> test3Fragments = new
+		 * ArrayList<>(); test3Fragments.add(sub3frag1); SubTest subTest3 = new
+		 * SubTest(subtestId3, "test1", "", "", "", true, "", "",
+		 * test3Fragments);
+		 * 
+		 * ArrayList<SubTest> subTests = new ArrayList<>();
+		 * subTests.add(subTest1); subTests.add(subTest2);
+		 * subTests.add(subTest3);
+		 * 
+		 * StudyOverview testOverview= new StudyOverview("1", "Parkinson Study",
+		 * "test1", "ahossain@nd.edu", "", "",
+		 * "This is a test for parkinson patient which will take around 10 minutes."
+		 * , "", true, true, pathRoot + "consent.pdf", 2, "1" , "1");
+		 * 
+		 * ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
+		 * HealthStatusQuestion q1 = new HealthStatusQuestion(
+		 * "Have you received or are currently receiving speech therapy for your condition?"
+		 * , "", false, 1, true);
+		 * 
+		 * HealthStatusQuestion q2 = new HealthStatusQuestion(
+		 * "What medication are you taking for your current condition?" , "",
+		 * false, 2, true); HealthStatusQuestion q3 = new HealthStatusQuestion(
+		 * "Any other relevant medical information (Condition, Treatments, Medications?)"
+		 * , "Type 'NA' if not applicable", false, 3, true);
+		 * 
+		 * healthQuestions.add(q1); healthQuestions.add(q2);
+		 * healthQuestions.add(q3);
+		 * 
+		 * SpeechTestMetadata speechTestMetadata = new
+		 * SpeechTestMetadata(testOverview, subTests); return
+		 * speechTestMetadata;
+		 */
+	}
+
+	@Override
+	public Response enrollToStudy(String studyId, String email) {
+		
+		Enrollment enrollment = new Enrollment(0, Integer.parseInt(studyId), email, "", 3);
+		
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/study/enrollment/create";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, enrollment);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("convert response : " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff login call: " + (end - start));
+
+		return response;
+		
+	}
+
+	@Override
+	public Response startParticipation(String studyId, String email) {
+		
+		Participation participation = new Participation();
+		participation.setStudyId(Integer.parseInt(studyId));
+		participation.setUserId(email);
+		
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/study/participation/start";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, participation);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("response start participation : " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff start part call: " + (end - start));
+
+		return response;
 	}
 	
 	@Override
-	public SpeechTestMetadata getSpeechTestMetadata(String testId) {
-		// TODO Auto-generated method stub
-		String pathRoot = "http://10.32.10.188:8080/hvr/metadata/test/"+ testId + "/";
-		int subtestId1 = 1;
-		String subtest1Path = pathRoot + subtestId1 + "/";
-		TestFragment sub1frag1 = new TestFragment(1, "We saw several wild animals",  "", subtest1Path + 1 + "/sentences1.mp3", 
-				false, -1, true, 5000);
-		TestFragment sub1frag2 = new TestFragment(2, "My physician wrote out a prescription",  "", subtest1Path + 2 + "/sentences2.mp3", 
-				false, -1, true, 5000);
-		TestFragment sub1frag3 = new TestFragment(3, "The municipal judge sentenced the criminal",  "", subtest1Path + 3 + "/sentences3.mp3", 
-				false, -1, true, 5000);
-		ArrayList<TestFragment> test1Fragments = new ArrayList<>();
-		test1Fragments.add(sub1frag1);
-		test1Fragments.add(sub1frag2);
-		test1Fragments.add(sub1frag3);
-		SubTest subTest1 = new SubTest(subtestId1, "test1", "", "", "", true, "Please repeat the sentences after I say them", subtest1Path + "/repeatSentences.mp3", test1Fragments);
-		
-		int subtestId2 = 2;
-		String subtest2Path = pathRoot + subtestId2 + "/";
-		TestFragment sub2frag1 = new TestFragment(1, "Participate",  "", subtest2Path + 1 + "/comp1.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag2 = new TestFragment(2, "Application",  "", subtest2Path + 2 + "/comp2.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag3 = new TestFragment(3, "Education",  "", subtest2Path + 3 + "/comp3.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag4 = new TestFragment(4, "Difficulty",  "", subtest2Path + 4 + "/comp4.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag5 = new TestFragment(5, "Congratulations",  "", subtest2Path + 5 + "/comp5.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag6 = new TestFragment(6, "Possibility",  "", subtest2Path + 6 + "/comp6.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag7 = new TestFragment(7, "Mathematical",  "", subtest2Path + 7 + "/comp7.mp3", 
-				false, -1, true, 2500);
-		TestFragment sub2frag8 = new TestFragment(8, "Opportunity",  "", subtest2Path + 8 + "/comp8.mp3", 
-				false, -1, true, 3000);
-		TestFragment sub2frag9 = new TestFragment(9, "Statistical Analysis",  "", subtest2Path + 9 + "/comp9.mp3", 
-				false, -1, true, 4000);
-		TestFragment sub2frag10 = new TestFragment(10, "Methodist Episcopal Church",  "", subtest2Path + 10 + "/comp10.mp3", 
-				false, -1, true, 5000);
+	public Response endParticipation(String studyId, String email) {
+		Participation participation = new Participation();
+		participation.setStudyId(Integer.parseInt(studyId));
+		participation.setUserId(email);
 
-		ArrayList<TestFragment> test2Fragments = new ArrayList<>();
-		test2Fragments.add(sub2frag1);
-		test2Fragments.add(sub2frag2);
-		test2Fragments.add(sub2frag3);
-		test2Fragments.add(sub2frag4);
-		test2Fragments.add(sub2frag5);
-		test2Fragments.add(sub2frag6);
-		test2Fragments.add(sub2frag7);
-		test2Fragments.add(sub2frag8);
-		test2Fragments.add(sub2frag9);
-		test2Fragments.add(sub2frag10);
-		SubTest subTest2 = new SubTest(subtestId2, "test2", "", "", "", true, "Please repeat the words after I say them", subtest2Path + "/repeatWords.mp3", test2Fragments);
-		
-		
-		int subtestId3 = 3;
-		String subtest3Path = pathRoot + subtestId3 + "/";
-		TestFragment sub3frag1 = new TestFragment(1, "", subtest3Path + 1 +"/family.jpg", subtest3Path + 1 + "/picture.mp3", 
-				true, 5000, false, -1);
-		ArrayList<TestFragment> test3Fragments = new ArrayList<>();
-		test3Fragments.add(sub3frag1);
-		SubTest subTest3 = new SubTest(subtestId3, "test1", "", "", "", true, "", "", test3Fragments);
-		
-		ArrayList<SubTest> subTests = new ArrayList<>();
-		subTests.add(subTest1);
-		subTests.add(subTest2);
-		subTests.add(subTest3);
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/study/participation/end";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, participation);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("response of end participation: " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff end part call: " + (end - start));
 
-		StudyOverview testOverview= new StudyOverview("1", "Parkinson Study", "test1", "ahossain@nd.edu", "", "", 
-				"This is a test for parkinson patient which will take around 10 minutes.", "", 
-				 true, true, pathRoot + "consent.pdf", 2, "1" , "1");
-		
-		ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
-		HealthStatusQuestion q1 = new HealthStatusQuestion("Have you received or are currently receiving speech therapy for your condition?"
-				, "", false, 1, true);
-		
-		HealthStatusQuestion q2 = new HealthStatusQuestion("What medication are you taking for your current condition?"
-				, "", false, 2, true);
-		HealthStatusQuestion q3 = new HealthStatusQuestion("Any other relevant medical information (Condition, Treatments, Medications?)"
-				, "Type 'NA' if not applicable", false, 3, true);
-		
-		healthQuestions.add(q1);
-		healthQuestions.add(q2);
-		healthQuestions.add(q3);
-		
-		SpeechTestMetadata speechTestMetadata = new SpeechTestMetadata(testOverview, subTests);
-		return speechTestMetadata;
-
+		return response;
 	}
 	
-	@Override
-	public Response enrollToStudy(String testId, String email) {
-		return new Response(0, "");
-	}
-
 	/**
 	 * Escape an html string. Escaping data received from the client helps to
 	 * prevent cross-site script vulnerabilities.

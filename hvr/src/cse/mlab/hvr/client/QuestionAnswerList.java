@@ -10,6 +10,7 @@ import org.gwtbootstrap3.client.ui.PanelGroup;
 import org.gwtbootstrap3.client.ui.PanelHeader;
 import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 import org.gwtbootstrap3.client.ui.constants.Toggle;
+import org.gwtbootstrap3.client.ui.html.Br;
 import org.gwtbootstrap3.client.ui.html.Hr;
 import org.gwtbootstrap3.client.ui.html.Paragraph;
 
@@ -77,6 +78,9 @@ public class QuestionAnswerList extends Composite{
 				dis.setContent(ansPanel);
 				faqPanel.add(new Hr());
 				faqPanel.add(dis);
+				if(i==qaList.size()-1){
+					faqPanel.add(new Br());
+				}
 
 			}
 			

@@ -7,9 +7,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class SubTest implements IsSerializable {
 	private int subtestId;
 	private String name;
-	private String alias;
-	private String creationDate;
-	private String modificationDate;
 	private boolean active;
 	private String commonInstructionText;
 	private String commonInstrcutionAudioFileName;
@@ -19,17 +16,13 @@ public class SubTest implements IsSerializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SubTest(int subtestId, String name, String alias,
-			String creationDate, String modificationDate, boolean active,
+	public SubTest(int subtestId, String name, boolean active,
 			String commonInstructionText,
 			String commonInstrcutionAudioFileName,
 			ArrayList<TestFragment> subtestFragments) {
 		super();
 		this.subtestId = subtestId;
 		this.name = name;
-		this.alias = alias;
-		this.creationDate = creationDate;
-		this.modificationDate = modificationDate;
 		this.active = active;
 		this.commonInstructionText = commonInstructionText;
 		this.commonInstrcutionAudioFileName = commonInstrcutionAudioFileName;
@@ -42,18 +35,6 @@ public class SubTest implements IsSerializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getAlias() {
-		return alias;
-	}
-
-	public String getCreationDate() {
-		return creationDate;
-	}
-
-	public String getModificationDate() {
-		return modificationDate;
 	}
 
 	public boolean isActive() {
@@ -71,6 +52,7 @@ public class SubTest implements IsSerializable {
 	public ArrayList<TestFragment> getSubtestFragments() {
 		return subtestFragments;
 	}
+
 
 
 }

@@ -11,6 +11,7 @@ import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
+import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -39,7 +40,9 @@ public interface GreetingService extends RemoteService {
 	  
 	  //speech test
 	  ArrayList<StudyPrefaceModel> getOpenStudies(String email);
-	  ArrayList<MyStudyDataModel> getMyStudies();
-	  SpeechTestMetadata getSpeechTestMetadata(String testId);
-	  Response enrollToStudy(String testId, String email);
+	  ArrayList<MyStudyDataModel> getMyStudies(String email);
+	  SpeechTest getSpeechTestMetadata(String testId);
+	  Response enrollToStudy(String studyId, String email);
+	  Response startParticipation(String studyId, String email);
+	  Response endParticipation(String studyId, String email);
 }

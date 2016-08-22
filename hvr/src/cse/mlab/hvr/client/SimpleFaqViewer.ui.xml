@@ -3,20 +3,17 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
-	.margin{
-		margin-right: 10%;
-		margin-left: 10%;
-	}
+		}
+		.left{
+		text-align:left;
+		}
+		.center{
+		text-align:center;
+		}
 	</ui:style>
-	<g:HTMLPanel ui:field="playerManagerPanel">
-	    <h4>Please do not press Refresh or Back button during speech test</h4>
-		<br />
-	    <b:Progress addStyleNames="{style.margin}">
-  			<b:ProgressBar type="INFO" percent="0" text="0%" ui:field="playerProgressBar"/>
-		</b:Progress>
-	    
+	<g:HTMLPanel addStyleNames="{style.left} panel_border" ui:field="simpleFaqPanel">
+
 	</g:HTMLPanel>
 </ui:UiBinder> 

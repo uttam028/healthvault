@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
@@ -166,23 +167,30 @@ public class AudioBasedCustomPlayer extends Composite {
 				commonInstructionText.setText(((CommonInstructionFragment) currentFragment).getText());
 				loadAudioInstruction(currentFragment.getInstructionAudio());
 			} else if (currentFragment instanceof ButtonControlledTextFragment) {
-				loadAudioInstruction(currentFragment.getInstructionAudio());
-				speechTestText
-						.setText(((ButtonControlledTextFragment) currentFragment)
-								.getText());
-				fragmentInstructionPanel.add(speechTestText);
-				if (((ButtonControlledTextFragment) currentFragment)
-						.getDurationToShowButton() >= 0) {
-					Timer timer = new Timer() {
+				try {
+					loadAudioInstruction(currentFragment.getInstructionAudio());
+					String fragmentText = ((ButtonControlledTextFragment) currentFragment).getText();
+					if(fragmentText!=null && !fragmentText.isEmpty()){
+						speechTestText.setText(fragmentText);					
+					}
+					fragmentInstructionPanel.add(speechTestText);
+					if (((ButtonControlledTextFragment) currentFragment)
+							.getDurationToShowButton() >= 0) {
+						Timer timer = new Timer() {
 
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							userInterfaceInstructionPanel.add(buttonNext);
-						}
-					};
-					timer.schedule(((ButtonControlledTextFragment) currentFragment)
-							.getDurationToShowButton());
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								userInterfaceInstructionPanel.add(buttonNext);
+							}
+						};
+						timer.schedule(((ButtonControlledTextFragment) currentFragment)
+								.getDurationToShowButton());
+					}
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					Window.alert("exception in showing button : "+ e.getMessage());
 				}
 			} else if (currentFragment instanceof TimerControlledTextFragment) {
 				loadAudioInstruction(currentFragment.getInstructionAudio());

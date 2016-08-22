@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import cse.mlab.hvr.client.CustomPlayerManager;
 import cse.mlab.hvr.client.GreetingService;
 import cse.mlab.hvr.client.GreetingServiceAsync;
+import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 
 public class SpeechTestProcess extends Composite {
@@ -33,16 +34,15 @@ public class SpeechTestProcess extends Composite {
 			UiBinder<Widget, SpeechTestProcess> {
 	}
 
-	public SpeechTestProcess(String testId) {
+	public SpeechTestProcess(final String studyId, String testId) {
 		initWidget(uiBinder.createAndBindUi(this));
-		greetingService.getSpeechTestMetadata(testId, new AsyncCallback<SpeechTestMetadata>() {
+		greetingService.getSpeechTestMetadata(testId, new AsyncCallback<SpeechTest>() {
 			
 			@Override
-			public void onSuccess(SpeechTestMetadata result) {
+			public void onSuccess(SpeechTest result) {
 				// TODO Auto-generated method stub
-				testPanel.add(new CustomPlayerManager(result));
+				testPanel.add(new CustomPlayerManager(studyId, result));
 			}
-			
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub

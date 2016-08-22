@@ -5,22 +5,27 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class SpeechTestMetadata implements IsSerializable{
+	
+	/*
 	private StudyOverview testOverview;
-	private ArrayList<SubTest> subTests;
+	private SpeechTest speechTest;
+	
 	public SpeechTestMetadata() {
 		// TODO Auto-generated constructor stub
 	}
-	public SpeechTestMetadata(StudyOverview testOverview,
-			ArrayList<SubTest> subTests) {
+
+	public SpeechTestMetadata(StudyOverview testOverview, SpeechTest speechTest) {
 		super();
 		this.testOverview = testOverview;
-		this.subTests = subTests;
+		this.speechTest = speechTest;
 	}
+
 	public StudyOverview getTestOverview() {
 		return testOverview;
 	}
-	public ArrayList<SubTest> getSubTests() {
-		return subTests;
+
+	public SpeechTest getSpeechTest() {
+		return speechTest;
 	}
-	
+	*/
 }

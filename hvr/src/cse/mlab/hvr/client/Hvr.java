@@ -13,7 +13,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.LoadProfileItemEvent;
+import cse.mlab.hvr.client.events.SpeechTestEvent;
+import cse.mlab.hvr.client.events.SpeechTestEventHandler;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -25,6 +28,7 @@ public class Hvr implements EntryPoint {
 	MainPage mainPage = null;
 	final static SimpleEventBus eventBus = new SimpleEventBus();
 	private static boolean loggedIn = false;
+	private static boolean speechTestRunning =false; 
 
 	/**
 	 * This is the entry point method.
@@ -38,7 +42,19 @@ public class Hvr implements EntryPoint {
 		}
 		twitterSignup = new TwitterSignup(this);
 		RootPanel.get().add(twitterSignup);
-		
+		Hvr.getEventBus().addHandler(SpeechTestEvent.TYPE,
+				new SpeechTestEventHandler() {
+
+					@Override
+					public void actionAfterTestEvent(SpeechTestEvent event) {
+						if (event.getTestState().getState() == TestState.START) {
+							speechTestRunning = true;
+						}else {
+							speechTestRunning = false;
+						}
+					}
+				});
+
 
 		// History.
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -47,6 +63,12 @@ public class Hvr implements EntryPoint {
 				String historyToken = event.getValue();
 				// Parse the history token
 				try {
+					
+					/*if(speechTestRunning && loggedIn){
+						//Window.alert("what happens for current history");
+						return;
+					}*/
+					
 					// Window.alert("history token:"+ historyToken);
 					if (historyToken.equalsIgnoreCase("patient")) {
 						if (loggedIn) {
@@ -71,7 +93,11 @@ public class Hvr implements EntryPoint {
 						
 					} else if (historyToken.equalsIgnoreCase("home")) {
 						if(loggedIn){
-							mainPage.loadHomePage();
+							if(speechTestRunning){
+								History.fireCurrentHistoryState();
+							}else {
+								mainPage.loadHomePage();								
+							}
 						} else {
 							History.back();
 						}
@@ -93,28 +119,18 @@ public class Hvr implements EntryPoint {
 							History.back();
 						}
 						
-					}
-					// else if(historyToken.equalsIgnoreCase("main")){
-					// mainPage.loadHomePage(null);
-					// } else if (historyToken.equalsIgnoreCase("concussion")) {
-					// mainPage.loadConcussionPage();
-					// } else if (historyToken.equalsIgnoreCase("dysarthria")) {
-					// mainPage.loadDysarthriaPage();
-					// } else {
-					// mainPage.loadHomePage(null);
-					// }
-					//
-					// if(historyToken.startsWith("home")){
-					// mainPage.loadHomePage(null);
-					// } else if(historyToken.startsWith("voice")){
-					// mainPage.loadVoicePage(null);
-					// } else if(historyToken.startsWith("health")){
-					// mainPage.loadHealthPage(null);
-					// } /*else if(historyToken.startsWith("about")){
-					// mainPage.loadAboutPage(null);
-					// } */else{
-					// mainPage.loadHomePage(null);
-					// }
+					}/* else if(historyToken.startsWith("speechtest")){
+						if(loggedIn){
+							String [] tokens = historyToken.split("/");
+							String studyId = tokens[1];
+							String testId = tokens[2];
+							Window.alert("study id:"+ studyId + ", test id:"+ testId);
+							mainPage.loadSpeechTestProcess(studyId, testId);
+							
+						} else {
+							History.back();
+						}
+					}*/
 
 				} catch (IndexOutOfBoundsException e) {
 					// mainPage.loadHomePage(null);
@@ -144,12 +160,22 @@ public class Hvr implements EntryPoint {
 		RootPanel.get().clear();
 		mainPage = new MainPage(this, userId);
 		RootPanel.get().add(mainPage);
+		History.newItem("home");
 		loggedIn = true;
 	}
 
 	public void logout() {
 		loggedIn = false;
+		speechTestRunning = false;
 		onModuleLoad();
+	}
+	
+	public static void updateSpeechTestState(boolean running){
+		speechTestRunning = running;
+	}
+	
+	public static boolean isSpeechTestRunning(){
+		return speechTestRunning;
 	}
 
 	public static EventBus getEventBus() {

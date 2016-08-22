@@ -1,22 +1,18 @@
 package cse.mlab.hvr.client;
 
 import java.util.ArrayList;
-
-import org.gwtbootstrap3.client.ui.PanelBody;
+import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.study.MyStudy;
+import cse.mlab.hvr.client.study.MyStudyManager;
 import cse.mlab.hvr.client.study.StudyPreface;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
@@ -26,9 +22,7 @@ public class HomePage extends Composite {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 	@UiField
-	HTMLPanel homepagePanel, openStudyPanel;
-	@UiField
-	VerticalPanel dashboardPanel;
+	HTMLPanel homepagePanel, openStudyPanel, messagePanel, dashboardPanel;
 	
 	//@UiField
 	//PanelBody myStudiesPanelBody;
@@ -36,6 +30,9 @@ public class HomePage extends Composite {
 
 	Hvr application;
 	boolean homepageLoaded = false;
+	private MessageBoardManager messageBoardManager;
+	private MyStudyManager mystudyManager;
+	
 	private static LandingPageUiBinder uiBinder = GWT
 			.create(LandingPageUiBinder.class);
 
@@ -46,7 +43,12 @@ public class HomePage extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.application = application;
 		this.userEmail = userEmail;
-		dashboardPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		//dashboardPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		messageBoardManager = new MessageBoardManager();
+		messagePanel.add(messageBoardManager);
+		
+		mystudyManager = new MyStudyManager();
+		dashboardPanel.add(mystudyManager);
 	}
 
 	@Override
@@ -54,9 +56,9 @@ public class HomePage extends Composite {
 		// TODO Auto-generated method stub
 		super.onLoad();
 		if (!homepageLoaded) {
+			openStudyPanel.clear();
 			greetingService
 					.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
-
 						@Override
 						public void onSuccess(ArrayList<StudyPrefaceModel> result) {
 							// TODO Auto-generated method stub
@@ -74,13 +76,11 @@ public class HomePage extends Composite {
 						}
 					});
 			
-			greetingService.getMyStudies(new AsyncCallback<ArrayList<MyStudyDataModel>>() {
+			greetingService.getMyStudies(this.userEmail, new AsyncCallback<ArrayList<MyStudyDataModel>>() {
 				@Override
 				public void onSuccess(ArrayList<MyStudyDataModel> result) {
 					// TODO Auto-generated method stub
-					for(MyStudyDataModel model: result){
-						dashboardPanel.add(new MyStudy(model));
-					}
+					mystudyManager.addStudiesToManager(result);
 				}
 				@Override
 				public void onFailure(Throwable caught) {
@@ -89,6 +89,10 @@ public class HomePage extends Composite {
 				}
 			});
 		}
+	}
+	
+	protected void displayMessage(String message, String url, boolean isHistoryToken, String tag) {
+		messageBoardManager.addMessageToBoard(message, url, isHistoryToken, tag);
 	}
 	
 	protected void removeFromOpenStudies(String studyId){
@@ -102,6 +106,16 @@ public class HomePage extends Composite {
 				}
 			}
 		}
+	}
+	
+	protected void updateParticipation(String studyId) {
+		mystudyManager.updateStudyDataToDashBoard(studyId);
+	}
+	
+	protected void addEnrolledStudyToMyStudy(StudyPrefaceModel study) {
+		Date today = new Date();
+		MyStudyDataModel mystudy = new MyStudyDataModel(study.getStudyOverview(), null, study.getQaList(), DateTimeFormat.getFormat("yyyy-MM-dd").format(today), "N/A", 0);
+		mystudyManager.addStudyToDashboard(mystudy);
 	}
 
 	// @UiHandler("buttonConcussion")

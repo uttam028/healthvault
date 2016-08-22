@@ -20,11 +20,12 @@ import cse.mlab.hvr.client.events.LoadProfileItemEventHandler;
 
 public class ProfilePage extends Composite {
 	
-	@UiField
-	LinkedGroupItem personalInfoLink, accountInfoLink, medicalInfoLink;
 	
 	@UiField
 	HTMLPanel profileContentPanel;
+	
+	@UiField
+	LinkedGroupItem personalInfoLink, accountInfoLink, medicalInfoLink;
 	
 	private PersonalInfoPage personalInfoPage;
 	private AccountInfoPage accountInfoPage;

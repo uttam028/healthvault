@@ -48,7 +48,7 @@ public class StudyPreface extends Composite {
 		this.studyPrefaceModel = studyPrefaceModel;
 		spHeader.setColor("red");
 		spHeading.setText(this.studyPrefaceModel.getStudyOverview().getName());
-		spDescription.setText(this.studyPrefaceModel.getStudyOverview().getDescription());
+		spDescription.setText(this.studyPrefaceModel.getStudyOverview().getOverview());
 		spQuestionAnswerList.add(new QuestionAnswerList(this.studyPrefaceModel.getQaList()));
 		enrollButton.addClickHandler(new ClickHandler() {
 			

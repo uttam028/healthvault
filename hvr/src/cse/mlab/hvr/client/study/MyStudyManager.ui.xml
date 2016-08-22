@@ -6,17 +6,23 @@
 	.important {
 		font-weight: bold;
 	}
-	.margin{
-		margin-right: 10%;
-		margin-left: 10%;
-	}
+		.margin{
+			margin:5%;
+		}
+		.text_left{
+			text-align: left;
+		}
+
 	</ui:style>
-	<g:HTMLPanel ui:field="playerManagerPanel">
-	    <h4>Please do not press Refresh or Back button during speech test</h4>
-		<br />
-	    <b:Progress addStyleNames="{style.margin}">
-  			<b:ProgressBar type="INFO" percent="0" text="0%" ui:field="playerProgressBar"/>
-		</b:Progress>
-	    
+	<g:HTMLPanel addStyleNames="{style.text_left}">
+	    <!--g:Label addStyleNames="{style.text_left}">My Studies</g:Label-->
+	    <h3>My Studies</h3>
+		<hr/>
+		<br/>
+	    <b:Row>
+	        <b:Column  ui:field="studiesColumn" size="MD_11">
+	            
+	        </b:Column>
+	    </b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

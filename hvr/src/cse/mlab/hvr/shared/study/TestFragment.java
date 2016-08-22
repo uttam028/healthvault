@@ -15,7 +15,7 @@ public class TestFragment implements Serializable, IsSerializable{
 	private String audioFileName;
 	private boolean timerAvailable;
 	private int durationOfTimer;
-	private boolean isNextButtonAvailable;
+	private boolean nextButtonAvailable;
 	private int durationToShowNextButton;
 	
 	public TestFragment() {
@@ -24,7 +24,7 @@ public class TestFragment implements Serializable, IsSerializable{
 
 	public TestFragment(int fragmentId, String text, String imageFileName,
 			String audioFileName, boolean timerAvailable, int durationOfTimer,
-			boolean isNextButtonAvailable, int durationToShowNextButton) {
+			boolean nextButtonAvailable, int durationToShowNextButton) {
 		super();
 		this.fragmentId = fragmentId;
 		this.text = text;
@@ -32,7 +32,7 @@ public class TestFragment implements Serializable, IsSerializable{
 		this.audioFileName = audioFileName;
 		this.timerAvailable = timerAvailable;
 		this.durationOfTimer = durationOfTimer;
-		this.isNextButtonAvailable = isNextButtonAvailable;
+		this.nextButtonAvailable = nextButtonAvailable;
 		this.durationToShowNextButton = durationToShowNextButton;
 	}
 
@@ -65,11 +65,12 @@ public class TestFragment implements Serializable, IsSerializable{
 	}
 
 	public boolean isNextButtonAvailable() {
-		return isNextButtonAvailable;
+		return nextButtonAvailable;
 	}
 
 	public int getDurationToShowNextButton() {
 		return durationToShowNextButton;
 	}
+
 
 }

@@ -37,6 +37,7 @@ import cse.mlab.hvr.client.GreetingService;
 import cse.mlab.hvr.client.GreetingServiceAsync;
 import cse.mlab.hvr.client.Hvr;
 import cse.mlab.hvr.client.MainPage;
+import cse.mlab.hvr.client.SimpleFaqViewer;
 import cse.mlab.hvr.client.events.EnrollmentEvent;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.HealthStatusQuestion;
@@ -134,6 +135,7 @@ public class EnrollmentProcess extends Composite {
 				// }
 				String studyId = EnrollmentProcess.this.enrollmentData.getStudyOverview().getId();
 				String email = MainPage.getLoggedinUser();
+				Window.alert("study id :" + studyId + ", user: "+ email);
 				greetingService.enrollToStudy(studyId, email, new AsyncCallback<Response>() {
 					
 					@Override
@@ -203,7 +205,6 @@ public class EnrollmentProcess extends Composite {
 			tabNavigation.add(healthTab);
 			tabContent.add(healthPane);
 		}
-		Window.alert("is consent available:"+ this.enrollmentData.getStudyOverview().isConsentFileAvailable());
 
 		if (this.enrollmentData.getStudyOverview() != null
 				&& this.enrollmentData.getStudyOverview()
@@ -281,8 +282,7 @@ public class EnrollmentProcess extends Composite {
 	//
 	// }
 	private void loadFaq() {
-		Label label = new Label("This is faq page");
-		faqPane.add(label);
+		faqPane.add(new SimpleFaqViewer(enrollmentData.getQaList(), ""));
 	}
 
 	private void loadConsentForm() {

@@ -17,18 +17,17 @@
 	<g:HTMLPanel ui:field="homepagePanel">
 		<b:Row>
 			<b:Column size="MD_7">
-			    <h:Br/><h:Br/><h:Br/>
-				<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" title="My Studies">
-				    <g:Label addStyleNames="{style.text_left}">My Studies</g:Label>
-				    <hr/>
-				    <g:VerticalPanel  ui:field="dashboardPanel" ></g:VerticalPanel>
-					
+			    <h:Br/>
+			    <g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" ui:field="messagePanel"></g:HTMLPanel>
+			    <h:Br/><h:Br/>
+				<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" ui:field="dashboardPanel">
 				</g:HTMLPanel>
 			</b:Column>
 			<b:Column size="MD_5">
-			    <h:Br/><h:Br/><h:Br/>
+			    <h:Br/><h:Br/><h:Br/><h:Br/><h:Br/>
 				<g:HTMLPanel  addStyleNames="col-lg-offset-1">
-				    <g:Label addStyleNames="{style.text_left}">Open Studies</g:Label>
+				    <!--g:Label addStyleNames="{style.text_left}">Open Studies</g:Label-->
+				    <h3>Studies open for enrollment</h3>
 				    <hr/>
 				    <g:HTMLPanel ui:field="openStudyPanel"></g:HTMLPanel>				    
 				</g:HTMLPanel>

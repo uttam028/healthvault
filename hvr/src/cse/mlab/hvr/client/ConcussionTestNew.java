@@ -115,8 +115,8 @@ public class ConcussionTestNew extends Composite {
 									updateConTestRunningStatus(false);
 									currentPlayerIndex = 0;
 									testLoaded = false;
-									Hvr.getEventBus().fireEvent(
-											new SpeechTestEvent(new SpeechTestState("2", TestState.COMPLETED)));
+//									Hvr.getEventBus().fireEvent(
+//											new SpeechTestEvent(new SpeechTestState("2", TestState.COMPLETED)));
 								}
 
 							} catch (Exception e) {
@@ -192,7 +192,7 @@ public class ConcussionTestNew extends Composite {
 		updateConTestRunningStatus(false);
 		loadConcPlayerFromSaveState = true;
 		//this.concussionTestPanel.clear();
-		Hvr.getEventBus().fireEvent(new SpeechTestEvent(new SpeechTestState("2", TestState.SAVED)));
+//		Hvr.getEventBus().fireEvent(new SpeechTestEvent(new SpeechTestState("2", TestState.SAVED)));
 	}
 
 	public final native NodeList<Element> querySelector(String selector)/*-{

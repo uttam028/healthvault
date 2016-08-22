@@ -9,9 +9,11 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.client.EnrollmentState.EnrollState;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
@@ -21,6 +23,7 @@ import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.SpeechTestEventHandler;
 import cse.mlab.hvr.client.study.EnrollmentProcess;
 import cse.mlab.hvr.client.study.SpeechTestProcess;
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.StudyOverview;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -50,6 +53,10 @@ public class MainPage extends Composite {
 	private String lastName = "";
 	private boolean profileUpdated = false;
 	private static String currentPage = "main";
+	
+	
+	private final static String surveyUrl = "https://docs.google.com/forms/d/e/1FAIpQLSclWU3XZ2ZaWDgbqVaMgXBPhrHZMDx3-vRUgroGj0bgW-k8tA/viewform";
+	
 	private static MainPageUiBinder uiBinder = GWT
 			.create(MainPageUiBinder.class);
 
@@ -84,11 +91,47 @@ public class MainPage extends Composite {
 				new SpeechTestEventHandler() {
 
 					@Override
-					public void actionAfterTestEvent(SpeechTestEvent event) {
+					public void actionAfterTestEvent(final SpeechTestEvent event) {
+						Hvr.updateSpeechTestState(false);
 						if (event.getTestState().getState() == TestState.START) {
-							loadSpeechTestProcess(event.getTestState()
-									.getTestId());
+							
+							greetingService.startParticipation(event.getTestState().getStudyId(), userId, new AsyncCallback<Response>() {
+								
+								@Override
+								public void onSuccess(Response result) {
+									if(result.getCode()==0){
+										loadSpeechTestProcess(event.getTestState().getStudyId(), event.getTestState().getTestId());
+										Hvr.updateSpeechTestState(true);
+										//History.newItem("speechtest/" + event.getTestState().getStudyId()+ "/" + event.getTestState().getTestId());										
+									}else {
+										homePage.displayMessage("Unable to load the study. Please try later.", "", false, "message_error");
+									}
+								}
+								
+								@Override
+								public void onFailure(Throwable caught) {
+									homePage.displayMessage("Unable to load the study. Please try later.", "", false, "message_error");
+								}
+							});
+							
+						} else if(event.getTestState().getState() == TestState.COMPLETED) {
+							//https://docs.google.com/forms/d/e/1FAIpQLSclWU3XZ2ZaWDgbqVaMgXBPhrHZMDx3-vRUgroGj0bgW-k8tA/viewform
+							homePage.displayMessage("Thank you for your participation to the study. Please fill up the survey to help us to improve your experience.", 
+									surveyUrl, false, "message_participation_completed");
+							homePage.updateParticipation(event.getTestState().getStudyId());
+							loadHomePage();
+							greetingService.endParticipation(event.getTestState().getStudyId(), userId, new AsyncCallback<Response>() {								
+								@Override
+								public void onSuccess(Response result) {
+								}
+								
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+							});
 						} else {
+							homePage.displayMessage("Please fill up the survey to help us to improve your experience.", 
+									surveyUrl, false, "message_participation_incomplete");							
 							loadHomePage();
 						}
 					}
@@ -104,6 +147,9 @@ public class MainPage extends Composite {
 
 	@UiHandler("homeAnchor")
 	void homeAnchorClicked(ClickEvent event) {
+		
+		Window.alert("home anchor clicked, is playing : "+ Hvr.isSpeechTestRunning());
+		
 		if (History.getToken().equalsIgnoreCase("home")) {
 			loadHomePage();
 		} else {
@@ -117,9 +163,12 @@ public class MainPage extends Composite {
 		if (event.getState().getState() == EnrollState.DECLINED) {
 			loadHomePage();
 		} else if (event.getState().getState() == EnrollState.FAILURE) {
+			homePage.displayMessage("Sorry, your enrollment to the study is not successful. Please try later.", "", false, "message_enrollment_failure");
 			loadHomePage();
 		} else if (event.getState().getState() == EnrollState.SUCCESS) {
 			homePage.removeFromOpenStudies(event.getState().getStudy().getStudyOverview().getId());
+			homePage.addEnrolledStudyToMyStudy(event.getState().getStudy());
+			homePage.displayMessage("Thank you for enrolling to "+ event.getState().getStudy().getStudyOverview().getName() + ". Please participate to the study from 'My Studies' section.", "", false, "message_enrollment_success");
 			loadHomePage();
 		}
 	}
@@ -134,8 +183,8 @@ public class MainPage extends Composite {
 
 	@UiHandler("profileAnchor")
 	void profileAnchorClicked(ClickEvent event) {
+		Window.alert("profile anchor clicked, is playing : "+ Hvr.isSpeechTestRunning());
 		History.newItem("profile/personal");
-
 	}
 
 	protected void loadProfilePage() {
@@ -155,22 +204,31 @@ public class MainPage extends Composite {
 
 	}
 
-	protected void loadSpeechTestProcess(String testId) {
+	protected void loadSpeechTestProcess(String studyId, String testId) {
 		homeAnchor.setActive(false);
 		profileAnchor.setActive(false);
 
 		mainPageContentPanel.clear();
-		mainPageContentPanel.add(new SpeechTestProcess(testId));
+		mainPageContentPanel.add(new SpeechTestProcess(studyId, testId));
 
 	}
 
 	@UiHandler("signoutAnchor")
 	void logout(ClickEvent clickEvent) {
-		this.application.logout();
+		Window.alert("signout clicked, is playing : "+ Hvr.isSpeechTestRunning());
+		if(Hvr.isSpeechTestRunning()){
+			interceptNavigation("logout");
+		} else {
+			this.application.logout();			
+		}
 	}
 	
 	public static String getLoggedinUser() {
 		return userId;
+	}
+	
+	private void interceptNavigation(String navToken){
+		Hvr.updateSpeechTestState(false);
 	}
 
 }
