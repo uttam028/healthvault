@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.study.MyStudyManager;
@@ -61,10 +62,14 @@ public class HomePage extends Composite {
 					.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
 						@Override
 						public void onSuccess(ArrayList<StudyPrefaceModel> result) {
-							// TODO Auto-generated method stub
-							for (StudyPrefaceModel model : result) {
-								StudyPreface openStudies = new StudyPreface(model);
-								openStudyPanel.add(openStudies);
+							openStudyPanel.clear();
+							if(result == null || result.size()==0){
+								openStudyPanel.add(new Label("No more studies to enroll"));
+							}else {
+								for (StudyPrefaceModel model : result) {
+									StudyPreface openStudies = new StudyPreface(model);
+									openStudyPanel.add(openStudies);
+								}
 							}
 							homepageLoaded = true;
 						}
@@ -79,8 +84,12 @@ public class HomePage extends Composite {
 			greetingService.getMyStudies(this.userEmail, new AsyncCallback<ArrayList<MyStudyDataModel>>() {
 				@Override
 				public void onSuccess(ArrayList<MyStudyDataModel> result) {
-					// TODO Auto-generated method stub
-					mystudyManager.addStudiesToManager(result);
+					if(result == null || result.size()==0){
+						mystudyManager.showEmptyMessage();
+					} else {
+						
+						mystudyManager.addStudiesToManager(result);						
+					}
 				}
 				@Override
 				public void onFailure(Throwable caught) {

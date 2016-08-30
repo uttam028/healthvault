@@ -95,6 +95,8 @@ public class SignupService {
 		UserProfile userProfile = userProfileJAXBElement.getValue();
 		// String success = "";
 		Response response = new Response();
+		boolean invitationActivated = false;
+		boolean proceedToSignup = false;
 		try {
 
 			System.out.println("Connecting database...");
@@ -103,11 +105,23 @@ public class SignupService {
 				statement = connection.createStatement();
 				String email = userProfile.getEmail().trim();
 
-				preparedStatement = connection
-						.prepareStatement("SELECT email FROM phr.user_invitation WHERE EMAIL=?");
-				preparedStatement.setString(1, email);
-				ResultSet resultSet = preparedStatement.executeQuery();
-				if (resultSet.next()) {
+				if(invitationActivated){
+					//check invitation and then proceed
+					preparedStatement = connection
+							.prepareStatement("SELECT email FROM phr.user_invitation WHERE EMAIL=?");
+					preparedStatement.setString(1, email);
+					ResultSet resultSet = preparedStatement.executeQuery();
+					if(resultSet.next()){
+						proceedToSignup = true;
+					} else {
+						proceedToSignup = false;
+					}
+					
+				} else {
+					proceedToSignup = true;
+				}
+				
+				if (proceedToSignup) {
 					preparedStatement = connection
 							.prepareStatement("insert ignore into  PHR.USERS (email, password, token) values ( ?,?,?)");
 					preparedStatement.setString(1, email);
@@ -117,13 +131,10 @@ public class SignupService {
 					preparedStatement.execute();
 
 					preparedStatement = connection
-							.prepareStatement("insert ignore into  PHR.USER_PROFILE (email, first_name, last_name, address, birthday, contact_no ) values ( ?,?, ?, ?, ? , ?)");
+							.prepareStatement("insert ignore into  PHR.USER_PROFILE (email, first_name, last_name) values ( ?,?, ?)");
 					preparedStatement.setString(1, email);
 					preparedStatement.setString(2, userProfile.getFirstName());
 					preparedStatement.setString(3, userProfile.getLastName());
-					preparedStatement.setString(4, userProfile.getAddress());
-					preparedStatement.setString(5, userProfile.getBirthDay());
-					preparedStatement.setLong(6, userProfile.getMobileNum());
 
 					preparedStatement.execute();
 					// success = "The user " + userProfile.getEmail()
@@ -252,6 +263,7 @@ public class SignupService {
 
 	}
 
+	@Path("test")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

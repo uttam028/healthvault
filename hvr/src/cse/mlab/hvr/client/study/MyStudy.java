@@ -93,7 +93,7 @@ public class MyStudy extends Composite {
 		statusContentPanel.add(new Br());
 		
 		
-		aboutContentPanel.add(new SimpleFaqViewer(myStudyDataModel.getQaList(), ""));
+		aboutContentPanel.add(new SimpleFaqViewer(myStudyDataModel.getQaList(), "", true));
 		
 		
 		statusPanel.addDomHandler(new ClickHandler() {
@@ -103,7 +103,9 @@ public class MyStudy extends Composite {
 				// TODO Auto-generated method stub
 				statusContentPanel.setVisible(true);
 				aboutContentPanel.setVisible(false);
-				statusColumn.getElement().getStyle().setBackgroundColor("#67e4de");
+				//statusColumn.getElement().getStyle().setBackgroundColor("#67e4de");
+				
+				statusColumn.getElement().getStyle().setBackgroundColor("#00cccc");
 				aboutColumn.getElement().getStyle().setBackgroundColor("white");
 			}
 		}, ClickEvent.getType());
@@ -116,7 +118,9 @@ public class MyStudy extends Composite {
 				statusContentPanel.setVisible(false);
 				aboutContentPanel.setVisible(true);
 				statusColumn.getElement().getStyle().setBackgroundColor("white");
-				aboutColumn.getElement().getStyle().setBackgroundColor("#67e4de");
+				
+				aboutColumn.getElement().getStyle().setBackgroundColor("#00cccc");
+				//aboutColumn.getElement().getStyle().setBackgroundColor("#67e4de");
 			}
 		}, ClickEvent.getType());
 		

@@ -17,60 +17,72 @@
 
 	</ui:style>
 	<g:HTMLPanel>
+	    <g:HTMLPanel ui:field="resultPanel">    
+	    </g:HTMLPanel>
+	    	    
 		<h4>Personal Information</h4>
 		<b:Panel>
 			<b:PanelHeader>
 				<b:Heading size="H3" text="Basic" addStyleNames="{style.left_text}" />
 			</b:PanelHeader>
 			<b:PanelBody>
+			    <b:Form ui:field="personalInfoForm">
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formFirst" addStyleNames="{style.left_align}">First Name</b:FormLabel>
-					<b:TextBox b:id="formFirst" />
+					<b:FormLabel for="formFirst" addStyleNames="{style.left_align}">First Name*</b:FormLabel>
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="inlineHelpFirst"/>
+					<b:TextBox b:id="formFirst" ui:field="textboxFirstName" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formLast" addStyleNames="{style.left_align}">Last Name</b:FormLabel>
-					<b:TextBox b:id="formLast" />
+					<b:FormLabel for="formLast" addStyleNames="{style.left_align}">Last Name*</b:FormLabel>
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="inlineHelpLast"/>
+					<b:TextBox b:id="formLast" ui:field="textboxLastName" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
 				<h:Br />
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formGender" addStyleNames="{style.left_align}">Gender</b:FormLabel>
+					<b:FormLabel for="formGender" addStyleNames="{style.left_align}">Gender*</b:FormLabel>
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="inlineHelpGender"/>
 					<g:FlowPanel>
 						<b:InlineRadio name="radio1" formValue="value1"
-							text="Male" />
+							text="Male" ui:field="inlineRadioMale"/>
 						<b:InlineRadio name="radio1" formValue="value2"
-							text="Female" />
+							text="Female" ui:field="inlineRadioFemale"/>
 						<b:InlineRadio name="radio1" formValue="value3"
-							text="Other" />
+							text="Other" ui:field="inlineRadioOther"/>
 					</g:FlowPanel>
 				</b:FormGroup>
 				<h:Br/>
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formYear" addStyleNames="{style.left_align}">Birth Year</b:FormLabel>
-					<b:TextBox b:id="formYear" />
-				</b:FormGroup>
-				<h:Br />
-								
-				<b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formLast" addStyleNames="{style.left_align}">Phone Number</b:FormLabel>
-					<b:TextBox b:id="formLast" />
+					<b:FormLabel for="formYear" addStyleNames="{style.left_align}">Birth Year*</b:FormLabel>
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="inlineHelpYear"/>
+					<b:TextBox b:id="formYear" ui:field="textboxBirthYear" maxLength="4" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
 				<b:FormGroup addStyleNames="col-lg-8">
 					<b:FormLabel for="formLanguage" addStyleNames="{style.left_align}">Primary Language</b:FormLabel>
-					<b:TextBox b:id="formLanguage" />
+					<b:TextBox b:id="formLanguage" ui:field="textboxLanguage"/>
+				</b:FormGroup>
+				<h:Br />
+												
+				<b:FormGroup addStyleNames="col-lg-8">
+					<b:FormLabel for="formLast" addStyleNames="{style.left_align}">Phone Number</b:FormLabel>
+					<b:TextBox b:id="formLast" ui:field="textboxPhoneNumber"/>
 				</b:FormGroup>
 				<h:Br />
 				<b:FormGroup addStyleNames="col-lg-11">
 					<b:FormLabel for="formAddress" addStyleNames="{style.left_align}">Address</b:FormLabel>
-					<b:TextBox b:id="formAddress" />
+					<b:TextBox b:id="formAddress" ui:field="textboxAddress"/>
 				</b:FormGroup>
 				<h:Br />
 				
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:Button addStyleNames="{style.left_align}" type="SUCCESS">Update</b:Button>
+					<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="buttonUpdate">Update</b:Button>
+					<b:Button type="DANGER" ui:field="buttonCancel">Cancel</b:Button>
 				</b:FormGroup>
+				<g:Label>* = required</g:Label>			        
+			    </b:Form>
+
 			</b:PanelBody>
 		</b:Panel>
 	</g:HTMLPanel>

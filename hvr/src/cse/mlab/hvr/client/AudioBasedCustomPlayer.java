@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
@@ -77,6 +76,26 @@ public class AudioBasedCustomPlayer extends Composite {
 		this.fragments = fragments;
 		fragmentsLinkedList = new LinkedList<>();
 		reloadFragments();
+	}
+	
+	public void stopPlayer(){
+		try {
+			sound.stop();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		try {
+			stopRecordingJS(this);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		try {
+			this.removeFromParent();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	private void reloadFragments() {
@@ -130,17 +149,17 @@ public class AudioBasedCustomPlayer extends Composite {
 		// start recording
 		// activate next fragment
 		activateNextFragment();
-		startDysarthriaRecordingJS(this);
+		startRecordingJS(this);
 	}
 	
-	public native void startDysarthriaRecordingJS(AudioBasedCustomPlayer player)/*-{
+	public native void startRecordingJS(AudioBasedCustomPlayer player)/*-{
 		var name = player.@cse.mlab.hvr.client.AudioBasedCustomPlayer::header;
 		$wnd.FWRecorder.configure(44, 1, 0, 100);
 		$wnd.FWRecorder.record(name, name.concat(".wav"));
 		
 	}-*/;
 	
-	public native void stopDysarthriaRecordingJS(AudioBasedCustomPlayer player)/*-{
+	public native void stopRecordingJS(AudioBasedCustomPlayer player)/*-{
 		var name = player.@cse.mlab.hvr.client.AudioBasedCustomPlayer::header;
 		console.log("will stop recording from dys test player ".concat(name))
 
@@ -159,7 +178,7 @@ public class AudioBasedCustomPlayer extends Composite {
 			buttonStartOver.setVisible(true);
 			buttonUpload.setVisible(true);
 			
-			stopDysarthriaRecordingJS(this);
+			stopRecordingJS(this);
 
 		} else {
 			currentFragment = fragmentsLinkedList.poll();
@@ -271,7 +290,7 @@ public class AudioBasedCustomPlayer extends Composite {
 					// LOAD_STATE_NOT_SUPPORTED
 					// LOAD_STATE_SUPPORT_NOT_KNOWN
 					// LOAD_STATE_UNINITIALIZED
-					//Window.alert("load state:"+ event.getLoadState().name());
+					//Window.alert("load state:"+ event.getLoadState().name() + "agent:"+ Window.Navigator.getUserAgent().toLowerCase());
 					muteRecorder();
 					sound.setVolume(100);
 					sound.play();

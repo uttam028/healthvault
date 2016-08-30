@@ -1,17 +1,15 @@
 package cse.mlab.hvr.client;
 
-import java_cup.production;
+import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Form;
+import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Input;
-import org.gwtbootstrap3.client.ui.Panel;
-import org.gwtbootstrap3.client.ui.PanelCollapse;
-import org.gwtbootstrap3.client.ui.PanelGroup;
-import org.gwtbootstrap3.client.ui.PanelHeader;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.constants.Toggle;
+import org.gwtbootstrap3.client.ui.html.Br;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,9 +24,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.shared.Md5Utils;
+import cse.mlab.hvr.shared.QA;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
@@ -43,12 +41,16 @@ public class TwitterSignup extends Composite {
 	AnchorListItem patientAnchor, researcherAnchor, supportAnchor;
 	
 	@UiField
-	HTMLPanel patientCustomPanel, researcherCustomPanel, supportCustomPanel;
+	HTMLPanel patientCustomPanel, researcherCustomPanel, supportCustomPanel, showMessagePanel;
+	@UiField
+	Heading showMessage;
 	
 	@UiField
 	Button buttonFaq;
-	@UiField
-	PanelGroup generalPanelGroup, patientPanelGroup, researcherPanelGroup;
+	
+	//@UiField
+	//PanelGroup generalPanelGroup, patientPanelGroup, researcherPanelGroup;
+	SimpleFaqViewer generalFaqViewer, patientFaqviewer, researcherFaqViewer;
 	
 	@UiField
 	Form formLogin;
@@ -66,6 +68,9 @@ public class TwitterSignup extends Composite {
 	Label labelLoginError;
 	@UiField
 	Button buttonCreateAccount, buttonForgotPass;
+	
+	@UiField
+	Column websiteIntroPanel;
 
 	boolean statusLoginEmailFormatError = false,
 			statusLoginPasswordError = false;
@@ -115,6 +120,71 @@ public class TwitterSignup extends Composite {
 		this.application = application;
 		formLogin.setVisible(true);
 		formSignup.setVisible(false);
+		initializeFaqs();
+	}
+	
+	private void initializeFaqs(){
+		ArrayList<QA> qaList1 = new ArrayList<>();
+		QA genQa1 = new QA("What is the purpose of this initiative?", "The purpose of the Speech Marker Initiative is"
+				+ " to find a connection between human speech patterns and"
+				+ " certain medical conditions. Through prior research, a link"
+				+ " between neurological functioning and certain acoustic"
+				+ " features of the voice has been revealed.");
+		QA genQa2 = new QA("What does this website contain?", "As a patient, this website contains several"
+				+ " different speech tests, which can be completed periodically."
+				+ " This website as also has features for researchers, such as"
+				+ " data analytics and comparison tools to run on the database"
+				+ " of completed tests.");
+		qaList1.add(genQa1);
+		qaList1.add(genQa2);
+		generalFaqViewer = new SimpleFaqViewer(qaList1, "General", true);
+		
+		
+		ArrayList<QA> qaList2 = new ArrayList<>();
+		QA patQa1 = new QA("How do I take the tests?", "Once you have created your profile, you will be"
+				+ " given a consent form. After reading the form and agreeing to"
+				+ " its terms, you will complete a microphone test to ensure"
+				+ " that your voice is picked up by the program. In order to"
+				+ " have the best sound quality, it is recommended that you use"
+				+ " headphones. After the microphone test, the instructions will"
+				+ " be communicated verbally and you will read the words aloud"
+				+ " that appear on the screen.");
+		QA patQa2 = new QA("What are my recordings used for?", "The data that is collected from the speech"
+				+ " recording tests is sent and processed in a secure and"
+				+ " private manner. Acoustic features include format"
+				+ " frequencies, pitch, shimmer, jitter, and more. These"
+				+ " features are analyzed using significance tests and various"
+				+ " algorithms to find a connection between neurological"
+				+ " conditions and the human voice.");
+		QA patQa3 = new QA("What incentives are there for taking these tests?", "Contributing to the University of Notre Dame's"
+				+ " study of the link between brain injury and voice can lead to"
+				+ " further development in the early detection and warning signs"
+				+ " of mild traumatic brain injuries.");
+		qaList2.add(patQa1);
+		qaList2.add(patQa2);
+		qaList2.add(patQa3);
+		patientFaqviewer = new SimpleFaqViewer(qaList2, "Patient", false);
+		
+		
+		ArrayList<QA> qaList3 = new ArrayList<>();
+		QA resQa1 = new QA("What information can I use for research purposes?", "As a researcher, you will be able to specify"
+				+ " which tests you wish to obtain data from, and can narrow"
+				+ " your search with criteria such as age and gender. You can"
+				+ " use the data analytics and comparison tools on the website"
+				+ " to identify trends within your data set.");
+		QA resQa2 = new QA("Can I create my own speech-based test?", "Yes, as a researcher, you will be able to upload"
+				+ " your own separate speech recordings, and the existing"
+				+ " algorithm will be run on your sound file. This can"
+				+ " eventually be added to the repository and made available for"
+				+ " other patients.");
+		qaList3.add(resQa1);
+		qaList3.add(resQa2);
+		researcherFaqViewer = new SimpleFaqViewer(qaList3, "Researcher", false);
+		supportCustomPanel.add(generalFaqViewer);
+		supportCustomPanel.add(new Br());
+		supportCustomPanel.add(patientFaqviewer);
+		supportCustomPanel.add(new Br());
+		supportCustomPanel.add(researcherFaqViewer);
 	}
 	
 	@Override
@@ -125,43 +195,40 @@ public class TwitterSignup extends Composite {
 		loadPatientPanel();
 	}
 
-	public  native void activateAccordion()/*-{
-		var acc = $wnd.document.getElementsByClassName("accordion");
-		var i;
-		for (i = 0; i < acc.length; i++) {
-			acc[i].onclick = function() {
-				this.classList.toggle("active");
-				this.nextElementSibling.classList.toggle("show");
-			}
-		}
-
-	}-*/; 
 	public void reset() {
 
 	}
 	
 	@UiHandler("buttonFaq")
 	void faqButtonClicked(ClickEvent event){
+		generalFaqViewer.expandFaqs();
 		if(currentTab.equalsIgnoreCase("patient")){
-			togglePanelGroup(generalPanelGroup, false);
+			/*togglePanelGroup(generalPanelGroup, false);
 			togglePanelGroup(patientPanelGroup, true);
-			togglePanelGroup(researcherPanelGroup, false);
+			togglePanelGroup(researcherPanelGroup, false);*/
+			patientFaqviewer.expandFaqs();
+			researcherFaqViewer.collapseFaqs();
 		} else if (currentTab.equalsIgnoreCase("researcher")) {
-			togglePanelGroup(generalPanelGroup, false);
+			/*togglePanelGroup(generalPanelGroup, false);
 			togglePanelGroup(patientPanelGroup, false);
-			togglePanelGroup(researcherPanelGroup, true);			
-		} else {
-			togglePanelGroup(generalPanelGroup, true);
-			togglePanelGroup(patientPanelGroup, false);
-			togglePanelGroup(researcherPanelGroup, false);			
+			togglePanelGroup(researcherPanelGroup, true);*/
+			patientFaqviewer.collapseFaqs();
+			researcherFaqViewer.expandFaqs();
 			
+		} else {
+			/*togglePanelGroup(generalPanelGroup, true);
+			togglePanelGroup(patientPanelGroup, false);
+			togglePanelGroup(researcherPanelGroup, false);*/			
+			patientFaqviewer.collapseFaqs();
+			researcherFaqViewer.expandFaqs();
 		}
 		supportAnchorClciked(null);
 
 	}
 	
+	/*
 	private void togglePanelGroup(PanelGroup panelGroup, boolean openAll){
-		for(int i=0;i<researcherPanelGroup.getWidgetCount();i++){
+		for(int i=0;i<panelGroup.getWidgetCount();i++){
 			try {
 				PanelCollapse tempPanelCollapse = (PanelCollapse)((Panel)panelGroup.getWidget(i)).getWidget(1);
 				tempPanelCollapse.setIn(openAll);
@@ -170,11 +237,15 @@ public class TwitterSignup extends Composite {
 			}
 		}
 		
-	}
+	}*/
 	
 	@UiHandler("patientAnchor")
 	void patientAnchorClicked(ClickEvent event){
-		History.newItem("patient");
+		if(History.getToken().equalsIgnoreCase("patient")){
+			loadPatientPanel();
+		}else {
+			History.newItem("patient");			
+		}
 	}
 	
 	protected void loadPatientPanel(){
@@ -185,6 +256,7 @@ public class TwitterSignup extends Composite {
 		patientCustomPanel.setVisible(true);
 		researcherCustomPanel.setVisible(false);
 		supportCustomPanel.setVisible(false);
+		showMessagePanel.setVisible(false);
 		buttonFaq.setVisible(true);		
 	}
 	
@@ -202,6 +274,7 @@ public class TwitterSignup extends Composite {
 		researcherCustomPanel.setVisible(true);
 		supportCustomPanel.setVisible(false);
 		buttonFaq.setVisible(true);		
+		showMessagePanel.setVisible(false);
 	}
 	
 	@UiHandler("supportAnchor")
@@ -209,7 +282,9 @@ public class TwitterSignup extends Composite {
 		History.newItem("support");
 	}
 	protected void loadSupportPanel(){
-		togglePanelGroup(generalPanelGroup, true);
+		//togglePanelGroup(generalPanelGroup, true);
+		generalFaqViewer.expandFaqs();
+		
 		currentTab = "support";
 		patientAnchor.setActive(false);
 		researcherAnchor.setActive(false);
@@ -218,7 +293,22 @@ public class TwitterSignup extends Composite {
 		researcherCustomPanel.setVisible(false);
 		supportCustomPanel.setVisible(true);	
 		buttonFaq.setVisible(false);		
+		showMessagePanel.setVisible(false);
 	}
+	
+	protected void showAuthMessage(String message){
+		
+		patientAnchor.setActive(false);
+		researcherAnchor.setActive(false);
+		supportAnchor.setActive(false);
+		patientCustomPanel.setVisible(false);
+		researcherCustomPanel.setVisible(false);
+		supportCustomPanel.setVisible(false);	
+		buttonFaq.setVisible(false);		
+		showMessagePanel.setVisible(true);
+		showMessage.setText(message);
+	}
+	
 	
 	@UiHandler("buttonForgotPass")
 	void resetPassword(ClickEvent event) {
@@ -341,7 +431,7 @@ public class TwitterSignup extends Composite {
 	void loginAction(ClickEvent event) {
 		if (textLoginEmail.getText().isEmpty()
 				&& textLoginPassword.getText().isEmpty()) {
-			application.loggedIn("z@gmail.com");
+			application.loggedIn("z@gmail.com", "test");
 
 		} else {
 			if (this.validationBeforeLogin()) {
@@ -364,7 +454,7 @@ public class TwitterSignup extends Composite {
 						buttonLoginAction.setEnabled(true);
 						if(response.getCode()==0){
 							application.loggedIn(textLoginEmail.getText()
-									.trim());
+									.trim(), response.getMessage());
 						} else {
 							labelLoginError.setText(response.getMessage());
 						}
@@ -511,8 +601,11 @@ public class TwitterSignup extends Composite {
 													buttonSignupAction
 															.setEnabled(true);
 													if (result.getCode() == 0) {
-														application
-																.signedUP(email);
+														//application.signedUP(email);
+														resetSignup();
+														enableLoginForm(null);
+														String signupMessage = "Thank you for registering in ND Speech Marker Initiative. You will receive confirmation email to activate your account.";
+														showAuthMessage(signupMessage);
 													} else {
 														labelSignupError.setText(result
 																.getMessage());

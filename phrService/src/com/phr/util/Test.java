@@ -1,8 +1,12 @@
 package com.phr.util;
 
 import java.security.MessageDigest;
+import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 public class Test {
@@ -58,11 +62,23 @@ public class Test {
 		
 		
 		try {
-			System.out.println(Test.getMD5String("uttam"));
+			System.out.println(Test.getMD5String("uttamjkfljsasljdlshskdnkasdasda").length());
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		String uuid = UUID.randomUUID().toString();
+		System.out.println("random : "+ uuid);
+		
+		
+		String jsonString = "{\"email\": \"uttam\",\"old\": \"a\",\"new\": \"b\"}";
+		JsonObject jsonObject = new JsonParser().parse(jsonString).getAsJsonObject();
+
+		String email = jsonObject.get("emailshd").getAsString();
+		String old = jsonObject.get("old").getAsString();
+		System.out.println("email:"+ email + ", old:" + old);
+		
 		
 	}
 }

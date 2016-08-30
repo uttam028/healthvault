@@ -13,7 +13,11 @@
 		text-align:center;
 		}
 	</ui:style>
-	<g:HTMLPanel addStyleNames="{style.left} panel_border" ui:field="simpleFaqPanel">
-
+	<g:HTMLPanel addStyleNames="{style.left}"
+		ui:field="simpleFaq">
+		<g:HTMLPanel addStyleNames="{style.left}"
+			ui:field="simpleFaqHeader"></g:HTMLPanel>
+		<g:HTMLPanel addStyleNames="{style.left}"
+			ui:field="simpleFaqPanel"></g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

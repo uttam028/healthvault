@@ -64,6 +64,7 @@ $(function() {
 			recorderEl().removeClass("floating");
 			FWRecorder.hide()
 			console.log("main.js: permission panel closed");
+			window.callbackForPermission();
 			break;
 
 		case "microphone_activity":
@@ -76,7 +77,7 @@ $(function() {
 					text.concat(arguments[i]).concat("-");
 				}
 				alert("name of record".concat(text));*/
-				window.enableStopButton();
+				//window.enableStopButton();
 			} catch (e) {
 				// TODO: handle exception
 				console.log("got exception call stop " + e.message);
@@ -102,6 +103,7 @@ $(function() {
 			setControlsClass($controls, CLASS_PLAYBACK_READY);
 			// $('#duration').text(duration.toFixed(4) + " seconds");
 			console.log("main.js: case recording stopped");
+			/*
 			try {
 				if (name.toLowerCase().indexOf("mic") == 0) {
 					window.resetMictestUI();
@@ -111,20 +113,21 @@ $(function() {
 			} catch (e) {
 				// TODO: handle exception
 				console.log("got exception to call play button " + e.message);
-			}
+			}*/
 			break;
 
 		case "microphone_level":
 			// $level.css({width: arguments[1] * 50 + '%'});
 			console.log("main.js: case microphone level : " + (arguments[1])
 					+ '% ' + arguments[0] + "arg 2 : "+ arguments[2]);
+			/*
 			try {
 				//window.updateVolume(arguments[1]);
 				window.updateMicrophoneLevel((arguments[1]).toString());
 			} catch (e) {
 				// TODO: handle exception
 				console.log("got exception to update volume text " + e.message);
-			}
+			}*/
 			break;
 
 		case "observing_level":
@@ -152,7 +155,7 @@ $(function() {
 			var latency = arguments[2];
 			console.log("main.js: case playback started");
 			//FWRecorder.observeLevel();
-			window.enablePauseButton();
+			//window.enablePauseButton();
 			break;
 
 		case "stopped":
@@ -161,7 +164,7 @@ $(function() {
 			setControlsClass($controls, CLASS_PLAYBACK_READY);
 			//FWRecorder.stopObservingLevel();
 			console.log("main.js: case stopped??");
-			window.enablePlayButton();
+			//window.enablePlayButton();
 			break;
 
 		case "playing_paused":
@@ -170,7 +173,7 @@ $(function() {
 			setControlsClass($controls, CLASS_PLAYBACK_PAUSED);
 			//FWRecorder.stopObservingLevel();
 			console.log("main.js: case playing paused");
-			window.enablePlayAnchor();
+			//window.enablePlayAnchor();
 			break;
 
 		case "save_pressed":
@@ -272,7 +275,7 @@ $(function() {
 		$('.blockOverlay').click(function() {
 			$.unblockUI({
 				onUnblock : function() {
-					window.stopAudioSample();
+					//window.stopAudioSample();
 				}
 			});
 		});
@@ -349,8 +352,23 @@ $(function() {
 			trailWidth : 2,
 			duration : parseInt(duration),
 			text : {
-				value : '0'
-			},
+				value : '0',
+				style: {
+		            color: '#f00',
+		            position: 'absolute',
+		            left: '50%',
+		            top: '50%',
+		            padding: 0,
+		            'font-size': '500%',
+		            margin: 0,
+		            // You can specify styles which will be browser prefixed
+		            transform: {
+		                prefix: true,
+		                value: 'translate(-50%, -50%)'}
+			        }  ,
+			        autoStyleContainer: true,
+			        alignToBottom: true        
+				},
 			from: { color: '#008000', width: 5 },
 			to: { color: '#FF0000', width: 5 },
 			step : function(state, bar) {
@@ -358,6 +376,7 @@ $(function() {
 				var value = Math.round(d - (bar.value() * d));
 				bar.setText(value.toFixed(0));
 				//bar.setText((bar.value() * 100).toFixed(0));
+				bar.path.setAttribute('stroke', state.color);
 			}
 		});
 

@@ -282,7 +282,7 @@ public class EnrollmentProcess extends Composite {
 	//
 	// }
 	private void loadFaq() {
-		faqPane.add(new SimpleFaqViewer(enrollmentData.getQaList(), ""));
+		faqPane.add(new SimpleFaqViewer(enrollmentData.getQaList(), "", true));
 	}
 
 	private void loadConsentForm() {

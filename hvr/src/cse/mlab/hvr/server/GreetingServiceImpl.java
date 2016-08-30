@@ -3,8 +3,10 @@ package cse.mlab.hvr.server;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -26,6 +28,7 @@ import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.Enrollment;
@@ -81,6 +84,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
+	public Response getSessionInformation(Session session) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + loginPath + "sessioninfo";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, session);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("convert response : " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff session call: " + (end - start));
+
+		return response;
+	}
+	
+	@Override
 	public Response signupToPhr(UserProfile userProfile) {
 		// TODO Auto-generated method stub
 		long start = Calendar.getInstance().getTimeInMillis();
@@ -104,6 +129,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return response;
 
 	}
+	
+	
+	@Override
+	public Response logout(Session session) {
+		
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + loginPath + "logout";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, session);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("convert response : " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff logout call: " + (end - start));
+
+		return response;
+	}
 
 	@Override
 	public Response resetPassword(String email) {
@@ -124,6 +171,27 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		return response;
 
+	}
+	
+	@Override
+	public Response changePassword(String email, String oldPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		String json = "{\"email\":\""+email+"\", \"oldPassword\":\""+ oldPassword +"\", \"newPassword\":\""+ newPassword +"\"}";
+		System.out.println("json:"+json);		
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + loginPath + "changepassword/";
+		WebResource service = client.resource(url);
+		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
+		String jsonResponse = clientResponse.getEntity(String.class);
+		Response response = new Gson().fromJson(jsonResponse, Response.class);
+		System.out.println("Client Response \n" + response.getCode());
+
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff reset pass call: " + (end - start));
+
+		return response;
 	}
 
 	@Override
@@ -182,17 +250,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				String.class);
 		System.out.println("profile xml:" + response);
 		UserProfile profile = new Gson().fromJson(response, UserProfile.class);
-		System.out
-				.println(profile.getFirstName() + "," + profile.getBirthDay());
-
-		List<Answer> profileAnswers = profile.getQuestionAnswer();
-		Iterator<Answer> it = profileAnswers.iterator();
-		while (it.hasNext()) {
-			Answer temp = (Answer) it.next();
-			System.out.println("question id:" + temp.getQuestionId()
-					+ ", answer:" + temp.getAnswer());
-		}
-
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff get profile call: " + (end - start));
 

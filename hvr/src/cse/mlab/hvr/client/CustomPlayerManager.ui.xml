@@ -12,11 +12,18 @@
 	}
 	</ui:style>
 	<g:HTMLPanel ui:field="playerManagerPanel">
-	    <h4>Please do not press Refresh or Back button during speech test</h4>
-		<br />
-	    <b:Progress addStyleNames="{style.margin}">
-  			<b:ProgressBar type="INFO" percent="0" text="0%" ui:field="playerProgressBar"/>
-		</b:Progress>
-	    
+	    <g:HTMLPanel ui:field="allowedPlayerHeader">
+		    <h4>Please do not press Refresh or Back button during speech test</h4>
+			<br />
+		    <b:Progress addStyleNames="{style.margin}">
+	  			<b:ProgressBar type="INFO" percent="0" text="0%" ui:field="playerProgressBar"/>
+			</b:Progress>	        	        
+	    </g:HTMLPanel>
+	    <g:HTMLPanel ui:field="deniedPlayerHeader">
+	        <br /><br /><br /><br /><br />
+	        <b:Heading size="H4" ui:field="permissionHeading"></b:Heading>
+	        <!--br /><br />
+	        <b:Button ui:field="restartButton" type="DANGER" size="LARGE">Start Again</b:Button-->
+	    </g:HTMLPanel>	    
 	</g:HTMLPanel>
 </ui:UiBinder> 

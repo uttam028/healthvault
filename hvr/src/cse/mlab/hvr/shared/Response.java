@@ -14,7 +14,7 @@ public class Response implements Serializable{
 	public Response() {
 		// TODO Auto-generated constructor stub
 		this.code = -1;
-		this.message = "";
+		this.message = "Please try later";
 	}
 	public Response(int code, String message) {
 		// TODO Auto-generated constructor stub

@@ -17,32 +17,42 @@
 
 	</ui:style>
 	<g:HTMLPanel>
+	    <g:HTMLPanel ui:field="resultPanel">
+	        
+	    </g:HTMLPanel>
+	    
 		<h4>Account Information</h4>
 		<b:Panel>
 			<b:PanelHeader>
 				<b:Heading size="H3" text="Change Passowrd" addStyleNames="{style.left_text}" />
 			</b:PanelHeader>
 			<b:PanelBody>
+			    <b:Form ui:field="changePasswordForm">
 				<b:FormGroup addStyleNames="col-lg-8">
 					<b:FormLabel for="formOldPass" addStyleNames="{style.left_align}">Old
 						Password</b:FormLabel>
-					<b:Input type="PASSWORD" b:id="formOldPass" />
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
+					<b:Input type="PASSWORD" b:id="formOldPass" ui:field="textboxOldPass" maxLength="20" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
 				<b:FormGroup addStyleNames="col-lg-8">
 					<b:FormLabel for="formNewPass" addStyleNames="{style.left_align}">New Password</b:FormLabel>
-					<b:Input type="PASSWORD" b:id="formNewPass" />
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
+					<b:Input type="PASSWORD" b:id="formNewPass" ui:field="textboxNewPass" maxLength="20" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
-				<b:FormGroup addStyleNames="col-lg-8">
+				<b:FormGroup addStyleNames="col-lg-8" ui:field="formgroupConfirmPass">
 					<b:FormLabel for="formConfirmPass" addStyleNames="{style.left_align}">Confirm New Password</b:FormLabel>
-					<b:Input type="PASSWORD" b:id="formConfirmPass" />
+					<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" ui:field="inlineHelpConfirmPass"/>
+					<b:Input type="PASSWORD" b:id="formConfirmPass" ui:field="textboxConfirmPass" maxLength="20" allowBlank="false"/>
 				</b:FormGroup>
 				<h:Br />
 
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:Button addStyleNames="{style.left_align}" type="SUCCESS">Update Password</b:Button>
+					<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="updateButton">Update Password</b:Button>
+					<b:Button type="DANGER" ui:field="cancelButton">Cancel</b:Button>
 				</b:FormGroup>
+				</b:Form>
 			</b:PanelBody>
 		</b:Panel>
 	</g:HTMLPanel>

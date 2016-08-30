@@ -7,7 +7,9 @@ import org.gwtbootstrap3.client.ui.Column;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
@@ -40,6 +42,7 @@ public class MyStudyManager extends Composite {
 	}
 	
 	public void addStudiesToManager(ArrayList<MyStudyDataModel> models){
+		studiesColumn.clear();
 		for(MyStudyDataModel model : models){
 			studiesColumn.add(new MyStudy(model));
 			this.models.add(model);
@@ -47,6 +50,16 @@ public class MyStudyManager extends Composite {
 	}
 	
 	public void addStudyToDashboard(MyStudyDataModel model){
+		for(int i=0;i<studiesColumn.getWidgetCount();i++){
+			try {
+				if(studiesColumn.getWidget(i) instanceof MyStudy){
+					//keep it in the column
+				} else {
+					studiesColumn.getWidget(i).removeFromParent();
+				}
+			}catch(Exception e){
+			}	
+		}
 		this.models.add(0, model);
 		studiesColumn.insert(new MyStudy(model), 0);
 	}
@@ -64,5 +77,10 @@ public class MyStudyManager extends Composite {
 				// TODO: handle exception
 			}
 		}
+	}
+	
+	public void showEmptyMessage(){
+		studiesColumn.clear();
+		studiesColumn.add(new Label("You are not currently enrolled in any of the studies. Please enroll to participate."));
 	}
 }

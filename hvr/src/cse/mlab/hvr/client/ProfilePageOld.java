@@ -1,9 +1,6 @@
 package cse.mlab.hvr.client;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.gwtbootstrap3.client.ui.IntegerBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -11,24 +8,17 @@ import org.gwtbootstrap3.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsDate;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-
-import cse.mlab.hvr.shared.Answer;
-import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.UserProfile;
 
 public class ProfilePageOld extends Composite{
 
@@ -186,7 +176,7 @@ public class ProfilePageOld extends Composite{
 	}
 	
 	
-	
+	/*
 	@Override
 	protected void onLoad() {
 		loadSports();
@@ -236,6 +226,7 @@ public class ProfilePageOld extends Composite{
 		super.onLoad();
 //		VerticalPanel vp = new VerticalPanel();
 	}
+	*/
 	@UiHandler("listProfileBirthMonth")
 	void monthSelectionChangeHandler(ChangeEvent event){
 		this.validateDOBEdgeCases();
@@ -434,6 +425,7 @@ public class ProfilePageOld extends Composite{
 //		parent.loadHomePage(event);
 //	}
 	
+/*	
 	private boolean validateBeforeUpdateProfile(){
 		if(textProfileFirstName.getText().isEmpty()){
 			labelFirstNameError.setText("This can't be empty");
@@ -519,4 +511,5 @@ public class ProfilePageOld extends Composite{
 			}
 		}
 	}
+	*/
 }

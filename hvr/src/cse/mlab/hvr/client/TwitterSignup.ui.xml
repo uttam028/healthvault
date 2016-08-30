@@ -52,7 +52,7 @@
 		</b:Navbar>
 		<g:HTMLPanel>
 			<b:Row>
-				<b:Column size="MD_7">
+				<b:Column size="MD_7" ui:field="websiteIntroPanel">
 					<b:Row>
 						<g:HTMLPanel ui:field="patientCustomPanel"
 							addStyleNames="col-lg-offset-2">
@@ -109,11 +109,13 @@
 						</g:HTMLPanel>
 						<g:HTMLPanel ui:field="supportCustomPanel"
 							addStyleNames="col-lg-offset-2">
-							<h3>General</h3>
-							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+							
+						    
+							<!--h3>General</h3>
+							<b:PanelGroup b:id="accordion1" addStyleNames="{style.left}"
 								ui:field="generalPanelGroup">
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion1"
 										dataTarget="#generalQCollapseOne">
 										<b:Heading size="H4"
 											text="1. What is the purpose of this initiative?">
@@ -130,7 +132,7 @@
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion1"
 										dataTarget="#generalQCollapseTwo">
 										<b:Heading size="H4" text="2. What does this website contain?">
 										</b:Heading>
@@ -148,10 +150,10 @@
 							</b:PanelGroup>
 
 							<h3>Patient</h3>
-							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+							<b:PanelGroup b:id="accordion2" addStyleNames="{style.left}"
 								ui:field="patientPanelGroup">
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion2"
 										dataTarget="#patientQCollapseOne">
 										<b:Heading size="H4" text="1. How do I take the tests?">
 										</b:Heading>
@@ -170,7 +172,7 @@
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion2"
 										dataTarget="#patientQCollapseTwo">
 										<b:Heading size="H4"
 											text="2. What are my recordings used for?">
@@ -189,7 +191,7 @@
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion2"
 										dataTarget="#patientQCollapseThree">
 										<b:Heading size="H4"
 											text="3. What incentives are there for taking these tests?">
@@ -206,10 +208,10 @@
 								</b:Panel>
 							</b:PanelGroup>
 							<h3>Researcher</h3>
-							<b:PanelGroup b:id="accordion" addStyleNames="{style.left}"
+							<b:PanelGroup b:id="accordion3" addStyleNames="{style.left}"
 								ui:field="researcherPanelGroup">
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion3"
 										dataTarget="#researchQCollapseOne">
 										<b:Heading size="H4"
 											text="1. What information can I use for research purposes?">
@@ -226,7 +228,7 @@
 									</b:PanelCollapse>
 								</b:Panel>
 								<b:Panel>
-									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion"
+									<b:PanelHeader dataToggle="COLLAPSE" dataParent="#accordion3"
 										dataTarget="#researchQCollapseTwo">
 										<b:Heading size="H4"
 											text="2. Can I create my own speech-based test?">
@@ -242,8 +244,13 @@
 										</b:PanelBody>
 									</b:PanelCollapse>
 								</b:Panel>
-							</b:PanelGroup>
+							</b:PanelGroup-->
 
+						</g:HTMLPanel>
+						<g:HTMLPanel ui:field="showMessagePanel">
+						    <h:Br/><h:Br/><h:Br/>
+						    <b:Heading ui:field="showMessage"  addStyleNames="col-lg-offset-1" size="H4"></b:Heading>
+						    <!-- h4>Thank you for registering in ND Speech Marker Initiative. You will receive confirmation email to activate your account.</h4-->
 						</g:HTMLPanel>
 					</b:Row>
 					<h:Br />

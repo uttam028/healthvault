@@ -30,6 +30,8 @@ public class ProfilePage extends Composite {
 	private PersonalInfoPage personalInfoPage;
 	private AccountInfoPage accountInfoPage;
 	private MedicalInfoPage medicalInfoPage;
+	
+	private String userId;
 
 	private static ProfileUiBinder uiBinder = GWT.create(ProfileUiBinder.class);
 
@@ -100,5 +102,6 @@ public class ProfilePage extends Composite {
 		}
 		profileContentPanel.add(medicalInfoPage);
 	}
+	
 
 }

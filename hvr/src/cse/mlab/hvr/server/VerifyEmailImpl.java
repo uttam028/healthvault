@@ -72,7 +72,7 @@ public class VerifyEmailImpl extends HttpServlet {
 					e.printStackTrace();
 				}
 				resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				resp.setHeader("Location", "/hvr");
+				resp.setHeader("Location", "/hvr/#patient?emailverified=true");
 				resp.flushBuffer();
 			}
 		} catch (Exception e) {

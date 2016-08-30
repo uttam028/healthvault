@@ -11,6 +11,7 @@ h1{
   text-align: center;*/
 }*/
 
+
 .common_inst_text{
   font-size: 180%;
   /*font-weight: bold;*/
@@ -247,12 +248,17 @@ margin-bottom: 2%
 
 /*------------------------------ my study----------------------*/
 .back_color{
-	background-color: #67e4de;
+	/*background-color: #67e4de;*/
+	background-color:#00cccc
 }
 
 .back_white{
 	background-color: white;
 }
 
+
+.faq_ques{
+	color:#006666;
+}
 
 

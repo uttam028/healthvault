@@ -41,6 +41,7 @@ public class SpeechTestProcess extends Composite {
 			@Override
 			public void onSuccess(SpeechTest result) {
 				// TODO Auto-generated method stub
+				testPanel.clear();
 				testPanel.add(new CustomPlayerManager(studyId, result));
 			}
 			@Override

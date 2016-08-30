@@ -19,6 +19,7 @@ import cse.mlab.hvr.client.EnrollmentState;
 import cse.mlab.hvr.client.EnrollmentState.EnrollState;
 import cse.mlab.hvr.client.Hvr;
 import cse.mlab.hvr.client.QuestionAnswerList;
+import cse.mlab.hvr.client.SimpleFaqViewer;
 import cse.mlab.hvr.client.events.EnrollmentEvent;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -49,7 +50,8 @@ public class StudyPreface extends Composite {
 		spHeader.setColor("red");
 		spHeading.setText(this.studyPrefaceModel.getStudyOverview().getName());
 		spDescription.setText(this.studyPrefaceModel.getStudyOverview().getOverview());
-		spQuestionAnswerList.add(new QuestionAnswerList(this.studyPrefaceModel.getQaList()));
+		//spQuestionAnswerList.add(new QuestionAnswerList(this.studyPrefaceModel.getQaList()));
+		spQuestionAnswerList.add(new SimpleFaqViewer(this.studyPrefaceModel.getQaList(), "Learn More", false));
 		enrollButton.addClickHandler(new ClickHandler() {
 			
 			@Override

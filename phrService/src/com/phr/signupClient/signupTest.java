@@ -20,33 +20,18 @@ public class signupTest {
 
 	public static void main(String[] args) {
 		
+		
 	    ClientConfig config = new DefaultClientConfig();
 	    Client client = Client.create(config);
-	    client.addFilter(new LoggingFilter());
-	    WebResource service = client.resource(getBaseURI());
-		
-	    UserProfile user= new UserProfile("ra@gmail.com", "abc","aaa","aaa","10/10/10","aaa",10010);
-	    
-	   String response = service.path("signup").path("signup").path(user.getEmail()).accept(MediaType.APPLICATION_JSON).get(String.class);
-	   System.out.println("Client Response \n"+ response);		
-	   
-//	   ClientResponse nameResource =  service.path("signup").path("signup").accept(MediaType.APPLICATION_XML).post(ClientResponse.class, user) ;
-//	     
-//	   System.out.println("Client Response \n"+ nameResource.getEntity(String.class));
-	   
-	   ClientResponse nameResource =  service.path("signup").path("signup").accept(MediaType.APPLICATION_XML).put(ClientResponse.class, user) ;
- 	   System.out.println("Client Response \n"+ nameResource.getEntity(String.class));
-	   
-	   response = service.path("signup").path("signup").path(user.getEmail()).accept(MediaType.APPLICATION_JSON).get(String.class);
-	   System.out.println("Client Response \n"+ response);	
-	   
-	    
-	    // System.out.println("Response \n" + getResponse(nameResource) + "\n\n");
-	   JSONObject inputJsonObj = new JSONObject();
-	   inputJsonObj.put("input", "Value");
-	   nameResource =  service.path("signup").path("signup").accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, inputJsonObj.toString()) ;
-	   System.out.println("Client Response \n"+ response);	
-	   
+		String path = "http://10.32.10.188:8080/phrservice/signup";
+		String url = "http://10.32.10.188:8080/phrservice/login/changepassword";
+	    WebResource service = client.resource(url);
+	    //service.header("Content-Type", new String("application/json"));
+	    String json = "{\"email\":\"ahossain@nd.edu\", \"oldPassword\":\"old\", \"newPassword\":\"new\"}";
+		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
+		System.out.println("response:"+ clientResponse);
+		String jsonResponse = clientResponse.getEntity(String.class);
+		System.out.println("json response:"+ jsonResponse);
 	   
 	   
 	    

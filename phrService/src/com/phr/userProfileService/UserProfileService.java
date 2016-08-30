@@ -46,23 +46,28 @@ public class UserProfileService {
 
 				statement = connection.createStatement();
 				preparedStatement = connection
-						.prepareStatement("SELECT * FROM PHR.USER_PROFILE WHERE EMAIL=?");
+						.prepareStatement("select * from phr.user_profile where email=?");
 
 				preparedStatement.setString(1, email);
 				ResultSet resultSet = preparedStatement.executeQuery();
 				if (resultSet.next()) {
-					profile.setEmail(resultSet.getString("EMAIL"));
-					profile.setFirstName(resultSet.getString("FIRST_NAME"));
-					profile.setLastName(resultSet.getString("LAST_NAME"));
-					profile.setBirthDay(resultSet.getString("BIRTHDAY"));
-					profile.setAddress(resultSet.getString("ADDRESS"));
-					profile.setMobileNum(Long.parseLong(resultSet
-							.getString("CONTACT_NO")));
+					profile.setEmail(resultSet.getString("email"));
+					profile.setFirstName(resultSet.getString("first_name"));
+					profile.setLastName(resultSet.getString("last_name"));
 					profile.setGender(resultSet.getString("gender"));
-					profile.setHeight(resultSet.getInt("height"));
-					profile.setWeight(resultSet.getInt("weight"));
+					int birthYear = 0;
+					try {
+						birthYear = resultSet.getInt("birth_year");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					profile.setBirthYear(birthYear);
+					profile.setPrimaryLanguage(resultSet.getString("primary_language"));
+					profile.setPhoneNumber(resultSet.getString("phone_number"));
+					profile.setAddress(resultSet.getString("address"));
 				}
 
+				/*
 				preparedStatement = connection
 						.prepareStatement("select * from phr.question_answer where user_email=?");
 				preparedStatement.setString(1, email);
@@ -72,7 +77,7 @@ public class UserProfileService {
 					temp.setQuestionId(resultSet.getInt("question_id"));
 					temp.setAnswer(resultSet.getString("answer"));
 					profile.getQuestionAnswer().add(temp);
-				}
+				}*/
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,19 +113,21 @@ public class UserProfileService {
 				statement = connection.createStatement();
 
 				preparedStatement = connection
-						.prepareStatement("update phr.user_profile set address=?, birthday = ?, contact_no =?, gender=?, "
-								+ "height=?, weight=? where email=?");
-				preparedStatement.setString(1, userProfile.getAddress());
-				preparedStatement.setString(2, userProfile.getBirthDay());
-				preparedStatement.setLong(3, userProfile.getMobileNum());
-				preparedStatement.setString(4, userProfile.getGender());
-				preparedStatement.setInt(5, userProfile.getHeight());
-				preparedStatement.setInt(6, userProfile.getWeight());
-				preparedStatement.setString(7, userProfile.getEmail());
+						.prepareStatement("update phr.user_profile set first_name=?, last_name=?, gender=?, birth_year=?, primary_language=?, phone_number=?, address=? where email=?");
+				preparedStatement.setString(1, userProfile.getFirstName());
+				preparedStatement.setString(2, userProfile.getLastName());				
+				preparedStatement.setString(3, userProfile.getGender());
+				preparedStatement.setString(4, String.valueOf(userProfile.getBirthYear()));
+				preparedStatement.setString(5, userProfile.getPrimaryLanguage());
+				preparedStatement.setString(6, userProfile.getPhoneNumber());
+				preparedStatement.setString(7, userProfile.getAddress());
+				preparedStatement.setString(8, userProfile.getEmail());
 				
 				System.out.println("query: " + preparedStatement.toString());
 				preparedStatement.execute();
 
+				
+				/*
 				Iterator<Answer> it = userProfile.getQuestionAnswer()
 						.iterator();
 				while (it.hasNext()) {
@@ -132,7 +139,7 @@ public class UserProfileService {
 					preparedStatement.setInt(2, temp.getQuestionId());
 					preparedStatement.setString(3, temp.getAnswer());
 					preparedStatement.execute();
-				}
+				}*/
 				//success = "The profile " + userProfile.getEmail()
 						//+ " updated successfully.";
 				response.setCode(0);

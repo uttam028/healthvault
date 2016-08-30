@@ -8,11 +8,11 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.SpeechTest;
-import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 /**
@@ -22,9 +22,15 @@ import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 public interface GreetingService extends RemoteService {
 	  String greetServer(String name) throws IllegalArgumentException;
 	  
+	  
+	  
+	  //login
+	  Response getSessionInformation(Session session);
 	  Response signupToPhr(UserProfile userProfile);
 	  Response loginToPhr(User user);
+	  Response logout(Session session);
 	  Response resetPassword(String email);
+	  Response changePassword(String email, String oldPassword, String newPassword);
 	  String checkEmailAvailability(String email);
 	  
 	  UserProfile getProfile(String email);
@@ -45,4 +51,7 @@ public interface GreetingService extends RemoteService {
 	  Response enrollToStudy(String studyId, String email);
 	  Response startParticipation(String studyId, String email);
 	  Response endParticipation(String studyId, String email);
+	  
+	  
+	  
 }

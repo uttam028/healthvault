@@ -1,22 +1,31 @@
 package cse.mlab.hvr.client;
 
+import java.util.Date;
+
 import org.gwtbootstrap3.client.ui.html.Br;
 import org.gwtbootstrap3.client.ui.html.Div;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.shell.log.SwingTreeLogger.LogEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.LoadProfileItemEvent;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.SpeechTestEventHandler;
+import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.Session;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -29,19 +38,48 @@ public class Hvr implements EntryPoint {
 	final static SimpleEventBus eventBus = new SimpleEventBus();
 	private static boolean loggedIn = false;
 	private static boolean speechTestRunning =false; 
+	private final GreetingServiceAsync greetingService = GWT
+			.create(GreetingService.class);
+	
+	final long SECONDS = 1000;
+	final long MINUTES = 60*SECONDS;
+	final long HOURS = 60*MINUTES;
+
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		RootPanel.get().clear();
-
-		String paramValue = Window.Location.getParameter("confirmationcode");
-		if (paramValue != null && paramValue.length() > 10) {
-			// Window.alert("paramvalue:"+ paramValue);
+		
+		loggedIn = false;
+		speechTestRunning = false;
+		
+		final String cookies = Cookies.getCookie("speechmarker_login");
+		if(cookies == null || cookies.isEmpty()){
+			loadLogin();
+		} else {
+			greetingService.getSessionInformation(new Session(cookies, "", 1), new AsyncCallback<Response>() {
+				
+				@Override
+				public void onSuccess(Response result) {
+					// TODO Auto-generated method stub
+					if(result.getCode()==0){
+						loggedIn(result.getMessage(), cookies);
+						History.newItem("home");
+					} else {
+						loadLogin();
+					}
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					loadLogin();
+				}
+			});
 		}
-		twitterSignup = new TwitterSignup(this);
-		RootPanel.get().add(twitterSignup);
+		
+
 		Hvr.getEventBus().addHandler(SpeechTestEvent.TYPE,
 				new SpeechTestEventHandler() {
 
@@ -69,7 +107,7 @@ public class Hvr implements EntryPoint {
 						return;
 					}*/
 					
-					// Window.alert("history token:"+ historyToken);
+//					Window.alert("history token:"+ historyToken);
 					if (historyToken.equalsIgnoreCase("patient")) {
 						if (loggedIn) {
 							History.forward();
@@ -155,18 +193,47 @@ public class Hvr implements EntryPoint {
 		div.add(signupLabel);
 		RootPanel.get().add(div);
 	}
-
-	public void loggedIn(String userId) {
+	
+	private void loadLogin(){
 		RootPanel.get().clear();
-		mainPage = new MainPage(this, userId);
+		String paramValue = Window.Location.getParameter("emailverified");
+		twitterSignup = new TwitterSignup(this);
+		RootPanel.get().add(twitterSignup);
+		if (paramValue != null) {
+			//Window.alert("paramvalue:"+ paramValue);
+			twitterSignup.showAuthMessage("Your account has been verified, please login to enroll in the study.");
+		}			
+
+	}
+
+	public void loggedIn(String userId, String sessionId) {
+		RootPanel.get().clear();
+		mainPage = new MainPage(this, userId, sessionId);
+		final Date dueDate = new Date();
+		//CalendarUtil.addDaysToDate(dueDate, 1);
+		dueDate.setTime(dueDate.getTime() + 5 * MINUTES);
+		Cookies.setCookie("speechmarker_login", sessionId, dueDate);
 		RootPanel.get().add(mainPage);
-		History.newItem("home");
+		//History.newItem("home");
 		loggedIn = true;
 	}
 
-	public void logout() {
+	public void logout(String userId, String sessionId) {
 		loggedIn = false;
 		speechTestRunning = false;
+		greetingService.logout(new Session(sessionId, userId, 0), new AsyncCallback<Response>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onSuccess(Response result) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		Cookies.setCookie("speechmarker_login", "", new Date());
 		onModuleLoad();
 	}
 	
