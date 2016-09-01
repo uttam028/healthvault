@@ -422,7 +422,7 @@ public class CustomPlayer extends Composite {
 	@UiHandler("buttonUpload")
 	void uploadButtonClicked(ClickEvent event) {
 		uploadRecording(this);
-		Hvr.getEventBus().fireEvent(new FileUploadEvent(this.header));
+		Hvr.getEventBus().fireEvent(new FileUploadEvent());
 	}
 
 	public static native void uploadRecording(CustomPlayer player)/*-{

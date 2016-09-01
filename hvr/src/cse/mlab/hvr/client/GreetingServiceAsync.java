@@ -11,6 +11,7 @@ import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
+import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -46,6 +47,7 @@ public interface GreetingServiceAsync {
 	void enrollToStudy(String studyId, String email, AsyncCallback<Response> callback);
 	void startParticipation(String studyId, String email, AsyncCallback<Response> callback);
 	void endParticipation(String studyId, String email, AsyncCallback<Response> callback);
+	void relocateSoundFile(Recording recording, AsyncCallback<Response> callback);
 	
 	//SpeechTestMetadata getSpeechTestMetadata(String testId);
 }

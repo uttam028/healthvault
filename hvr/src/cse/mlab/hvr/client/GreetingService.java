@@ -12,6 +12,7 @@ import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
+import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -51,6 +52,7 @@ public interface GreetingService extends RemoteService {
 	  Response enrollToStudy(String studyId, String email);
 	  Response startParticipation(String studyId, String email);
 	  Response endParticipation(String studyId, String email);
+	  Response relocateSoundFile(Recording recording);
 	  
 	  
 	  

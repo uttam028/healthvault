@@ -13,6 +13,7 @@ cse.mlab.hvr.shared.UserProfile, true, true, true, true, cse.mlab.hvr.shared.Use
 cse.mlab.hvr.shared.study.Compliance, true, true, false, false, cse.mlab.hvr.shared.study.Compliance/2204561791, 2204561791
 cse.mlab.hvr.shared.study.HealthStatusQuestion, true, true, false, false, cse.mlab.hvr.shared.study.HealthStatusQuestion/2412837431, 2412837431
 cse.mlab.hvr.shared.study.MyStudyDataModel, true, true, false, false, cse.mlab.hvr.shared.study.MyStudyDataModel/1342446461, 1342446461
+cse.mlab.hvr.shared.study.Recording, false, false, true, true, cse.mlab.hvr.shared.study.Recording/2117097612, 2117097612
 cse.mlab.hvr.shared.study.SpeechTest, true, true, false, false, cse.mlab.hvr.shared.study.SpeechTest/2969710361, 2969710361
 cse.mlab.hvr.shared.study.StudyOverview, true, true, false, false, cse.mlab.hvr.shared.study.StudyOverview/2229750639, 2229750639
 cse.mlab.hvr.shared.study.StudyPrefaceModel, true, true, false, false, cse.mlab.hvr.shared.study.StudyPrefaceModel/2464047313, 2464047313

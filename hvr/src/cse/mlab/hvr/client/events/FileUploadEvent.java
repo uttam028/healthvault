@@ -4,12 +4,6 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class FileUploadEvent extends GwtEvent<FileUploadEventHandler>{
 	
-	private String fileName;
-
-	public FileUploadEvent(String fileName) {
-		super();
-		this.fileName = fileName;
-	}
 
 	public static Type<FileUploadEventHandler> TYPE = new Type<FileUploadEventHandler>();
 	@Override
@@ -24,7 +18,4 @@ public class FileUploadEvent extends GwtEvent<FileUploadEventHandler>{
 		handler.actionAfterFileUpload(this);
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
 }

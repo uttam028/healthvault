@@ -143,7 +143,7 @@ public class FileUpload {
 		try {
 			String extension = FilenameUtils.getExtension(filePath);
 			System.out.println("file extension : "+ extension);
-			
+			return extension;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -197,10 +197,13 @@ public class FileUpload {
 	
 	private boolean makeSurePathExist(String directory){
 		if(directoryExist(directory)){
+			System.out.println("directory exist : "+ directory);
 			return true;
 		}else {
+			System.out.println("directory does not exist : "+ directory);
 			File file = new File(directory);
-			file.mkdirs();
+			boolean status = file.mkdirs();
+			System.out.println("directory creation result : "+ status);
 			return directoryExist(directory);
 		}
 	}
@@ -215,7 +218,7 @@ public class FileUpload {
 			int participationId = recording.getParticipationId();
 			String userId = recording.getUserId();
 			String studyId = recording.getStudyId();
-			
+			System.out.println("partid:"+ participationId + ", user id:"+ userId + ", study id:"+ studyId + ", subtest:" + recording.getSubtestId() + "file :"+ recording.getFileIdentifier());
 			try {
 				connection = DatabaseUtil.connectToDatabase();
 
@@ -223,7 +226,7 @@ public class FileUpload {
 				if(participationId<=0){
 					if(!ServiceUtil.isEmptyString(userId) && !ServiceUtil.isEmptyString(studyId)){
 						//get userid from participation
-						String query = "select participation_id from phr.participation where user_id=?, study_id=?";
+						String query = "select max(participation_id) from phr.participation where user_id=? and study_id=?";
 						preparedStatement = connection.prepareStatement(query);
 						preparedStatement.setString(1, userId);
 						preparedStatement.setString(2, studyId);
@@ -260,27 +263,31 @@ public class FileUpload {
 					return response;
 				}
 				
-				String query = "insert into phr.speech_recording (participation_id, subtest_id, start_time, end_time, upload_time, file_identifier)"
-						+ " values (?, ?, ?, ?, now(), ?)";
+				String query = "insert into phr.speech_recording (participation_id, subtest_id, start_time, end_time, upload_time, file_identifier, retake_counter)"
+						+ " values (?, ?, ?, ?, now(), ?, ?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1,  String.valueOf(participationId));
 				preparedStatement.setString(2, String.valueOf(recording.getSubtestId()));
-				preparedStatement.setString(3, validateTime(recording.getStartTime())? recording.getStartTime():"");
-				preparedStatement.setString(4, validateTime(recording.getEndTime())? recording.getEndTime(): "");
+				preparedStatement.setString(3, validateTime(recording.getStartTime())? recording.getStartTime():null);
+				preparedStatement.setString(4, validateTime(recording.getEndTime())? recording.getEndTime(): null);
 				preparedStatement.setString(5, recording.getFileIdentifier());
+				preparedStatement.setInt(6, recording.getRetakeCounter());
 				
 				preparedStatement.execute();
 				response.setCode(0);
 				
 				String directory = storage_location + userId + "/";
+				System.out.println("storage location:"+ directory);
 				if(makeSurePathExist(directory)){
 					String currentPath = upload_location + recording.getFileIdentifier() + ".wav";
 					String newPath = directory + recording.getFileIdentifier() + ".wav";
+					System.out.println("cur path:"+ currentPath + ", new path:"+ newPath);
 					FileUtils.moveFile(new File(currentPath), new File(newPath));
 				}
 				
 			} catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
 			}finally{
 				if (connection != null)
 					try {

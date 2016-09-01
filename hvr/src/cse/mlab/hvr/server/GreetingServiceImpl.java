@@ -34,6 +34,7 @@ import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.Enrollment;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.Participation;
+import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -790,6 +791,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("response of end participation: " + response.getCode());
 		long end = Calendar.getInstance().getTimeInMillis();
 		System.out.println("time diff end part call: " + (end - start));
+
+		return response;
+	}
+	
+	@Override
+	public Response relocateSoundFile(Recording recording) {
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/files/relocate";
+		WebResource service = client.resource(url);
+
+		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new Gson().toJson(recording));
+		String jsonResponse = clientResponse.getEntity(String.class);
+		Response response = new Gson().fromJson(jsonResponse, Response.class);
+		System.out.println("Client Response \n" + response.getCode());
+
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff relocate call: " + (end - start));
 
 		return response;
 	}

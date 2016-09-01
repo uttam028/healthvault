@@ -1,5 +1,7 @@
 package cse.mlab.hvr.client;
 
+import java.util.Date;
+
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Modal;
@@ -10,9 +12,11 @@ import org.gwtbootstrap3.client.ui.ProgressBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -25,6 +29,8 @@ import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
+import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 
 public class CustomPlayerManager extends Composite {
@@ -87,7 +93,9 @@ public class CustomPlayerManager extends Composite {
 					public void actionAfterFileUpload(
 							FileUploadEvent event) {
 						
-						uploadFile(studyId, String.valueOf(players[currentPlayerIndex].getSubtestId()), event.getFileName(), CustomPlayerManager.this);
+						uploadFile(studyId, String.valueOf(players[currentPlayerIndex].getSubtestId()), players[currentPlayerIndex].getHeader()
+								, players[currentPlayerIndex].getStartTime(), players[currentPlayerIndex].getEndTime()
+								, String .valueOf(players[currentPlayerIndex].getRetakeCounter()), CustomPlayerManager.this);
 						//players[currentPlayerIndex]
 						
 						if (speechTestRunning) {
@@ -256,13 +264,39 @@ public class CustomPlayerManager extends Composite {
 		}
 	}-*/;
 	
-	private void syncUploadInformation(String studyId, String subtestId, String fileIdentifier){
-		Window.alert("file identifier : "+ fileIdentifier);
+	private void syncUploadInformation(String studyId, String subtestId, String fileIdentifier, String startTime, String endTime, String retakeCounter){
+		Recording recording = new Recording();
+		recording.setUserId(MainPage.getLoggedinUser());
+		recording.setStudyId(studyId);
+		recording.setStartTime(startTime);
+		recording.setEndTime(endTime);
+		try {
+			recording.setRetakeCounter(Integer.parseInt(retakeCounter));			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		try {
+			recording.setSubtestId(Integer.parseInt(subtestId));			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		recording.setFileIdentifier(fileIdentifier);
+		greetingService.relocateSoundFile(recording, new AsyncCallback<Response>() {
+			
+			@Override
+			public void onSuccess(Response result) {
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
-	public native void uploadFile(String studyId, String subtestId, String name, CustomPlayerManager manager)/*-{
+	public native void uploadFile(String studyId, String subtestId, String name, String startTime, String endTime, String retakeCounter, CustomPlayerManager manager)/*-{
 		var blob = $wnd.FWRecorder.getBlob(name);
-		alert("size:" + blob.size + ", type:" + blob.type);
 		
 		var formData = new FormData();
 		var filename = name.replace(/\s/g, "") + ".wav";
@@ -294,15 +328,17 @@ public class CustomPlayerManager extends Composite {
 						//alert("let see if it calls before sending");
 					},
 					success : function(data, textStatus, myXhr){
-						alert("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
+						//alert("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
+						if(myXhr.status == 200){
+							manager.@cse.mlab.hvr.client.CustomPlayerManager::syncUploadInformation(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(studyId, subtestId, data, startTime, endTime, retakeCounter);							
+						}
 					},
 					error : function(myXhr, textStatus, errorThrown){
-						alert("text status:"+ textStatus + ", error : "+ errorThrown);
+						//alert("text status:"+ textStatus + ", error : "+ errorThrown);
 					}, // Form data
-					complete : function(myXhr, textStatus){
-						alert("text status :"+ textStatus + "study id:" + studyId + ", subtestId : "+ subtestId + ", name :"+ name);
-						manager.@cse.mlab.hvr.client.CustomPlayerManager::syncUploadInformation(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(studyId, subtestId, "test id");
-					},
+					//complete : function(myXhr, textStatus){
+						//alert("text status :"+ textStatus + "study id:" + studyId + ", subtestId : "+ subtestId + ", name :"+ name);
+					//},
 					data : formData,
 					// Options to tell jQuery not to process data or worry about
 					// content-type.

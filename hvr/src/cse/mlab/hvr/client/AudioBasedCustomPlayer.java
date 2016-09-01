@@ -1,5 +1,6 @@
 package cse.mlab.hvr.client;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 import org.gwtbootstrap3.client.ui.Button;
@@ -16,6 +17,7 @@ import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -52,6 +54,9 @@ public class AudioBasedCustomPlayer extends Composite {
 
 	private String header;
 	private int subtestId;
+	private String startTime;
+	private String endTime;
+	private int retakeCounter=0;
 	private AudioBasedFragment[] fragments;
 	private AudioBasedFragment currentFragment = new AudioBasedFragment();
 	private LinkedList<AudioBasedFragment> fragmentsLinkedList;
@@ -122,8 +127,33 @@ public class AudioBasedCustomPlayer extends Composite {
 		}
 	}
 	
+	protected String getHeader() {
+		return this.header;
+	}
 	protected int getSubtestId() {
 		return this.subtestId;
+	}
+	
+	protected int getRetakeCounter() {
+		return this.retakeCounter;
+	}
+	
+	protected String getStartTime() {
+		return this.startTime;
+	}
+	protected String getEndTime() {
+		return this.endTime;
+	}
+	
+	private String getCurrentTime(){
+		try {
+			Date date = new Date();
+			DateTimeFormat formatter = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
+			return formatter.format(date);			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "";
+		}
 	}
 
 	private void resetUI() {
@@ -140,6 +170,10 @@ public class AudioBasedCustomPlayer extends Composite {
 
 	@UiHandler("buttonStartTest")
 	void startSpeechTest(ClickEvent event) {
+		if(startTime == null){
+			startTime = getCurrentTime();
+		}
+		
 		userInterfaceInstructionPanel.clear();
 		speechTestText = new Label();
 		speechTestText.addStyleName("h1");
@@ -158,6 +192,7 @@ public class AudioBasedCustomPlayer extends Composite {
 		// activate next fragment
 		activateNextFragment();
 		startRecordingJS(this);
+		
 	}
 	
 	
@@ -334,19 +369,21 @@ public class AudioBasedCustomPlayer extends Composite {
 	@UiHandler("buttonUpload")
 	void uploadButtonClicked(ClickEvent event) {
 		//uploadRecording(this);
+		endTime = getCurrentTime();
 		playerLoaded = false;
-		Hvr.getEventBus().fireEvent(new FileUploadEvent(this.header));
+		Hvr.getEventBus().fireEvent(new FileUploadEvent());
 	}
 
 	@UiHandler("buttonStartOver")
 	void retakeSpeechTest(ClickEvent event) {
+		retakeCounter++;
+		startTime = null;
 		reloadFragments();
 		resetUI();
 	}
 
 	public static native void uploadRecording(AudioBasedCustomPlayer player)/*-{
 		var name = player.@cse.mlab.hvr.client.AudioBasedCustomPlayer::header;
-		console.log("will playback from dys test player ".concat(name));
 		$wnd.uploadTest(name);
 	}-*/;
 

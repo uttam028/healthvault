@@ -1,6 +1,12 @@
-package com.phr.util;
+package cse.mlab.hvr.shared.study;
 
-public class Recording {
+import java.io.Serializable;
+
+public class Recording implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int participationId;
 	private String userId;
