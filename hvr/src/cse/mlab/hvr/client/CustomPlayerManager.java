@@ -20,14 +20,18 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.TestInterceptState.InterceptState;
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
-import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
+import cse.mlab.hvr.client.events.FileUploadEvent;
+import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
 import cse.mlab.hvr.shared.study.SpeechTest;
 
 public class CustomPlayerManager extends Composite {
+
+	private final GreetingServiceAsync greetingService = GWT
+			.create(GreetingService.class);
+
 	static int currentPlayerIndex = 0;
 	static boolean speechTestRunning = false;
 	private Boolean testLoaded = false;
@@ -76,48 +80,32 @@ public class CustomPlayerManager extends Composite {
 		initializeExitModal(studyId);
 		
 
-		Hvr.getEventBus().addHandler(FileUploadSuccessEvent.TYPE,
-				new FileUploadSuccessEventHandler() {
+		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
+				new FileUploadEventHandler() {
 
 					@Override
 					public void actionAfterFileUpload(
-							FileUploadSuccessEvent event) {
-						// TODO Auto-generated method stub
+							FileUploadEvent event) {
+						
+						uploadFile(studyId, String.valueOf(players[currentPlayerIndex].getSubtestId()), event.getFileName(), CustomPlayerManager.this);
+						//players[currentPlayerIndex]
+						
 						if (speechTestRunning) {
 							currentPlayerIndex++;
 							updatePlayerProgress();
 							// Window.alert("I have got the fire of the event");
 							try {
 								if (currentPlayerIndex > 0) {
-									playerManagerPanel
-											.remove(players[currentPlayerIndex - 1]);
-									// dysarthriaRecorderPanel.remove(players[currentDysPlayerIndex
-									// - 1]);
+									playerManagerPanel.remove(players[currentPlayerIndex - 1]);
 								}
 							} catch (Exception e) {
 								// TODO: handle exception
-								Window.alert("Exception occurred at removing player, index:"
-										+ currentPlayerIndex
-										+ ", len:"
-										+ players.length);
+								Window.alert("Exception occurred at removing player, index:"+ currentPlayerIndex + ", len:" + players.length);
 							}
 
 							try {
 								if (currentPlayerIndex < players.length) {
-									playerManagerPanel
-											.add(players[currentPlayerIndex]);
-									// dysarthriaRecorderPanel.add(players[currentDysPlayerIndex]);
-									// String percentage = String
-									// .valueOf(((100.0 /
-									// players.length) *
-									// currentPlayerIndex));
-									// makeSplittedProgress(percentage);
-									/*
-									String elementId = "dystestprogress-"
-											+ currentPlayerIndex;
-									DOM.getElementById(elementId).setClassName(
-											"progtrckr-done");
-									*/
+									playerManagerPanel.add(players[currentPlayerIndex]);
 								} else {
 //									loadDysPlayerFromSaveState = false;
 									updateSpeechTestRunningStatus(false);
@@ -131,9 +119,7 @@ public class CustomPlayerManager extends Composite {
 								}
 
 							} catch (Exception e) {
-								Window.alert("Exception occurred, index:"
-										+ currentPlayerIndex + ", len:"
-										+ players.length);
+								Window.alert("Exception occurred, index:" + currentPlayerIndex + ", len:" + players.length);
 							}
 						}
 					}
@@ -268,7 +254,75 @@ public class CustomPlayerManager extends Composite {
 			console.log("mic accessible 2 :"
 					+ $wnd.FWRecorder.isMicrophoneAccessible());
 		}
-}-*/;
+	}-*/;
+	
+	private void syncUploadInformation(String studyId, String subtestId, String fileIdentifier){
+		Window.alert("file identifier : "+ fileIdentifier);
+	}
 
+	public native void uploadFile(String studyId, String subtestId, String name, CustomPlayerManager manager)/*-{
+		var blob = $wnd.FWRecorder.getBlob(name);
+		alert("size:" + blob.size + ", type:" + blob.type);
+		
+		var formData = new FormData();
+		var filename = name.replace(/\s/g, "") + ".wav";
+		formData.append("file", blob, filename);
+		$wnd.$.ajax({
+					// url:
+					// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
+					// //Server script to process data
+					url : 'http://10.32.10.188:8080/phrservice/files/upload/',
+					type : 'post',
+					contentType : 'multipart/form-data',
+					// content: 'text/html',
+					xhr : function() { // Custom XMLHttpRequest
+						var myXhr = $wnd.$.ajaxSettings.xhr();
+						if (myXhr.upload) { // Check if upload property exists
+							myXhr.upload.addEventListener('progress',
+									progressHandlingFunction, false); // For
+																		// handling
+																		// the
+																		// progress
+																		// of
+																		// the
+																		// upload
+						}
+						return myXhr;
+					},
+					// Ajax events
+					beforeSend : function(){
+						//alert("let see if it calls before sending");
+					},
+					success : function(data, textStatus, myXhr){
+						alert("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
+					},
+					error : function(myXhr, textStatus, errorThrown){
+						alert("text status:"+ textStatus + ", error : "+ errorThrown);
+					}, // Form data
+					complete : function(myXhr, textStatus){
+						alert("text status :"+ textStatus + "study id:" + studyId + ", subtestId : "+ subtestId + ", name :"+ name);
+						manager.@cse.mlab.hvr.client.CustomPlayerManager::syncUploadInformation(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(studyId, subtestId, "test id");
+					},
+					data : formData,
+					// Options to tell jQuery not to process data or worry about
+					// content-type.
+					cache : false,
+					contentType : false,
+					processData : false
+				});
+
+		//function beforeSendHandler() {
+			
+		//}
+
+		function progressHandlingFunction(e) {
+			// if(e.lengthComputable){
+			// $('progress').attr({value:e.loaded,max:e.total});
+			// console.log("progress : "+ {value:e.loaded,max:e.total});
+			//alert("making some progress");
+			// }
+		}
+		
+	}-*/;
 
 }

@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
-import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
+import cse.mlab.hvr.client.events.FileUploadEvent;
+import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.Fragment;
 import cse.mlab.hvr.client.fragments.MarkedTextFragment;
@@ -114,12 +114,12 @@ public class ConcussionTest extends Composite {
 				"videos/test01_003.mp4", textAboutTests[6]);
 		
 		
-		Hvr.getEventBus().addHandler(FileUploadSuccessEvent.TYPE,
-				new FileUploadSuccessEventHandler() {
+		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
+				new FileUploadEventHandler() {
 
 					@Override
 					public void actionAfterFileUpload(
-							FileUploadSuccessEvent event) {
+							FileUploadEvent event) {
 						// TODO Auto-generated method stub
 						if (conTestRunning) {
 							currentPlayerIndex++;

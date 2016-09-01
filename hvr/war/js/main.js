@@ -538,7 +538,7 @@ $(function() {
 		var blob = FWRecorder.getBlob(name);
 		console.log("size:" + blob.size + ", type:" + blob.type);
 		var formData = new FormData();
-		var filename = name.replace(/\s/g, "") + ".wav";
+		var filename = name.replace(/\s/g, "") + ".mp3";
 		formData.append("file", blob, filename);
 		$
 				.ajax({
@@ -565,12 +565,18 @@ $(function() {
 					},
 					// Ajax events
 					beforeSend : beforeSendHandler,
-					success : function() {
-						console.log("file upload done....");
+					success : function(data, textStatus, myXhr) {
+						//alert("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
+						if(myXhr.status == 200){
+							
+						}
 					},
-					error : function() {
-						console.log("text status : " + textStatus);
+					error : function(myXhr, textStatus, errorThrown) {
+						//alert("error : "+ xhr.status + ", " + textStatus + "," + errorThrown);
 					}, // Form data
+					complete : function(myXhr, textStatus){
+						alert("text status : "+ textStatus);
+					},
 					data : formData,
 					// Options to tell jQuery not to process data or worry about
 					// content-type.

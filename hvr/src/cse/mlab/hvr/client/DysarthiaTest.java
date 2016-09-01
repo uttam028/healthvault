@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
-import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
+import cse.mlab.hvr.client.events.FileUploadEvent;
+import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.Fragment;
 import cse.mlab.hvr.client.fragments.ImageFragment;
@@ -102,12 +102,12 @@ public class DysarthiaTest extends Composite {
 		players[4] = new CustomPlayer("Speech Test 5", fragments5,
 				"samples/con_test1.mp3", textAboutTest[4]);
 		
-		Hvr.getEventBus().addHandler(FileUploadSuccessEvent.TYPE,
-				new FileUploadSuccessEventHandler() {
+		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
+				new FileUploadEventHandler() {
 
 					@Override
 					public void actionAfterFileUpload(
-							FileUploadSuccessEvent event) {
+							FileUploadEvent event) {
 						// TODO Auto-generated method stub
 						if (dysTestRunning) {
 							currentDysPlayerIndex++;

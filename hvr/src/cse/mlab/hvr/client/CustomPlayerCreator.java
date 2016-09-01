@@ -26,7 +26,9 @@ public class CustomPlayerCreator {
 		} else {
 			ArrayList<AudioBasedCustomPlayer> customPlayers = new ArrayList<>();
 			for(int i=0;i<metadata.getSubTests().size();i++){
-				customPlayers.add(new AudioBasedCustomPlayer("Test "+ i, SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
+				customPlayers.add(new AudioBasedCustomPlayer("Test "+ i,
+						metadata.getSubTests().get(i).getSubtestId(),
+						SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
 			}
 			return customPlayers.toArray(new AudioBasedCustomPlayer[customPlayers.size()]);			
 		}

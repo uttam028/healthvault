@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
+import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.fragments.Fragment;
 import cse.mlab.hvr.client.fragments.ImageFragment;
 import cse.mlab.hvr.client.fragments.MarkedTextFragment;
@@ -422,7 +422,7 @@ public class CustomPlayer extends Composite {
 	@UiHandler("buttonUpload")
 	void uploadButtonClicked(ClickEvent event) {
 		uploadRecording(this);
-		Hvr.getEventBus().fireEvent(new FileUploadSuccessEvent());
+		Hvr.getEventBus().fireEvent(new FileUploadEvent(this.header));
 	}
 
 	public static native void uploadRecording(CustomPlayer player)/*-{

@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
+import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
 import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
 import cse.mlab.hvr.client.fragments.CommonInstructionFragment;
@@ -50,18 +50,21 @@ public class AudioBasedCustomPlayer extends Composite {
 	Label speechTestText;
 	Button buttonNext;
 
-	String header;
-	AudioBasedFragment[] fragments;
-	AudioBasedFragment currentFragment = new AudioBasedFragment();
-	LinkedList<AudioBasedFragment> fragmentsLinkedList;
+	private String header;
+	private int subtestId;
+	private AudioBasedFragment[] fragments;
+	private AudioBasedFragment currentFragment = new AudioBasedFragment();
+	private LinkedList<AudioBasedFragment> fragmentsLinkedList;
 
-	Sound sound;
+	private Sound sound;
 	// create sound controller
-	SoundController soundController = new SoundController();
-	SoundHandler soundHandler;
+	private SoundController soundController = new SoundController();
+	private SoundHandler soundHandler;
 
-	boolean playerLoaded = false;
-	Div timerDiv = new Div();
+	private boolean playerLoaded = false;
+	private Div timerDiv = new Div();
+	
+	private Timer timerForBlockingInfiniteRecording;
 
 	private static AudioBasedCustomPlayerUiBinder uiBinder = GWT
 			.create(AudioBasedCustomPlayerUiBinder.class);
@@ -70,9 +73,10 @@ public class AudioBasedCustomPlayer extends Composite {
 			UiBinder<Widget, AudioBasedCustomPlayer> {
 	}
 
-	public AudioBasedCustomPlayer(String header, AudioBasedFragment[] fragments) {
+	public AudioBasedCustomPlayer(String header, int subtestId, AudioBasedFragment[] fragments) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.header = header;
+		this.subtestId = subtestId;
 		this.fragments = fragments;
 		fragmentsLinkedList = new LinkedList<>();
 		reloadFragments();
@@ -117,6 +121,10 @@ public class AudioBasedCustomPlayer extends Composite {
 			playerLoaded = true;
 		}
 	}
+	
+	protected int getSubtestId() {
+		return this.subtestId;
+	}
 
 	private void resetUI() {
 		// hide upload and retake button
@@ -151,6 +159,7 @@ public class AudioBasedCustomPlayer extends Composite {
 		activateNextFragment();
 		startRecordingJS(this);
 	}
+	
 	
 	public native void startRecordingJS(AudioBasedCustomPlayer player)/*-{
 		var name = player.@cse.mlab.hvr.client.AudioBasedCustomPlayer::header;
@@ -324,9 +333,9 @@ public class AudioBasedCustomPlayer extends Composite {
 
 	@UiHandler("buttonUpload")
 	void uploadButtonClicked(ClickEvent event) {
-		uploadRecording(this);
+		//uploadRecording(this);
 		playerLoaded = false;
-		Hvr.getEventBus().fireEvent(new FileUploadSuccessEvent());
+		Hvr.getEventBus().fireEvent(new FileUploadEvent(this.header));
 	}
 
 	@UiHandler("buttonStartOver")

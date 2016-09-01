@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
-import cse.mlab.hvr.client.events.FileUploadSuccessEvent;
-import cse.mlab.hvr.client.events.FileUploadSuccessEventHandler;
+import cse.mlab.hvr.client.events.FileUploadEvent;
+import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
 import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
@@ -69,17 +69,17 @@ public class ConcussionTestNew extends Composite {
 	public ConcussionTestNew() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		players[0] = new AudioBasedCustomPlayer("Speech Test 1", fragments1);
-		players[1] = new AudioBasedCustomPlayer("Speech Test 2", fragments2);
-		players[2] = new AudioBasedCustomPlayer("Speech Test 3", fragments3);
+		players[0] = new AudioBasedCustomPlayer("Speech Test 1", 1,  fragments1);
+		players[1] = new AudioBasedCustomPlayer("Speech Test 2", 2, fragments2);
+		players[2] = new AudioBasedCustomPlayer("Speech Test 3", 3, fragments3);
 		
 		
-		Hvr.getEventBus().addHandler(FileUploadSuccessEvent.TYPE,
-				new FileUploadSuccessEventHandler() {
+		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
+				new FileUploadEventHandler() {
 
 					@Override
 					public void actionAfterFileUpload(
-							FileUploadSuccessEvent event) {
+							FileUploadEvent event) {
 						// TODO Auto-generated method stub
 						if (conTestRunning) {
 							currentPlayerIndex++;
