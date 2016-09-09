@@ -42,7 +42,9 @@ public class SpeechTestProcess extends Composite {
 			public void onSuccess(SpeechTest result) {
 				// TODO Auto-generated method stub
 				testPanel.clear();
-				testPanel.add(new CustomPlayerManager(studyId, result));
+				testPanel.add(CustomPlayerManager.getInstance());
+				//testPanel.add(new CustomPlayerManager(studyId, result));
+				CustomPlayerManager.getInstance().startPlayer(studyId, result);
 			}
 			@Override
 			public void onFailure(Throwable caught) {

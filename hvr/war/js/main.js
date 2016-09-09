@@ -11,8 +11,8 @@ $(function() {
 	// ---------------------------------------------------------------------------------------------
 
 	setUpFormOptions();
-	var appWidth = 1;
-	var appHeight = 1;
+	var appWidth = 0.01;
+	var appHeight = 0.01;
 	// var flashvars = {'upload_image': 'images/upload.png'};
 	var params = {};
 	var attributes = {

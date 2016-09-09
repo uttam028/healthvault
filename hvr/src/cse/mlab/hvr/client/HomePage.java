@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.study.MyStudyManager;
 import cse.mlab.hvr.client.study.StudyPreface;
+import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
@@ -57,9 +58,25 @@ public class HomePage extends Composite {
 		// TODO Auto-generated method stub
 		super.onLoad();
 		if (!homepageLoaded) {
+			
+			greetingService.profileUpdateRequired(this.userEmail, new AsyncCallback<Response>() {
+				@Override
+				public void onSuccess(Response result) {
+					if(result.getCode()==1){
+						displayMessage("Please update your profile", "profile/personal", true, "action_profile_personal");
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+
+			
 			openStudyPanel.clear();
-			greetingService
-					.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
+			greetingService.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
 						@Override
 						public void onSuccess(ArrayList<StudyPrefaceModel> result) {
 							openStudyPanel.clear();

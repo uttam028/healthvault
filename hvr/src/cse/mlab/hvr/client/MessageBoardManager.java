@@ -64,12 +64,10 @@ public class MessageBoardManager extends Composite {
 	
 	protected void removeSimilarMessages(String tagId) {
 		for(int i=0;i<verticalBoard.getWidgetCount();i++){
-			Window.alert("child count:"+verticalBoard.getWidgetCount());
 			try {
 				Widget child = verticalBoard.getWidget(i);
 				String panelTag = child.getElement().getId();
 				if(panelTag.equalsIgnoreCase(tagId)){
-					Window.alert("found similar tag");
 					child.removeFromParent();
 				}
 			} catch (Exception e) {
@@ -81,7 +79,6 @@ public class MessageBoardManager extends Composite {
 	protected void addMessageToBoard(String message, final String url, final Boolean isHistoryToken, String tagId) {
 		removeNotices();
 		if(tagId != null && !tagId.isEmpty()){
-			Window.alert("in tag remove section "+ tagId);
 			removeSimilarMessages(tagId);
 		}
 		/*

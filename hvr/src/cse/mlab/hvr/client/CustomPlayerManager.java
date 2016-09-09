@@ -1,7 +1,5 @@
 package cse.mlab.hvr.client;
 
-import java.util.Date;
-
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Modal;
@@ -12,7 +10,6 @@ import org.gwtbootstrap3.client.ui.ProgressBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -34,6 +31,8 @@ import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 
 public class CustomPlayerManager extends Composite {
+	
+
 
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
@@ -54,8 +53,9 @@ public class CustomPlayerManager extends Composite {
 
 	private static Modal exitModal;
 
-	final AudioBasedCustomPlayer[] players;
-	final SpeechTest metadata;
+	AudioBasedCustomPlayer[] players;
+	SpeechTest metadata;
+	String studyId;
 	
 	private static boolean microphoneAllowed  = false; 
 
@@ -65,27 +65,10 @@ public class CustomPlayerManager extends Composite {
 	interface CustomPlayerManagerUiBinder extends
 			UiBinder<Widget, CustomPlayerManager> {
 	}
+	private static CustomPlayerManager instance = null;
 
-	public CustomPlayerManager(final String studyId, final SpeechTest metadata) {
+	private CustomPlayerManager(){
 		initWidget(uiBinder.createAndBindUi(this));
-		players = CustomPlayerCreator.getInstance().getAudioBasedCustomPlayer(metadata);
-
-		this.metadata = metadata;
-		updateMicroPhoneAccessiblity();
-		if(microphoneAllowed){
-			allowedPlayerHeader.setVisible(true);
-			deniedPlayerHeader.setVisible(false);
-			initializePlayer();
-		} else {
-			allowedPlayerHeader.setVisible(false);
-			deniedPlayerHeader.setVisible(true);
-			permissionHeading.setText("Please allow permission to access your microphone.");
-			askForPermission(this);
-		}		
-		
-		initializeExitModal(studyId);
-		
-
 		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
 				new FileUploadEventHandler() {
 
@@ -105,6 +88,7 @@ public class CustomPlayerManager extends Composite {
 							try {
 								if (currentPlayerIndex > 0) {
 									playerManagerPanel.remove(players[currentPlayerIndex - 1]);
+									Window.alert("removed player :"+ (currentPlayerIndex-1) + ", study id:"+ studyId);
 								}
 							} catch (Exception e) {
 								// TODO: handle exception
@@ -114,16 +98,19 @@ public class CustomPlayerManager extends Composite {
 							try {
 								if (currentPlayerIndex < players.length) {
 									playerManagerPanel.add(players[currentPlayerIndex]);
+									Window.alert("add new player:"+ currentPlayerIndex);
 								} else {
 //									loadDysPlayerFromSaveState = false;
 									updateSpeechTestRunningStatus(false);
 									currentPlayerIndex = 0;
 									updatePlayerProgress();
+									Window.alert("set player to 0");
 									testLoaded = false;
+									CustomPlayerManager.this.removeFromParent();
+									
 									Hvr.getEventBus().fireEvent(
 											new SpeechTestEvent(
 													new SpeechTestState(studyId, metadata.getTestId(), TestState.COMPLETED)));
-									CustomPlayerManager.this.removeFromParent();
 								}
 
 							} catch (Exception e) {
@@ -132,6 +119,34 @@ public class CustomPlayerManager extends Composite {
 						}
 					}
 				});
+		
+	}
+
+	public static CustomPlayerManager getInstance() {
+		if (instance == null) {
+			instance = new CustomPlayerManager();
+		}
+		return instance;
+	}
+	
+	public void startPlayer(final String studyId, final SpeechTest metadata) {
+		this.players = CustomPlayerCreator.getInstance().getAudioBasedCustomPlayer(metadata);
+		this.studyId = studyId;
+		this.metadata = metadata;
+		updateMicroPhoneAccessiblity();
+		if(microphoneAllowed){
+			allowedPlayerHeader.setVisible(true);
+			deniedPlayerHeader.setVisible(false);
+			initializePlayer();
+		} else {
+			allowedPlayerHeader.setVisible(false);
+			deniedPlayerHeader.setVisible(true);
+			permissionHeading.setText("Please allow permission to access your microphone.");
+			askForPermission(this);
+		}		
+		
+		initializeExitModal(studyId);
+
 	}
 	
 	private void initializePlayer(){

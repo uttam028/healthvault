@@ -32,6 +32,7 @@ public interface GreetingServiceAsync {
 
 	void getProfile(String email, AsyncCallback<UserProfile> callback);
 	void saveProfile(UserProfile userProfile, AsyncCallback<Response> callback);
+	void profileUpdateRequired(String email, AsyncCallback<Response> callback);
 	
 	void saveMedication(Medication medication, AsyncCallback<Response> callback);
 	void updateMedication(Medication medication, AsyncCallback<Response> callback);

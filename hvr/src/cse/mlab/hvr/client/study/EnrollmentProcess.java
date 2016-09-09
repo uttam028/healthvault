@@ -135,7 +135,6 @@ public class EnrollmentProcess extends Composite {
 				// }
 				String studyId = EnrollmentProcess.this.enrollmentData.getStudyOverview().getId();
 				String email = MainPage.getLoggedinUser();
-				Window.alert("study id :" + studyId + ", user: "+ email);
 				greetingService.enrollToStudy(studyId, email, new AsyncCallback<Response>() {
 					
 					@Override

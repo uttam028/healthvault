@@ -238,6 +238,24 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
+	public Response profileUpdateRequired(String email) {
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + profilePath + "updaterequired/" +email;
+		WebResource service = client.resource(url);
+		String reply = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		System.out.println("update required response:"+ reply);
+		Response response = new Gson().fromJson(reply, Response.class);
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff update required call: " + (end - start));
+
+		return response;
+	}
+	
+	@Override
 	public UserProfile getProfile(String email) {
 
 		// TODO Auto-generated method stub
@@ -256,6 +274,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		return profile;
 	}
+	
 
 	@Override
 	public Response saveProfile(UserProfile userProfile) {
@@ -773,6 +792,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	
 	@Override
 	public Response endParticipation(String studyId, String email) {
+		
 		Participation participation = new Participation();
 		participation.setStudyId(Integer.parseInt(studyId));
 		participation.setUserId(email);

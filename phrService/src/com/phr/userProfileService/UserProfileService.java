@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBElement;
 
 import com.phr.util.DatabaseUtil;
 import com.phr.util.Response;
+import com.phr.util.ServiceUtil;
 import com.phr.util.UserProfile;
 
 @Path("/profile")
@@ -160,5 +161,60 @@ public class UserProfileService {
 		}
 		return response;
 	}
+	
+	
+	@Path("updaterequired/{email}")
+	@GET
+	@Produces("application/json")
+	public Response updateRequired(@PathParam("email") String email) {
+
+		Response response = new Response();
+		try {
+
+			connection = DatabaseUtil.connectToDatabase();
+			try {
+
+				statement = connection.createStatement();
+				preparedStatement = connection
+						.prepareStatement("select * from phr.user_profile where email=?");
+
+				preparedStatement.setString(1, email);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					String firstName = resultSet.getString("first_name");
+					String lastName = resultSet.getString("last_name");
+					String gender = resultSet.getString("gender");
+					int birthYear = 0;
+					try {
+						birthYear = resultSet.getInt("birth_year");
+						birthYear = birthYear > 1900 ? birthYear : 0;
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					if(ServiceUtil.isEmptyString(firstName) || ServiceUtil.isEmptyString(lastName) || ServiceUtil.isEmptyString(gender) || birthYear<=0){
+						response.setCode(1);
+					}else {
+						response.setCode(0);
+					}
+					
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+
+		return response;
+	}
+
+	
 
 }

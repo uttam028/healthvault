@@ -21,11 +21,14 @@
 		.margin_bottom{
 		margin-bottom: 10%;
 		}
+		.shadow{
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
 
 
 	</ui:style>
 
-	<g:HTMLPanel addStyleNames=" {style.margin_bottom} panel_border {style.text_left} ">
+	<g:HTMLPanel addStyleNames=" {style.margin_bottom} panel_border {style.text_left} {style.shadow}">
 		<g:HTMLPanel ui:field="headerPanel" addStyleNames="panel_border">
 			<b:Heading ui:field="studyHeading" size="H4" addStyleNames="col-lg-offset-1"></b:Heading>
 		</g:HTMLPanel>

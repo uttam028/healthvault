@@ -15,9 +15,19 @@ import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.AudioElement;
+import com.google.gwt.event.dom.client.CanPlayThroughEvent;
+import com.google.gwt.event.dom.client.CanPlayThroughHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.EndedEvent;
+import com.google.gwt.event.dom.client.EndedHandler;
+import com.google.gwt.event.dom.client.LoadedMetadataEvent;
+import com.google.gwt.event.dom.client.LoadedMetadataHandler;
+import com.google.gwt.event.dom.client.ProgressEvent;
+import com.google.gwt.event.dom.client.ProgressHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.media.client.Audio;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -70,6 +80,7 @@ public class AudioBasedCustomPlayer extends Composite {
 	private Div timerDiv = new Div();
 	
 	private Timer timerForBlockingInfiniteRecording;
+	
 
 	private static AudioBasedCustomPlayerUiBinder uiBinder = GWT
 			.create(AudioBasedCustomPlayerUiBinder.class);
@@ -217,7 +228,7 @@ public class AudioBasedCustomPlayer extends Composite {
 		if (fragmentsLinkedList.isEmpty()) {
 			// no more fragments, stop recording and update to next player
 			commonInstructionText
-					.setText("Click upload button to send your recording to server. You can also retake the test.");
+					.setText("Retake the test if you could not follow the instructions properly, otherwise continue.");
 			// show upload and retake button
 			buttonStartOver.setVisible(true);
 			buttonUpload.setVisible(true);
@@ -313,9 +324,16 @@ public class AudioBasedCustomPlayer extends Composite {
 				activateNextFragment();
 			}
 		} else {
+			
+			/*
 			// create a sound
-			sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
-					soundPath);
+			//if(Hvr.getBrowserName().toLowerCase().contains("firefox")){
+				//sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_BASIC,
+						//soundPath);								
+			//}else {
+				sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
+						soundPath);								
+			//}
 			if (soundHandler != null) {
 				sound.removeEventHandler(soundHandler);
 			}
@@ -355,6 +373,42 @@ public class AudioBasedCustomPlayer extends Composite {
 				}
 			};
 			sound.addEventHandler(soundHandler);
+			*/
+			
+			final Audio audio = Audio.createIfSupported();
+			audio.setSrc(soundPath);
+			final AudioElement element = audio.getAudioElement();
+			//Window.alert("audio supported:"+ Audio.isSupported()+ ", duration:"+ audio.getDuration() + ",pr" + audio.getPlaybackRate() + ",inittime:"+ audio.getInitialTime());
+			muteRecorder();
+			//audio.setVolume(100);
+			//audio.play();
+			element.play();
+			
+			//Window.alert("duration just before:"+ element.getDuration());
+			Timer toLoad = new Timer(){
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Timer timer = new Timer() {
+
+						@Override
+						public void run() {
+							//Window.alert("completed sound:"+ audio.getDuration());
+							resumeRecorder();
+							if (currentFragment instanceof CommonInstructionFragment) {
+								activateNextFragment();
+							} else if (currentFragment instanceof TimerControlledTextFragment) {
+								animateTimer();
+							} else if (currentFragment instanceof TimerControlledImageFragment) {
+								animateTimer();
+							}
+						}
+					};
+					timer.schedule((int) (element.getDuration()*1000));
+					
+				}
+			};
+			toLoad.schedule(300);
 		}
 	}
 	
@@ -386,5 +440,8 @@ public class AudioBasedCustomPlayer extends Composite {
 		var name = player.@cse.mlab.hvr.client.AudioBasedCustomPlayer::header;
 		$wnd.uploadTest(name);
 	}-*/;
+	
+	
+
 
 }

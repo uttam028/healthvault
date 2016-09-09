@@ -4,16 +4,17 @@
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	<ui:style>
 		.important {
-		font-weight: bold;
+			font-weight: bold;
 		}
 		.left_align{
-		float:left;
+			float:left;
 		}
 		.left_text{
-		text-align:left;
-		font-family: "Times
-		New Roman", Times,
-		serif;
+			text-align:left;
+			font-family: "Times New Roman", Times, serif;
+		}
+		.right_margin{
+			margin-right: 40px;
 		}
 
 	</ui:style>
@@ -21,49 +22,63 @@
 		<h4>Medical Information</h4>
 		<b:Panel>
 			<b:PanelHeader>
-				<b:Heading size="H3" text="History" addStyleNames="{style.left_text}" />
+				<!--b:Heading size="H3" text="History" addStyleNames="{style.left_text}" /-->
 			</b:PanelHeader>
 			<b:PanelBody>
 				<h:Br />
-				<g:VerticalPanel addStyleNames="col-lg-10">
-					<b:FormLabel for="formSpeechDis" addStyleNames="{style.left_align}">Have you
-						been diagnosed with a speech/language disorder?</b:FormLabel>
-					<g:HorizontalPanel addStyleNames="{style.left_align}">
-						<b:InlineRadio name="radio1" formValue="value1"
-							text="Yes" />
-						<b:InlineRadio name="radio1" formValue="value2"
-							text="No" />
-					</g:HorizontalPanel>
-				</g:VerticalPanel>
+				
+				<b:Row>
+				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">1. Have you been diagnosed with a speech/language disorder?</g:Label>
+				</b:Row>
+				<b:Row>
+				    <g:HTMLPanel addStyleNames="{style.left_align} col-lg-offset-2">
+						<b:InlineRadio text="Yes" name="radio1" formValue="value1"/>
+						<b:InlineRadio text="No" name="radio1" formValue="value2"/>			    
+				        				        
+				    </g:HTMLPanel>
+				</b:Row>
 				<h:Br />
 				<h:Br />
-				<h:Br />
-
-				<b:FormGroup>
-					<b:FormLabel for="formSpeechDis" addStyleNames="{style.left_align}">Have you
-						been diagnosed with a neurological disorder?</b:FormLabel>
-					<g:HorizontalPanel addStyleNames="col-lg-offset-1 col-lg-9 {style.left_align}">
-						<b:CheckBox text="ALS" />
-						<b:CheckBox text="Parkinsons" />
-						<b:CheckBox text="Huntington" />
-						<b:CheckBox text="Stroke" />
-
-					</g:HorizontalPanel>
-					<g:HorizontalPanel addStyleNames="col-lg-offset-1 col-lg-9 {style.left_align}">
-						<b:CheckBox text="Alzheimer" />
-						<b:CheckBox text="Vascular Disease" />
-						<b:CheckBox text="TBI" />
-						<b:CheckBox text="Multiple Sclerosis" />
+				<b:Row>
+				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">2. Have you been diagnosed with any of the following neurological disorder?</g:Label>
+				</b:Row>
+				<b:Row>
+					<g:HorizontalPanel addStyleNames="col-lg-offset-2 {style.left_align}">
+						<b:CheckBox text="ALS" addStyleNames="{style.right_margin}" ui:field="checkboxAls"/>
+						<b:CheckBox text="Parkinsons" addStyleNames="{style.right_margin}" ui:field="checkboxParkinson"/>
+						<b:CheckBox text="Huntington" addStyleNames="{style.right_margin}" ui:field="checkboxHuntington"/>
+						<b:CheckBox text="Stroke" addStyleNames="{style.right_margin}" />
 
 					</g:HorizontalPanel>
-				</b:FormGroup>
+				</b:Row>
+				<b:Row>
+					<g:HorizontalPanel addStyleNames="col-lg-offset-2 {style.left_align}">
+						<b:CheckBox text="Alzheimer" addStyleNames="{style.right_margin}"/>
+						<b:CheckBox text="Vascular Disease" addStyleNames="{style.right_margin}"/>
+						<b:CheckBox text="TBI" addStyleNames="{style.right_margin}"/>
+						<b:CheckBox text="Multiple Sclerosis" addStyleNames="{style.right_margin}"/>
+
+					</g:HorizontalPanel>
+				</b:Row>
+								
 				<h:Br />
 				<h:Br />
+				<b:Row>
+				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">3. Are you currently taking any medication?</g:Label>
+				</b:Row>
+				<b:Row>
+				    <g:HTMLPanel addStyleNames="{style.left_align} col-lg-offset-2">
+						<b:InlineRadio text="Yes" name="radio2" formValue="value1"/>
+						<b:InlineRadio text="No" name="radio2" formValue="value2"/>			            
+				    </g:HTMLPanel>
+				</b:Row>
 				<h:Br />
 				<h:Br />
-				<b:FormGroup addStyleNames="col-lg-8">
-					<b:Button addStyleNames="{style.left_align}" type="SUCCESS">Update</b:Button>
-				</b:FormGroup>
+				<h:Hr/>
+				<b:Row>
+					<b:Button addStyleNames="{style.left_align} col-lg-offset-1" type="SUCCESS" ui:field="buttonUpdate">Update</b:Button>
+					<b:Button addStyleNames="{style.left_align} col-lg-offset-1" type="DANGER" ui:field="buttonCancel">Cancel</b:Button>				    
+				</b:Row>
 
 			</b:PanelBody>
 		</b:Panel>

@@ -20,7 +20,7 @@
 			</b:Progress>	        	        
 	    </g:HTMLPanel>
 	    <g:HTMLPanel ui:field="deniedPlayerHeader">
-	        <br /><br /><br /><br /><br />
+	        <br /><br /><br /><br />
 	        <b:Heading size="H4" ui:field="permissionHeading"></b:Heading>
 	        <!--br /><br />
 	        <b:Button ui:field="restartButton" type="DANGER" size="LARGE">Start Again</b:Button-->

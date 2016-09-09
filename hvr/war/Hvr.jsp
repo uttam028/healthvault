@@ -41,14 +41,14 @@
   <script type="text/javascript" src="js/ConcatenateBlob.js"></script-->
   
   <!--http://tinytools.codesells.com/ProgressBar -->
-  <script type="text/javascript" src="js/tinytools.progressbar.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/tinytools.progressbar.min.css">
+  <!--script type="text/javascript" src="js/tinytools.progressbar.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/tinytools.progressbar.min.css"-->
   
   <!--  https://github.com/arthurgouveia/prettyCheckable-->
-  	<link rel="stylesheet" type="text/css" href="css/prettyCheckable.css">
-	<script type="text/javascript" src="js/prettyCheckable.min.js"></script>
+  	<!--link rel="stylesheet" type="text/css" href="css/prettyCheckable.css">
+	<script type="text/javascript" src="js/prettyCheckable.min.js"></script-->
   
-  <script src="//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js" type="text/javascript"></script>
+  <!-- script src="//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js" type="text/javascript"></script-->
   
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="Medications.css">

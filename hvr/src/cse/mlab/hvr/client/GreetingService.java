@@ -36,6 +36,7 @@ public interface GreetingService extends RemoteService {
 	  
 	  UserProfile getProfile(String email);
 	  Response saveProfile(UserProfile userProfile);
+	  Response profileUpdateRequired(String email);
 	  
 	  Response saveMedication(Medication medication);
 	  Response updateMedication(Medication medication);
