@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"  xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	.left_text{
+		text-align:left;
+		font-family: "Times New Roman", Times, serif;
+	}
+	
+	</ui:style>
+	<g:HTMLPanel>
+		<g:Label ui:field="testlabel">this is a test</g:Label>
+		<b:Column size="MD_4">
+		    <h:Br/><h:Br/>
+			<g:HTMLPanel addStyleNames="col-lg-offset-3 col-lg-7">
+				<b:Panel addStyleNames="{style.left_text}" ui:field="activeStudiesPanel">
+					<b:PanelHeader>
+						<b:Heading size="H4" text="Active Studies"/>
+					</b:PanelHeader>
+					<!--b:LinkedGroupItem text="Notre Dame parkinson study (Aug, 2016)" color="BLUE" ui:field="personalInfoLink"/-->
+					<!--b:LinkedGroupItem text="Medical" color="BLUE" ui:field="medicalInfoLink"/>
+					<b:LinkedGroupItem text="Account" color="BLUE" ui:field="accountInfoLink"/-->
+
+				</b:Panel>
+
+			</g:HTMLPanel>
+			<h:Br/><h:Br/><h:Br/><h:Br/><h:Br/><h:Br/><h:Br/><h:Br/><h:Br/>
+			<g:HTMLPanel addStyleNames="col-lg-offset-3 col-lg-7">
+				<b:Panel addStyleNames="{style.left_text}" ui:field="archiveStudiesPanel">
+					<b:PanelHeader>
+						<b:Heading size="H4" text="Archive Studies"/>
+					</b:PanelHeader>
+					<!--b:LinkedGroupItem text="Notre Dame parkinson study (May, 2016)" color="BLUE"/-->
+
+				</b:Panel>
+
+			</g:HTMLPanel>
+			
+		</b:Column>
+		<b:Column size="MD_8">
+		    <g:HTMLPanel ui:field="adminContentPanel" addStyleNames="col-lg-10">
+		        
+		    </g:HTMLPanel>
+		</b:Column>
+	</g:HTMLPanel>
+</ui:UiBinder> 
