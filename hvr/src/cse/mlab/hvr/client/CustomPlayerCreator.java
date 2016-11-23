@@ -2,9 +2,7 @@ package cse.mlab.hvr.client;
 
 import java.util.ArrayList;
 
-import sun.net.www.MeteredStream;
 import cse.mlab.hvr.shared.study.SpeechTest;
-import cse.mlab.hvr.shared.study.SpeechTestMetadata;
 
 public class CustomPlayerCreator {
 	private static CustomPlayerCreator instance = null;
@@ -26,7 +24,7 @@ public class CustomPlayerCreator {
 		} else {
 			ArrayList<AudioBasedCustomPlayer> customPlayers = new ArrayList<>();
 			for(int i=0;i<metadata.getSubTests().size();i++){
-				customPlayers.add(new AudioBasedCustomPlayer("Test "+ i,
+				customPlayers.add(new AudioBasedCustomPlayer("Step "+ (i+1) + "     ( Out of " + metadata.getSubTests().size() +" )",
 						metadata.getSubTests().get(i).getSubtestId(),
 						SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
 			}

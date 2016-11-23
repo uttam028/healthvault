@@ -16,20 +16,20 @@
 	</ui:style>
 	<g:HTMLPanel ui:field="homepagePanel">
 		<b:Row>
-			<b:Column size="MD_7">
+			<b:Column size="MD_8">
 			    <h:Br/>
 			    <g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" ui:field="messagePanel"></g:HTMLPanel>
 			    <h:Br/><h:Br/>
 				<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-9" ui:field="dashboardPanel">
 				</g:HTMLPanel>
 			</b:Column>
-			<b:Column size="MD_5">
+			<b:Column size="MD_4">
 			    <h:Br/><h:Br/><h:Br/><h:Br/><h:Br/>
-				<g:HTMLPanel  addStyleNames="col-lg-offset-1">
+				<g:HTMLPanel  addStyleNames="col-lg-offset-1" ui:field="openStudyManagerPanel">
 				    <!--g:Label addStyleNames="{style.text_left}">Open Studies</g:Label-->
 				    <h3>Studies open for enrollment</h3>
 				    <hr/>
-				    <g:HTMLPanel ui:field="openStudyPanel"></g:HTMLPanel>				    
+				    <g:HTMLPanel ui:field="openStudyPanel" addStyleNames="col-lg-offset-1 col-lg-10"></g:HTMLPanel>				    
 				</g:HTMLPanel>
 				</b:Column>
 		</b:Row>

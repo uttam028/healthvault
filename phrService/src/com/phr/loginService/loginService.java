@@ -8,20 +8,15 @@ import java.sql.Statement;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
-import org.json.JSONObject;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.phr.util.DatabaseUtil;
+import com.phr.util.Md5Utils;
 import com.phr.util.Response;
 import com.phr.util.ServiceUtil;
 
@@ -98,15 +93,16 @@ public class loginService {
 		return response;
 	}
 
-	@Path("resetpassword/{email}")
-	@GET
+	@Path("resetpassword")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({ MediaType.APPLICATION_JSON })
 	/**
 	 * 
 	 * @param email
 	 * @return code=0: success, code=-1:failure, code=1: user doesn't exist
 	 */
-	public Response resetPassword(@PathParam("email") String email) {
+	public Response resetPassword(final ChangeAuth auth) {
 		Response response = new Response();
 		try {
 			connection = DatabaseUtil.connectToDatabase();
@@ -114,11 +110,29 @@ public class loginService {
 
 			preparedStatement = connection
 					.prepareStatement("select email from phr.users where state=1 and email=?");
-			preparedStatement.setString(1, email);
+			preparedStatement.setString(1, auth.getEmail());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				String newPass = ServiceUtil.randomString(12);
+				String encryptedNewpass = Md5Utils.getMD5String(newPass);
+				preparedStatement = connection.prepareStatement("update phr.users set password= ? where email=?");
+				preparedStatement.setString(1, encryptedNewpass);
+				preparedStatement.setString(2, auth.getEmail());
+				preparedStatement.executeUpdate();
+				
+				try {
+					String subject = "Reset Speech Marker Password";
+					String emailBody = 	"\n\nYour password has been reset, and use new one to login. Please change your password from the profile section.\n"
+										+ "\n New Password:		" + newPass;
 
+					ServiceUtil.sendEmail(auth.getEmail(), subject, emailBody, "");
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+				response.setCode(0);
+				
 			} else {
 				response.setCode(1);
 				response.setMessage("User does not exist");

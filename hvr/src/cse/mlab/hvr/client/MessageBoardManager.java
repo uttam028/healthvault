@@ -5,10 +5,8 @@ import org.gwtbootstrap3.client.ui.Column;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MessageBoardManager extends Composite {
@@ -76,7 +74,7 @@ public class MessageBoardManager extends Composite {
 		}		
 	}
 	
-	protected void addMessageToBoard(String message, final String url, final Boolean isHistoryToken, String tagId) {
+	protected void addMessageToBoard(String message, final String url, final Boolean isHistoryToken, String tagId, String buttonText) {
 		removeNotices();
 		if(tagId != null && !tagId.isEmpty()){
 			removeSimilarMessages(tagId);
@@ -142,7 +140,7 @@ public class MessageBoardManager extends Composite {
 		//panel.add(new Br());
 		 *
 		 */
-		MessagePanel messagePanel = new MessagePanel(message, url, isHistoryToken, tagId);
+		MessagePanel messagePanel = new MessagePanel(message, url, isHistoryToken, tagId, buttonText);
 		verticalBoard.insert(messagePanel, 0);
 	}
 }

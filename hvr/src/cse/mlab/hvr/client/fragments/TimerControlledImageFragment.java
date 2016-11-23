@@ -19,4 +19,9 @@ public class TimerControlledImageFragment extends AudioBasedFragment {
 	public String getImageURL() {
 		return imageURL;
 	}
+	@Override
+	public boolean hasText() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

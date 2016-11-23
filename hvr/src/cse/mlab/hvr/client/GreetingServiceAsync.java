@@ -10,6 +10,7 @@ import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
@@ -29,6 +30,7 @@ public interface GreetingServiceAsync {
 	void resetPassword(String email, AsyncCallback<Response> callback);
 	void changePassword(String email, String oldPassword, String newPassword, AsyncCallback<Response> callback);
 	void checkEmailAvailability(String email, AsyncCallback<String> callback);
+	void getRole(String email, AsyncCallback<UserRole> asyncCallback);
 
 	void getProfile(String email, AsyncCallback<UserProfile> callback);
 	void saveProfile(UserProfile userProfile, AsyncCallback<Response> callback);

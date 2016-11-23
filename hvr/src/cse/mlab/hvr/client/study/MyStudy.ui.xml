@@ -21,19 +21,25 @@
 		.margin_bottom{
 		margin-bottom: 10%;
 		}
+		.margin_right{
+			margin-right: 5%
+		}
 		.shadow{
 			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+		.status_back {
+			background-color: #9fc69f;
 		}
 
 
 	</ui:style>
 
 	<g:HTMLPanel addStyleNames=" {style.margin_bottom} panel_border {style.text_left} {style.shadow}">
-		<g:HTMLPanel ui:field="headerPanel" addStyleNames="panel_border">
-			<b:Heading ui:field="studyHeading" size="H4" addStyleNames="col-lg-offset-1"></b:Heading>
+		<g:HTMLPanel ui:field="headerPanel">
+			<b:Heading ui:field="studyHeading" size="H3" addStyleNames="col-lg-offset-1 {style.margin_right}"></b:Heading>
 		</g:HTMLPanel>
 		<g:HTMLPanel addStyleNames="{style.text_center}">
-			<b:Column size="MD_6" addStyleNames="back_color panel_border"
+			<b:Column size="MD_6" addStyleNames="{style.status_back} panel_border"
 				ui:field="statusColumn">
 				<g:HTMLPanel ui:field="statusPanel">
 					<b:Button type="LINK" size="LARGE">Status</b:Button>
@@ -49,13 +55,15 @@
 			<br />
 		</g:HTMLPanel>
 		<g:HTMLPanel ui:field="aboutContentPanel">
+			<br/>
 		</g:HTMLPanel>
 		<hr />
 		<g:HTMLPanel>
 			<b:Button ui:field="participateButton" type="SUCCESS"
-				addStyleNames="col-lg-offset-5">Participate</b:Button>
+				addStyleNames="col-lg-offset-5" size="LARGE">Participate</b:Button>
 			<br/>
 			<br/>
 		</g:HTMLPanel>
 	</g:HTMLPanel>
+	
 </ui:UiBinder> 

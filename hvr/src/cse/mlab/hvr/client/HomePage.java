@@ -63,7 +63,7 @@ public class HomePage extends Composite {
 				@Override
 				public void onSuccess(Response result) {
 					if(result.getCode()==1){
-						displayMessage("Please update your profile", "profile/personal", true, "action_profile_personal");
+						displayMessage("Please update your profile", "profile/personal", true, "action_profile_personal", "Update");
 					}
 				}
 
@@ -117,8 +117,8 @@ public class HomePage extends Composite {
 		}
 	}
 	
-	protected void displayMessage(String message, String url, boolean isHistoryToken, String tag) {
-		messageBoardManager.addMessageToBoard(message, url, isHistoryToken, tag);
+	protected void displayMessage(String message, String url, boolean isHistoryToken, String tag, String buttonText) {
+		messageBoardManager.addMessageToBoard(message, url, isHistoryToken, tag, buttonText);
 	}
 	
 	protected void removeFromOpenStudies(String studyId){

@@ -24,7 +24,7 @@ public class FragmentFactory {
 		} else if (testFragment.isTimerAvailable() && !isEmpty(testFragment.getImageFileName())) {
 			return new TimerControlledImageFragment(testFragment.getAudioFileName(), testFragment.getImageFileName(), testFragment.getDurationOfTimer());
 		} else if(testFragment.isTimerAvailable()){
-			return new TimerControlledTextFragment(testFragment.getAudioFileName(), testFragment.getDurationOfTimer());
+			return new TimerControlledTextFragment(testFragment.getAudioFileName(), testFragment.getText(), testFragment.getDurationOfTimer());
 		} else {
 			Window.alert("it should not be.....");
 			return null;

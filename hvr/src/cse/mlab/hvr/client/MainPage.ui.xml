@@ -28,10 +28,8 @@
 				<b:Column size="MD_8">
 					<g:Label addStyleNames="{style.banner_white}">Speech Marker
 						Initiative</g:Label>
-					<h:Paragraph addStyleNames="banner_text_color">A joint project of the
- 						University of Notre
-						Dame and the
-						National Science Foundation</h:Paragraph> 
+					<h:Paragraph addStyleNames="banner_text_color">A research project run by University of Notre Dame and funded by 
+					National Science Foundation</h:Paragraph> 
 				</b:Column>
 				<b:Column size="MD_2">
 					<b:Image url="template/images/nsfcrest.png" addStyleNames="{style.half}"></b:Image>
@@ -40,9 +38,12 @@
 		</g:HTMLPanel>
 		<b:Navbar addStyleNames="container-fluid">
 			<b:NavbarCollapse>
-				<b:NavbarNav >
+				<b:NavbarNav ui:field="navbar">
 					<b:AnchorListItem ui:field="homeAnchor"  pull="LEFT">Home</b:AnchorListItem>
 					<b:AnchorListItem ui:field="profileAnchor">Profile</b:AnchorListItem>
+					<b:AnchorListItem ui:field="adminAnchor">Admin</b:AnchorListItem>
+					<b:AnchorListItem ui:field="researcherAnchor">Research</b:AnchorListItem>
+					<b:AnchorListItem ui:field="contactAnchor">Contact</b:AnchorListItem>
 				</b:NavbarNav>
 				
 				<b:NavbarNav pull="RIGHT">

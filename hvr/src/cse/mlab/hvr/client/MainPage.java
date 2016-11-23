@@ -1,6 +1,7 @@
 package cse.mlab.hvr.client;
 
 import org.gwtbootstrap3.client.ui.AnchorListItem;
+import org.gwtbootstrap3.client.ui.NavbarNav;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,7 +14,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.client.EnrollmentState.EnrollState;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
@@ -26,7 +26,7 @@ import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.study.EnrollmentProcess;
 import cse.mlab.hvr.client.study.SpeechTestProcess;
 import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.study.StudyOverview;
+import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class MainPage extends Composite {
@@ -35,6 +35,9 @@ public class MainPage extends Composite {
 			.create(GreetingService.class);
 
 	@UiField
+	NavbarNav navbar;
+	
+	@UiField
 	AnchorListItem homeAnchor, profileAnchor, signoutAnchor;
 
 	@UiField
@@ -42,13 +45,18 @@ public class MainPage extends Composite {
 
 	@UiField
 	HTMLPanel mainpagePanel;
+	
+	@UiField
+	AnchorListItem adminAnchor, researcherAnchor, contactAnchor;
 
 	Hvr application;
 
 	// ProfilePageOld profilePage;
 	// VoicePage voicePage;
-	HomePage homePage;
-	ProfilePage profilePage;
+	private HomePage homePage;
+	private ProfilePage profilePage;
+	private ContactPage contactPage;
+	private AdminHome adminPage;
 
 	private static String userId;
 	private String sessionId;
@@ -121,7 +129,7 @@ public class MainPage extends Composite {
 												homePage.displayMessage(
 														"Unable to load the study. Please try later.",
 														"", false,
-														"message_error");
+														"message_error", "");
 											}
 										}
 
@@ -129,7 +137,7 @@ public class MainPage extends Composite {
 										public void onFailure(Throwable caught) {
 											homePage.displayMessage(
 													"Unable to load the study. Please try later.",
-													"", false, "message_error");
+													"", false, "message_error", "");
 										}
 									});
 
@@ -138,7 +146,7 @@ public class MainPage extends Composite {
 							homePage.displayMessage(
 									"Thank you for your participation to the study. Please fill up the survey to help us to improve your experience.",
 									surveyUrl, false,
-									"message_participation_completed");
+									"message_participation_completed", "Go to Survey");
 							homePage.updateParticipation(event.getTestState()
 									.getStudyId());
 							loadHomePage();
@@ -157,25 +165,49 @@ public class MainPage extends Composite {
 							homePage.displayMessage(
 									"Please fill up the survey to help us to improve your experience.",
 									surveyUrl, false,
-									"message_participation_incomplete");
+									"message_participation_incomplete", "Go to Survey");
 							loadHomePage();
 						}
 					}
 				});
 		// homeAnchorClicked(null);
+		greetingService.getRole(userId, new AsyncCallback<UserRole>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				contactAnchor.setVisible(true);
+			}
+			@Override
+			public void onSuccess(UserRole result) {
+				// TODO Auto-generated method stub
+				if(result.isAdminRole()){
+					adminAnchor.setVisible(true);
+				}else {
+					adminAnchor.setVisible(false);
+				}
+				if(result.isResearcherRole()){
+					researcherAnchor.setVisible(true);
+				}else {
+					researcherAnchor.setVisible(false);
+				}
+				
+				contactAnchor.setVisible(true);
+			}
+		});
+		
 		loadHomePage();
 	}
 
 	protected void onLoad() {
 		// homeAnchorClicked(null);
-
+		
 	}
 
 	@UiHandler("homeAnchor")
 	void homeAnchorClicked(ClickEvent event) {
 
 		if (Hvr.isSpeechTestRunning()) {
-			interceptNavigation("logout");
+			interceptNavigation("home");
 		} else {
 
 			if (History.getToken().equalsIgnoreCase("home")) {
@@ -193,7 +225,7 @@ public class MainPage extends Composite {
 		} else if (event.getState().getState() == EnrollState.FAILURE) {
 			homePage.displayMessage(
 					"Sorry, your enrollment to the study is not successful. Please try later.",
-					"", false, "message_enrollment_failure");
+					"", false, "message_enrollment_failure", "");
 			loadHomePage();
 		} else if (event.getState().getState() == EnrollState.SUCCESS) {
 			homePage.removeFromOpenStudies(event.getState().getStudy()
@@ -204,14 +236,13 @@ public class MainPage extends Composite {
 							+ event.getState().getStudy().getStudyOverview()
 									.getName()
 							+ ". Please participate to the study from 'My Studies' section.",
-					"", false, "message_enrollment_success");
+					"", false, "message_enrollment_success", "");
 			loadHomePage();
 		}
 	}
 
 	protected void loadHomePage() {
-		homeAnchor.setActive(true);
-		profileAnchor.setActive(false);
+		setActiveAnchor(homeAnchor);
 
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(homePage);
@@ -220,7 +251,7 @@ public class MainPage extends Composite {
 	@UiHandler("profileAnchor")
 	void profileAnchorClicked(ClickEvent event) {
 		if (Hvr.isSpeechTestRunning()) {
-			interceptNavigation("logout");
+			interceptNavigation("profile");
 		} else {
 
 			History.newItem("profile/personal");
@@ -228,16 +259,66 @@ public class MainPage extends Composite {
 	}
 
 	protected void loadProfilePage() {
-		homeAnchor.setActive(false);
-		profileAnchor.setActive(true);
-
+		setActiveAnchor(profileAnchor);
+		
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(profilePage);
 	}
+	
+	@UiHandler("contactAnchor")
+	void contactAnchorClicked(ClickEvent event){
+		if(Hvr.isSpeechTestRunning()){
+			interceptNavigation("contact");
+		}else {
+			History.newItem("contact");
+		}
+	}
+	
+	@UiHandler("adminAnchor")
+	void adminAnchorClicked(ClickEvent event){
+		if(Hvr.isSpeechTestRunning()){
+			interceptNavigation("admin");
+		}else {
+			History.newItem("admin/0");
+		}
+		
+	}
+	
+	@UiHandler("researcherAnchor")
+	void researchAnchorClicked(ClickEvent event){
+		if(Hvr.isSpeechTestRunning()){
+			interceptNavigation("research");
+		}else {
+			History.newItem("research");
+		}
+		
+	}
+	
+	protected void loadAdminPage() {
+		setActiveAnchor(adminAnchor);
+		
+		mainPageContentPanel.clear();
+		if(adminPage == null){
+			adminPage = new AdminHome();
+		}
+		mainPageContentPanel.add(adminPage);
+	}
+	
+	protected void loadResearchPage() {
+		setActiveAnchor(researcherAnchor);
+	}
+	protected void loadContactPage() {
+		setActiveAnchor(contactAnchor);
+		
+		mainPageContentPanel.clear();
+		if(contactPage == null){
+			contactPage = new ContactPage();
+		}
+		mainPageContentPanel.add(contactPage);
+	}
 
 	protected void loadEnrollmentProcess(StudyPrefaceModel study) {
-		homeAnchor.setActive(false);
-		profileAnchor.setActive(false);
+		setActiveAnchor(null);
 
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(new EnrollmentProcess(study));
@@ -245,8 +326,7 @@ public class MainPage extends Composite {
 	}
 
 	protected void loadSpeechTestProcess(String studyId, String testId) {
-		homeAnchor.setActive(false);
-		profileAnchor.setActive(false);
+		setActiveAnchor(null);
 
 		mainPageContentPanel.clear();
 		mainPageContentPanel.add(new SpeechTestProcess(studyId, testId));
@@ -272,6 +352,22 @@ public class MainPage extends Composite {
 		Hvr.getEventBus().fireEvent(
 				new TestProcessInterceptionEvent(new TestInterceptState("2",
 						InterceptState.START)));
+	}
+	
+	private void setActiveAnchor(AnchorListItem anchor){
+		homeAnchor.setActive(false);
+		profileAnchor.setActive(false);
+		contactAnchor.setActive(false);
+		adminAnchor.setActive(false);
+		researcherAnchor.setActive(false);
+		
+		if(anchor != null){
+			anchor.setActive(true);
+		}
+	}
+	
+	protected AdminHome getAdminPage() {
+		return this.adminPage;
 	}
 
 }

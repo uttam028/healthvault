@@ -13,4 +13,6 @@ public class AudioBasedFragment {
 	public String getInstructionAudio() {
 		return instructionAudio;
 	}
+	
+	public boolean hasText(){return false;};
 }

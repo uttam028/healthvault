@@ -8,7 +8,6 @@ import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.InlineHelpBlock;
 import org.gwtbootstrap3.client.ui.InlineRadio;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 
@@ -21,7 +20,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -78,10 +76,10 @@ public class PersonalInfoPage extends Composite{
 				@Override
 				public void onSuccess(Response result) {
 					if(result.getCode()==0){
-						resultPanel.add(new MessagePanel("Your profile has been updated", "", false, ""));
+						resultPanel.add(new MessagePanel("Your profile has been updated", "", false, "", ""));
 						
 					}else {
-						resultPanel.add(new MessagePanel("Please try later.", "", false, ""));
+						resultPanel.add(new MessagePanel("Please try later.", "", false, "", ""));
 					}
 					Timer timer = new Timer() {					
 						@Override
@@ -94,7 +92,7 @@ public class PersonalInfoPage extends Composite{
 				}
 				@Override
 				public void onFailure(Throwable caught) {
-					resultPanel.add(new MessagePanel("Please try later.", "", false, ""));
+					resultPanel.add(new MessagePanel("Please try later.", "", false, "", ""));
 					Timer timer = new Timer() {					
 						@Override
 						public void run() {

@@ -20,8 +20,8 @@
 						<b:Heading size="H4" text="User Information"/>
 					</b:PanelHeader>
 					<b:LinkedGroupItem text="Personal" color="BLUE" ui:field="personalInfoLink"/>
-					<b:LinkedGroupItem text="Account" color="BLUE" ui:field="accountInfoLink"/>
 					<b:LinkedGroupItem text="Medical" color="BLUE" ui:field="medicalInfoLink"/>
+					<b:LinkedGroupItem text="Account" color="BLUE" ui:field="accountInfoLink"/>
 
 				</b:Panel>
 

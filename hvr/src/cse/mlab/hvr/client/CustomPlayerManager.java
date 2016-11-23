@@ -6,8 +6,12 @@ import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.ModalHeader;
 import org.gwtbootstrap3.client.ui.ProgressBar;
+import org.gwtbootstrap3.client.ui.constants.ButtonSize;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -23,9 +27,13 @@ import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.TestInterceptState.InterceptState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
+import cse.mlab.hvr.client.events.MicrophoneCheckEvent;
+import cse.mlab.hvr.client.events.MicrophoneCheckEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
+import cse.mlab.hvr.client.events.VolumeCheckEvent;
+import cse.mlab.hvr.client.events.VolumeEventHandler;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
@@ -41,7 +49,7 @@ public class CustomPlayerManager extends Composite {
 	static boolean speechTestRunning = false;
 	private Boolean testLoaded = false;
 	@UiField
-	HTMLPanel playerManagerPanel, allowedPlayerHeader, deniedPlayerHeader;
+	HTMLPanel playerManagerPanel, allowedPlayerHeader, deniedPlayerHeader, playerContentPanel;
 	@UiField
 	Heading permissionHeading;
 	
@@ -87,8 +95,7 @@ public class CustomPlayerManager extends Composite {
 							// Window.alert("I have got the fire of the event");
 							try {
 								if (currentPlayerIndex > 0) {
-									playerManagerPanel.remove(players[currentPlayerIndex - 1]);
-									Window.alert("removed player :"+ (currentPlayerIndex-1) + ", study id:"+ studyId);
+									playerContentPanel.remove(players[currentPlayerIndex - 1]);
 								}
 							} catch (Exception e) {
 								// TODO: handle exception
@@ -97,14 +104,12 @@ public class CustomPlayerManager extends Composite {
 
 							try {
 								if (currentPlayerIndex < players.length) {
-									playerManagerPanel.add(players[currentPlayerIndex]);
-									Window.alert("add new player:"+ currentPlayerIndex);
+									playerContentPanel.add(players[currentPlayerIndex]);
 								} else {
 //									loadDysPlayerFromSaveState = false;
 									updateSpeechTestRunningStatus(false);
 									currentPlayerIndex = 0;
 									updatePlayerProgress();
-									Window.alert("set player to 0");
 									testLoaded = false;
 									CustomPlayerManager.this.removeFromParent();
 									
@@ -119,6 +124,26 @@ public class CustomPlayerManager extends Composite {
 						}
 					}
 				});
+		
+		Hvr.getEventBus().addHandler(VolumeCheckEvent.TYPE, new VolumeEventHandler() {
+			
+			@Override
+			public void actionAfterVolumeCheck(VolumeCheckEvent event) {
+				// TODO Auto-generated method stub
+				playerContentPanel.clear();
+				playerContentPanel.add(new MicrophoneChecker());
+			}
+		});
+		
+		Hvr.eventBus.addHandler(MicrophoneCheckEvent.TYPE, new MicrophoneCheckEventHandler() {
+			
+			@Override
+			public void actionAfterMicrophoneCheck(MicrophoneCheckEvent event) {
+				// TODO Auto-generated method stub
+				playerContentPanel.clear();
+				playerContentPanel.add(players[0]);
+			}
+		});
 		
 	}
 
@@ -150,7 +175,9 @@ public class CustomPlayerManager extends Composite {
 	}
 	
 	private void initializePlayer(){
-		this.playerManagerPanel.add(players[0]);
+		//this.playerManagerPanel.add(players[0]);
+		this.playerContentPanel.clear();
+		this.playerContentPanel.add(new VolumeChecker());
 		currentPlayerIndex=0;
 		updatePlayerProgress();
 		updateSpeechTestRunningStatus(true);
@@ -165,12 +192,19 @@ public class CustomPlayerManager extends Composite {
 		//exitModal.setId("exitmodal");
 		ModalFooter footer = new ModalFooter();
 		ModalHeader header = new ModalHeader();
-		header.add(new Label("Do you want to exit speech test?"));
+		Label headerLabel = new Label("Do you want to exit speech test?");
+		headerLabel.getElement().getStyle().setFontSize(2, Unit.EM);
+		header.add(headerLabel);
+	
 		exitModal.add(header);
 		header.setClosable(false);
 		exitModal.add(footer);
 		Button yesButton = new Button("Yes");
 		Button noButton = new Button("No");
+		//yesButton.setType(ButtonType.DANGER);
+		//noButton.setType(ButtonType.DANGER);
+		yesButton.setSize(ButtonSize.LARGE);
+		noButton.setSize(ButtonSize.LARGE);
 		footer.add(yesButton);
 		footer.add(noButton);
 		yesButton.addClickHandler(new ClickHandler() {
@@ -234,7 +268,6 @@ public class CustomPlayerManager extends Composite {
 		//$wnd.microphonePermission();
 		
 		$wnd.callbackForPermission = $entry(function() {
-			console.log("what is the problem to print it");
 			$wnd.FWRecorder.stopRecording("mictest");
 			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateMicroPhoneAccessiblity()();
 			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateManagerAfterPermission()();

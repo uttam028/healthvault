@@ -15,14 +15,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
-import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
 import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
 import cse.mlab.hvr.client.fragments.CommonInstructionFragment;
-import cse.mlab.hvr.client.fragments.TimerControlledImageFragment;
 
 public class ConcussionTestNew extends Composite {
 

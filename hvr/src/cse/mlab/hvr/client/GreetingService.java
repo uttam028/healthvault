@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
+import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
@@ -33,6 +34,7 @@ public interface GreetingService extends RemoteService {
 	  Response resetPassword(String email);
 	  Response changePassword(String email, String oldPassword, String newPassword);
 	  String checkEmailAvailability(String email);
+	  UserRole getRole(String email);
 	  
 	  UserProfile getProfile(String email);
 	  Response saveProfile(UserProfile userProfile);

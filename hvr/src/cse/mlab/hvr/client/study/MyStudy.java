@@ -55,7 +55,7 @@ public class MyStudy extends Composite {
 		this.dataModel = myStudyDataModel;
 		studyHeading.setText(myStudyDataModel.getStudyOverview().getName());
 		if(myStudyDataModel.getStudyOverview().getOverview() != null){
-			studyHeading.setSubText(myStudyDataModel.getStudyOverview().getOverview());
+			//studyHeading.setSubText(myStudyDataModel.getStudyOverview().getOverview());
 			headerPanel.add(new Br());
 		} else {
 			headerPanel.add(new Br());
@@ -80,6 +80,11 @@ public class MyStudy extends Composite {
 		numberOfParticipationLabel = new Label();
 		lastParticipationLabel = new Label();
 		complianceMessage = new Label();
+		
+		enrollmentDateLabel.addStyleName("h4");
+		numberOfParticipationLabel.addStyleName("h4");
+		lastParticipationLabel.addStyleName("h4");
+		complianceMessage.addStyleName("h4");
 		updateStudyLabels();
 		
 		statusContentPanel.add(new Hr());
@@ -105,7 +110,7 @@ public class MyStudy extends Composite {
 				aboutContentPanel.setVisible(false);
 				//statusColumn.getElement().getStyle().setBackgroundColor("#67e4de");
 				
-				statusColumn.getElement().getStyle().setBackgroundColor("#00cccc");
+				statusColumn.getElement().getStyle().setBackgroundColor("#9fc69f");
 				aboutColumn.getElement().getStyle().setBackgroundColor("white");
 			}
 		}, ClickEvent.getType());
@@ -119,7 +124,7 @@ public class MyStudy extends Composite {
 				aboutContentPanel.setVisible(true);
 				statusColumn.getElement().getStyle().setBackgroundColor("white");
 				
-				aboutColumn.getElement().getStyle().setBackgroundColor("#00cccc");
+				aboutColumn.getElement().getStyle().setBackgroundColor("#9fc69f");
 				//aboutColumn.getElement().getStyle().setBackgroundColor("#67e4de");
 			}
 		}, ClickEvent.getType());
@@ -145,14 +150,17 @@ public class MyStudy extends Composite {
 		} else {
 			enrollmentDateLabel.setText("Enrollment Date : "+ this.dataModel.getEnrollmentDate());
 		}
-		numberOfParticipationLabel.setText("Total Particiaption : "+ this.dataModel.getTotalParticipationCount());
+		numberOfParticipationLabel.setText("Total Participation : "+ this.dataModel.getTotalParticipationCount());
 		if(this.dataModel.getLastParticipationDate()==null || this.dataModel.getLastParticipationDate().isEmpty()){
 			lastParticipationLabel.setText("Last Participation : N/A");
 		} else {
 			lastParticipationLabel.setText("Last Participation : "+ this.dataModel.getLastParticipationDate());
 		}
 
-		complianceMessage.setText("A message related to compliance");
+		if(this.dataModel.getCompliance() != null && this.dataModel.getCompliance().getMessage()!=null){
+			complianceMessage.setText(this.dataModel.getCompliance().getMessage());
+		}
+		
 	}
 
 }

@@ -7,6 +7,6 @@
 		font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-8" ui:field="testProcessPanel">
+	<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9" ui:field="testProcessPanel">
 	</g:HTMLPanel>
 </ui:UiBinder> 

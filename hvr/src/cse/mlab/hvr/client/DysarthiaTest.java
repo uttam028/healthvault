@@ -13,15 +13,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
-import cse.mlab.hvr.client.events.SpeechTestEvent;
-import cse.mlab.hvr.client.fragments.Fragment;
-import cse.mlab.hvr.client.fragments.ImageFragment;
-import cse.mlab.hvr.client.fragments.MarqueeFragment;
-import cse.mlab.hvr.client.fragments.PauseFragment;
-import cse.mlab.hvr.client.fragments.SimpleTextFragment;
+import cse.mlab.hvr.client.fragments.old.Fragment;
+import cse.mlab.hvr.client.fragments.old.ImageFragment;
+import cse.mlab.hvr.client.fragments.old.MarqueeFragment;
+import cse.mlab.hvr.client.fragments.old.PauseFragment;
+import cse.mlab.hvr.client.fragments.old.SimpleTextFragment;
 
 public class DysarthiaTest extends Composite {
 

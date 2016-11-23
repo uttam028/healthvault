@@ -8,7 +8,6 @@ import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.InlineHelpBlock;
 import org.gwtbootstrap3.client.ui.Input;
-import org.gwtbootstrap3.client.ui.constants.ValidationState;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 
@@ -17,12 +16,10 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.thirdparty.javascript.rhino.head.tools.debugger.Main;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -117,16 +114,15 @@ public class AccountInfoPage extends Composite {
 				try {
 					String oldpass = Md5Utils.getMD5String(textboxOldPass.getText().trim());
 					String newpass = Md5Utils.getMD5String(textboxNewPass.getText().trim());
-					Window.alert("old plain:"+ textboxOldPass.getText().trim() + ", mds old:"+ oldpass + ", new plain:"+ textboxNewPass.getText()+", md5:"+ newpass);
 					greetingService.changePassword(MainPage.getLoggedinUser(), oldpass, newpass, new AsyncCallback<Response>() {
 						
 						@Override
 						public void onSuccess(Response result) {
 							// TODO Auto-generated method stub
 							if(result.getCode()==0){
-								resultPanel.add(new MessagePanel("Your password has been changed.", "", false, ""));								
+								resultPanel.add(new MessagePanel("Your password has been changed.", "", false, "", ""));								
 							}else {
-								resultPanel.add(new MessagePanel(result.getMessage(), "", false, ""));
+								resultPanel.add(new MessagePanel(result.getMessage(), "", false, "", ""));
 							}
 							Timer timer = new Timer() {					
 								@Override
@@ -141,7 +137,7 @@ public class AccountInfoPage extends Composite {
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
-							resultPanel.add(new MessagePanel("Please try later", "", false, ""));
+							resultPanel.add(new MessagePanel("Please try later", "", false, "", ""));
 							Timer timer = new Timer() {					
 								@Override
 								public void run() {

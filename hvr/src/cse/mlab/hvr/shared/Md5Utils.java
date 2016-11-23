@@ -17,7 +17,6 @@
 package cse.mlab.hvr.shared;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Utility class to generate MD5 hashes using per-thread MD5

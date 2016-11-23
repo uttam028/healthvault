@@ -168,8 +168,8 @@
     	try {
     		//$('#recorderApp').parent().append($('#recorderApp'));
     		$('#recorderApp').css('z-index', 9999);
-    		$("#recorderApp").css('top', 150);
-    		$("#recorderApp").css('left', 750);
+//    		$("#recorderApp").css('top', 150);
+//    		$("#recorderApp").css('left', 750);
     		//var position = $('#recorderApp').position();
     		
   			//var position = recorderEl().Position();

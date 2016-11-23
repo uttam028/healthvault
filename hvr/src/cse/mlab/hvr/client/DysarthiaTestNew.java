@@ -12,12 +12,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
-import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
-import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.AudioBasedFragment;
 import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
 import cse.mlab.hvr.client.fragments.CommonInstructionFragment;
@@ -57,16 +54,16 @@ public class DysarthiaTestNew extends Composite {
 	
 	//ahWithTimer
 	AudioBasedFragment[] fragments4 = {new CommonInstructionFragment("", "Please say aaaaahh for 5 seconds"),
-			new TimerControlledTextFragment("audio/ahWithTimer.mp3", 5000)};
+			new TimerControlledTextFragment("audio/ahWithTimer.mp3", "",5000)};
 	
 	AudioBasedFragment[] fragments5 = {new CommonInstructionFragment("audio/ahNoTimer.mp3", "Please say aaaaahh for as long as you can"),
 			new ButtonControlledTextFragment("", "", 6000)};
 	
 	AudioBasedFragment[] fragments6 = {new CommonInstructionFragment("", "Please listen and follow the oral instructions"),
-			new TimerControlledTextFragment("audio/pa.mp3", 5000),
-			new TimerControlledTextFragment("audio/ta.mp3", 5000),
-			new TimerControlledTextFragment("audio/ka.mp3", 5000),
-			new TimerControlledTextFragment("audio/pataka.mp3", 5000)};
+			new TimerControlledTextFragment("audio/pa.mp3", "", 5000),
+			new TimerControlledTextFragment("audio/ta.mp3", "", 5000),
+			new TimerControlledTextFragment("audio/ka.mp3", "", 5000),
+			new TimerControlledTextFragment("audio/pataka.mp3", "", 5000)};
 	
 	
 	AudioBasedFragment[] fragments7 = {new CommonInstructionFragment("audio/monthOfYear.mp3", "Please say the months of the year, beginning with January"),
@@ -112,7 +109,7 @@ public class DysarthiaTestNew extends Composite {
 	AudioBasedFragment[] fragments11 = {new CommonInstructionFragment("audio/repeatSentences.mp3", "Please repeat the sentences after I say them"),
 			new ButtonControlledTextFragment("audio/arizona1.mp3", "The supermarket chain shut down because of poor management.", 8000),
 			new ButtonControlledTextFragment("audio/arizona2.mp3", "Much more money must be donated to make this department succeed.", 9000),
-			new ButtonControlledTextFragment("audio/arizona3.mp3", "In this famous coffee shop they serve the best doughnnuts in town.", 9000),
+			new ButtonControlledTextFragment("audio/arizona3.mp3", "In this famous coffee shop they serve the best doughnuts in town.", 9000),
 			new ButtonControlledTextFragment("audio/arizona4.mp3", "The chairman decided to pave over the shopping center garden.", 9000),
 			new ButtonControlledTextFragment("audio/arizona5.mp3", "The standards committee met this afternoon in an open meeting.", 9000)};
 

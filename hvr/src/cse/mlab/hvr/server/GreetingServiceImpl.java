@@ -3,10 +3,8 @@ package cse.mlab.hvr.server;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,13 +22,13 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import cse.mlab.hvr.client.GreetingService;
-import cse.mlab.hvr.shared.Answer;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
+import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.study.Enrollment;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.Participation;
@@ -155,16 +153,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Response resetPassword(String email) {
+
+		System.out.println("email :"+ email);
+		String json = "{\"email\":\""+email+"\", \"oldPassword\":\"\", \"newPassword\":\"\"}";
+		
 		// TODO Auto-generated method stub
 		long start = Calendar.getInstance().getTimeInMillis();
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		String url = serverRoot + loginPath + "resetpassword/" + email;
+		String url = serverRoot + loginPath + "resetpassword/";
 		System.out.println("url:" + url);
 		WebResource service = client.resource(url);
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		Response response = new Gson().fromJson(result, Response.class);
+		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
+		String jsonResponse = clientResponse.getEntity(String.class);
+		Response response = new Gson().fromJson(jsonResponse, Response.class);
 		System.out.println("Client Response \n" + response.getCode());
 
 		long end = Calendar.getInstance().getTimeInMillis();
@@ -215,6 +217,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		return response;
 	}
+	
+	@Override
+	public UserRole getRole(String email) {
+		// TODO Auto-generated method stub
+		long start = Calendar.getInstance().getTimeInMillis();
+		/*
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+
+		String url = serverRoot + "userrole/" + email;
+		WebResource service = client.resource(url);
+		UserRole response = service.accept(MediaType.APPLICATION_JSON).get(
+				UserRole.class);
+		System.out.println("availability response : " + response);
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff email availability call: "
+				+ (end - start));
+		
+		return response;*/
+		return new UserRole(true, true, true);
+	}
+	
 
 	@Override
 	public Response loginToPhr(User user) {

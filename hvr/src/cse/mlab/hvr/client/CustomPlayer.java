@@ -27,12 +27,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.events.FileUploadEvent;
-import cse.mlab.hvr.client.fragments.Fragment;
-import cse.mlab.hvr.client.fragments.ImageFragment;
-import cse.mlab.hvr.client.fragments.MarkedTextFragment;
-import cse.mlab.hvr.client.fragments.MarqueeFragment;
-import cse.mlab.hvr.client.fragments.PauseFragment;
-import cse.mlab.hvr.client.fragments.SimpleTextFragment;
+import cse.mlab.hvr.client.fragments.old.Fragment;
+import cse.mlab.hvr.client.fragments.old.ImageFragment;
+import cse.mlab.hvr.client.fragments.old.MarkedTextFragment;
+import cse.mlab.hvr.client.fragments.old.MarqueeFragment;
+import cse.mlab.hvr.client.fragments.old.PauseFragment;
+import cse.mlab.hvr.client.fragments.old.SimpleTextFragment;
 import fr.hd3d.html5.video.client.VideoSource;
 import fr.hd3d.html5.video.client.VideoWidget;
 import fr.hd3d.html5.video.client.events.VideoEndedEvent;

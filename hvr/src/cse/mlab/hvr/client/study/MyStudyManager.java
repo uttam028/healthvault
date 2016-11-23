@@ -3,11 +3,12 @@ package cse.mlab.hvr.client.study;
 import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Column;
+import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -81,6 +82,9 @@ public class MyStudyManager extends Composite {
 	
 	public void showEmptyMessage(){
 		studiesColumn.clear();
-		studiesColumn.add(new Label("You are not currently enrolled in any of the studies. Please enroll to participate."));
+		Label emptylabel = new Label("You are not currently enrolled in any of the studies. Please enroll to participate.");
+		emptylabel.setSize("1em", "1.2em");
+		Heading emptyHeading = new Heading(HeadingSize.H4, "You are not currently enrolled in any of the studies. Please enroll to participate.");
+		studiesColumn.add(emptyHeading);
 	}
 }

@@ -5,15 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -147,7 +139,14 @@ public class SignupService {
 					if (resultSet.next()) {
 						// got token
 						String token = resultSet.getString("token");
-						this.sendSignupEmail(email, token);
+						String subject = "Activate Speech Marker Account";
+						String name = userProfile.getFirstName()==null?"":userProfile.getFirstName() + " " 
+									+ userProfile.getLastName()==null?"":userProfile.getLastName();
+						String emailBody = 	"\n\nThank you for joining us.\n"
+											+ "\nClick below link to complete your registration:\n"
+											+ ServiceUtil.getServiceRoot() + "verifyemail?token=" + token;
+
+						ServiceUtil.sendEmail(email, subject, emailBody, name);
 					}
 
 					// } catch (MySQLIntegrityConstraintViolationException e){
@@ -179,44 +178,6 @@ public class SignupService {
 		return response;
 	}
 
-	private boolean sendSignupEmail(String toAddress, String token) {
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-
-		Session session = Session.getDefaultInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("ndspeechrepo",
-								"mcomlab2016");
-					}
-				});
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("ndspeechrespo@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(toAddress));
-			message.setSubject("Testing Subject");
-			message.setText("Dear User,"
-					+ "\n\nClick below url to activate account:\n"
-					+ "http://10.32.10.188:8080/hvr/verifyemail?token=" + token
-					+ "\n\nRegards,\nND Speech Project");
-
-			Transport.send(message);
-
-			System.out.println("Done");
-			return true;
-		} catch (MessagingException e) {
-			// throw new RuntimeException(e);
-		}
-		return false;
-	}
 
 	@GET
 	@Path("verification/{token}")

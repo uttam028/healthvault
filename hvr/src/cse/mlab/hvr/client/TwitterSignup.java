@@ -37,8 +37,8 @@ public class TwitterSignup extends Composite {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
-	@UiField
-	AnchorListItem patientAnchor, researcherAnchor, supportAnchor;
+	//@UiField
+	//AnchorListItem patientAnchor, researcherAnchor, supportAnchor;
 	
 	@UiField
 	HTMLPanel patientCustomPanel, researcherCustomPanel, supportCustomPanel, showMessagePanel;
@@ -46,7 +46,8 @@ public class TwitterSignup extends Composite {
 	Heading showMessage;
 	
 	@UiField
-	Button buttonFaq;
+	//Button buttonFaq;
+	Button buttonGotoRegister;
 	
 	//@UiField
 	//PanelGroup generalPanelGroup, patientPanelGroup, researcherPanelGroup;
@@ -191,7 +192,7 @@ public class TwitterSignup extends Composite {
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 		super.onLoad();
-		this.patientAnchorClicked(null);
+//		this.patientAnchorClicked(null);
 		loadPatientPanel();
 	}
 
@@ -199,33 +200,44 @@ public class TwitterSignup extends Composite {
 
 	}
 	
+	@UiHandler("buttonGotoRegister")
+	void gotoRegister(ClickEvent event){
+		enableSignupForm(null);
+		scrollToTop();
+	}
+	
+	public native void scrollToTop()/*-{
+		$wnd.scrollTo(0,0);
+	}-*/;
+
+	/*
 	@UiHandler("buttonFaq")
 	void faqButtonClicked(ClickEvent event){
 		generalFaqViewer.expandFaqs();
 		if(currentTab.equalsIgnoreCase("patient")){
-			/*togglePanelGroup(generalPanelGroup, false);
-			togglePanelGroup(patientPanelGroup, true);
-			togglePanelGroup(researcherPanelGroup, false);*/
+//			togglePanelGroup(generalPanelGroup, false);
+//			togglePanelGroup(patientPanelGroup, true);
+//			togglePanelGroup(researcherPanelGroup, false);
 			patientFaqviewer.expandFaqs();
 			researcherFaqViewer.collapseFaqs();
 		} else if (currentTab.equalsIgnoreCase("researcher")) {
-			/*togglePanelGroup(generalPanelGroup, false);
-			togglePanelGroup(patientPanelGroup, false);
-			togglePanelGroup(researcherPanelGroup, true);*/
+//			togglePanelGroup(generalPanelGroup, false);
+//			togglePanelGroup(patientPanelGroup, false);
+//			togglePanelGroup(researcherPanelGroup, true);
 			patientFaqviewer.collapseFaqs();
 			researcherFaqViewer.expandFaqs();
 			
 		} else {
-			/*togglePanelGroup(generalPanelGroup, true);
-			togglePanelGroup(patientPanelGroup, false);
-			togglePanelGroup(researcherPanelGroup, false);*/			
+//			togglePanelGroup(generalPanelGroup, true);
+//			togglePanelGroup(patientPanelGroup, false);
+//			togglePanelGroup(researcherPanelGroup, false);			
 			patientFaqviewer.collapseFaqs();
 			researcherFaqViewer.expandFaqs();
 		}
-		supportAnchorClciked(null);
+//		supportAnchorClciked(null);
 
 	}
-	
+	*/
 	/*
 	private void togglePanelGroup(PanelGroup panelGroup, boolean openAll){
 		for(int i=0;i<panelGroup.getWidgetCount();i++){
@@ -239,6 +251,8 @@ public class TwitterSignup extends Composite {
 		
 	}*/
 	
+	/*
+	removed from anchor list in nav bar
 	@UiHandler("patientAnchor")
 	void patientAnchorClicked(ClickEvent event){
 		if(History.getToken().equalsIgnoreCase("patient")){
@@ -246,65 +260,70 @@ public class TwitterSignup extends Composite {
 		}else {
 			History.newItem("patient");			
 		}
-	}
+	}*/
 	
 	protected void loadPatientPanel(){
 		currentTab = "patient";
-		patientAnchor.setActive(true);
-		researcherAnchor.setActive(false);
-		supportAnchor.setActive(false);
+//		patientAnchor.setActive(true);
+//		researcherAnchor.setActive(false);
+//		supportAnchor.setActive(false);
 		patientCustomPanel.setVisible(true);
 		researcherCustomPanel.setVisible(false);
 		supportCustomPanel.setVisible(false);
 		showMessagePanel.setVisible(false);
-		buttonFaq.setVisible(true);		
+//		buttonFaq.setVisible(true);		
 	}
 	
+	/*
+	 * removed from anchor
 	@UiHandler("researcherAnchor")
 	void researcherAnchorClicked(ClickEvent event){
 		History.newItem("researcher");
-	}
+	}*/
 	
 	protected void loadResearcherPanel(){
 		currentTab = "researcher";
-		patientAnchor.setActive(false);
-		researcherAnchor.setActive(true);
-		supportAnchor.setActive(false);
+//		patientAnchor.setActive(false);
+//		researcherAnchor.setActive(true);
+//		supportAnchor.setActive(false);
 		patientCustomPanel.setVisible(false);
 		researcherCustomPanel.setVisible(true);
 		supportCustomPanel.setVisible(false);
-		buttonFaq.setVisible(true);		
+//		buttonFaq.setVisible(true);		
 		showMessagePanel.setVisible(false);
 	}
 	
+	/*
+	 *removed from anchor
 	@UiHandler("supportAnchor")
 	void supportAnchorClciked(ClickEvent event){
 		History.newItem("support");
 	}
+	*/
 	protected void loadSupportPanel(){
 		//togglePanelGroup(generalPanelGroup, true);
 		generalFaqViewer.expandFaqs();
 		
 		currentTab = "support";
-		patientAnchor.setActive(false);
-		researcherAnchor.setActive(false);
-		supportAnchor.setActive(true);
+//		patientAnchor.setActive(false);
+//		researcherAnchor.setActive(false);
+//		supportAnchor.setActive(true);
 		patientCustomPanel.setVisible(false);
 		researcherCustomPanel.setVisible(false);
 		supportCustomPanel.setVisible(true);	
-		buttonFaq.setVisible(false);		
+//		buttonFaq.setVisible(false);		
 		showMessagePanel.setVisible(false);
 	}
 	
 	protected void showAuthMessage(String message){
 		
-		patientAnchor.setActive(false);
-		researcherAnchor.setActive(false);
-		supportAnchor.setActive(false);
+//		patientAnchor.setActive(false);
+//		researcherAnchor.setActive(false);
+//		supportAnchor.setActive(false);
 		patientCustomPanel.setVisible(false);
 		researcherCustomPanel.setVisible(false);
 		supportCustomPanel.setVisible(false);	
-		buttonFaq.setVisible(false);		
+//		buttonFaq.setVisible(false);
 		showMessagePanel.setVisible(true);
 		showMessage.setText(message);
 	}
@@ -312,6 +331,7 @@ public class TwitterSignup extends Composite {
 	
 	@UiHandler("buttonForgotPass")
 	void resetPassword(ClickEvent event) {
+		scrollToTop();
 		if (validationBeforeReset()) {
 			final String email = textLoginEmail.getText().trim();
 			greetingService.resetPassword(email, new AsyncCallback<Response>() {
@@ -332,7 +352,9 @@ public class TwitterSignup extends Composite {
 						labelLoginError
 								.setText("User does not exist. Please sign up.");
 					} else {
-						Window.alert("You will receive new password by email. You can change password later.");
+						enableLoginForm(null);
+						String forgetMessage = "You will receive new password by email. You can change the password later.";
+						showAuthMessage(forgetMessage);
 					}
 				}
 			});
@@ -346,6 +368,7 @@ public class TwitterSignup extends Composite {
 		formSignup.setVisible(true);
 		resetSignup();
 		formLogin.setVisible(false);
+		scrollToTop();
 	}
 
 	@UiHandler("buttonAlreadyAccount")
@@ -353,6 +376,7 @@ public class TwitterSignup extends Composite {
 		formLogin.setVisible(true);
 		resetLogin();
 		formSignup.setVisible(false);
+		scrollToTop();
 	}
 
 	private void resetLogin() {
@@ -429,11 +453,11 @@ public class TwitterSignup extends Composite {
 
 	@UiHandler("buttonLoginAction")
 	void loginAction(ClickEvent event) {
-		if (textLoginEmail.getText().isEmpty()
+		/*if (textLoginEmail.getText().isEmpty()
 				&& textLoginPassword.getText().isEmpty()) {
 			application.loggedIn("z@gmail.com", "test");
 
-		} else {
+		} else {*/
 			if (this.validationBeforeLogin()) {
 				buttonLoginAction.setEnabled(false);
 				User user = new User();
@@ -468,7 +492,7 @@ public class TwitterSignup extends Composite {
 				});
 			}
 
-		}
+		//}
 
 	}
 
@@ -562,10 +586,9 @@ public class TwitterSignup extends Composite {
 				userProfile.setPassword(Md5Utils.getMD5String(password));
 			} catch (Exception e) {
 				// TODO: handle exception
-				Window.alert("have caught an exception" + e.getMessage());
+				//Window.alert("have caught an exception" + e.getMessage());
 				return;
 			}
-			// userProfile.setPassword(password);
 
 			try {
 				greetingService.checkEmailAvailability(email,

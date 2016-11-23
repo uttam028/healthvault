@@ -16,7 +16,7 @@ public class StudyOverview implements IsSerializable {
 	private boolean consentFileAvailable;
 	private String consentFileName;
 	// 0=created by owner, 1=edit in progress, 2=pending to authorize,
-	// 3=published, 4=delete in progress, 5= deleted
+	// 3=published, 4=delete in progress, 5= deleted, 6=expired
 	private int publishState;
 	private String speechTestId;
 	private String complianceId;

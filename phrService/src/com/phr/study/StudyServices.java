@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,12 +17,9 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
 import com.google.gson.Gson;
-import com.phr.loginService.User;
-import com.phr.medicationService.Medication;
 import com.phr.util.DatabaseUtil;
 import com.phr.util.Response;
 import com.phr.util.ServiceUtil;
-import com.sun.xml.bind.Util;
 
 @Path("/study")
 public class StudyServices {
@@ -216,24 +211,16 @@ public class StudyServices {
 							Compliance compliance = new Compliance();
 							compliance.setId(complianceId);
 							try {
-								if (ServiceUtil.isEmptyString(complianceId)) {
+								if (!ServiceUtil.isEmptyString(complianceId)) {
 									query = "select * from phr.study_compliance where id=?";
-									preparedStatement = connection
-											.prepareStatement(query);
-									preparedStatement
-											.setString(1, complianceId);
-									ResultSet complianceResult = preparedStatement
-											.executeQuery();
+									preparedStatement = connection.prepareStatement(query);
+									preparedStatement.setString(1, complianceId);
+									ResultSet complianceResult = preparedStatement.executeQuery();
 									if (complianceResult.next()) {
-										compliance
-												.setTimeFrame(complianceResult
-														.getString("time_slot_in_days"));
-										compliance
-												.setNumberOfParticipationInTimeFrame(complianceResult
-														.getInt("number_of_participation_in_a_slot"));
-										compliance
-												.setPercentageToMaintain(complianceResult
-														.getInt("minimum_percentage"));
+										compliance.setTimeFrame(complianceResult.getString("time_slot_in_days"));
+										compliance.setNumberOfParticipationInTimeFrame(complianceResult.getInt("number_of_participation_in_a_slot"));
+										compliance.setPercentageToMaintain(complianceResult.getInt("minimum_percentage"));
+										compliance.setMessage(complianceResult.getString("message"));
 									}
 								}
 							} catch (Exception e) {

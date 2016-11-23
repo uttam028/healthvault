@@ -1,4 +1,4 @@
-package cse.mlab.hvr.client.fragments;
+package cse.mlab.hvr.client.fragments.old;
 
 public class MarqueeFragment extends Fragment{
 	private String text;

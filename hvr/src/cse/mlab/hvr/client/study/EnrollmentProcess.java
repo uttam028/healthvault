@@ -3,17 +3,25 @@ package cse.mlab.hvr.client.study;
 import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.FieldSet;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Legend;
 import org.gwtbootstrap3.client.ui.NavTabs;
+import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.TabContent;
 import org.gwtbootstrap3.client.ui.TabListItem;
 import org.gwtbootstrap3.client.ui.TabPane;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
+import org.gwtbootstrap3.client.ui.constants.HeadingSize;
+import org.gwtbootstrap3.client.ui.constants.IconPosition;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.constants.Pull;
 import org.gwtbootstrap3.client.ui.html.Br;
 import org.gwtbootstrap3.client.ui.html.Hr;
@@ -28,7 +36,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.EnrollmentState;
@@ -55,7 +62,7 @@ public class EnrollmentProcess extends Composite {
 	private TabPane faqPane, healthPane, consentPane;
 	private TabListItem faqTab, healthTab, consentTab;
 
-	private Button acceptConsentButton, declineConsentButton, submitFormButton;
+	private Button acceptConsentButton, declineConsentButton, submitFormButton, backFromFaqButton, startEnrollButton;
 
 	// private String testId;
 	// private SpeechTestMetadata metadata;
@@ -80,7 +87,37 @@ public class EnrollmentProcess extends Composite {
 		testProcessPanel.add(tabContent);
 
 		faqPane = new TabPane();
-		faqTab = new TabListItem("FAQ");
+		faqTab = new TabListItem("Overview");
+		backFromFaqButton = new Button("Back");
+		backFromFaqButton.setIcon(IconType.ARROW_LEFT);
+		backFromFaqButton.setSize(ButtonSize.LARGE);
+		backFromFaqButton.setType(ButtonType.DANGER);
+		backFromFaqButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.DECLINED)));
+			}
+		});
+		
+		startEnrollButton = new Button("Enroll");
+		startEnrollButton.setIcon(IconType.ARROW_RIGHT);
+		startEnrollButton.setIconPosition(IconPosition.RIGHT);
+		startEnrollButton.setSize(ButtonSize.LARGE);
+		startEnrollButton.setType(ButtonType.PRIMARY);
+		startEnrollButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				if(healthTab.isAttached()){
+					enableHealthTab();
+				} else{
+					enableConsentTab();
+				}
+			}
+		});
 
 		healthPane = new TabPane();
 		healthTab = new TabListItem("Health QA");
@@ -91,6 +128,7 @@ public class EnrollmentProcess extends Composite {
 		submitFormButton = new Button("Submit");
 		submitFormButton.setType(ButtonType.SUCCESS);
 		submitFormButton.setPull(Pull.RIGHT);
+		submitFormButton.setSize(ButtonSize.LARGE);
 		submitFormButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -103,9 +141,10 @@ public class EnrollmentProcess extends Composite {
 		});
 
 		declineConsentButton = new Button("Decline");
+		declineConsentButton.setIcon(IconType.THUMBS_O_DOWN);
 		declineConsentButton.setType(ButtonType.DANGER);
-		// declineConsentButton.setSize(ButtonSize.LARGE);
-		declineConsentButton.setPull(Pull.LEFT);
+		declineConsentButton.setSize(ButtonSize.LARGE);
+		//declineConsentButton.setPull(Pull.LEFT);
 		declineConsentButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -120,9 +159,10 @@ public class EnrollmentProcess extends Composite {
 		});
 
 		acceptConsentButton = new Button("Accept");
+		acceptConsentButton.setIcon(IconType.THUMBS_O_UP);
 		acceptConsentButton.setType(ButtonType.SUCCESS);
-		// acceptConsentButton.setSize(ButtonSize.LARGE);
-		acceptConsentButton.setPull(Pull.RIGHT);
+		acceptConsentButton.setSize(ButtonSize.LARGE);
+		//acceptConsentButton.setPull(Pull.RIGHT);
 		acceptConsentButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -149,6 +189,7 @@ public class EnrollmentProcess extends Composite {
 					
 					@Override
 					public void onFailure(Throwable caught) {
+						Window.alert("fail from server :"+ caught.getMessage());
 						// TODO Auto-generated method stub
 						Hvr.getEventBus().fireEvent(new EnrollmentEvent(new EnrollmentState(EnrollmentProcess.this.enrollmentData, EnrollState.FAILURE)));
 					}
@@ -188,16 +229,22 @@ public class EnrollmentProcess extends Composite {
 			faqTab.setDataTargetWidget(faqPane);
 			tabNavigation.add(faqTab);
 			tabContent.add(faqPane);
+			updateTabState(faqPane, faqTab, true);
 		}
 
 		if (this.enrollmentData.getHealthStatusQuestions() != null
 				&& this.enrollmentData.getHealthStatusQuestions().size() > 0) {
-			if (faqPane.isActive()) {
+			/*if (faqPane.isActive()) {
 				faqTab.setActive(false);
 				faqPane.setActive(false);
 
+			}*/
+			if(faqTab.isActive()){
+				updateTabState(healthPane, healthTab, false);
+			} else {
+				updateTabState(healthPane, healthTab, true);
 			}
-			updateTabState(healthPane, healthTab, true);
+			
 			tabEnabled = true;
 			loadHealthQAForm();
 			healthTab.setDataTargetWidget(healthPane);
@@ -208,7 +255,7 @@ public class EnrollmentProcess extends Composite {
 		if (this.enrollmentData.getStudyOverview() != null
 				&& this.enrollmentData.getStudyOverview()
 						.isConsentFileAvailable()) {
-			if (healthTab.isActive()) {
+			if (faqTab.isActive() || healthTab.isActive()) {
 				updateTabState(consentPane, consentTab, false);
 			} else {
 				faqTab.setActive(false);
@@ -254,6 +301,12 @@ public class EnrollmentProcess extends Composite {
 	}
 
 	private void enableConsentTab() {
+		try {
+			updateTabState(faqPane, faqTab, false);
+			faqTab.setEnabled(false);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		// if(healthTab.isActive()){
 		updateTabState(healthPane, healthTab, false);
 		healthTab.setEnabled(true);
@@ -263,9 +316,15 @@ public class EnrollmentProcess extends Composite {
 	}
 
 	private void enableHealthTab() {
+		try {
+			updateTabState(faqPane, faqTab, false);
+			faqTab.setEnabled(false);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		updateTabState(healthPane, healthTab, true);
 
-		loadHealthQAForm();
+		//loadHealthQAForm();
 	}
 
 	// private void enableTestTab() {
@@ -281,14 +340,46 @@ public class EnrollmentProcess extends Composite {
 	//
 	// }
 	private void loadFaq() {
+		faqPane.add(new Br());
+		Heading faqHead = new Heading(HeadingSize.H3);
+		faqHead.setText(enrollmentData.getStudyOverview().getName());
+		faqHead.setSubText(enrollmentData.getStudyOverview().getOverview());
+		faqPane.add(faqHead);
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		
 		faqPane.add(new SimpleFaqViewer(enrollmentData.getQaList(), "", true));
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		Row r = new Row();
+		faqPane.add(r);
+		Column c1 = new Column(ColumnSize.LG_6);
+		Column c2 = new Column(ColumnSize.LG_6);
+		r.add(c1);
+		r.add(c2);
+		c1.add(backFromFaqButton);
+		c2.add(startEnrollButton);
+
+//		faqPane.add(backFromFaqButton);
+//		faqPane.add(startEnrollButton);
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
+		faqPane.add(new Br());
 	}
 
 	private void loadConsentForm() {
 		if (consentContenPanel == null) {
-			consentContenPanel = new HTMLPanel("Electronic Consent Form");
-			consentContenPanel
-					.addStyleName("col-lg-offset-1 col-lg-10 panel_border");
+			consentContenPanel = new HTMLPanel("");
+			Heading heading = new Heading(HeadingSize.H3, "Read the electronic consent form and Accept to complete enrollment process");
+			consentContenPanel.add(heading);
+			//consentContenPanel.addStyleName("panel_border");
 			consentPane.add(new Br());
 			consentPane.add(consentContenPanel);
 
@@ -296,13 +387,29 @@ public class EnrollmentProcess extends Composite {
 
 			Frame frame = new Frame(this.enrollmentData.getStudyOverview()
 					.getConsentFileName());
-			frame.setHeight("450px");
+			frame.setHeight("750px");
 			frame.setWidth("100%");
 			consentContenPanel.add(frame);
 			consentContenPanel.add(new Br());
 			consentContenPanel.add(new Hr());
-			consentContenPanel.add(declineConsentButton);
-			consentContenPanel.add(acceptConsentButton);
+			
+			Row r = new Row();
+			consentContenPanel.add(r);
+			Column c1 = new Column(ColumnSize.LG_6);
+			Column c2 = new Column(ColumnSize.LG_6);
+			r.add(c1);
+			r.add(c2);
+			c1.add(declineConsentButton);
+			c2.add(acceptConsentButton);
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
+			consentContenPanel.add(new Br());
 
 		}
 	}
@@ -333,6 +440,10 @@ public class EnrollmentProcess extends Composite {
 			}
 			qaForm.add(new Br());
 			qaForm.add(submitFormButton);
+			qaForm.add(new Br());
+			qaForm.add(new Br());
+			qaForm.add(new Br());
+			qaForm.add(new Br());
 			healthPane.add(qaForm);
 		}
 

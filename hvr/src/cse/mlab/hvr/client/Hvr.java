@@ -7,7 +7,6 @@ import org.gwtbootstrap3.client.ui.html.Div;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.shell.log.SwingTreeLogger.LogEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.LoadProfileItemEvent;
@@ -111,29 +109,31 @@ public class Hvr implements EntryPoint {
 						return;
 					}*/
 					
-//					Window.alert("history token:"+ historyToken);
-					if (historyToken.equalsIgnoreCase("patient")) {
-						if (loggedIn) {
-							History.forward();
-						} else {
-							twitterSignup.loadPatientPanel();
-
-						}
-					} else if (historyToken.equalsIgnoreCase("researcher")) {
-						if (loggedIn) {
-							History.forward();
-						} else{
-							twitterSignup.loadResearcherPanel();	
-						}
+////					Window.alert("history token:"+ historyToken);
+//					if (historyToken.equalsIgnoreCase("patient")) {
+//						if (loggedIn) {
+//							History.forward();
+//						} else {
+//							twitterSignup.loadPatientPanel();
+//
+//						}
+//					} else if (historyToken.equalsIgnoreCase("researcher")) {
+//						if (loggedIn) {
+//							History.forward();
+//						} else{
+//							twitterSignup.loadResearcherPanel();	
+//						}
+//						
+//					} else if (historyToken.equalsIgnoreCase("support")) {
+//						if (loggedIn) {
+//							History.forward();
+//						} else {
+//							twitterSignup.loadSupportPanel();
+//						}
+//						
+//					} else 
 						
-					} else if (historyToken.equalsIgnoreCase("support")) {
-						if (loggedIn) {
-							History.forward();
-						} else {
-							twitterSignup.loadSupportPanel();
-						}
-						
-					} else if (historyToken.equalsIgnoreCase("home")) {
+					if (historyToken.equalsIgnoreCase("home")) {
 						if(loggedIn){
 							if(speechTestRunning){
 								History.fireCurrentHistoryState();
@@ -161,7 +161,44 @@ public class Hvr implements EntryPoint {
 							History.back();
 						}
 						
-					}/* else if(historyToken.startsWith("speechtest")){
+					} else if (historyToken.startsWith("admin")) {
+						if(loggedIn){
+							String [] tokens = historyToken.split("/");
+							if(tokens[1].equals("0")){
+								mainPage.loadAdminPage();
+							} else {
+								mainPage.getAdminPage().loadStudyManagement(null);
+							}
+							
+						}else {
+							History.back();
+						}
+						
+					} else if (historyToken.startsWith("research")) {
+						if(loggedIn){
+							mainPage.loadResearchPage();
+						}else {
+							History.back();
+						}
+						
+					} else if (historyToken.startsWith("contact")) {
+						if(loggedIn){
+							mainPage.loadContactPage();
+						}else {
+							History.back();
+						}
+					} else{
+						//Window.alert("in else history token :" + historyToken);
+						History.newItem("home");
+						/*
+						if(loggedIn){
+							//mainPage.loadHomePage();
+							History.newItem("Home");
+						} else {
+							onModuleLoad();
+						}*/
+					}
+					/* else if(historyToken.startsWith("speechtest")){
 						if(loggedIn){
 							String [] tokens = historyToken.split("/");
 							String studyId = tokens[1];

@@ -7,16 +7,18 @@
 			font-weight: bold;
 		}
 		.margin{
-			margin:5%;
+			margin:10%;
 		}
 		.heading_color{
 			background-color: #194719 !important;
 		}
-		
+		.curve{
+			border-radius: 5px;
+		}
 	</ui:style>
-	<b:Panel addStyleNames="{style.margin}">
+	<!--b:Panel addStyleNames="{style.margin}">
 		<b:PanelHeader ui:field="spHeader">
-			<b:Heading size="H5" ui:field="spHeading"/>
+			<b:Heading size="H2" ui:field="spHeading"/>
 		</b:PanelHeader>
 		<b:PanelBody>
 		    <b:Row>
@@ -24,13 +26,29 @@
 		    </b:Row>
 		    <b:Row>
 		        <h:Br/>
-		        <b:Column size="MD_9">
+		        <b:Column size="MD_6">
 		        	<g:HTMLPanel ui:field="spQuestionAnswerList"></g:HTMLPanel>
 		        </b:Column>
-		        <b:Column size="MD_3">
-		            <b:Button ui:field="enrollButton" type="PRIMARY">Enroll Now</b:Button>
+		        <b:Column size="MD_6">
+		            <b:Button ui:field="enrollButton" type="PRIMARY" size="LARGE">Learn More</b:Button>
 		        </b:Column>
 		    </b:Row>
 		</b:PanelBody>
-	</b:Panel>
+	</b:Panel-->
+	
+	<g:HTMLPanel addStyleNames="panel_border {style.curve} {style.margin}">
+			<b:Heading ui:field="spHeading" size="H3" subText=""></b:Heading>
+		<hr />
+		<br/>
+		<!--b:Row>
+		        <h:Paragraph ui:field="spDescription"></h:Paragraph>
+		    </b:Row>
+		<hr/-->
+		<!--g:HTMLPanel-->
+			<b:Button ui:field="enrollButton" type="INFO" size="LARGE">Learn More and Enroll</b:Button>
+			<br/>
+			<br/>
+		<!--/g:HTMLPanel-->
+	</g:HTMLPanel>
+	
 </ui:UiBinder> 

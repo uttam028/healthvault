@@ -19,10 +19,14 @@
 
 	</ui:style>
 	<g:HTMLPanel>
+	    <g:HTMLPanel ui:field="resultPanel">
+	        
+	    </g:HTMLPanel>
+	
 		<h4>Medical Information</h4>
-		<b:Panel>
+		<!--b:Panel>
 			<b:PanelHeader>
-				<!--b:Heading size="H3" text="History" addStyleNames="{style.left_text}" /-->
+				<b:Heading size="H3" text="History" addStyleNames="{style.left_text}" />
 			</b:PanelHeader>
 			<b:PanelBody>
 				<h:Br />
@@ -80,6 +84,32 @@
 					<b:Button addStyleNames="{style.left_align} col-lg-offset-1" type="DANGER" ui:field="buttonCancel">Cancel</b:Button>				    
 				</b:Row>
 
+			</b:PanelBody>
+		</b:Panel-->
+		
+		<b:Panel>
+			<b:PanelHeader>
+				<b:Heading size="H3" text="Medication" addStyleNames="{style.left_text}" />
+			</b:PanelHeader>
+			<b:PanelBody>
+			    <b:Form ui:field="medicForm">
+					<b:FormGroup addStyleNames="col-lg-8">
+						<b:FormLabel for="formMedic" addStyleNames="{style.left_align}">Medication Name</b:FormLabel>
+						<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
+						<b:TextBox b:id="formMedic" ui:field="textboxMedicName" maxLength="50" allowBlank="false"/>
+					</b:FormGroup>
+					<h:Br />
+					<b:FormGroup addStyleNames="col-lg-8">
+						<b:FormLabel for="formReason" addStyleNames="{style.left_align}">Reason</b:FormLabel>
+						<!--b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" /-->
+						<b:TextArea b:id="formReason" ui:field="textareaReason" maxLength="200"/>
+					</b:FormGroup>
+					<h:Br />
+					<b:FormGroup addStyleNames="col-lg-8">
+						<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="updateButton">Add</b:Button>
+						<b:Button type="DANGER" ui:field="cancelButton">Cancel</b:Button>
+					</b:FormGroup>
+				</b:Form>
 			</b:PanelBody>
 		</b:Panel>
 		

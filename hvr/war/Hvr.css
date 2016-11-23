@@ -13,7 +13,7 @@ h1{
 
 
 .common_inst_text{
-  font-size: 180%;
+  font-size: 200%;
   /*font-weight: bold;*/
   color: #808080;
   margin: auto;
@@ -67,8 +67,8 @@ h1{
 }
 
 
-.serverResponseLabelError {
-  color: red;
+.labelError {
+  color: #B22222;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */

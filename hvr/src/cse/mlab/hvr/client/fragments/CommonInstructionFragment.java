@@ -12,4 +12,9 @@ public class CommonInstructionFragment extends AudioBasedFragment{
 	public String getText() {
 		return text;
 	}
+	@Override
+	public boolean hasText() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

@@ -6,14 +6,8 @@
 	.important {
 		font-weight: bold;
 	}
-		.margin{
-			margin-top: 5%;
-    		margin-bottom: 5%;
-    		margin-right: 10%;
-    		margin-left: 5%;
-		}
 	</ui:style>
+
 	<!--b:Column ui:field="verticalBoard" addStyleNames="{style.margin}"-->
-	 <b:Column ui:field="verticalBoard" size="MD_12">
-	</b:Column>
+	 <b:Column ui:field="verticalBoard" size="MD_11"/>
 </ui:UiBinder> 

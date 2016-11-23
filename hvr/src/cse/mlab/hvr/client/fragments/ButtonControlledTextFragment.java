@@ -18,4 +18,9 @@ public class ButtonControlledTextFragment extends AudioBasedFragment{
 	public int getDurationToShowButton() {
 		return durationToShowButton;
 	}
+	@Override
+	public boolean hasText() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }
