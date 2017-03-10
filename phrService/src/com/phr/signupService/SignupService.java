@@ -144,7 +144,7 @@ public class SignupService {
 									+ userProfile.getLastName()==null?"":userProfile.getLastName();
 						String emailBody = 	"\n\nThank you for joining us.\n"
 											+ "\nClick below link to complete your registration:\n"
-											+ ServiceUtil.getServiceRoot() + "verifyemail?token=" + token;
+											+ ServiceUtil.getEmailVerificationRoot() + "verifyemail?token=" + token;
 
 						ServiceUtil.sendEmail(email, subject, emailBody, name);
 					}

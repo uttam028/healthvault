@@ -16,7 +16,11 @@
 		}
 		.banner_white{
 			color:white;
-			font-size: 25px;
+			font-size: 45px;
+		}
+		.top_down_space{
+			margin-top:.5em;
+			margin-bottom:.25em;
 		}
 	</ui:style>
 	<g:HTMLPanel ui:field="mainpagePanel">
@@ -26,10 +30,9 @@
  					<b:Image url="template/images/ndcrest.png" addStyleNames="{style.half}"></b:Image>
 				</b:Column> 
 				<b:Column size="MD_8">
-					<g:Label addStyleNames="{style.banner_white}">Speech Marker
+					<g:Label addStyleNames="{style.banner_white}  {style.top_down_space}">Speech Marker
 						Initiative</g:Label>
-					<h:Paragraph addStyleNames="banner_text_color">A research project run by University of Notre Dame and funded by 
-					National Science Foundation</h:Paragraph> 
+					<h:Paragraph addStyleNames="banner_text_color">A speech data repository for healthcare research at the University of Notre Dame</h:Paragraph> 
 				</b:Column>
 				<b:Column size="MD_2">
 					<b:Image url="template/images/nsfcrest.png" addStyleNames="{style.half}"></b:Image>

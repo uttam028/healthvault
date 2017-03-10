@@ -45,11 +45,11 @@ public class AdminHome extends Composite{
 		
 		
 		//insert some dummy data
-		StudyOverview st1 = new StudyOverview("1", "Parkinson Study, Nov 2016", "", "", "", "", "", "", true, true, "", 3, "1", "1");
-		StudyOverview st2 = new StudyOverview("2", "Concussion Study, Aug 2016", "", "", "", "", "", "", true, true, "", 3, "2", "2");
+		StudyOverview st1 = new StudyOverview("1", "Parkinson Study, Nov 2016", "", "", "", "", "", "", "", "", true, true, "", 3, "1", "1");
+		StudyOverview st2 = new StudyOverview("2", "Concussion Study, Aug 2016", "", "", "", "", "", "", "", "", true, true, "", 3, "2", "2");
 		
 		
-		StudyOverview st3 = new StudyOverview("3", "Test Study, Jan 2016", "", "", "", "", "", "", false, true, "", 3, "3", "3");
+		StudyOverview st3 = new StudyOverview("3", "Test Study, Jan 2016", "", "", "", "", "", "", "", "", false, true, "", 3, "3", "3");
 		
 		ArrayList<StudyOverview> studiesList = new ArrayList<>();
 		studiesList.add(st1);

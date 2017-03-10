@@ -7,6 +7,8 @@ public class StudyOverview implements IsSerializable {
 	private String name;
 	private String alias;
 	private String createdBy;
+	private String startDate;
+	private String endDate;
 	private String creationDate;
 	private String modificationDate;
 	private String overview;
@@ -26,15 +28,18 @@ public class StudyOverview implements IsSerializable {
 	}
 
 	public StudyOverview(String id, String name, String alias,
-			String createdBy, String creationDate, String modificationDate,
-			String overview, String description, boolean active,
-			boolean consentFileAvailable, String consentFileName,
-			int publishState, String speechTestId, String complianceId) {
+			String createdBy, String startDate, String endDate,
+			String creationDate, String modificationDate, String overview,
+			String description, boolean active, boolean consentFileAvailable,
+			String consentFileName, int publishState, String speechTestId,
+			String complianceId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.alias = alias;
 		this.createdBy = createdBy;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.creationDate = creationDate;
 		this.modificationDate = modificationDate;
 		this.overview = overview;
@@ -61,6 +66,14 @@ public class StudyOverview implements IsSerializable {
 
 	public String getCreatedBy() {
 		return createdBy;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
 	}
 
 	public String getCreationDate() {
@@ -102,7 +115,6 @@ public class StudyOverview implements IsSerializable {
 	public String getComplianceId() {
 		return complianceId;
 	}
-	
 
 
 }

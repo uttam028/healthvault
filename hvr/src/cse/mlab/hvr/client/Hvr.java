@@ -141,7 +141,9 @@ public class Hvr implements EntryPoint {
 								mainPage.loadHomePage();								
 							}
 						} else {
-							History.back();
+							//History.back();
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
 						}
 						
 					} else if (historyToken.startsWith("profile")) {
@@ -158,7 +160,9 @@ public class Hvr implements EntryPoint {
 								getEventBus().fireEvent(new LoadProfileItemEvent(ProfilePageItem.PERSONAL));
 							}
 						} else {
-							History.back();
+							//History.back();
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
 						}
 						
 					} else if (historyToken.startsWith("admin")) {
@@ -171,32 +175,43 @@ public class Hvr implements EntryPoint {
 							}
 							
 						}else {
-							History.back();
+							//History.back();
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
+
 						}
 						
 					} else if (historyToken.startsWith("research")) {
 						if(loggedIn){
 							mainPage.loadResearchPage();
 						}else {
-							History.back();
+							//History.back();
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
+
 						}
 						
 					} else if (historyToken.startsWith("contact")) {
 						if(loggedIn){
 							mainPage.loadContactPage();
 						}else {
-							History.back();
+							//History.back();
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
+
 						}
 					} else{
 						//Window.alert("in else history token :" + historyToken);
-						History.newItem("home");
-						/*
+						//History.newItem("home");
+						
 						if(loggedIn){
 							//mainPage.loadHomePage();
 							History.newItem("Home");
 						} else {
-							onModuleLoad();
-						}*/
+							//onModuleLoad();
+							History.fireCurrentHistoryState();
+
+						}
 					}
 					/* else if(historyToken.startsWith("speechtest")){
 						if(loggedIn){

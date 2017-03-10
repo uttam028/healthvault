@@ -43,8 +43,9 @@
 					<g:Label addStyleNames="{style.white} h2">Speech Marker
 						Initiative</g:Label>
 					<!--h:Paragraph addStyleNames="banner_text_color h2">Speech Marker Initiative</h:Paragraph -->
-					<h:Paragraph addStyleNames="banner_text_color">A research project run by University of Notre Dame and funded by 
-					National Science Foundation</h:Paragraph>
+					<!--h:Paragraph addStyleNames="banner_text_color">A research project run by University of Notre Dame and funded by 
+					National Science Foundation</h:Paragraph-->
+					<h:Paragraph addStyleNames="banner_text_color">A speech data repository for healthcare research at the University of Notre Dame</h:Paragraph>
 				</b:Column>
 				<b:Column size="MD_2">
 					<b:Image url="template/images/nsfcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
@@ -70,12 +71,18 @@
 							<br />
 							<br />
 							<br />
-							<h4>Thousands of people are suffering from neurological
+							<!--h4>Thousands of people are suffering from neurological
 								disorder
-								like Parkinson. <!--There are no marker (diagnosis) in our body to
+								like Parkinson. --><!--There are no marker (diagnosis) in our body to
 								identify them from beforehand.-->
-								Speech is one of the marker that researchers are looking
-								into to identify those diseases from beforehand, and you can also be part of this journey.</h4>
+								<!--Speech is one of the marker that researchers are looking
+								into to identify those diseases from beforehand, and you can also be part of this journey.</h4-->
+							<h4>Millions of people suffer from Parkinson, Alzheimer, stroke, ALS, 
+								and many other neurodegenerative and neurodevelopmental conditions. Speech has the potential 
+								to serve as diagnostic and progression biomarker for these conditions. 
+								Speech Marker Initiative at the University of Notre Dame is to facilitate collecting and sharing 
+								of speech data from patients and at-risk individuals
+							</h4>
 
 						</g:HTMLPanel>
 						<g:HTMLPanel ui:field="researcherCustomPanel"
@@ -109,7 +116,7 @@
 						<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-2 col-lg-7"
 							ui:field="formLogin">
 							<b:FieldSet>
-								<b:Legend>Login</b:Legend>
+								<b:Legend>Log In</b:Legend>
 								<g:Label ui:field="labelLoginError" styleName="labelError"></g:Label>
 								<b:FormGroup>
 									<!--b:FormLabel for="formName" addStyleNames="col-lg-4">Email</b:FormLabel -->
@@ -132,13 +139,13 @@
 								<b:FormGroup>
 									<g:FlowPanel addStyleNames="col-lg-offset-8 col-lg-4">
 										<b:Button ui:field="buttonLoginAction" type="PRIMARY"
-											size="LARGE">Log in</b:Button>
+											size="LARGE">Log In</b:Button>
 									</g:FlowPanel>
 								</b:FormGroup>
 
 								<b:FormGroup>
 									<b:Button type="LINK" addStyleNames="col-lg-offset-3"
-										ui:field="buttonForgotPass">Forget Password</b:Button>
+										ui:field="buttonForgotPass">Forgot Password</b:Button>
 									<h:Span>|</h:Span>
 									<b:Button type="LINK" ui:field="buttonCreateAccount">Register</b:Button>
 								</b:FormGroup>
@@ -210,7 +217,7 @@
 			<br/><br/>
 			<b:Row>
 				<g:HTMLPanel>
-					<h2>Welcome Participants</h2>
+					<h2>Welcome Study Participants</h2>
 					<h4>You can enroll to available speech studies, and participate regularly in speech test to be rewarded</h4>
 				</g:HTMLPanel>
 				
@@ -280,8 +287,11 @@
 					<g:HTMLPanel>
 						<br />
 						<br />
-						<h2>Speech Researchers.....</h2>
-						<h5>Register as participant and contact admin to get researcher access</h5>
+						<h2>Researchers...</h2>
+						<!--h5>Register as participant and contact admin to get researcher access</h5-->
+						<h5>We are currently working on expanding this site to allow researchers outside 
+						of the University of Notre Dame to access the speech data or to perform their 
+						own speech collection studies. Please check back in Summer 2017!</h5>
 					</g:HTMLPanel>
 					
 				</b:Column>
@@ -299,7 +309,7 @@
 						<h4>
 							<!--img src="template/images/search2.png" /-->
 							<span class="glyphicon glyphicon-filter"></span>
-							&nbsp; Investigate marker in speech samples
+							&nbsp; Investigate markers in speech samples
 						</h4>
 						<br />
 						<br />

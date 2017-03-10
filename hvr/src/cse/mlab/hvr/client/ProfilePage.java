@@ -68,6 +68,9 @@ public class ProfilePage extends Composite {
 	}
 	
 	protected void loadPersonalInfoPage(){
+		personalInfoLink.setActive(true);
+		medicalInfoLink.setActive(false);
+		accountInfoLink.setActive(false);
 		profileContentPanel.clear();
 		if(personalInfoPage == null){
 			personalInfoPage = new PersonalInfoPage();
@@ -81,6 +84,9 @@ public class ProfilePage extends Composite {
 	}
 	
 	protected void loadAccountInfoPage(){
+		personalInfoLink.setActive(false);
+		medicalInfoLink.setActive(false);
+		accountInfoLink.setActive(true);
 		profileContentPanel.clear();
 		if(accountInfoPage == null){
 			accountInfoPage = new AccountInfoPage();
@@ -93,6 +99,9 @@ public class ProfilePage extends Composite {
 		History.newItem("profile/medical");
 	}
 	protected void loadMedicalInfoPage(){
+		personalInfoLink.setActive(false);
+		medicalInfoLink.setActive(true);
+		accountInfoLink.setActive(false);
 		profileContentPanel.clear();
 		if(medicalInfoPage == null){
 			medicalInfoPage = new MedicalInfoPage();

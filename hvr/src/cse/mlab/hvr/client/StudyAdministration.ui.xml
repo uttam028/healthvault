@@ -20,28 +20,42 @@
 		  		<h:Br/> <h:Br/>
 		  		<g:HTMLPanel>
 		  			<b:Row>
-		  				<b:Column size="MD_6">
+		  				<b:Column size="MD_5">
 				  			<b:Panel>
 				  				<b:PanelHeader>
 				  					<b:Heading size="H2" text="Study"></b:Heading>
 				  				</b:PanelHeader>
 				  				<b:PanelBody>
-							  		<g:Label>Total Participation:</g:Label>
-							  		<g:Label>User count: 3</g:Label>
-							  		<g:Label>Completed Speech Test: 8</g:Label>		  					
+				  					<b:Column size="MD_6">
+				  						<g:Label>Start Date</g:Label>
+				  						<h:Br/>
+				  						<g:Label>End Date</g:Label>
+				  					</b:Column>
+				  					<b:Column size="MD_6">
+								  		<g:Label>01 Nov 2016</g:Label>
+								  		<h:Br/>
+								  		<g:Label></g:Label>
+				  					</b:Column>
 				  				</b:PanelBody>
 				  			</b:Panel>
 		  				</b:Column>
-		  				<!--b:Column size="MD_1"/-->
-		  				<b:Column size="MD_6">
+		  				<b:Column size="MD_2"/>
+		  				<b:Column size="MD_5">
 				  			<b:Panel>
 				  				<b:PanelHeader>
 				  					<b:Heading size="H2" text="Participation"></b:Heading>
 				  				</b:PanelHeader>
 				  				<b:PanelBody>
-							  		<g:Label>Total Participation:</g:Label>
-							  		<g:Label>User count: 3</g:Label>
-							  		<g:Label>Completed Speech Test: 8</g:Label>		  					
+				  					<b:Column size="MD_8">
+				  						<g:Label>User Count</g:Label>
+				  						<h:Br/>
+				  						<g:Label>Completed Speech Test</g:Label>
+				  					</b:Column>
+				  					<b:Column size="MD_4">
+								  		<g:Label>10</g:Label>
+								  		<h:Br/>
+								  		<g:Label>19</g:Label>
+				  					</b:Column>				  				
 				  				</b:PanelBody>
 				  			</b:Panel>
 		  				</b:Column>

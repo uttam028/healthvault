@@ -12,21 +12,10 @@
 	<script type="text/javascript">
             //google.load("visualization", "1", {'packages' : ["motionchart", "table", "annotatedtimeline"] });
     		google.charts.load('current', {
-    			'packages' : [ 'table' ]
+    			'packages' : [ 'table', 'annotationchart' ]
     		});
     </script>		
     		
-	<!--link rel="stylesheet" type="text/css" href="template/assets/css/main.css">
-    <link rel="stylesheet" type="text/css" href="template/assets/css/mystyle.css">
-	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-    <!-- script type="text/javascript" src="template/assets/js/login.js"></script>
-
-
-    		
- 	<script type="text/javascript" src="template/assets/js/skel.min.js"></script>
-	<script type="text/javascript" src="template/assets/js/util.js"></script-->
-	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-	<!--script type="text/javascript" src="template/assets/js/main.js"></script-->
 
     </script>
       <!--script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js'></script-->
@@ -37,30 +26,22 @@
   <script type="text/javascript" src="js/progressbar.min.js"></script>
   
   <!--script type="text/javascript" src="js/blockUI.js"></script>
-  <script type="text/javascript" src="js/test.js"></script>
-  <script type="text/javascript" src="js/ConcatenateBlob.js"></script-->
+  <!--script type="text/javascript" src="js/test.js"></script-->
+  <!--script type="text/javascript" src="js/ConcatenateBlob.js"></script-->
   
-  <!--http://tinytools.codesells.com/ProgressBar -->
-  <!--script type="text/javascript" src="js/tinytools.progressbar.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/tinytools.progressbar.min.css"-->
   
-  <!--  https://github.com/arthurgouveia/prettyCheckable-->
-  	<!--link rel="stylesheet" type="text/css" href="css/prettyCheckable.css">
-	<script type="text/javascript" src="js/prettyCheckable.min.js"></script-->
+	<!--script type="text/javascript" src="js/prettyCheckable.min.js"></script-->
   
   <!-- script src="//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js" type="text/javascript"></script-->
   
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="Medications.css">
-  <link rel="stylesheet" href="bubble_progress.css">
+  <!--link rel="stylesheet" href="bubble_progress.css"-->
     
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="Hvr.css">
-    
-    <!-- link type="text/css" rel="stylesheet" href="template/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="template/css/bootstrap-theme.min.css"-->
     
 
     <!--                                           -->

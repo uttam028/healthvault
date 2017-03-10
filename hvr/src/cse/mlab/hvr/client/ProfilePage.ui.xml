@@ -10,6 +10,12 @@
 			text-align:left;
 			font-family: "Times New Roman", Times, serif;
 		}
+		.heading_font{
+			font-size: 150%;
+		}
+		.link_font{
+			font-size: 120%;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<b:Column size="MD_5">
@@ -17,11 +23,13 @@
 			<g:HTMLPanel addStyleNames="col-lg-offset-5 col-lg-5">
 				<b:Panel addStyleNames="{style.left_text}">
 					<b:PanelHeader>
-						<b:Heading size="H4" text="User Information"/>
+						<b:Heading addStyleNames="{style.heading_font}"  size="H2" text="Your Profile"/>
 					</b:PanelHeader>
-					<b:LinkedGroupItem text="Personal" color="BLUE" ui:field="personalInfoLink"/>
-					<b:LinkedGroupItem text="Medical" color="BLUE" ui:field="medicalInfoLink"/>
-					<b:LinkedGroupItem text="Account" color="BLUE" ui:field="accountInfoLink"/>
+					<b:LinkedGroup>
+						<b:LinkedGroupItem addStyleNames="{style.link_font}" active="true" text="Personal Information" ui:field="personalInfoLink"/>
+						<b:LinkedGroupItem addStyleNames="{style.link_font}" text="Medical History"  ui:field="medicalInfoLink"/>
+						<b:LinkedGroupItem addStyleNames="{style.link_font}" text="Account"  ui:field="accountInfoLink"/>
+					</b:LinkedGroup>
 
 				</b:Panel>
 

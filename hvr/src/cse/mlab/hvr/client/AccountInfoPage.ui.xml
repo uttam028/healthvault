@@ -24,7 +24,7 @@
 		<h4>Account Information</h4>
 		<b:Panel>
 			<b:PanelHeader>
-				<b:Heading size="H3" text="Change Passowrd" addStyleNames="{style.left_text}" />
+				<b:Heading size="H3" text="Change Password" addStyleNames="{style.left_text}" />
 			</b:PanelHeader>
 			<b:PanelBody>
 			    <b:Form ui:field="changePasswordForm">

@@ -1,13 +1,9 @@
 package cse.mlab.hvr.shared.study;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class StudyStatistics implements Serializable {
+public class StudyStatistics implements IsSerializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int totalEnrollment;
 	private int totalUserParticipation;
 	private int totalCompletedSpeechtest;

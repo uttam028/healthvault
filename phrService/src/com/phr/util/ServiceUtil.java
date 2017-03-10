@@ -33,6 +33,11 @@ public class ServiceUtil {
 		return "http://10.32.10.188:8080/hvr/";
 	}
 	
+	public static String getEmailVerificationRoot(){
+		//return "http://129.74.247.110:8080/hvr/";
+		return "http://speechmarker.com/";
+	}
+	
 	public static String getStudyRoot(){
 		return "http://10.32.10.188:8080/hvr/metadata/study/";
 	}
