@@ -18,9 +18,10 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<b:Column size="MD_5">
+		<b:Row>
+		<b:Column size="MD_3">
 		    <h:Br/><h:Br/>
-			<g:HTMLPanel addStyleNames="col-lg-offset-5 col-lg-5">
+			<g:HTMLPanel addStyleNames="col-lg-offset-3 col-lg-7">
 				<b:Panel addStyleNames="{style.left_text}">
 					<b:PanelHeader>
 						<b:Heading addStyleNames="{style.heading_font}"  size="H2" text="Your Profile"/>
@@ -36,10 +37,11 @@
 			</g:HTMLPanel>
 
 		</b:Column>
-		<b:Column size="MD_7">
+		<b:Column size="MD_9">
 		    <g:HTMLPanel ui:field="profileContentPanel" addStyleNames="col-lg-10">
 		        
 		    </g:HTMLPanel>
 		</b:Column>
+		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

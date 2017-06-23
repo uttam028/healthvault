@@ -77,11 +77,12 @@
 								identify them from beforehand.-->
 								<!--Speech is one of the marker that researchers are looking
 								into to identify those diseases from beforehand, and you can also be part of this journey.</h4-->
-							<h4>Millions of people suffer from Parkinson, Alzheimer, stroke, ALS, 
-								and many other neurodegenerative and neurodevelopmental conditions. Speech has the potential 
-								to serve as diagnostic and progression biomarker for these conditions. 
-								Speech Marker Initiative at the University of Notre Dame is to facilitate collecting and sharing 
-								of speech data from patients and at-risk individuals
+							
+							<h4>Millions of people suffer from Parkinson’s disease, Alzheimer’s disease, stroke, ALS, and 
+							many other neurodegenerative and neurodevelopmental conditions. Speech has the potential to serve 
+							as diagnostic and progression biomarker for these conditions and the purpose of the Speech Marker 
+							Initiative at the University of Notre Dame is to facilitate collecting and sharing of speech data 
+							from patients and at-risk individuals.
 							</h4>
 
 						</g:HTMLPanel>
@@ -216,14 +217,20 @@
 			<!--h:Hr /-->
 			<br/><br/>
 			<b:Row>
-				<g:HTMLPanel>
+				<g:HTMLPanel addStyleNames="col-lg-offset-2 col-lg-8">
 					<h2>Welcome Study Participants</h2>
-					<h4>You can enroll to available speech studies, and participate regularly in speech test to be rewarded</h4>
+					<!--h4>You can enroll to available speech studies, and participate regularly in speech test to be rewarded</h4-->
+					<br/>
+					<h4>If you are interested in participating in a speech study, please consider registering.</h4>
+					<br/>
+					<h4> This site provides frequent opportunities to participate in one or more neurological research study. A typical requires you to go through some form of reading or storytelling tasks several times during the study period. Many studies also invite healthy individuals to provide their speech samples for comparison. Some studies also offer financial incentives for your participation. </h4>
+					<br/>
+					<h4>All speech data collections occur via your computer and browser and no travel is required for participation.</h4>
 				</g:HTMLPanel>
 				
 			</b:Row>
 			<br/><br/>
-			<b:Row>
+			<!--b:Row>
 				<b:Column size="MD_2"></b:Column>
 				<b:Column size="MD_2">
 					<b:Row>
@@ -270,7 +277,7 @@
 					</b:Row>
 				</b:Column>
 				
-			</b:Row>
+			</b:Row-->
 			<br/>
 			<br/>
 			<!--b:Row addStyleNames="col-lg-offset-8">
@@ -284,7 +291,7 @@
 			<hr/>
 			<b:Row addStyleNames="{style.login_back}">
 				<b:Column size="MD_7">
-					<g:HTMLPanel>
+					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9">
 						<br />
 						<br />
 						<h2>Researchers...</h2>

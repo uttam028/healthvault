@@ -28,9 +28,10 @@ public class UserProfileService {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		System.out.println("loading database driver......user profile service");
+//		DatabaseUtil.loadDriver();
+//	}
 
 	@Path("{email}")
 	@GET
@@ -65,6 +66,11 @@ public class UserProfileService {
 					profile.setPrimaryLanguage(resultSet.getString("primary_language"));
 					profile.setPhoneNumber(resultSet.getString("phone_number"));
 					profile.setAddress(resultSet.getString("address"));
+					profile.setHandedness(resultSet.getString("handedness"));
+					profile.setHearing(resultSet.getString("hearing"));
+					profile.setVision(resultSet.getString("vision"));
+					profile.setSwallowing(resultSet.getString("swallowing"));
+					profile.setDentures(resultSet.getString("dentures"));
 				}
 
 				/*
@@ -113,7 +119,8 @@ public class UserProfileService {
 				statement = connection.createStatement();
 
 				preparedStatement = connection
-						.prepareStatement("update phr.user_profile set first_name=?, last_name=?, gender=?, birth_year=?, primary_language=?, phone_number=?, address=? where email=?");
+						.prepareStatement("update phr.user_profile set first_name=?, last_name=?, gender=?, birth_year=?, primary_language=?, phone_number=?, address=?,"
+								+ " handedness=?, hearing=?, vision=?, swallowing=?, dentures=? where email=?");
 				preparedStatement.setString(1, userProfile.getFirstName());
 				preparedStatement.setString(2, userProfile.getLastName());				
 				preparedStatement.setString(3, userProfile.getGender());
@@ -121,7 +128,13 @@ public class UserProfileService {
 				preparedStatement.setString(5, userProfile.getPrimaryLanguage());
 				preparedStatement.setString(6, userProfile.getPhoneNumber());
 				preparedStatement.setString(7, userProfile.getAddress());
-				preparedStatement.setString(8, userProfile.getEmail());
+				preparedStatement.setString(8, userProfile.getHandedness());
+				preparedStatement.setString(9, userProfile.getHearing());
+				preparedStatement.setString(10, userProfile.getVision());
+				preparedStatement.setString(11, userProfile.getSwallowing());
+				preparedStatement.setString(12, userProfile.getDentures());
+
+				preparedStatement.setString(13, userProfile.getEmail());
 				
 				System.out.println("query: " + preparedStatement.toString());
 				preparedStatement.execute();

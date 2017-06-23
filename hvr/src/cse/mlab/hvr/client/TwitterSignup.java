@@ -121,7 +121,7 @@ public class TwitterSignup extends Composite {
 		this.application = application;
 		formLogin.setVisible(true);
 		formSignup.setVisible(false);
-		initializeFaqs();
+//		initializeFaqs();
 	}
 	
 	private void initializeFaqs(){
@@ -607,7 +607,7 @@ public class TwitterSignup extends Composite {
 								if (result.toLowerCase().equals("true")) {
 									buttonSignupAction.setEnabled(true);
 									labelSignupError
-											.setText("This email already exist, Please try with new one.");
+											.setText("This email already exists, Please try a different one.");
 								} else {
 									greetingService.signupToPhr(userProfile,
 											new AsyncCallback<Response>() {
@@ -627,7 +627,9 @@ public class TwitterSignup extends Composite {
 														//application.signedUP(email);
 														resetSignup();
 														enableLoginForm(null);
-														String signupMessage = "Thank you for registering in ND Speech Marker Initiative. You will receive confirmation email to activate your account.";
+														//String signupMessage = "Thank you for registering in ND Speech Marker Initiative. You will receive confirmation email to activate your account.";
+														String signupMessage = "Thank you for registering with the University of Notre Dame Speech Marker Initiative. "
+																+ "Please check your mailbox for a confirmation email to activate your account.";
 														showAuthMessage(signupMessage);
 													} else {
 														labelSignupError.setText(result

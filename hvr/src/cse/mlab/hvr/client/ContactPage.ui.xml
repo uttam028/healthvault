@@ -17,25 +17,31 @@
 	
 	</ui:style>
 	<g:HTMLPanel>
-		<h4>For any query, send message to us</h4>
+		<b:Row>
+			<g:HTMLPanel ui:field="resultPanel" addStyleNames="col-lg-offset-3 col-lg-6">        
+		    </g:HTMLPanel>
+		</b:Row>
+	
+	
+		<h4>If you have questions or concerns, please contact us using the form below:</h4>
 	    <b:Form ui:field="messageForm">
 			<b:FormGroup addStyleNames="col-lg-offset-3 col-lg-6">
 				<b:FormLabel for="formSubject" addStyleNames="{style.left_align}">Subject</b:FormLabel>
-				<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-				<b:TextBox b:id="formSubject" ui:field="textboxSubject" maxLength="100" allowBlank="false"/>
+				<!--b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" /-->
+				<b:TextBox b:id="formSubject" ui:field="textboxSubject" maxLength="100"/>
 			</b:FormGroup>
 			<h:Br />
 			<b:FormGroup addStyleNames="col-lg-offset-3 col-lg-6">
 				<b:FormLabel for="formMessagebody" addStyleNames="{style.left_align}">Message</b:FormLabel>
 				<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-				<b:TextArea b:id="formMessagebody" ui:field="textareaMessage" maxLength="500" allowBlank="false"/>
+				<b:TextArea b:id="formMessagebody" ui:field="textareaMessage" maxLength="3000" allowBlank="false"/>
 			</b:FormGroup>
 			
 			<h:Br />
 	
 			<b:FormGroup addStyleNames="col-lg-offset-3 col-lg-6">
-				<b:Button addStyleNames="{style.left_align}" type="INFO" size="LARGE" ui:field="sendButton">Send</b:Button>
-				<b:Button addStyleNames="{style.left_align}" type="DANGER" ui:field="cancelButton" size="LARGE">Cancel</b:Button>
+				<b:Button pull="RIGHT" type="PRIMARY" size="LARGE" ui:field="sendButton">Send</b:Button>
+				<!--b:Button addStyleNames="{style.left_align}" type="DANGER" ui:field="cancelButton" size="LARGE">Cancel</b:Button-->
 			</b:FormGroup>
 		</b:Form>
 	</g:HTMLPanel>

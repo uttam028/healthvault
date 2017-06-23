@@ -22,6 +22,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import cse.mlab.hvr.client.GreetingService;
+import cse.mlab.hvr.shared.Diagnosis;
+import cse.mlab.hvr.shared.DiagnosisList;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
@@ -236,7 +238,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				+ (end - start));
 		
 		return response;*/
-		return new UserRole(true, true, true);
+		return new UserRole(true, false, false);
 	}
 	
 
@@ -320,6 +322,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return profileUpdateResult;
 	}
 
+	//-----------------------------------medication--------------------------//
 	@Override
 	public Response saveMedication(Medication medication) {
 		// TODO Auto-generated method stub
@@ -458,19 +461,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		Medication medication = new Medication();
 		medication.setEmail("z@gmail.com");
 		medication.setName("tes");
-		medication.setStrength(1245);
-		medication.setStrengthUnit("kg");
-		medication.setConsumeFrequency("weekly");
-		medication.setConsumeProcess("pacha");
-		medication.setDosage(3);
-		medication.setDosageUnit("stripe");
+//		medication.setStrength(1245);
+//		medication.setStrengthUnit("kg");
+//		medication.setConsumeFrequency("weekly");
+//		medication.setConsumeProcess("pacha");
+//		medication.setDosage(3);
+//		medication.setDosageUnit("stripe");
 		medication.setEndDate("2015-12-31");
-		medication.setInstruction("take it somehow");
-		medication.setIsPrescribed("otc");
-		medication.setNote("");
-		medication.setPrescribedBy("me");
-		medication.setPrescribedDate("2012-08-27");
-		medication.setPrescribedQuantity("3 time daily");
+//		medication.setInstruction("take it somehow");
+//		medication.setIsPrescribed("otc");
+//		medication.setNote("");
+//		medication.setPrescribedBy("me");
+//		medication.setPrescribedDate("2012-08-27");
+//		medication.setPrescribedQuantity("3 time daily");
 		medication.setReason("");
 		medication.setStartDate("2014-12-07");
 
@@ -497,6 +500,88 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		// return response;
 
+	}
+	
+	//--------------------------------------diagnosis----------------------------------//
+	
+	@Override
+	public Response saveDiagnosis(Diagnosis diagnosis) {
+		System.out.println("dianosis: "+ diagnosis.toString());
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/diagnosis/";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, diagnosis);
+		Response saveDiagResult = nameResource.getEntity(Response.class);
+
+		System.out.println("response code:" + saveDiagResult.getCode()
+				+ "message:" + saveDiagResult.getMessage());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff save diagnosis call: " + (end - start));
+		return saveDiagResult;
+	}
+	
+	@Override
+	public DiagnosisList getDiagnosisList(String email) {
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/diagnosis/" + email;
+		WebResource service = client.resource(url);
+
+		String response = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+
+		DiagnosisList diagnosisList = new Gson().fromJson(response,
+				DiagnosisList.class);
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff get diagnosis list: " + (end - start));
+		return diagnosisList;
+	}
+	
+	@Override
+	public Response updateDiagnosis(Diagnosis diagnosis) {
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/diagnosis/update/" + diagnosis.getId();
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, diagnosis);
+		Response updateDiagnosisResult = nameResource.getEntity(Response.class);
+
+		System.out.println("response code:" + updateDiagnosisResult.getCode()
+				+ "message:" + updateDiagnosisResult.getMessage());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff update diagnosis call: " + (end - start));
+		return updateDiagnosisResult;
+	}
+	
+	@Override
+	public Response deleteDiagnosis(String email, String list) {
+		System.out.println("list:" + list);
+		list = Base64.encodeBase64String(list.getBytes());
+		long start = Calendar.getInstance().getTimeInMillis();
+
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		String url = serverRoot + "/diagnosis/" + email + "/" + list;
+		WebResource service = client.resource(url);
+
+		String result = service.accept(MediaType.APPLICATION_JSON).get(
+				String.class);
+		Response response = new Gson().fromJson(result, Response.class);
+
+		System.out.println("delete response:" + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff delete diagnosis list: " + (end - start));
+
+		return response;
 	}
 
 	// ------------------speech test----------------------//

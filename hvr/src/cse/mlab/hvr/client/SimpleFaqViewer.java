@@ -6,6 +6,7 @@ import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.ImageAnchor;
 import org.gwtbootstrap3.client.ui.Row;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 import org.gwtbootstrap3.client.ui.constants.IconSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
@@ -14,6 +15,7 @@ import org.gwtbootstrap3.client.ui.html.Hr;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -64,16 +66,30 @@ public class SimpleFaqViewer extends Composite {
 			// for(QA qa:qaList){
 			
 			for (int i = 0; i < qaList.size(); i++) {
-				//HTMLPanel panel = new HTMLPanel("");
+				HTMLPanel panel = new HTMLPanel("");
 				//panel.addStyleName("panel_border");
-
+				
+				Row row1 = new Row();
+				Column col1 = new Column(ColumnSize.MD_11);
+				Column col2 = new Column(ColumnSize.MD_1);
 				Label qLabel = new Label((i + 1) + ". "
 						+ qaList.get(i).getQuestion());
 				qLabel.addStyleName("faq_ques");
 				qLabel.getElement().getStyle().setFontWeight(FontWeight.BOLD);
+				qLabel.getElement().getStyle().setFontSize(1.3, Unit.EM);
 				qLabel.addStyleName("col-lg-offset-1");
-				Label ansLabel = new Label("- " + qaList.get(i).getAnswer());
-				ansLabel.addStyleName("col-lg-offset-1");
+				col1.add(qLabel);
+				final ImageAnchor anchor = new ImageAnchor();
+				anchor.setIcon(IconType.ANGLE_UP);
+				anchor.setIconSize(IconSize.TIMES2);
+				col2.add(anchor);
+				row1.add(col1);
+				row1.add(col2);
+				
+				Row row2 = new Row();
+				final Label ansLabel = new Label("- " + qaList.get(i).getAnswer());
+				ansLabel.addStyleName("col-lg-offset-1 col-lg-10");
+				row2.add(ansLabel);
 				
 				if(i==0){
 					simpleFaqPanel.add(new Br());
@@ -81,12 +97,32 @@ public class SimpleFaqViewer extends Composite {
 					simpleFaqPanel.add(new Hr());
 				}
 				
-				simpleFaqPanel.add(qLabel);
-				simpleFaqPanel.add(new Br());
-				simpleFaqPanel.add(ansLabel);
-				if (i == qaList.size() - 1) {
-					simpleFaqPanel.add(new Br());
+				panel.add(row1);
+				panel.add(new Br());
+				panel.add(row2);
+				panel.addDomHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						if(ansLabel.isVisible()){
+							ansLabel.setVisible(false);
+							anchor.setIcon(IconType.ANGLE_DOWN);							
+						}else {
+							ansLabel.setVisible(true);
+							anchor.setIcon(IconType.ANGLE_UP);
+						}
+					}
+				}, ClickEvent.getType());
+				
+				if(i>0){
+					panel.fireEvent(new ClickEvent(){});
 				}
+				
+				if (i == qaList.size() - 1) {
+					panel.add(new Br());
+				}
+				simpleFaqPanel.add(panel);
 
 			}
 			simpleFaqPanel.addStyleName("panel_border");

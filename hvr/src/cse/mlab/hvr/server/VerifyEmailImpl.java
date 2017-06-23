@@ -16,6 +16,7 @@ package cse.mlab.hvr.server;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,38 +47,47 @@ public class VerifyEmailImpl extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String baseUrl = "http://speechmarker.com/";
 		try {
-			String toWrite = "";
+//			String toWrite = "";
 			Response response = verifyEmail(req);
-			boolean forward = false;
+//			boolean forward = false;
+			resp.setContentType("text/html");
 			if (response.getCode() == 0) {
-				forward = true;
-				toWrite = "Email verified. You will be redirected to log in.";
+//				forward = true;
+//				toWrite = "Email verified. You will be redirected to log in.";
+//				req.setAttribute("code", 0);
+				resp.sendRedirect(baseUrl + "accountverified.jsp?code=0");
 			} else if (response.getCode() == 1) {
-				toWrite = "Invalid verification code. Please sign up.";
+//				toWrite = "Invalid verification code. Please sign up.";
+				resp.sendRedirect(baseUrl + "accountverified.jsp?code=1");
 			} else if (response.getCode() == 2) {
-				forward = true;
-				toWrite = "Email already verified. You will be redirected to log in.";
+//				forward = true;
+//				toWrite = "Email already verified. You will be redirected to log in.";
+				resp.sendRedirect(baseUrl + "accountverified.jsp?code=2");
 			} else {
-				toWrite = "Service is not available, please try later.";
+//				toWrite = "Service is not available, please try later.";
+				resp.sendRedirect(baseUrl + "accountverified.jsp?code=-1");
 			}
-			resp.getWriter().println(toWrite);
+			
+			
+			
+//			resp.getWriter().println(toWrite);
 
-			if (forward) {
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				resp.setHeader("Location", "/hvr/#patient?emailverified=true");
-				resp.flushBuffer();
-			}
+//			if (forward) {
+//				try {
+//					Thread.sleep(3000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				//resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//				//resp.setHeader("Location", "/hvr/#patient?emailverified=true");
+//				resp.flushBuffer();
+//			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			resp.getWriter().println(
-					"Service is not available, please try later.");
+			resp.sendRedirect(baseUrl + "accountverified.jsp?code=-1");
 			e.printStackTrace();
 		}
 

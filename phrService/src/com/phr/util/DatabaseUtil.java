@@ -1,15 +1,18 @@
 package com.phr.util;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
+
+import javax.sql.DataSource;
 
 public class DatabaseUtil {
 	
+	private static MyConnectionPool connectionPool = null;
+
+	private static DataSource dataSource = null;
+	/*
 	public static void loadDriver() {
     	try {
     	    System.out.println("Loading driver...");
@@ -19,11 +22,26 @@ public class DatabaseUtil {
     	    throw new RuntimeException("Cannot find the driver in the classpath!", e);
     	}
 	}
+	*/
 	
+	public static void initializeDataConnection() {
+		try {
+			if(connectionPool == null){
+				connectionPool = new MyConnectionPool();
+			    if(dataSource == null){
+				    dataSource = connectionPool.setUp();
+				    connectionPool.printStatus();		    	
+			    }
+			}
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
+	}
 	
 	public static Connection connectToDatabase() {
 		String dbUrl, username, password;
-		 Connection connection = null;
+		Connection connection = null;
 		try {
 			/**System.out.println(new File(".").getAbsolutePath());
 			File file = new File("WEB-INF/databaseConfig.properties");
@@ -41,6 +59,7 @@ public class DatabaseUtil {
 			**/
 			
 			
+			
 		    InputStream propertiesInputStream = null;
             Properties properties = new Properties();
             propertiesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("../databaseConfig.properties");
@@ -54,12 +73,12 @@ public class DatabaseUtil {
             
 			
 			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			/*
+			connection = dataSource.getConnection();
+			connectionPool.printStatus();
+			*/
+			
+		} catch(Exception e ){
 			e.printStackTrace();
 		}
 		

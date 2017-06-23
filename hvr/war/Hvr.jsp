@@ -74,7 +74,12 @@
         in order for this application to display correctly.
       </div>
     </noscript>
-    <p id="flashcontent">Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p>
+    <div id="flashcontent">
+    	<br/><br/><br/><br/><br/>
+    	<h2>Your browser must have JavaScript enabled and the up to date Adobe Flash Player installed.</h2>
+    	<h2>Try different browser or install up to date Adobe Falsh Player to use this application properly.</h2>
+    	<br/><br/><br/><br/><br/>    
+    </div>
 
   </body>
 </html>

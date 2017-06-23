@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.AboutViewer;
 import cse.mlab.hvr.client.Hvr;
 import cse.mlab.hvr.client.SimpleFaqViewer;
 import cse.mlab.hvr.client.SpeechTestState;
@@ -98,7 +99,8 @@ public class MyStudy extends Composite {
 		statusContentPanel.add(new Br());
 		
 		
-		aboutContentPanel.add(new SimpleFaqViewer(myStudyDataModel.getQaList(), "", true));
+		//aboutContentPanel.add(new SimpleFaqViewer(myStudyDataModel.getQaList(), "", true));
+		aboutContentPanel.add(new AboutViewer(myStudyDataModel.getStudyOverview().getConsentFileName()));
 		
 		
 		statusPanel.addDomHandler(new ClickHandler() {

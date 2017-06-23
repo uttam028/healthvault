@@ -82,9 +82,9 @@ public class MyStudyManager extends Composite {
 	
 	public void showEmptyMessage(){
 		studiesColumn.clear();
-		Label emptylabel = new Label("You are not currently enrolled in any of the studies. Please enroll to participate.");
+		Label emptylabel = new Label("You are currently not enrolled in a speech study. Please check the open studies to the right to see if you are eligible for participation.");
 		emptylabel.setSize("1em", "1.2em");
-		Heading emptyHeading = new Heading(HeadingSize.H4, "You are not currently enrolled in any of the studies. Please enroll to participate.");
+		Heading emptyHeading = new Heading(HeadingSize.H4, "You are currently not enrolled in a speech study. Please check the open studies to the right to see if you are eligible for participation.");
 		studiesColumn.add(emptyHeading);
 	}
 }

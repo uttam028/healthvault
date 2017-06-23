@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.uibinder.elementparsers.IsEmptyParser;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -39,10 +40,12 @@ public class PersonalInfoPage extends Composite{
 	Form personalInfoForm;
 	
 	@UiField
-	TextBox textboxFirstName, textboxLastName, textboxBirthYear, textboxPhoneNumber, textboxLanguage, textboxAddress;
+	TextBox textboxFirstName, textboxLastName, textboxBirthYear, textboxLanguage;
 	
 	@UiField
-	InlineRadio inlineRadioMale, inlineRadioFemale, inlineRadioOther;
+	InlineRadio inlineRadioMale, inlineRadioFemale, inlineRadioOther, inlineRadioRightHand, inlineRadioLeftHand, inlineRadioAmbid,
+	inlineRadioNormalHear, inlineRadioImpairHear, inlineRadioNormalVision, inlineRadioImpairVision, inlineRadioNormalSwallo, inlineRadioDifficult,
+	inlineRadioYesDent, inlineRadioNoDent;
 	
 	@UiField
 	InlineHelpBlock inlineHelpFirst, inlineHelpLast, inlineHelpGender, inlineHelpYear;
@@ -186,10 +189,48 @@ public class PersonalInfoPage extends Composite{
 		}
 		int year = Integer.parseInt(textboxBirthYear.getValue());
 		String language = textboxLanguage.getText().trim();
-		String phone = textboxPhoneNumber.getText().trim();
-		String address = textboxAddress.getText().trim();
+//		String phone = textboxPhoneNumber.getText().trim();
+//		String address = textboxAddress.getText().trim();
 		
-		UserProfile newProfile = new UserProfile(MainPage.getLoggedinUser(), "", firstName, lastName, gender, year, language, phone, address, 0 , 0);	
+		String handedness = "";
+		if(inlineRadioLeftHand.getValue()){
+			handedness = "left";
+		} else if (inlineRadioRightHand.getValue()) {
+			handedness = "right";
+		} else if (inlineRadioAmbid.getValue()) {
+			handedness = "ambidextrous";
+		}
+		
+		String hearing = "";
+		if(inlineRadioNormalHear.getValue()){
+			hearing = "normal";
+		}else if (inlineRadioImpairHear.getValue()) {
+			hearing = "impaired";
+		}
+		
+		String vision = "";
+		if(inlineRadioNormalVision.getValue()){
+			vision = "normal";
+		} else if (inlineRadioImpairVision.getValue()) {
+			vision = "impaired";	
+		}
+		
+		String swallowing = "";
+		if(inlineRadioNormalSwallo.getValue()){
+			swallowing = "normal";
+		}else if (inlineRadioDifficult.getValue()) {
+			swallowing = "difficult";
+		}
+		
+		String dentures = "";
+		if(inlineRadioYesDent.getValue()){
+			dentures = "yes";
+		}else if (inlineRadioNoDent.getValue()) {
+			dentures = "no";
+		}
+		
+		
+		UserProfile newProfile = new UserProfile(MainPage.getLoggedinUser(), "", firstName, lastName, gender, year, language, "", "", 0 , 0, handedness, hearing, vision, swallowing, dentures);	
 		return newProfile;
 	}
 	
@@ -237,18 +278,76 @@ public class PersonalInfoPage extends Composite{
 		}else {
 			textboxLanguage.setText(profile.getPrimaryLanguage());
 		}
-		if(isStringEmpty(profile.getPhoneNumber())){
-			textboxPhoneNumber.setText("");
-		}else {
-			textboxPhoneNumber.setText(profile.getPhoneNumber());
+//		if(isStringEmpty(profile.getPhoneNumber())){
+//			textboxPhoneNumber.setText("");
+//		}else {
+//			textboxPhoneNumber.setText(profile.getPhoneNumber());
+//		}
+//		
+//		if(isStringEmpty(profile.getAddress())){
+//			textboxAddress.setText("");
+//		}else {
+//			textboxAddress.setText(profile.getAddress());
+//		}
+		if(isStringEmpty(profile.getHandedness())){
+			inlineRadioLeftHand.setValue(false);
+			inlineRadioRightHand.setValue(false);
+			inlineRadioAmbid.setValue(false);
+			
+		} else {
+			if(profile.getHandedness().toLowerCase().startsWith("left")){
+				inlineRadioLeftHand.setValue(true);
+			}else if (profile.getHandedness().toLowerCase().startsWith("right")) {
+				inlineRadioRightHand.setValue(true);
+			} else {
+				inlineRadioAmbid.setValue(true);
+			}
 		}
 		
-		if(isStringEmpty(profile.getAddress())){
-			textboxAddress.setText("");
-		}else {
-			textboxAddress.setText(profile.getAddress());
+		if(isStringEmpty(profile.getHearing())){
+			inlineRadioNormalHear.setValue(false);
+			inlineRadioImpairHear.setValue(false);
+		} else {
+			if(profile.getHearing().toLowerCase().startsWith("normal")){
+				inlineRadioNormalHear.setValue(true);				
+			}else {
+				inlineRadioImpairHear.setValue(true);				
+			}
+			
 		}
 		
+		if(isStringEmpty(profile.getVision())){
+			inlineRadioNormalVision.setValue(false);
+			inlineRadioImpairVision.setValue(false);
+		}else {
+			if(profile.getVision().toLowerCase().startsWith("normal")){
+				inlineRadioNormalVision.setValue(true);				
+			} else {
+				inlineRadioImpairVision.setValue(true);
+			}
+		}
+		
+		if(isStringEmpty(profile.getSwallowing())){
+			inlineRadioNormalSwallo.setValue(false);
+			inlineRadioDifficult.setValue(false);
+		}else {
+			if(profile.getSwallowing().toLowerCase().startsWith("normal")){
+				inlineRadioNormalSwallo.setValue(true);
+			}else {
+				inlineRadioDifficult.setValue(true);
+			}
+		}
+		
+		if(isStringEmpty(profile.getDentures())){
+			inlineRadioYesDent.setValue(false);
+			inlineRadioNoDent.setValue(false);
+		}else {
+			if(profile.getDentures().toLowerCase().startsWith("yes")){
+				inlineRadioYesDent.setValue(true);
+			} else {
+				inlineRadioNoDent.setValue(true);
+			}
+		}
 	}
 	
 	private void updateFormDirtiness(boolean state){
@@ -297,22 +396,22 @@ public class PersonalInfoPage extends Composite{
 			updateFormDirtiness(true);
 		}
 	}
-	@UiHandler("textboxPhoneNumber")
-	void handlePhoneNumnberChange(KeyUpEvent event){
-		if(textboxPhoneNumber.getText().equalsIgnoreCase(this.profile.getPhoneNumber())){
-			//updateFormDirtiness(false);
-		}else {
-			updateFormDirtiness(true);
-		}
-	}
-	@UiHandler("textboxAddress")
-	void handleAddressChange(KeyUpEvent event){
-		if(textboxAddress.getText().equalsIgnoreCase(this.profile.getAddress())){
-			//updateFormDirtiness(false);
-		}else {
-			updateFormDirtiness(true);
-		}
-	}
+//	@UiHandler("textboxPhoneNumber")
+//	void handlePhoneNumnberChange(KeyUpEvent event){
+//		if(textboxPhoneNumber.getText().equalsIgnoreCase(this.profile.getPhoneNumber())){
+//			//updateFormDirtiness(false);
+//		}else {
+//			updateFormDirtiness(true);
+//		}
+//	}
+//	@UiHandler("textboxAddress")
+//	void handleAddressChange(KeyUpEvent event){
+//		if(textboxAddress.getText().equalsIgnoreCase(this.profile.getAddress())){
+//			//updateFormDirtiness(false);
+//		}else {
+//			updateFormDirtiness(true);
+//		}
+//	}
 	
 	private void showCancelButton(boolean state){
 		if(state){

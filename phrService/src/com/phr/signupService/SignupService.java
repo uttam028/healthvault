@@ -31,9 +31,10 @@ public class SignupService {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		System.out.println("loading database driver....signup service");
+//		DatabaseUtil.loadDriver();
+//	}
 
 	@Path("{userid}")
 	@GET
@@ -50,7 +51,7 @@ public class SignupService {
 			connection = DatabaseUtil.connectToDatabase();
 			try {
 
-				statement = connection.createStatement();
+				//statement = connection.createStatement();
 				preparedStatement = connection
 						.prepareStatement("SELECT * FROM PHR.USERS WHERE EMAIL=?");
 				preparedStatement.setString(1, userid);
@@ -94,7 +95,7 @@ public class SignupService {
 			System.out.println("Connecting database...");
 			connection = DatabaseUtil.connectToDatabase();
 			try {
-				statement = connection.createStatement();
+				//statement = connection.createStatement();
 				String email = userProfile.getEmail().trim();
 
 				if(invitationActivated){
@@ -142,8 +143,8 @@ public class SignupService {
 						String subject = "Activate Speech Marker Account";
 						String name = userProfile.getFirstName()==null?"":userProfile.getFirstName() + " " 
 									+ userProfile.getLastName()==null?"":userProfile.getLastName();
-						String emailBody = 	"\n\nThank you for joining us.\n"
-											+ "\nClick below link to complete your registration:\n"
+						String emailBody = 	"\n\nThank you for registering with the University of Notre Dame Speech Marker Initiative.\n"
+											+ "\nClick the link below to complete your registration:\n"
 											+ ServiceUtil.getEmailVerificationRoot() + "verifyemail?token=" + token;
 
 						ServiceUtil.sendEmail(email, subject, emailBody, name);
@@ -186,7 +187,7 @@ public class SignupService {
 		Response response = new Response();
 		try {
 			connection = DatabaseUtil.connectToDatabase();
-			statement = connection.createStatement();
+			//statement = connection.createStatement();
 
 			preparedStatement = connection
 					.prepareStatement("select * from phr.users where token=?");

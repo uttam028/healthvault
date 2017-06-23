@@ -30,7 +30,7 @@
     
   <!-- Inherit sound support -->
   <inherits name='com.allen_sauer.gwt.voices.gwt-voices'/>
-  <inherits name='fr.hd3d.html5.video.HTML5Video'/>
+  <!--inherits name='fr.hd3d.html5.video.HTML5Video'/-->
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cse.mlab.hvr.client.Hvr'/>

@@ -7,8 +7,6 @@ import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.ModalHeader;
 import org.gwtbootstrap3.client.ui.ProgressBar;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.constants.IconType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -29,6 +27,8 @@ import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
 import cse.mlab.hvr.client.events.MicrophoneCheckEvent;
 import cse.mlab.hvr.client.events.MicrophoneCheckEventHandler;
+import cse.mlab.hvr.client.events.PreTestSubmitEvent;
+import cse.mlab.hvr.client.events.PreTestSubmitEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
@@ -139,9 +139,19 @@ public class CustomPlayerManager extends Composite {
 			
 			@Override
 			public void actionAfterMicrophoneCheck(MicrophoneCheckEvent event) {
+				playerContentPanel.clear();
+				playerContentPanel.add(new PreTestQuestionsPresenter());				
+			}
+		});
+		
+		Hvr.eventBus.addHandler(PreTestSubmitEvent.TYPE, new PreTestSubmitEventHandler() {
+			
+			@Override
+			public void actionAfterPreTestSubmit(PreTestSubmitEvent event) {
+				// TODO Auto-generated method stub
 				// TODO Auto-generated method stub
 				playerContentPanel.clear();
-				playerContentPanel.add(players[0]);
+				playerContentPanel.add(players[0]);				
 			}
 		});
 		
@@ -353,10 +363,11 @@ public class CustomPlayerManager extends Composite {
 					// url:
 					// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
 					// //Server script to process data
-					url : 'http://10.32.10.188:8080/phrservice/files/upload/',
+					//url : 'http://10.32.10.188:8080/phrservice/files/upload/',
+					url : 'http://129.74.247.110:8080/markerinterface/files/upload/',
 					type : 'post',
 					contentType : 'multipart/form-data',
-					// content: 'text/html',
+					//content: 'text/html',
 					xhr : function() { // Custom XMLHttpRequest
 						var myXhr = $wnd.$.ajaxSettings.xhr();
 						if (myXhr.upload) { // Check if upload property exists

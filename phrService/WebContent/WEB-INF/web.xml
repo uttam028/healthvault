@@ -12,48 +12,30 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-
+	<listener>
+		<listener-class>com.phr.util.MyAppServletContextListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!--servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/signup/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/login/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/profile/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/medication/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/study/*</url-pattern>
-	</servlet-mapping-->
+	<!--servlet-mapping> <servlet-name>Jersey Web Application</servlet-name> 
+		<url-pattern>/signup/*</url-pattern> </servlet-mapping> <servlet-mapping> 
+		<servlet-name>Jersey Web Application</servlet-name> <url-pattern>/login/*</url-pattern> 
+		</servlet-mapping> <servlet-mapping> <servlet-name>Jersey Web Application</servlet-name> 
+		<url-pattern>/profile/*</url-pattern> </servlet-mapping> <servlet-mapping> 
+		<servlet-name>Jersey Web Application</servlet-name> <url-pattern>/medication/*</url-pattern> 
+		</servlet-mapping> <servlet-mapping> <servlet-name>Jersey Web Application</servlet-name> 
+		<url-pattern>/study/*</url-pattern> </servlet-mapping -->
 	<servlet-mapping>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
-	<!--filter>
-		<filter-name>Remote Address Filter</filter-name>
-		<filter-class>org.apache.catalina.filters.RemoteAddrFilter</filter-class>
-		<init-param>
-			<param-name>allow</param-name>
-			<param-value>10\.32\.10\.188|127\.0\.0\.1|afzal-pc</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>Remote Address Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping-->
+	<!--filter> <filter-name>Remote Address Filter</filter-name> <filter-class>org.apache.catalina.filters.RemoteAddrFilter</filter-class> 
+		<init-param> <param-name>allow</param-name> <param-value>10\.32\.10\.188|127\.0\.0\.1|afzal-pc</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>Remote Address Filter</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping -->
 
 </web-app>

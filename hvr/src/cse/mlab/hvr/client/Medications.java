@@ -11,8 +11,12 @@ import org.gwtbootstrap3.client.shared.event.ModalShowHandler;
 import org.gwtbootstrap3.client.shared.event.ModalShownEvent;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Modal;
+import org.gwtbootstrap3.client.ui.TextArea;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonDismiss;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.constants.Toggle;
+import org.gwtbootstrap3.client.ui.html.Br;
 import org.gwtbootstrap3.client.ui.html.Div;
 import org.gwtbootstrap3.extras.datepicker.client.ui.DatePicker;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateEvent;
@@ -24,7 +28,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -38,8 +41,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
@@ -66,46 +67,49 @@ public class Medications extends Composite {
 	Modal medicationModal;
 
 	@UiField
-	Button buttonAddMedic, buttonSubmit, buttonDeleteMedic, buttonEditMedic;
+	Button buttonAddMedic, buttonSubmit, buttonDeleteMedic, buttonEditMedic, buttonEndMedic;
 
 	@UiField
 	TextBox nameBox;
 
-	@UiField
-	TextBox strengthBox;
+	
+//	@UiField
+//	TextBox strengthBox;
+//
+//	@UiField
+//	TextBox dosBox;
+//
+//	@UiField
+//	TextBox freqBox;
+//
+//	@UiField
+//	TextBox prescribedBox;
+//
+//	@UiField
+//	TextBox quantBox;
 
 	@UiField
-	TextBox dosBox;
+	TextArea reasonArea;
 
-	@UiField
-	TextBox freqBox;
-
-	@UiField
-	TextBox prescribedBox;
-
-	@UiField
-	TextBox quantBox;
-
-	@UiField
-	TextArea ReasonArea;
-
-	@UiField
-	TextArea InstructArea;
-
-	@UiField
-	TextArea noteArea;
-
-	@UiField
-	ListBox StrengthList;
-
-	@UiField
-	ListBox dosList;
-
-	@UiField
-	ListBox methodList;
-
-	@UiField
-	ListBox prescribList;
+//	@UiField
+//	TextArea InstructArea;
+//
+//	@UiField
+//	TextArea noteArea;
+//
+//	@UiField
+//	ListBox StrengthList;
+//
+//	@UiField
+//	ListBox dosList;
+//
+//	@UiField
+//	ListBox methodList;
+//
+//	@UiField
+//	ListBox prescribList;
+//	
+	
 
 	@UiField
 	DatePicker startDatePicker;
@@ -113,17 +117,17 @@ public class Medications extends Composite {
 	@UiField
 	DatePicker endDatePicker;
 
-	@UiField
-	DatePicker prescribDatePicker;
+//	@UiField
+//	DatePicker prescribDatePicker;
 
 	@UiField
-	Label idLabel;
+	Label nameLabel;
 
-	@UiField
-	Label dosLabel;
+//	@UiField
+//	Label dosLabel;
 
-	@UiField
-	Label strengthLabel;
+//	@UiField
+//	Label strengthLabel;
 
 	@UiField
 	Label startDateLabel;
@@ -131,81 +135,81 @@ public class Medications extends Composite {
 	@UiField
 	Label endDateLabel;
 
-	@UiField
-	Label prescribDateLabel;
+//	@UiField
+//	Label prescribDateLabel;
+//
+//	@UiField
+//	Label strengthListLabel;
 
-	@UiField
-	Label strengthListLabel;
+//	@UiField
+//	Label dosListLabel;
+//
+//	@UiField
+//	Label methodListLabel;
 
-	@UiField
-	Label dosListLabel;
-
-	@UiField
-	Label methodListLabel;
-
-	@UiField
-	Label freqLabel;
+//	@UiField
+//	Label freqLabel;
 
 	@UiField
 	Label reasonLabel;
 
-	@UiField
-	Label prescribLabel;
-
-	@UiField
-	Label prescribedLabel;
-
-	@UiField
-	Label instructLabel;
-
-	@UiField
-	Label quantLabel;
-
-	@UiField
-	Label noteLabel;
+//	@UiField
+//	Label prescribLabel;
+//
+//	@UiField
+//	Label prescribedLabel;
+//
+//	@UiField
+//	Label instructLabel;
+//
+//	@UiField
+//	Label quantLabel;
+//
+//	@UiField
+//	Label noteLabel;
 
 	Div medicationDiv;
 
 	private String medName = "";
-	private String medFreq = "";
-	private String medPrescrib = "";
-	private String medQuant = "";
+//	private String medFreq = "";
+//	private String medPrescrib = "";
+//	private String medQuant = "";
 	private String medReason = "";
-	private String medInstruct = "";
-	private String medNote = "";
-	private String medStrengthLabel = "";
-	private String medDosLabel = "";
-	private String medMethod = "";
-	private String medPrescribList = "";
-	private String strenString = "";
-	private String dosString = "";
+//	private String medInstruct = "";
+//	private String medNote = "";
+//	private String medStrengthLabel = "";
+//	private String medDosLabel = "";
+//	private String medMethod = "";
+//	private String medPrescribList = "";
+//	private String strenString = "";
+//	private String dosString = "";
 	private String startDateString = "";
 	private String endDateString = "";
-	private String prescribeDateString = "";
+//	private String prescribeDateString = "";
 
-	private int strenVal;
-	private int dosVal;
-	private int strenListVal;
-	private int dosListVal;
-	private int methodListVal;
-	private int prescribListVal;
+//	private int strenVal;
+//	private int dosVal;
+//	private int strenListVal;
+//	private int dosListVal;
+//	private int methodListVal;
+//	private int prescribListVal;
 
 	private boolean nameError = false;
-	private boolean strengthError = false;
-	private boolean strenListError = false;
-	private boolean dosError = false;
-	private boolean dosListError = false;
-	private boolean methodListError = false;
-	private boolean freqError = false;
+//	private boolean strengthError = false;
+//	private boolean strenListError = false;
+//	private boolean dosError = false;
+//	private boolean dosListError = false;
+//	private boolean methodListError = false;
+//	private boolean freqError = false;
 	private boolean reasonError = false;
 	private boolean startDateError = false;
 	private boolean endDateError = false;
-	private boolean prescribeDateError = false;
-	private boolean prescribError = false;
-	private boolean prescribedError = false;
-	private boolean instructError = false;
-	private boolean quantError = false;
-	private boolean noteError = false;
+//	private boolean prescribeDateError = false;
+//	private boolean prescribError = false;
+//	private boolean prescribedError = false;
+//	private boolean instructError = false;
+//	private boolean quantError = false;
+//	private boolean noteError = false;
 
 	private String emailId;
 	private Boolean tableLoaded = false;
@@ -241,6 +245,11 @@ public class Medications extends Composite {
 		this.emailId = emailId;
 		medicationDiv = new Div();
 		medicationDiv.setId("medication_div");
+		
+		buttonAddMedic.setIcon(IconType.PLUS);
+		buttonEndMedic.setIcon(IconType.UNLINK);
+		buttonEditMedic.setIcon(IconType.EDIT);
+		buttonDeleteMedic.setIcon(IconType.REMOVE);
 
 		medicationModal.addShowHandler(new ModalShowHandler() {
 
@@ -259,9 +268,9 @@ public class Medications extends Composite {
 				String[] dates = startDateString.split("-");
 				int year = Integer.parseInt(dates[0]);
 				startDateLabel.setText(Integer.toString(year));
-				if ((year < 1986) || (year > 2016)) {
+				if ((year < 2000) || (year > 2030)) {
 					startDateLabel
-							.setText("Pick a year between 1986 and 2016.");
+							.setText("Pick a valid date");
 					startDateError = true;
 				} else {
 					startDateLabel.setText("");
@@ -288,14 +297,14 @@ public class Medications extends Composite {
 			}
 		});
 
-		prescribDatePicker.addChangeDateHandler(new ChangeDateHandler() {
-
-			@Override
-			public void onChangeDate(ChangeDateEvent evt) {
-				// TODO Auto-generated method stub
-				prescribeDateString = prescribDatePicker.getBaseValue();
-			}
-		});
+//		prescribDatePicker.addChangeDateHandler(new ChangeDateHandler() {
+//
+//			@Override
+//			public void onChangeDate(ChangeDateEvent evt) {
+//				// TODO Auto-generated method stub
+//				prescribeDateString = prescribDatePicker.getBaseValue();
+//			}
+//		});
 
 	}
 
@@ -307,6 +316,7 @@ public class Medications extends Composite {
 
 			// TODO Auto-generated method stub
 			medicationPanel.add(medicationDiv);
+			medicationPanel.add(new Br());
 			greetingService.getMedicationsList(Medications.this.emailId,
 					new AsyncCallback<MedicationList>() {
 						@Override
@@ -367,8 +377,8 @@ public class Medications extends Composite {
 	boolean startDateCheck(String startDate) {
 		String[] dates = startDate.split("-");
 		int year = Integer.parseInt(dates[0]);
-		if ((year < 1986) || (year > 2016)) {
-			startDateLabel.setText("Pick a year between 1986 and 2016.");
+		if ((year < 2000) || (year > 2030)) {
+			startDateLabel.setText("Pick a valid date");
 			return true;
 		} else {
 			startDateLabel.setText("");
@@ -389,164 +399,164 @@ public class Medications extends Composite {
 
 	void resetAllFields() {
 		medName = "";
-		medFreq = "";
-		medPrescrib = "";
-		medQuant = "";
+//		medFreq = "";
+//		medPrescrib = "";
+//		medQuant = "";
 		medReason = "";
-		medInstruct = "";
-		medNote = "";
-		medStrengthLabel = "";
-		medDosLabel = "";
-		medMethod = "";
-		medPrescribList = "";
-		strenString = "";
-		dosString = "";
+//		medInstruct = "";
+//		medNote = "";
+//		medStrengthLabel = "";
+//		medDosLabel = "";
+//		medMethod = "";
+//		medPrescribList = "";
+//		strenString = "";
+//		dosString = "";
 		startDateString = "";
 		endDateString = "";
-		prescribeDateString = "";
+//		prescribeDateString = "";
 
-		strenVal = 0;
-		dosVal = 0;
-		strenListVal = 0;
-		dosListVal = 0;
-		methodListVal = 0;
-		prescribListVal = 0;
+//		strenVal = 0;
+//		dosVal = 0;
+//		strenListVal = 0;
+//		dosListVal = 0;
+//		methodListVal = 0;
+//		prescribListVal = 0;
 
 		nameError = false;
-		strengthError = false;
-		strenListError = false;
-		dosError = false;
-		dosListError = false;
-		methodListError = false;
-		freqError = false;
+//		strengthError = false;
+//		strenListError = false;
+//		dosError = false;
+//		dosListError = false;
+//		methodListError = false;
+//		freqError = false;
 		reasonError = false;
 		startDateError = false;
 		endDateError = false;
-		prescribeDateError = false;
-		prescribError = false;
-		prescribedError = false;
-		instructError = false;
-		quantError = false;
-		noteError = false;
+//		prescribeDateError = false;
+//		prescribError = false;
+//		prescribedError = false;
+//		instructError = false;
+//		quantError = false;
+//		noteError = false;
 
 		nameBox.setText("");
-		strengthBox.setText("");
-		dosBox.setText("");
-		freqBox.setText("");
-		prescribedBox.setText("");
-		quantBox.setText("");
+//		strengthBox.setText("");
+//		dosBox.setText("");
+//		freqBox.setText("");
+//		prescribedBox.setText("");
+//		quantBox.setText("");
 
-		ReasonArea.setText("");
-		InstructArea.setText("");
-		noteArea.setText("");
-
-		StrengthList.setSelectedIndex(0);
-		dosList.setSelectedIndex(0);
-		methodList.setSelectedIndex(0);
-		prescribList.setSelectedIndex(0);
+		reasonArea.setText("");
+//		InstructArea.setText("");
+//		noteArea.setText("");
+//
+//		StrengthList.setSelectedIndex(0);
+//		dosList.setSelectedIndex(0);
+//		methodList.setSelectedIndex(0);
+//		prescribList.setSelectedIndex(0);
 
 		startDatePicker.setValue(null);
 		endDatePicker.setValue(null);
-		prescribDatePicker.setValue(null);
+//		prescribDatePicker.setValue(null);
 
 		startDateLabel.setText("");
-		dosLabel.setText("");
-		idLabel.setText("");
-		strengthLabel.setText("");
+//		dosLabel.setText("");
+		nameLabel.setText("");
+//		strengthLabel.setText("");
 		endDateLabel.setText("");
-		prescribDateLabel.setText("");
-		strengthListLabel.setText("");
-		dosListLabel.setText("");
-		methodListLabel.setText("");
-		freqLabel.setText("");
+//		prescribDateLabel.setText("");
+//		strengthListLabel.setText("");
+//		dosListLabel.setText("");
+//		methodListLabel.setText("");
+//		freqLabel.setText("");
 		reasonLabel.setText("");
-		prescribLabel.setText("");
-		prescribedLabel.setText("");
-		instructLabel.setText("");
-		quantLabel.setText("");
-		noteLabel.setText("");
+//		prescribLabel.setText("");
+//		prescribedLabel.setText("");
+//		instructLabel.setText("");
+//		quantLabel.setText("");
+//		noteLabel.setText("");
 
 	}
 
 	void populateAllFields(Medication medication) {
 		medName = medication.getName();
-		medFreq = medication.getConsumeFrequency();
-		medPrescrib = medication.getPrescribedBy();
-		medQuant = medication.getPrescribedQuantity();
+//		medFreq = medication.getConsumeFrequency();
+//		medPrescrib = medication.getPrescribedBy();
+//		medQuant = medication.getPrescribedQuantity();
 		medReason = medication.getReason();
-		medInstruct = medication.getInstruction();
-		medNote = medication.getNote();
-		medStrengthLabel = medication.getStrengthUnit();
-		medDosLabel = medication.getDosageUnit();
-		medMethod = medication.getConsumeProcess();
-		medPrescribList = medication.getIsPrescribed();
-		strenString = String.valueOf(medication.getStrength());
-		dosString = String.valueOf(medication.getDosageUnit());
+//		medInstruct = medication.getInstruction();
+//		medNote = medication.getNote();
+//		medStrengthLabel = medication.getStrengthUnit();
+//		medDosLabel = medication.getDosageUnit();
+//		medMethod = medication.getConsumeProcess();
+//		medPrescribList = medication.getIsPrescribed();
+//		strenString = String.valueOf(medication.getStrength());
+//		dosString = String.valueOf(medication.getDosageUnit());
 		startDateString = "";
 		endDateString = "";
-		prescribeDateString = "";
+//		prescribeDateString = "";
 
-		strenVal = medication.getStrength();
-		dosVal = medication.getDosage();
-		strenListVal = getIndexFromList(StrengthList, medication.getStrengthUnit());
-		dosListVal = getIndexFromList(dosList, medication.getDosageUnit());
-		methodListVal = getIndexFromList(methodList, medication.getConsumeProcess());
-		prescribListVal = getIndexFromList(prescribList, medication.getIsPrescribed());
+//		strenVal = medication.getStrength();
+//		dosVal = medication.getDosage();
+//		strenListVal = getIndexFromList(StrengthList, medication.getStrengthUnit());
+//		dosListVal = getIndexFromList(dosList, medication.getDosageUnit());
+//		methodListVal = getIndexFromList(methodList, medication.getConsumeProcess());
+//		prescribListVal = getIndexFromList(prescribList, medication.getIsPrescribed());
 
 		nameError = false;
-		strengthError = false;
-		strenListError = false;
-		dosError = false;
-		dosListError = false;
-		methodListError = false;
-		freqError = false;
+//		strengthError = false;
+//		strenListError = false;
+//		dosError = false;
+//		dosListError = false;
+//		methodListError = false;
+//		freqError = false;
 		reasonError = false;
 		startDateError = false;
 		endDateError = false;
-		prescribeDateError = false;
-		prescribError = false;
-		prescribedError = false;
-		instructError = false;
-		quantError = false;
-		noteError = false;
+//		prescribeDateError = false;
+//		prescribError = false;
+//		prescribedError = false;
+//		instructError = false;
+//		quantError = false;
+//		noteError = false;
 
 		nameBox.setText(medication.getName());
-		strengthBox.setText(String.valueOf(medication.getStrength()));
-		dosBox.setText(String.valueOf(medication.getDosage()));
-		freqBox.setText(medication.getConsumeFrequency());
-		prescribedBox.setText(medication.getPrescribedBy());
-		quantBox.setText(medication.getPrescribedQuantity());
+//		strengthBox.setText(String.valueOf(medication.getStrength()));
+//		dosBox.setText(String.valueOf(medication.getDosage()));
+//		freqBox.setText(medication.getConsumeFrequency());
+//		prescribedBox.setText(medication.getPrescribedBy());
+//		quantBox.setText(medication.getPrescribedQuantity());
 
-		ReasonArea.setText(medication.getReason());
-		InstructArea.setText(medication.getInstruction());
-		noteArea.setText(medication.getNote());
+		reasonArea.setText(medication.getReason());
+//		InstructArea.setText(medication.getInstruction());
+//		noteArea.setText(medication.getNote());
 
 		
-		StrengthList.setSelectedIndex(strenListVal);
-		dosList.setSelectedIndex(dosListVal);
-		methodList.setSelectedIndex(methodListVal);
-		prescribList.setSelectedIndex(prescribListVal);
+//		StrengthList.setSelectedIndex(strenListVal);
+//		dosList.setSelectedIndex(dosListVal);
+//		methodList.setSelectedIndex(methodListVal);
+//		prescribList.setSelectedIndex(prescribListVal);
 
 		startDatePicker.setValue(getDateFromString(medication.getStartDate()));
 		endDatePicker.setValue(getDateFromString(medication.getEndDate()));
-		prescribDatePicker.setValue(getDateFromString(medication.getPrescribedDate()));
+//		prescribDatePicker.setValue(getDateFromString(medication.getPrescribedDate()));
 
 		startDateLabel.setText("");
-		dosLabel.setText("");
-		idLabel.setText("");
-		strengthLabel.setText("");
+//		dosLabel.setText("");
+		nameLabel.setText("");
+//		strengthLabel.setText("");
 		endDateLabel.setText("");
-		prescribDateLabel.setText("");
-		strengthListLabel.setText("");
-		dosListLabel.setText("");
-		methodListLabel.setText("");
-		freqLabel.setText("");
+//		prescribDateLabel.setText("");
+//		strengthListLabel.setText("");
+//		dosListLabel.setText("");
+//		methodListLabel.setText("");
+//		freqLabel.setText("");
 		reasonLabel.setText("");
-		prescribLabel.setText("");
-		prescribedLabel.setText("");
-		instructLabel.setText("");
-		quantLabel.setText("");
-		noteLabel.setText("");
+//		prescribLabel.setText("");
+//		prescribedLabel.setText("");
+//		instructLabel.setText("");
+//		quantLabel.setText("");
+//		noteLabel.setText("");
 
 	}
 
@@ -554,32 +564,32 @@ public class Medications extends Composite {
 	void doClickSubmit(ClickEvent event) {
 		// messageService.getMessage(message1, new MessageCallBack());
 		if (medName.isEmpty()) {
-			idLabel.setText("Medicine category is a required field.");
+			nameLabel.setText("Medicine name is a required field.");
 			nameError = true;
 		}
-		if (strenString.isEmpty()) {
-			strengthLabel.setText("Strength category is a required field.");
-			strengthError = true;
-		}
-		if (medStrengthLabel.isEmpty()) {
-			strengthListLabel
-					.setText("Strength unit category is a required field.");
-			strenListError = true;
-		}
-
-		if (dosString.isEmpty()) {
-			dosLabel.setText("Dosage amount category is a required field.");
-			dosError = true;
-		}
-		if (medDosLabel.isEmpty()) {
-			dosListLabel.setText("Dosage unit category is a required field.");
-			dosListError = true;
-		}
-		if (medMethod.isEmpty()) {
-			methodListLabel
-					.setText("Method of consumption is a required field.");
-			methodListError = true;
-		}
+//		if (strenString.isEmpty()) {
+//			strengthLabel.setText("Strength category is a required field.");
+//			strengthError = true;
+//		}
+//		if (medStrengthLabel.isEmpty()) {
+//			strengthListLabel
+//					.setText("Strength unit category is a required field.");
+//			strenListError = true;
+//		}
+//
+//		if (dosString.isEmpty()) {
+//			dosLabel.setText("Dosage amount category is a required field.");
+//			dosError = true;
+//		}
+//		if (medDosLabel.isEmpty()) {
+//			dosListLabel.setText("Dosage unit category is a required field.");
+//			dosListError = true;
+//		}
+//		if (medMethod.isEmpty()) {
+//			methodListLabel
+//					.setText("Method of consumption is a required field.");
+//			methodListError = true;
+//		}
 		if (medReason.isEmpty()) {
 			reasonLabel.setText("Medical reason is a required field.");
 			reasonError = true;
@@ -616,30 +626,30 @@ public class Medications extends Composite {
 			}
 		}
 
-		if (prescribeDateString.isEmpty()) {
-			prescribeDateError = false;
-			prescribDateLabel.setText("");
-		} else {
-			if (validateDateFormat(prescribeDateString)) {
-				prescribeDateError = false;
-				prescribDateLabel.setText("");
-			} else {
-				prescribeDateError = true;
-				prescribDateLabel.setText("Date is not valid");
-			}
-		}
-		if (medPrescribList.isEmpty()) {
-			prescribLabel
-					.setText("Method of prescription is a required field.");
-			prescribError = true;
-		}
+//		if (prescribeDateString.isEmpty()) {
+//			prescribeDateError = false;
+//			prescribDateLabel.setText("");
+//		} else {
+//			if (validateDateFormat(prescribeDateString)) {
+//				prescribeDateError = false;
+//				prescribDateLabel.setText("");
+//			} else {
+//				prescribeDateError = true;
+//				prescribDateLabel.setText("Date is not valid");
+//			}
+//		}
+//		if (medPrescribList.isEmpty()) {
+//			prescribLabel
+//					.setText("Method of prescription is a required field.");
+//			prescribError = true;
+//		}
 
-		if (nameError == true || strengthError == true || dosError == true
+		if (nameError == true /*|| strengthError == true || dosError == true
 				|| dosListError == true || methodListError == true
-				|| freqError == true || reasonError == true
-				|| startDateError == true || prescribError == true
+				|| freqError == true*/ || reasonError == true
+				|| startDateError == true /*|| prescribError == true
 				|| prescribedError == true || instructError == true
-				|| quantError == true || noteError == true) {
+				|| quantError == true || noteError == true*/) {
 			/*
 			 * Window.alert("Name:" + nameError + ", streng:" + strengthError +
 			 * "dos:" + dosError + ", dos_list:" + dosListError + "method:" +
@@ -648,7 +658,7 @@ public class Medications extends Composite {
 			 * ", prescribed:" + prescribedError + ", instruct:" + instructError
 			 * + ", note:" + noteError + "quant:" + quantError);
 			 */
-			Window.alert("Please enter valid input");
+			//Window.alert("Please enter valid input");
 		} else {
 			final Medication medication;
 			if (modalFromEdit) {
@@ -661,18 +671,18 @@ public class Medications extends Composite {
 			}
 			medication.setEmail(emailId);
 			medication.setName(medName);
-			medication.setStrength(strenVal);
-			medication.setStrengthUnit(medStrengthLabel);
-			medication.setDosage(dosVal);
-			medication.setDosageUnit(medDosLabel);
-			medication.setConsumeProcess(medMethod);
-			medication.setConsumeFrequency(medFreq);
+//			medication.setStrength(strenVal);
+//			medication.setStrengthUnit(medStrengthLabel);
+//			medication.setDosage(dosVal);
+//			medication.setDosageUnit(medDosLabel);
+//			medication.setConsumeProcess(medMethod);
+//			medication.setConsumeFrequency(medFreq);
 			medication.setReason(medReason);
-			medication.setIsPrescribed(medPrescribList);
-			medication.setPrescribedBy(medPrescrib);
-			medication.setInstruction(medInstruct);
-			medication.setPrescribedQuantity(medQuant);
-			medication.setNote(medNote);
+//			medication.setIsPrescribed(medPrescribList);
+//			medication.setPrescribedBy(medPrescrib);
+//			medication.setInstruction(medInstruct);
+//			medication.setPrescribedQuantity(medQuant);
+//			medication.setNote(medNote);
 
 			// Date endDate = endDatePicker.getValue();
 			// getEndDateString(endDate);
@@ -680,7 +690,7 @@ public class Medications extends Composite {
 
 			medication.setStartDate(startDateString);
 			medication.setEndDate(endDateString);
-			medication.setPrescribedDate(prescribeDateString);
+//			medication.setPrescribedDate(prescribeDateString);
 			
 			buttonSubmit.setDataDismiss(ButtonDismiss.MODAL);
 			// resetAllFields();
@@ -769,110 +779,110 @@ public class Medications extends Composite {
 		medName = event.getValue();
 		if (medName.length() > 40) {
 			nameError = true;
-			idLabel.setText("String must be less than 40 characters.");
+			nameLabel.setText("String must be less than 40 characters.");
 
 		} else if (event.getValue().matches("^-?\\d+$")) {
-			idLabel.setText("Please do not enter a number.");
+			nameLabel.setText("Please do not enter a number.");
 			nameError = true;
 		} else {
-			idLabel.setText("");
+			nameLabel.setText("");
 			nameError = false;
 		}
 	}
 
-	@UiHandler("strengthBox")
-	void handleNumChange(ValueChangeEvent<String> event) {
-		int medStren;
-		strenString = event.getValue();
-		try {
-			medStren = Integer.parseInt(strenString);
-			if (strenString.length() > 5) {
-				strengthLabel.setText("Please enter a value less than 99,999.");
-				strengthError = true;
-			} else if (medStren == 0) {
-				strengthLabel.setText("Please enter a number that is not 0.");
-				strengthError = true;
-			} else {
-				strenVal = medStren;
-				strengthLabel.setText("");
-				strengthError = false;
-			}
-		} catch (NumberFormatException e) {
-			strengthLabel.setText("Please enter a numerical value.");
-			strengthError = true;
-		}
-	}
+//	@UiHandler("strengthBox")
+//	void handleNumChange(ValueChangeEvent<String> event) {
+//		int medStren;
+//		strenString = event.getValue();
+//		try {
+//			medStren = Integer.parseInt(strenString);
+//			if (strenString.length() > 5) {
+//				strengthLabel.setText("Please enter a value less than 99,999.");
+//				strengthError = true;
+//			} else if (medStren == 0) {
+//				strengthLabel.setText("Please enter a number that is not 0.");
+//				strengthError = true;
+//			} else {
+//				strenVal = medStren;
+//				strengthLabel.setText("");
+//				strengthError = false;
+//			}
+//		} catch (NumberFormatException e) {
+//			strengthLabel.setText("Please enter a numerical value.");
+//			strengthError = true;
+//		}
+//	}
 
-	@UiHandler("dosBox")
-	void handleNum2Change(ValueChangeEvent<String> event) {
-		int medDos;
-		dosString = event.getValue();
-		try {
-			medDos = Integer.parseInt(dosString);
-			if (dosString.length() > 5) {
-				dosLabel.setText("Please enter a value less than 99,999.");
-				dosError = true;
-			} else if (medDos == 0) {
-				dosLabel.setText("Please enter a number that is not 0.");
-				dosError = true;
-			} else {
-				dosVal = medDos;
-				dosLabel.setText("");
-				dosError = false;
-			}
-		} catch (NumberFormatException e) {
-			dosLabel.setText("Please enter a numerical value.");
-			dosError = true;
-		}
-	}
+//	@UiHandler("dosBox")
+//	void handleNum2Change(ValueChangeEvent<String> event) {
+//		int medDos;
+//		dosString = event.getValue();
+//		try {
+//			medDos = Integer.parseInt(dosString);
+//			if (dosString.length() > 5) {
+//				dosLabel.setText("Please enter a value less than 99,999.");
+//				dosError = true;
+//			} else if (medDos == 0) {
+//				dosLabel.setText("Please enter a number that is not 0.");
+//				dosError = true;
+//			} else {
+//				dosVal = medDos;
+//				dosLabel.setText("");
+//				dosError = false;
+//			}
+//		} catch (NumberFormatException e) {
+//			dosLabel.setText("Please enter a numerical value.");
+//			dosError = true;
+//		}
+//	}
+//
+//	@UiHandler("freqBox")
+//	void handleFreqChange(ValueChangeEvent<String> event) {
+//		freqBox.setMaxLength(40);
+//		String freq = event.getValue();
+//		if (freq.length() > 40) {
+//			freqLabel.setText("The answer must be under 40 characters long.");
+//			freqError = true;
+//		} else {
+//			medFreq = freq;
+//			freqLabel.setText("");
+//			freqError = false;
+//		}
+//	}
+//
+//	@UiHandler("prescribedBox")
+//	void handlePerscribChange(ValueChangeEvent<String> event) {
+//		prescribedBox.setMaxLength(40);
+//		String prescrib = event.getValue();
+//		if (prescrib.length() > 40) {
+//			prescribedLabel
+//					.setText("The answer must be under 40 characters long.");
+//			prescribedError = true;
+//		} else {
+//			medPrescrib = prescrib;
+//			prescribedLabel.setText("");
+//			prescribedError = false;
+//		}
+//	}
+//
+//	@UiHandler("quantBox")
+//	void handleQuantChange(ValueChangeEvent<String> event) {
+//		quantBox.setMaxLength(100);
+//		String quant = event.getValue();
+//		if (quant.length() > 100) {
+//			quantLabel.setText("Quantity must not exceed 100 characters.");
+//			quantError = true;
+//		} else {
+//			medQuant = quant;
+//			quantLabel.setText("");
+//			quantError = false;
+//		}
+//	}
 
-	@UiHandler("freqBox")
-	void handleFreqChange(ValueChangeEvent<String> event) {
-		freqBox.setMaxLength(40);
-		String freq = event.getValue();
-		if (freq.length() > 40) {
-			freqLabel.setText("The answer must be under 40 characters long.");
-			freqError = true;
-		} else {
-			medFreq = freq;
-			freqLabel.setText("");
-			freqError = false;
-		}
-	}
-
-	@UiHandler("prescribedBox")
-	void handlePerscribChange(ValueChangeEvent<String> event) {
-		prescribedBox.setMaxLength(40);
-		String prescrib = event.getValue();
-		if (prescrib.length() > 40) {
-			prescribedLabel
-					.setText("The answer must be under 40 characters long.");
-			prescribedError = true;
-		} else {
-			medPrescrib = prescrib;
-			prescribedLabel.setText("");
-			prescribedError = false;
-		}
-	}
-
-	@UiHandler("quantBox")
-	void handleQuantChange(ValueChangeEvent<String> event) {
-		quantBox.setMaxLength(100);
-		String quant = event.getValue();
-		if (quant.length() > 100) {
-			quantLabel.setText("Quantity must not exceed 100 characters.");
-			quantError = true;
-		} else {
-			medQuant = quant;
-			quantLabel.setText("");
-			quantError = false;
-		}
-	}
-
-	@UiHandler("ReasonArea")
+	@UiHandler("reasonArea")
 	void handleReasonChange(ValueChangeEvent<String> event) {
-		ReasonArea.getElement().setAttribute("maxlength", "100");
-		String reason = ReasonArea.getValue();
+		reasonArea.getElement().setAttribute("maxlength", "100");
+		String reason = reasonArea.getValue();
 		if (reason.length() > 100) {
 			reasonLabel
 					.setText("Reason category cannot exceed 100 characters.");
@@ -884,89 +894,89 @@ public class Medications extends Composite {
 		}
 	}
 
-	@UiHandler("InstructArea")
-	void handleInstructChange(ValueChangeEvent<String> event) {
-		InstructArea.getElement().setAttribute("maxlength", "100");
-		String instruct = InstructArea.getValue();
-		if (instruct.length() > 100) {
-			instructLabel
-					.setText("Intruction category cannot exceed 100 characters.");
-			instructError = true;
-		} else {
-			medInstruct = instruct;
-			instructLabel.setText("");
-			instructError = false;
-		}
-	}
-
-	@UiHandler("noteArea")
-	void handleNotesChange(ValueChangeEvent<String> event) {
-		noteArea.getElement().setAttribute("maxlength", "100");
-		String note = noteArea.getValue();
-		if (note.length() > 100) {
-			noteLabel.setText("Note category cannot exceed 100 characters.");
-			noteError = true;
-		} else {
-			medNote = note;
-			noteLabel.setText("");
-			noteError = false;
-		}
-	}
-
-	@UiHandler("StrengthList")
-	void handleStrenListChange(ChangeEvent event) {
-		strenListVal = StrengthList.getSelectedIndex();
-		medStrengthLabel = StrengthList.getItemText(strenListVal);
-		if (medStrengthLabel.matches("Select...")) {
-			strengthListLabel
-					.setText("Strength unit category is a required field.");
-			strenListError = true;
-		} else {
-			strengthListLabel.setText("");
-			strenListError = false;
-		}
-	}
-
-	@UiHandler("dosList")
-	void handleDosListChange(ChangeEvent event) {
-		dosListVal = dosList.getSelectedIndex();
-		medDosLabel = dosList.getItemText(dosListVal);
-		if (medDosLabel.matches("Select...")) {
-			dosListLabel.setText("Dosage unit category is a required field.");
-			dosListError = true;
-		} else {
-			dosListLabel.setText("");
-			dosListError = false;
-		}
-	}
-
-	@UiHandler("methodList")
-	void handleMethodListChange(ChangeEvent event) {
-		methodListVal = methodList.getSelectedIndex();
-		medMethod = methodList.getItemText(methodListVal);
-		if (medMethod.matches("Select...")) {
-			methodListLabel
-					.setText("Method of comsumption is a required field.");
-			methodListError = true;
-		} else {
-			methodListLabel.setText("");
-			methodListError = false;
-		}
-	}
-
-	@UiHandler("prescribList")
-	void handlePrescribListChange(ChangeEvent event) {
-		prescribListVal = prescribList.getSelectedIndex();
-		medPrescribList = prescribList.getItemText(prescribListVal);
-		if (medPrescribList.matches("Select...")) {
-			prescribLabel
-					.setText("Method of prescription is a required field.");
-			prescribError = true;
-		} else {
-			prescribLabel.setText("");
-			prescribError = false;
-		}
-	}
+//	@UiHandler("InstructArea")
+//	void handleInstructChange(ValueChangeEvent<String> event) {
+//		InstructArea.getElement().setAttribute("maxlength", "100");
+//		String instruct = InstructArea.getValue();
+//		if (instruct.length() > 100) {
+//			instructLabel
+//					.setText("Intruction category cannot exceed 100 characters.");
+//			instructError = true;
+//		} else {
+//			medInstruct = instruct;
+//			instructLabel.setText("");
+//			instructError = false;
+//		}
+//	}
+//
+//	@UiHandler("noteArea")
+//	void handleNotesChange(ValueChangeEvent<String> event) {
+//		noteArea.getElement().setAttribute("maxlength", "100");
+//		String note = noteArea.getValue();
+//		if (note.length() > 100) {
+//			noteLabel.setText("Note category cannot exceed 100 characters.");
+//			noteError = true;
+//		} else {
+//			medNote = note;
+//			noteLabel.setText("");
+//			noteError = false;
+//		}
+//	}
+//
+//	@UiHandler("StrengthList")
+//	void handleStrenListChange(ChangeEvent event) {
+//		strenListVal = StrengthList.getSelectedIndex();
+//		medStrengthLabel = StrengthList.getItemText(strenListVal);
+//		if (medStrengthLabel.matches("Select...")) {
+//			strengthListLabel
+//					.setText("Strength unit category is a required field.");
+//			strenListError = true;
+//		} else {
+//			strengthListLabel.setText("");
+//			strenListError = false;
+//		}
+//	}
+//
+//	@UiHandler("dosList")
+//	void handleDosListChange(ChangeEvent event) {
+//		dosListVal = dosList.getSelectedIndex();
+//		medDosLabel = dosList.getItemText(dosListVal);
+//		if (medDosLabel.matches("Select...")) {
+//			dosListLabel.setText("Dosage unit category is a required field.");
+//			dosListError = true;
+//		} else {
+//			dosListLabel.setText("");
+//			dosListError = false;
+//		}
+//	}
+//
+//	@UiHandler("methodList")
+//	void handleMethodListChange(ChangeEvent event) {
+//		methodListVal = methodList.getSelectedIndex();
+//		medMethod = methodList.getItemText(methodListVal);
+//		if (medMethod.matches("Select...")) {
+//			methodListLabel
+//					.setText("Method of comsumption is a required field.");
+//			methodListError = true;
+//		} else {
+//			methodListLabel.setText("");
+//			methodListError = false;
+//		}
+//	}
+//
+//	@UiHandler("prescribList")
+//	void handlePrescribListChange(ChangeEvent event) {
+//		prescribListVal = prescribList.getSelectedIndex();
+//		medPrescribList = prescribList.getItemText(prescribListVal);
+//		if (medPrescribList.matches("Select...")) {
+//			prescribLabel
+//					.setText("Method of prescription is a required field.");
+//			prescribError = true;
+//		} else {
+//			prescribLabel.setText("");
+//			prescribError = false;
+//		}
+//	}
 	@UiHandler("medicationModal")
 	void modalShown(ModalShownEvent event){
 		if (modalFromEdit == false) {
@@ -1105,9 +1115,20 @@ public class Medications extends Composite {
 	}
 
 	public void drawMedicationTable() {
-		dataView = DataView.create(getDataTableFromList());
-		dataView.hideColumns(new int[]{1});
-		medicationTable.draw(dataView, getTableOptions());
+		if(medicationList.getMedicationList().size() == 0){
+			medicationTable.setVisible(false);
+			buttonEditMedic.setVisible(false);
+			buttonDeleteMedic.setVisible(false);
+			buttonEndMedic.setVisible(false);
+		} else {
+			medicationTable.setVisible(true);			
+			buttonEditMedic.setVisible(true);
+			buttonDeleteMedic.setVisible(true);
+			buttonEndMedic.setVisible(true);
+			dataView = DataView.create(getDataTableFromList());
+			dataView.hideColumns(new int[]{1});
+			medicationTable.draw(dataView, getTableOptions());			
+		}
 		// medicationTable.addSelectHandler(createSelectHandler(medicationTable,
 		// dataTable));
 	}
@@ -1119,8 +1140,8 @@ public class Medications extends Composite {
 		options.setPage(Policy.ENABLE);
 		options.setPageSize(50);
 		options.setStartPage(0);
-		options.setWidth("75%");
-		options.setHeight("75%");
+		options.setWidth("100%");
+		options.setHeight("100%");
 		return options;
 	}
 
@@ -1132,9 +1153,9 @@ public class Medications extends Composite {
 		dataTable.addColumn(ColumnType.STRING, "Reason for Taking");
 		dataTable.addColumn(ColumnType.STRING, "Date Started");
 		dataTable.addColumn(ColumnType.STRING, "Date Ended");
-		dataTable.addColumn(ColumnType.STRING, "Dose");
-		dataTable.addColumn(ColumnType.STRING, "Strength");
-		dataTable.addColumn(ColumnType.STRING, "Notes");
+//		dataTable.addColumn(ColumnType.STRING, "Dose");
+//		dataTable.addColumn(ColumnType.STRING, "Strength");
+//		dataTable.addColumn(ColumnType.STRING, "Notes");
 
 		dataTable.addRows(medicationList.getMedicationList().size());
 		int columnIndex = 0;
@@ -1152,17 +1173,17 @@ public class Medications extends Composite {
 			dataTable.setValue(rowIndex, columnIndex++, med.getStartDate());
 			dataTable.setValue(rowIndex, columnIndex++,
 					med.getEndDate() == null ? "" : med.getEndDate());
-			dataTable.setValue(
-					rowIndex,
-					columnIndex++,
-					String.valueOf(med.getDosage()) + "  "
-							+ med.getDosageUnit());
-			dataTable.setValue(
-					rowIndex,
-					columnIndex++,
-					String.valueOf(med.getStrength()) + "  "
-							+ med.getStrengthUnit());
-			dataTable.setValue(rowIndex, columnIndex++, med.getNote());
+//			dataTable.setValue(
+//					rowIndex,
+//					columnIndex++,
+//					String.valueOf(med.getDosage()) + "  "
+//							+ med.getDosageUnit());
+//			dataTable.setValue(
+//					rowIndex,
+//					columnIndex++,
+//					String.valueOf(med.getStrength()) + "  "
+//							+ med.getStrengthUnit());
+//			dataTable.setValue(rowIndex, columnIndex++, med.getNote());
 
 			rowIndex += 1;
 			columnIndex = 0;

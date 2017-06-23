@@ -8,7 +8,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-10" ui:field="customPlayerPanel">
-		<b:Panel>
+		<b:Panel type="SUCCESS">
 			<b:PanelHeader>
 				<b:Heading size="H2" ui:field="playerHeader" />
 			</b:PanelHeader>

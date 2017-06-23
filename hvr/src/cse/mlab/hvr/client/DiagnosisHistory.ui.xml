@@ -1,4 +1,5 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html" xmlns:b2='urn:import:org.gwtbootstrap3.extras.datepicker.client.ui'>
 	<ui:style>
@@ -18,52 +19,61 @@
 		.left_margin{
 			margin-left: 2%;
 		}
-
+		
 	</ui:style>
-	
-	<g:HTMLPanel ui:field="medicationPanel">
 
-		<b:Modal title="Medication Information" closable="true" fade="true"
-			dataBackdrop="STATIC" dataKeyboard="true" ui:field="medicationModal"
-			b:id="myModal">
+	<g:HTMLPanel ui:field="diagnosisPanel">
+		<b:Modal title="Diagnosis Information" closable="true" fade="true"
+			dataBackdrop="STATIC" dataKeyboard="true" ui:field="diagnosisModal"
+			b:id="diagnosisModal">
 			<b:ModalBody>
 			
 				<b:Row>
+					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-5">
+						<b:FormLabel  addStyleNames="{style.left_align}">Neurological Condition *</b:FormLabel>
+						<!--b:TextBox b:id="formMedic" ui:field="nameBox" maxLength="50" allowBlank="false"/-->
+						<b:ListBox ui:field="conditionList">
+							<g:item value="0">Select one from the list</g:item>
+							<g:item value="1">ALS</g:item>
+							<g:item value="2">Parkinsons</g:item>
+							<g:item value="3">Huntington</g:item>
+							<g:item value="4">Stroke</g:item>
+							<g:item value="5">Alzheimers</g:item>
+							<g:item value="6">Vascular Disease</g:item>
+							<g:item value="7">Infectious Disease</g:item>
+							<g:item value="8">Lupus Erythematosus</g:item>
+							<g:item value="9">Multiple Sclerosis</g:item>
+							<g:item value="10">Tumors</g:item>
+							<g:item value="11">TBI</g:item>
+							<g:item value="12">Friedreich's Ataxia</g:item>
+							<g:item value="13">Pick Disease</g:item>
+							<g:item value="14">Myasthenia Gravis</g:item>
+							<g:item value="15">Other</g:item>
+						</b:ListBox>
+						<g:Label ui:field="conditionLabel" styleName="labelError"></g:Label>
+					</g:HTMLPanel>
+				</b:Row>
+				<b:Row>
+					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-8">
+						<br/>
+						<b:TextBox maxLength="40" ui:field="otherText" visible="false" placeholder="Type Other Condition"></b:TextBox>
+					</g:HTMLPanel>
+										
+				</b:Row>
+				<h:Br/>
+				<b:Row>
+					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-5">				
+						<b:FormLabel for="formStart" addStyleNames="{style.left_align}">Date Diagnosed *</b:FormLabel>
+						<b2:DatePicker ui:field="diagnosisDatePicker" b:id="formStart" autoClose="true" format="yyyy-mm-dd"/>
+						<g:Label ui:field="diagnosisDateLabel" styleName="labelError"></g:Label>
+					</g:HTMLPanel>
+				</b:Row>
+				<h:Br/>
+				<b:Row>
 					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9">
-						<b:FormLabel  for="formMedic" addStyleNames="{style.left_align}">Medication Name *</b:FormLabel>
-						<b:TextBox b:id="formMedic" ui:field="nameBox" maxLength="50" allowBlank="false"/>
-						<g:Label ui:field="nameLabel" styleName="labelError"></g:Label>					
-					</g:HTMLPanel>
-				</b:Row>
-				<h:Br/>
-				<b:Row>
-					<g:HTMLPanel addStyleNames="col-lg-offset-7 col-lg-3">
-						<b:Button>Add Another</b:Button>
-					</g:HTMLPanel>
-				</b:Row>
-				
-				<h:Br/>
-				<b:Row>
-					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9">
-						<b:FormLabel for="formReason" addStyleNames="{style.left_align}">Reason *</b:FormLabel>
-						<b:TextArea b:id="formReason" ui:field="reasonArea" maxLength="200"/>
-						<g:Label ui:field="reasonLabel" styleName="labelError"></g:Label>
-					</g:HTMLPanel>
-				</b:Row>
-				<h:Br/>
-				<b:Row>
-					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-6">				
-						<b:FormLabel for="formStart" addStyleNames="{style.left_align}">Start Date *</b:FormLabel>
-						<b2:DatePicker ui:field="startDatePicker" b:id="formStart" autoClose="true" format="yyyy-mm-dd"/>
-						<g:Label ui:field="startDateLabel" styleName="labelError"></g:Label>
-					</g:HTMLPanel>
-				</b:Row>
-				<h:Br/>
-				<b:Row>
-					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-6">
-						<b:FormLabel for="formEnd" addStyleNames="{style.left_align}">End Date</b:FormLabel>
-						<b2:DatePicker ui:field="endDatePicker" b:id="formEnd" autoClose="true" format="yyyy-mm-dd" />
-						<g:Label ui:field="endDateLabel" styleName="labelError"></g:Label>
+						<b:FormLabel for="formNote" addStyleNames="{style.left_align}">Note (Any Relevant Medical Information)</b:FormLabel>
+						<b:TextArea b:id="formNote" ui:field="noteArea" maxLength="300"/>
+						<g:Label ui:field="noteLabel" styleName="labelError"></g:Label>
 					</g:HTMLPanel>
 				</b:Row>
 				<h:Br/>
@@ -123,20 +133,15 @@
 				<b:Button type="DANGER" dataDismiss="MODAL">Close</b:Button>
 			</b:ModalFooter>
 		</b:Modal>
+		<!--b:Heading ui:field="studyHeading" size="H3" addStyleNames="col-lg-offset-1 {style.margin_right}"></b:Heading-->
 		<b:Row>
-			<b:Heading size="H4" addStyleNames="{style.left_text} {style.left_margin}" text="Are you taking any medication?"></b:Heading>
+			<b:Heading size="H4" addStyleNames="{style.left_text} {style.left_margin}" text="Are you diagnosed with any speech/neurological condition?"></b:Heading>
 		</b:Row>
 		<br />
-		
-		<b:Button ui:field="buttonAddMedic" pull="LEFT" type="INFO">Add Medication</b:Button>
-		<b:Button ui:field="buttonEditMedic">Edit</b:Button>
-		<b:Button ui:field="buttonEndMedic">No Longer Taking</b:Button>
-		<b:Button ui:field="buttonDeleteMedic">Delete</b:Button>
+		<b:Button ui:field="buttonAddDiagnosis" pull="LEFT" type="SUCCESS">Add Diagnosis Info</b:Button>
+		<b:Button ui:field="buttonEditDiagnosis" >Edit</b:Button>
+		<b:Button ui:field="buttonDeleteDiagnosis">Delete</b:Button>
 		<br />
 		<br />
 	</g:HTMLPanel>
-
-</ui:UiBinder>
-
-
-
+</ui:UiBinder> 

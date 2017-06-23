@@ -28,9 +28,10 @@ public class StudyServices {
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		System.out.println("loading database driver........study service");
+//		DatabaseUtil.loadDriver();
+//	}
 
 	@Path("open/{email}")
 	@GET
@@ -112,6 +113,9 @@ public class StudyServices {
 									question.setAnswerRequired(healthQResult
 											.getInt("is_answer_required") == 1 ? true
 											: false);
+									question.setQuestion_type(healthQResult.getString("question_type"));
+									question.setDefault_answer(healthQResult.getString("default_answer"));
+									question.setAnswer_options(healthQResult.getString("answer_options"));
 									healthQuestions.add(question);
 								}
 

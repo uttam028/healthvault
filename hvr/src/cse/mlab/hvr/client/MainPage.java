@@ -180,6 +180,7 @@ public class MainPage extends Composite {
 			@Override
 			public void onSuccess(UserRole result) {
 				// TODO Auto-generated method stub
+				//Window.alert("is admin:"+ result.isAdminRole() + ", is research:" + result.isResearcherRole() + ", is user:"+ result.isUserRole());
 				if(result.isAdminRole()){
 					adminAnchor.setVisible(true);
 				}else {
@@ -231,12 +232,13 @@ public class MainPage extends Composite {
 			homePage.removeFromOpenStudies(event.getState().getStudy()
 					.getStudyOverview().getId());
 			homePage.addEnrolledStudyToMyStudy(event.getState().getStudy());
-			homePage.displayMessage(
+			/*homePage.displayMessage(
 					"Thank you for enrolling to "
 							+ event.getState().getStudy().getStudyOverview()
 									.getName()
 							+ ". Please participate to the study from 'My Studies' section.",
 					"", false, "message_enrollment_success", "");
+			*/
 			loadHomePage();
 		}
 	}

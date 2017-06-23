@@ -25,9 +25,10 @@ public class medicationService {
 	private Connection connection;
 	private PreparedStatement preparedStatement;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		System.out.println("loading database driver.......medication service");
+//		DatabaseUtil.loadDriver();
+//	}
 	
 	@Path("endusing/{id}/{enddate}")
 	@GET
@@ -100,35 +101,35 @@ public class medicationService {
 					temp.setId(resultSet.getLong("medication_id"));
 					temp.setEmail(resultSet.getString("user_email"));
 					temp.setName(resultSet.getString("name"));
-					try {
-						temp.setStrength(resultSet.getInt("strength"));
-					} catch (Exception e) {
-						// TODO: handle exception
-						temp.setStrength(0);
-					}
-					temp.setStrengthUnit(resultSet.getString("strength_unit"));
-					try {
-						temp.setDosage(resultSet.getInt("dosage"));
-					} catch (Exception e) {
-						// TODO: handle exception
-						temp.setDosage(0);
-					}
-					temp.setDosageUnit(resultSet.getString("dosage_unit"));
-					temp.setConsumeProcess(resultSet
-							.getString("consume_process"));
-					temp.setConsumeFrequency(resultSet
-							.getString("consume_frequency"));
+//					try {
+//						temp.setStrength(resultSet.getInt("strength"));
+//					} catch (Exception e) {
+//						// TODO: handle exception
+//						temp.setStrength(0);
+//					}
+//					temp.setStrengthUnit(resultSet.getString("strength_unit"));
+//					try {
+//						temp.setDosage(resultSet.getInt("dosage"));
+//					} catch (Exception e) {
+//						// TODO: handle exception
+//						temp.setDosage(0);
+//					}
+//					temp.setDosageUnit(resultSet.getString("dosage_unit"));
+//					temp.setConsumeProcess(resultSet
+//							.getString("consume_process"));
+//					temp.setConsumeFrequency(resultSet
+//							.getString("consume_frequency"));
 					temp.setReason(resultSet.getString("reason"));
 					temp.setStartDate(resultSet.getString("start_date"));
 					temp.setEndDate(resultSet.getString("end_date"));
-					temp.setIsPrescribed(resultSet.getString("is_prescribed"));
-					temp.setPrescribedBy(resultSet.getString("prescribed_by"));
-					temp.setPrescribedDate(resultSet
-							.getString("prescribed_date"));
-					temp.setInstruction(resultSet.getString("instruction"));
-					temp.setPrescribedQuantity(resultSet
-							.getString("prescription_quantity"));
-					temp.setNote(resultSet.getString("note"));
+//					temp.setIsPrescribed(resultSet.getString("is_prescribed"));
+//					temp.setPrescribedBy(resultSet.getString("prescribed_by"));
+//					temp.setPrescribedDate(resultSet
+//							.getString("prescribed_date"));
+//					temp.setInstruction(resultSet.getString("instruction"));
+//					temp.setPrescribedQuantity(resultSet
+//							.getString("prescription_quantity"));
+//					temp.setNote(resultSet.getString("note"));
 
 					medicationList.getMedicationList().add(temp);
 				}
@@ -165,10 +166,13 @@ public class medicationService {
 			System.out.println("Connecting database...");
 			connection = DatabaseUtil.connectToDatabase();
 			try {
+//				String query = "insert into phr.medication_history (user_email, creation_date, modification_date, name, "
+//						+ "strength, strength_unit, dosage, dosage_unit, consume_process, consume_frequency, reason, start_date, end_date, "
+//						+ "is_prescribed, prescribed_by, prescribed_date, instruction, prescription_quantity, note) values "
+//						+ "(?, curdate(), curdate(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				String query = "insert into phr.medication_history (user_email, creation_date, modification_date, name, "
-						+ "strength, strength_unit, dosage, dosage_unit, consume_process, consume_frequency, reason, start_date, end_date, "
-						+ "is_prescribed, prescribed_by, prescribed_date, instruction, prescription_quantity, note) values "
-						+ "(?, curdate(), curdate(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "reason, start_date, end_date) values "
+						+ "(?, curdate(), curdate(),?,?,?,?)";
 
 				preparedStatement = connection.prepareStatement(query);
 
@@ -179,55 +183,55 @@ public class medicationService {
 				if (medication.getName() != null) {
 					preparedStatement.setString(2, medication.getName());
 				}
-				preparedStatement.setInt(3, medication.getStrength());
-				if (medication.getStrengthUnit() != null) {
-					preparedStatement
-							.setString(4, medication.getStrengthUnit());
-				}
-				preparedStatement.setInt(5, medication.getDosage());
-				if (medication.getDosageUnit() != null) {
-					preparedStatement.setString(6, medication.getDosageUnit());
-				}
-				if (medication.getConsumeProcess() != null) {
-					preparedStatement.setString(7,
-							medication.getConsumeProcess());
-				}
-				if (medication.getConsumeFrequency() != null) {
-					preparedStatement.setString(8,
-							medication.getConsumeFrequency());
-				}
+//				preparedStatement.setInt(3, medication.getStrength());
+//				if (medication.getStrengthUnit() != null) {
+//					preparedStatement
+//							.setString(4, medication.getStrengthUnit());
+//				}
+//				preparedStatement.setInt(5, medication.getDosage());
+//				if (medication.getDosageUnit() != null) {
+//					preparedStatement.setString(6, medication.getDosageUnit());
+//				}
+//				if (medication.getConsumeProcess() != null) {
+//					preparedStatement.setString(7,
+//							medication.getConsumeProcess());
+//				}
+//				if (medication.getConsumeFrequency() != null) {
+//					preparedStatement.setString(8,
+//							medication.getConsumeFrequency());
+//				}
 				if (medication.getReason() != null) {
-					preparedStatement.setString(9, medication.getReason());
+					preparedStatement.setString(3, medication.getReason());
 				}
 				if (medication.getStartDate() != null) {
-					preparedStatement.setString(10, medication.getStartDate());
+					preparedStatement.setString(4, medication.getStartDate());
 				}
 				if (medication.getEndDate() != null) {
-					preparedStatement.setString(11, medication.getEndDate());
+					preparedStatement.setString(5, medication.getEndDate());
 				}
-				if (medication.getIsPrescribed() != null) {
-					preparedStatement.setString(12,
-							medication.getIsPrescribed());
-				}
-				if (medication.getPrescribedBy() != null) {
-					preparedStatement.setString(13,
-							medication.getPrescribedBy());
-				}
-				if (medication.getPrescribedDate() != null) {
-					preparedStatement.setString(14,
-							medication.getPrescribedDate());
-				}
-				if (medication.getInstruction() != null) {
-					preparedStatement
-							.setString(15, medication.getInstruction());
-				}
-				if (medication.getPrescribedQuantity() != null) {
-					preparedStatement.setString(16,
-							medication.getPrescribedQuantity());
-				}
-				if (medication.getNote() != null) {
-					preparedStatement.setString(17, medication.getNote());
-				}
+//				if (medication.getIsPrescribed() != null) {
+//					preparedStatement.setString(12,
+//							medication.getIsPrescribed());
+//				}
+//				if (medication.getPrescribedBy() != null) {
+//					preparedStatement.setString(13,
+//							medication.getPrescribedBy());
+//				}
+//				if (medication.getPrescribedDate() != null) {
+//					preparedStatement.setString(14,
+//							medication.getPrescribedDate());
+//				}
+//				if (medication.getInstruction() != null) {
+//					preparedStatement
+//							.setString(15, medication.getInstruction());
+//				}
+//				if (medication.getPrescribedQuantity() != null) {
+//					preparedStatement.setString(16,
+//							medication.getPrescribedQuantity());
+//				}
+//				if (medication.getNote() != null) {
+//					preparedStatement.setString(17, medication.getNote());
+//				}
 
 				System.out.println(preparedStatement.toString());
 				preparedStatement.execute();
@@ -277,9 +281,12 @@ public class medicationService {
 			connection = DatabaseUtil.connectToDatabase();
 			try {
 				long medicId = Long.parseLong(id);
+//				String query = "update phr.medication_history set name=?, modification_date=curdate(), "
+//						+ "strength=?, strength_unit=?, dosage=?, dosage_unit=?, consume_process=?, consume_frequency=?, reason=?, start_date=?, end_date=?, "
+//						+ "is_prescribed=?, prescribed_by=?, prescribed_date=?, instruction=?, prescription_quantity=?, note=? where medication_id=" + medicId;
 				String query = "update phr.medication_history set name=?, modification_date=curdate(), "
-						+ "strength=?, strength_unit=?, dosage=?, dosage_unit=?, consume_process=?, consume_frequency=?, reason=?, start_date=?, end_date=?, "
-						+ "is_prescribed=?, prescribed_by=?, prescribed_date=?, instruction=?, prescription_quantity=?, note=? where medication_id=" + medicId;
+				+ "reason=?, start_date=?, end_date=? "
+				+ " where medication_id=" + medicId;
 
 				preparedStatement = connection.prepareStatement(query);
 
@@ -287,55 +294,55 @@ public class medicationService {
 				if (medication.getName() != null) {
 					preparedStatement.setString(1, medication.getName());
 				}
-				preparedStatement.setInt(2, medication.getStrength());
-				if (medication.getStrengthUnit() != null) {
-					preparedStatement
-							.setString(3, medication.getStrengthUnit());
-				}
-				preparedStatement.setInt(4, medication.getDosage());
-				if (medication.getDosageUnit() != null) {
-					preparedStatement.setString(5, medication.getDosageUnit());
-				}
-				if (medication.getConsumeProcess() != null) {
-					preparedStatement.setString(6,
-							medication.getConsumeProcess());
-				}
-				if (medication.getConsumeFrequency() != null) {
-					preparedStatement.setString(7,
-							medication.getConsumeFrequency());
-				}
+//				preparedStatement.setInt(2, medication.getStrength());
+//				if (medication.getStrengthUnit() != null) {
+//					preparedStatement
+//							.setString(3, medication.getStrengthUnit());
+//				}
+//				preparedStatement.setInt(4, medication.getDosage());
+//				if (medication.getDosageUnit() != null) {
+//					preparedStatement.setString(5, medication.getDosageUnit());
+//				}
+//				if (medication.getConsumeProcess() != null) {
+//					preparedStatement.setString(6,
+//							medication.getConsumeProcess());
+//				}
+//				if (medication.getConsumeFrequency() != null) {
+//					preparedStatement.setString(7,
+//							medication.getConsumeFrequency());
+//				}
 				if (medication.getReason() != null) {
-					preparedStatement.setString(8, medication.getReason());
+					preparedStatement.setString(2, medication.getReason());
 				}
 				if (medication.getStartDate() != null) {
-					preparedStatement.setString(9, medication.getStartDate());
+					preparedStatement.setString(3, medication.getStartDate());
 				}
 				if (medication.getEndDate() != null) {
-					preparedStatement.setString(10, medication.getEndDate());
+					preparedStatement.setString(4, medication.getEndDate());
 				}
-				if (medication.getIsPrescribed() != null) {
-					preparedStatement.setString(11,
-							medication.getIsPrescribed());
-				}
-				if (medication.getPrescribedBy() != null) {
-					preparedStatement.setString(12,
-							medication.getPrescribedBy());
-				}
-				if (medication.getPrescribedDate() != null) {
-					preparedStatement.setString(13,
-							medication.getPrescribedDate());
-				}
-				if (medication.getInstruction() != null) {
-					preparedStatement
-							.setString(14, medication.getInstruction());
-				}
-				if (medication.getPrescribedQuantity() != null) {
-					preparedStatement.setString(15,
-							medication.getPrescribedQuantity());
-				}
-				if (medication.getNote() != null) {
-					preparedStatement.setString(16, medication.getNote());
-				}
+//				if (medication.getIsPrescribed() != null) {
+//					preparedStatement.setString(11,
+//							medication.getIsPrescribed());
+//				}
+//				if (medication.getPrescribedBy() != null) {
+//					preparedStatement.setString(12,
+//							medication.getPrescribedBy());
+//				}
+//				if (medication.getPrescribedDate() != null) {
+//					preparedStatement.setString(13,
+//							medication.getPrescribedDate());
+//				}
+//				if (medication.getInstruction() != null) {
+//					preparedStatement
+//							.setString(14, medication.getInstruction());
+//				}
+//				if (medication.getPrescribedQuantity() != null) {
+//					preparedStatement.setString(15,
+//							medication.getPrescribedQuantity());
+//				}
+//				if (medication.getNote() != null) {
+//					preparedStatement.setString(16, medication.getNote());
+//				}
 
 				System.out.println(preparedStatement.toString());
 				preparedStatement.execute();

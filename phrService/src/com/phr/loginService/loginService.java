@@ -27,9 +27,10 @@ public class loginService {
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		System.out.println("loading database driver....login service");
+//		DatabaseUtil.loadDriver();
+//	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_XML)

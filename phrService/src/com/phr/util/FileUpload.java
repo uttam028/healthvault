@@ -34,9 +34,9 @@ public class FileUpload {
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 
-	static {
-		DatabaseUtil.loadDriver();
-	}
+//	static {
+//		DatabaseUtil.loadDriver();
+//	}
 
 	private static final String upload_location = "/phrdata/speechdata/";
 	private static final String storage_location = "/phrdata/speechdata/userdata/";
@@ -54,10 +54,10 @@ public class FileUpload {
 			return Response.status(400).entity("unsupported file type").build();
 		}
 		
-		String uniqueFileId = UUID.randomUUID().toString(); 
-		String fileName = uniqueFileId + ".wav";
-		//String filePath = upload_location	+ _contentDisposition.getFileName();
-		String filePath = upload_location	+ fileName;
+//		String uniqueFileId = UUID.randomUUID().toString(); 
+//		String fileName = uniqueFileId + ".wav";
+		String filePath = upload_location	+ _contentDisposition.getFileName();
+//		String filePath = upload_location	+ fileName;
 		System.out.println("file path:"+ filePath);
 		
 
@@ -88,7 +88,7 @@ public class FileUpload {
 			statement = connection.createStatement();
 
 			preparedStatement = connection.prepareStatement("insert into  phr.file_receiver (uuid, original_name, ip, receive_time) values ( ?, ?, ?, now())");
-			preparedStatement.setString(1, uniqueFileId);
+			preparedStatement.setString(1, _contentDisposition.getFileName());
 			preparedStatement.setString(2, _contentDisposition.getFileName());
 			preparedStatement.setString(3, request.getRemoteAddr());
 			preparedStatement.execute();
@@ -97,7 +97,7 @@ public class FileUpload {
 			// TODO: handle exception
 		}
 
-		return Response.status(200).entity(uniqueFileId).build();
+		return Response.status(200).entity("success").build();
 
 	}
 

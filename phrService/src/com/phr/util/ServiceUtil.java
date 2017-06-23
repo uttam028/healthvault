@@ -15,6 +15,10 @@ public class ServiceUtil {
 	
 	static final String alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	static SecureRandom rnd = new SecureRandom();
+	
+	static{
+		System.out.println("Statis code execution from service util...");
+	}
 
 	public static String randomString( int len ){
 	   StringBuilder sb = new StringBuilder( len );
@@ -29,9 +33,10 @@ public class ServiceUtil {
 		return false;
 	}
 	
+	/*
 	public static String getServiceRoot(){
 		return "http://10.32.10.188:8080/hvr/";
-	}
+	}*/
 	
 	public static String getEmailVerificationRoot(){
 		//return "http://129.74.247.110:8080/hvr/";
@@ -39,11 +44,15 @@ public class ServiceUtil {
 	}
 	
 	public static String getStudyRoot(){
-		return "http://10.32.10.188:8080/hvr/metadata/study/";
+		//return "http://10.32.10.188:8080/hvr/metadata/study/";
+		//return "http://129.74.247.110:8080/hvr/metadata/study/";
+		return "http://129.74.247.110/hvr/metadata/study/";
 	}
 	
 	public static String getTestRoot(){
-		return "http://10.32.10.188:8080/hvr/metadata/test/";
+		//return "http://10.32.10.188:8080/hvr/metadata/test/";
+		//return "http://129.74.247.110:8080/hvr/metadata/test/";
+		return "http://129.74.247.110/hvr/metadata/test/";
 	}
 	
 	public static void main(String[] args) {
@@ -79,7 +88,7 @@ public class ServiceUtil {
 				name = "User";
 			}
 			String header = "Dear "+ name + ",\n";
-			String footer = "\n\nRegards,\nND Speech Marker Initiative"; 
+			String footer = "\n\nRegards,\nSpeech Marker Initiative"; 
 			message.setText(header + messageBody + footer);
 
 			Transport.send(message);

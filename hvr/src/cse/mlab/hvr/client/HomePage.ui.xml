@@ -29,7 +29,7 @@
 				    <!--g:Label addStyleNames="{style.text_left}">Open Studies</g:Label-->
 				    <h3>Studies open for enrollment</h3>
 				    <hr/>
-				    <g:HTMLPanel ui:field="openStudyPanel" addStyleNames="col-lg-offset-1 col-lg-10"></g:HTMLPanel>				    
+				    <g:HTMLPanel ui:field="openStudyPanel" addStyleNames="col-lg-offset-1 col-lg-11"></g:HTMLPanel>				    
 				</g:HTMLPanel>
 				</b:Column>
 		</b:Row>
