@@ -8,7 +8,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/gwt-visualization.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwt-voices-3.3.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="lib/fr.hd3d.html5.video.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr.hd3d.html5.video.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwt-visualization-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwtbootstrap3-0.9.3.jar"/>
