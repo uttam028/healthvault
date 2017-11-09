@@ -16,7 +16,6 @@ package cse.mlab.hvr.server;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +46,7 @@ public class VerifyEmailImpl extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String baseUrl = "http://speechmarker.com/";
+		String baseUrl = "https://speechmarker.com/hvr/";
 		try {
 //			String toWrite = "";
 			Response response = verifyEmail(req);

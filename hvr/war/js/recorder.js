@@ -153,8 +153,13 @@
     },
 
     isMicrophoneAccessible: function() {
-    	console.log("recorder.js: is microphone accesible");
-      return Recorder.recorder.isMicrophoneAccessible();
+    	try{
+        	console.log("recorder.js: going to check if microphone accesible");
+            return Recorder.recorder.isMicrophoneAccessible();
+    		
+    	} catch(error){
+    		console.log("exception microphone access:"+ error.message);
+    	}
     },
 
     updateForm: function() {

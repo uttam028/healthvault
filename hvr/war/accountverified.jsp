@@ -28,7 +28,7 @@
 		function loadHomepage() {
 			try{
 				window.history.pushState('page', 'Speech Marker Initiative', '../');
-				window.location.href = 'http://speechmarker.com';
+				window.location.href = 'https://speechmarker.com';
 			}catch(error){
 				window.alert(error.message);
 			}

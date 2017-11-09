@@ -40,7 +40,7 @@ public class SpeechTestProcess extends Composite {
 			UiBinder<Widget, SpeechTestProcess> {
 	}
 
-	public SpeechTestProcess(final String studyId, String testId) {
+	public SpeechTestProcess(final String studyId, String testId, final String participationId) {
 		initWidget(uiBinder.createAndBindUi(this));
 		buttonTryLater.setIcon(IconType.CLOSE);
 		buttonTryLater.addClickHandler(new ClickHandler() {
@@ -62,7 +62,7 @@ public class SpeechTestProcess extends Composite {
 				testPanel.clear();
 				testPanel.add(CustomPlayerManager.getInstance());
 				//testPanel.add(new CustomPlayerManager(studyId, result));
-				CustomPlayerManager.getInstance().startPlayer(studyId, result);
+				CustomPlayerManager.getInstance().startPlayer(studyId, result, participationId);
 			}
 			@Override
 			public void onFailure(Throwable caught) {

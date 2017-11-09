@@ -29,36 +29,33 @@
 	.curve{
 		border-radius: 5px;
 	}
+	.banner_image{
+		max-height:50%; max-width:50%;
+	}
 	
 	</ui:style>
 	<!-- Banner -->
 	<g:HTMLPanel>
-
-		<b:Jumbotron addStyleNames="banner_color jumbo_height {style.bottom_zero}">
-			<b:Row>
-				<b:Column size="MD_2">
-					<b:Image url="template/images/ndcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
-				</b:Column>
-				<b:Column size="MD_8">
-					<g:Label addStyleNames="{style.white} h2">Speech Marker
-						Initiative</g:Label>
-					<!--h:Paragraph addStyleNames="banner_text_color h2">Speech Marker Initiative</h:Paragraph -->
-					<!--h:Paragraph addStyleNames="banner_text_color">A research project run by University of Notre Dame and funded by 
-					National Science Foundation</h:Paragraph-->
-					<h:Paragraph addStyleNames="banner_text_color">A speech data repository for healthcare research at the University of Notre Dame</h:Paragraph>
-				</b:Column>
-				<b:Column size="MD_2">
-					<b:Image url="template/images/nsfcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image>
-				</b:Column>
-			</b:Row>
-		</b:Jumbotron>
-		<!--b:Navbar addStyleNames="container-fluid">
-			<b:NavbarCollapse>
-				<b:NavbarNav addStyleNames="{style.center}"> <b:AnchorListItem ui:field="patientAnchor">Patient</b:AnchorListItem> 
-					<b:AnchorListItem ui:field="researcherAnchor">Researcher</b:AnchorListItem> 
-					<b:AnchorListItem ui:field="supportAnchor">Support</b:AnchorListItem> </b:NavbarNav>
-			</b:NavbarCollapse>
-		</b:Navbar-->
+		<b:Row>
+			<b:Jumbotron addStyleNames="banner_color jumbo_height {style.bottom_zero}">
+				<b:Row>
+					<b:Column size="MD_2 SM_2">
+						<!-- b:Image url="template/images/ndcrest.png" addStyleNames="jumbo_fraction_three_fourth"></b:Image-->
+						<b:Image url="template/images/ndcrest.png" addStyleNames="{style.banner_image}"></b:Image>
+						<!--g:Label addStyleNames="h4">Left Side</g:Label-->
+					</b:Column>
+					<b:Column size="MD_8 SM_8">
+						<g:Label addStyleNames="{style.white} h2">Speech Marker
+							Initiative</g:Label>
+						<h:Paragraph addStyleNames="banner_text_color">A speech data repository for healthcare research at the University of Notre Dame</h:Paragraph>
+					</b:Column>
+					<b:Column size="MD_2 SM_2">
+						<b:Image url="template/images/nsfcrest.png" addStyleNames="{style.banner_image}"></b:Image>
+						<!--g:Label addStyleNames="h4">Right Side</g:Label-->
+					</b:Column>
+				</b:Row>
+			</b:Jumbotron>
+		</b:Row>
 		<g:HTMLPanel>
 			<b:Row  addStyleNames="{style.login_back}">
 				<h:Br/><h:Br/><h:Br/>
@@ -230,54 +227,6 @@
 				
 			</b:Row>
 			<br/><br/>
-			<!--b:Row>
-				<b:Column size="MD_2"></b:Column>
-				<b:Column size="MD_2">
-					<b:Row>
-						<g:HTMLPanel>
-							<h2>
-							<span class="glyphicon glyphicon-signal"></span>
-							</h2>
-						</g:HTMLPanel>						
-					</b:Row>
-					<b:Row>
-						<g:HTMLPanel>
-							<h3>Participate in speech sample collection</h3>						
-						</g:HTMLPanel>
-					</b:Row>
-				</b:Column>
-				<b:Column size="MD_1"></b:Column>
-				<b:Column size="MD_2">
-					<b:Row>
-						<g:HTMLPanel>
-							<h2>
-							<span class="glyphicon glyphicon-search"></span>
-							</h2>
-						</g:HTMLPanel>						
-					</b:Row>
-					<b:Row>
-						<g:HTMLPanel>
-							<h3>Get Feedback on your participation</h3>						
-						</g:HTMLPanel>
-					</b:Row>
-				</b:Column>
-				<b:Column size="MD_1"></b:Column>
-				<b:Column size="MD_2">
-					<b:Row>
-						<g:HTMLPanel>
-							<h2>
-							<span class="glyphicon glyphicon-gift"></span>
-							</h2>
-						</g:HTMLPanel>						
-					</b:Row>
-					<b:Row>
-						<g:HTMLPanel>
-							<h3>Get rewarded for contribution</h3>						
-						</g:HTMLPanel>
-					</b:Row>
-				</b:Column>
-				
-			</b:Row-->
 			<br/>
 			<br/>
 			<!--b:Row addStyleNames="col-lg-offset-8">

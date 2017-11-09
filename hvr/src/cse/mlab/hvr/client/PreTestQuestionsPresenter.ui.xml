@@ -6,8 +6,18 @@
 	.important {
 		font-weight: bold;
 	}
+	.text_font{
+		font-size: 120%;
+	}
+	
 	</ui:style>
-	<g:HTMLPanel>
-		<b:Button ui:field="pretestSubmitButton">Submit</b:Button>
+	<g:HTMLPanel ui:field="pretestPanel" addStyleNames="panel_border">
+		<g:Label addStyleNames="h3">Please answer below questions:</g:Label>
+		<br/>
+		<g:HTMLPanel ui:field="questionPanel" addStyleNames="{style.text_font}"></g:HTMLPanel>
+		<hr/>
+		<br/>
+		<b:Button ui:field="pretestSubmitButton" size="LARGE" type="PRIMARY">Submit</b:Button>
+		<br/><br/><br/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

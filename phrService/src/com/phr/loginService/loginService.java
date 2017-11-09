@@ -24,8 +24,7 @@ import com.phr.util.ServiceUtil;
 public class loginService {
 
 	private Connection connection;
-	private Statement statement;
-	private PreparedStatement preparedStatement;
+	//private PreparedStatement preparedStatement;
 
 //	static {
 //		System.out.println("loading database driver....login service");
@@ -41,8 +40,8 @@ public class loginService {
 			User user = userJaxbElement.getValue();
 			System.out.println("pass from client:"+user.getPassword());
 			connection = DatabaseUtil.connectToDatabase();
-				statement = connection.createStatement();
-				preparedStatement = connection
+				connection.createStatement();
+				PreparedStatement preparedStatement = connection
 						.prepareStatement("select * from phr.users where email=?");
 				preparedStatement.setString(1, user.getEmail());
 				ResultSet resultSet = preparedStatement.executeQuery();
@@ -107,9 +106,9 @@ public class loginService {
 		Response response = new Response();
 		try {
 			connection = DatabaseUtil.connectToDatabase();
-			statement = connection.createStatement();
+			connection.createStatement();
 
-			preparedStatement = connection
+			PreparedStatement preparedStatement = connection
 					.prepareStatement("select email from phr.users where state=1 and email=?");
 			preparedStatement.setString(1, auth.getEmail());
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -165,9 +164,9 @@ public class loginService {
 			if(!ServiceUtil.isEmptyString(sessionId)){
 				try {
 					connection = DatabaseUtil.connectToDatabase();
-					statement = connection.createStatement();
+					connection.createStatement();
 
-					preparedStatement = connection.prepareStatement("select user_id from phr.session_info where state=1 and session_id=?");
+					PreparedStatement preparedStatement = connection.prepareStatement("select user_id from phr.session_info where state=1 and session_id=?");
 					preparedStatement.setString(1, sessionId);
 					
 					ResultSet resultSet = preparedStatement.executeQuery();
@@ -209,9 +208,9 @@ public class loginService {
 			if(!ServiceUtil.isEmptyString(sessionId)){
 				try {
 					connection = DatabaseUtil.connectToDatabase();
-					statement = connection.createStatement();
+					connection.createStatement();
 
-					preparedStatement = connection.prepareStatement("update phr.session_info set state=0, logout_time=now() where session_id=?");
+					PreparedStatement preparedStatement = connection.prepareStatement("update phr.session_info set state=0, logout_time=now() where session_id=?");
 					preparedStatement.setString(1, sessionId);
 					preparedStatement.executeUpdate();
 					response.setCode(0);
@@ -259,9 +258,9 @@ public class loginService {
 			
 			try {
 				connection = DatabaseUtil.connectToDatabase();
-				statement = connection.createStatement();
+				connection.createStatement();
 
-				preparedStatement = connection.prepareStatement("select * from phr.users where email=? and password=?");
+				PreparedStatement preparedStatement = connection.prepareStatement("select * from phr.users where email=? and password=?");
 				preparedStatement.setString(1, email);
 				preparedStatement.setString(2, oldPass);
 				ResultSet resultSet = preparedStatement.executeQuery();

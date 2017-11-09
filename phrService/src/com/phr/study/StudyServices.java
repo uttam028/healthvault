@@ -25,8 +25,7 @@ import com.phr.util.ServiceUtil;
 public class StudyServices {
 
 	private Connection connection;
-	private Statement statement;
-	private PreparedStatement preparedStatement;
+	//private PreparedStatement preparedStatement;
 
 //	static {
 //		System.out.println("loading database driver........study service");
@@ -49,7 +48,7 @@ public class StudyServices {
 				} else {
 					String query = "select * from phr.study where id not in (select study_id from phr.enrollment where user_id=?) and is_active=1";
 
-					preparedStatement = connection.prepareStatement(query);
+					PreparedStatement preparedStatement = connection.prepareStatement(query);
 					preparedStatement.setString(1, email);
 					ResultSet resultSet = preparedStatement.executeQuery();
 					while (resultSet.next()) {
@@ -164,7 +163,7 @@ public class StudyServices {
 				} else {
 					String query = "select * from phr.study where id in (select study_id from phr.enrollment where user_id=?) and is_active=1";
 
-					preparedStatement = connection.prepareStatement(query);
+					PreparedStatement preparedStatement = connection.prepareStatement(query);
 					preparedStatement.setString(1, email);
 					ResultSet resultSet = preparedStatement.executeQuery();
 					while (resultSet.next()) {
@@ -323,7 +322,7 @@ public class StudyServices {
 
 			ArrayList<SubTest> subtestList = new ArrayList<>();
 			String query = "select * from phr.speech_subtest where is_active=1 and test_id=?";
-			preparedStatement = connection.prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, testId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -429,7 +428,7 @@ public class StudyServices {
 			connection = DatabaseUtil.connectToDatabase();
 
 			String query = "insert into phr.enrollment (study_id, user_id, enrollment_date, state) values (?,?,now(),3)";
-			preparedStatement = connection.prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1,
 					String.valueOf(enrollment.getStudyId()));
 			preparedStatement.setString(2, enrollment.getUserId());
@@ -462,12 +461,20 @@ public class StudyServices {
 			connection = DatabaseUtil.connectToDatabase();
 
 			String query = "insert into phr.participation (study_id, user_id, start_time, state) values (?,?,now(),0)";
-			preparedStatement = connection.prepareStatement(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1,
 					String.valueOf(participation.getStudyId()));
 			preparedStatement.setString(2, participation.getUserId());
 			preparedStatement.execute();
+			
+			query = "select last_insert_id() as id";
+			preparedStatement = connection.prepareStatement(query);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				response.setMessage(resultSet.getString("id"));
+			}
 			response.setCode(0);
+
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -494,24 +501,148 @@ public class StudyServices {
 		try {
 			connection = DatabaseUtil.connectToDatabase();
 
-			String query = "select * from phr.participation where study_id=? and user_id=? and state<3 order by participation_id desc";
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1,
-					String.valueOf(participation.getStudyId()));
-			preparedStatement.setString(2, participation.getUserId());
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				int participationId = resultSet.getInt("participation_id");
+//			String query = "select * from phr.participation where study_id=? and user_id=? and state<3 order by participation_id desc";
+//			preparedStatement = connection.prepareStatement(query);
+//			preparedStatement.setString(1,
+//					String.valueOf(participation.getStudyId()));
+//			preparedStatement.setString(2, participation.getUserId());
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			if (resultSet.next()) {
+//				int participationId = resultSet.getInt("participation_id");
+				int participationId = participation.getId();
 				System.out.println("Participation id :"+ participationId);
-				query = "update phr.participation set end_time=now(), state=3 where participation_id="
+				String query = "update phr.participation set end_time=now(), state=3 where participation_id="
 						+ participationId;
-				preparedStatement = connection.prepareStatement(query);
+				PreparedStatement preparedStatement = connection.prepareStatement(query);
 				preparedStatement.execute();
 				response.setCode(0);
-			}
+//			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return response;
+	}
+	
+	
+	
+	@Path("pretestquestion/{testId}")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ArrayList<PreTestQuestion> getPreTestQuestions(
+			@PathParam("testId") String testId) {
+		ArrayList<PreTestQuestion> pretestQuestionList = new ArrayList<>();
+		try {
+
+			connection = DatabaseUtil.connectToDatabase();
+			try {
+				if (ServiceUtil.isEmptyString(testId)) {
+					// empty email
+				} else {
+					String query = "select * from phr.pretest_question where test_id=? and is_active=1 order by order_id";
+					
+					PreparedStatement preparedStatement = connection.prepareStatement(query);
+					preparedStatement.setString(1, testId);
+					ResultSet resultSet = preparedStatement.executeQuery();
+					while (resultSet.next()) {
+						try {
+							
+							PreTestQuestion pretestQuestion = new PreTestQuestion();
+							pretestQuestion.setTestId(testId);
+							String questionId = resultSet.getString("question_id");
+							pretestQuestion.setQuestionId(questionId);
+							String question = resultSet.getString("question");
+							pretestQuestion.setQuestion(question);
+							String type = resultSet.getString("type");
+							pretestQuestion.setType(type);
+							String possibleAnswers = resultSet.getString("possible_answers");
+							pretestQuestion.setPossibleAnswers(possibleAnswers);
+							int displayLevel = resultSet.getInt("display_level");
+							pretestQuestion.setDisplayLevel(displayLevel);
+							int order = resultSet.getInt("order_id");
+							pretestQuestion.setOrder(order);
+							int active_value = resultSet.getInt("is_active");
+							if(active_value > 0){
+								pretestQuestion.setActive(true);
+							}else{
+								pretestQuestion.setActive(false);
+							}
+							
+							int required = resultSet.getInt("is_required");
+							if(required > 0){
+								pretestQuestion.setRequired(true);
+							}else {
+								pretestQuestion.setRequired(false);
+							}
+							String parentId = resultSet.getString("parent_question_id");
+							pretestQuestion.setParentId(parentId);
+							int hasChild = resultSet.getInt("has_child");
+							if(hasChild > 0){
+								pretestQuestion.setHasChild(true);
+							}else {
+								pretestQuestion.setHasChild(false);
+							}
+							
+							String childVisibleDependentAnswer = resultSet.getString("child_dependent_answer");
+							pretestQuestion.setChildVisibleDependentAnswer(childVisibleDependentAnswer);
+							String defaultAnswer = resultSet.getString("default_answer");
+							pretestQuestion.setDefaultAnswer(defaultAnswer);
+
+							pretestQuestionList.add(pretestQuestion);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+
+					}
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+		return pretestQuestionList;
+
+	}
+
+	@Path("pretestsubmission")
+	@POST
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	public Response submitPreTestAnswer(JAXBElement<PreTestAnswers> jaxbElement) {
+		PreTestAnswers preTestAnswers = jaxbElement.getValue();
+		Response response = new Response();
+		try {
+			System.out.println("submit pretest answer, "+ preTestAnswers.getParticipationId());
+			connection = DatabaseUtil.connectToDatabase();
+			String query = "insert into phr.pretest_question_answer values(?,?, now(), ?)";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			
+			for(int i=0;i<preTestAnswers.getAllQuestionId().size();i++){
+				preparedStatement.setString(1, preTestAnswers.getParticipationId());
+				preparedStatement.setString(2, preTestAnswers.getAllQuestionId().get(i));
+				preparedStatement.setString(3, preTestAnswers.getAllQuestionAnswer().get(i));
+				preparedStatement.execute();
+			}
+			response.setCode(0);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			System.out.println("Closing the connection.");
 			if (connection != null)

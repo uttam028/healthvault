@@ -29,25 +29,29 @@
 			<b:ModalBody>
 			
 				<b:Row>
+					<g:HTMLPanel ui:field="dynamicMedicPanel" addStyleNames="col-lg-offset-1 col-lg-11"></g:HTMLPanel>
+				</b:Row>
+			
+				<!--b:Row>
 					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9">
 						<b:FormLabel  for="formMedic" addStyleNames="{style.left_align}">Medication Name *</b:FormLabel>
 						<b:TextBox b:id="formMedic" ui:field="nameBox" maxLength="50" allowBlank="false"/>
 						<g:Label ui:field="nameLabel" styleName="labelError"></g:Label>					
 					</g:HTMLPanel>
 				</b:Row>
-				<h:Br/>
+				<h:Br/-->
 				<b:Row>
-					<g:HTMLPanel addStyleNames="col-lg-offset-7 col-lg-3">
-						<b:Button>Add Another</b:Button>
+					<g:HTMLPanel addStyleNames="col-lg-offset-9 col-lg-3">
+						<b:Button ui:field="buttonAddAnother">Add Another</b:Button>
 					</g:HTMLPanel>
 				</b:Row>
 				
 				<h:Br/>
 				<b:Row>
 					<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-9">
-						<b:FormLabel for="formReason" addStyleNames="{style.left_align}">Reason *</b:FormLabel>
+						<b:FormLabel for="formReason" addStyleNames="{style.left_align}">Reason</b:FormLabel>
 						<b:TextArea b:id="formReason" ui:field="reasonArea" maxLength="200"/>
-						<g:Label ui:field="reasonLabel" styleName="labelError"></g:Label>
+						<!--g:Label ui:field="reasonLabel" styleName="labelError"></g:Label-->
 					</g:HTMLPanel>
 				</b:Row>
 				<h:Br/>
@@ -69,54 +73,6 @@
 				<h:Br/>
 				
 						
-				<!-- gwt:HTMLPanel addStyleNames="background">
-					<div align="left">
-						<gwt:VerticalPanel addStyleNames="background">
-							<gwt:Label text="* Required" addStyleNames="warningText" />
-							<gwt:Label text="*Name of Medication:" addStyleNames="blackText" />
-							<gwt:Label text="Ex: Coumadin" addStyleNames="liteColText" />
-							<gwt:TextBox ui:field="nameBox" addStyleNames="box" />
-							<gwt:Label ui:field="idLabel" addStyleNames="lightText" />
-							<gwt:Label text="*Reasons for taking the medicine:"
-								addStyleNames="blackText" />
-							<gwt:TextArea ui:field="ReasonArea" width="250px"
-								height="79px" addStyleNames="marginAdjust" />
-							<gwt:Label ui:field="reasonLabel" addStyleNames="lightText" />
-							<b:Container fluid="true">
-								<b:Row>
-									<b:Column size="MD_4">
-										<gwt:Label text="*Starting Date:" addStyleNames="columnText" />
-									</b:Column>
-									<b:Column size="MD_4">
-										<gwt:Label text="Ending Date:" addStyleNames="columnText" />
-									</b:Column>
-								</b:Row>
-							</b:Container>
-							<b:Container fluid="true">
-								<b:Row>
-									<b:Column size="MD_4">
-										<b2:DatePicker ui:field="startDatePicker"
-											autoClose="true" format="yyyy-mm-dd" width="100px" />
-									</b:Column>
-									<b:Column size="MD_4">
-										<b2:DatePicker ui:field="endDatePicker"
-											autoClose="true" width="100px" format="yyyy-mm-dd" />
-									</b:Column>
-								</b:Row>
-							</b:Container>
-							<b:Container fluid="true">
-								<b:Row>
-									<b:Column size="MD_4">
-										<gwt:Label ui:field="startDateLabel" addStyleNames="lightText" />
-									</b:Column>
-									<b:Column size="MD_4">
-										<gwt:Label ui:field="endDateLabel" addStyleNames="lightText" />
-									</b:Column>
-								</b:Row>
-							</b:Container>
-						</gwt:VerticalPanel>
-					</div>
-				</gwt:HTMLPanel-->
 			</b:ModalBody>
 			<b:ModalFooter>
 				<b:Button type="DEFAULT" ui:field="buttonSubmit" text="Submit"></b:Button>

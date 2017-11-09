@@ -18,13 +18,13 @@ public class Recording implements Serializable{
 	private String uploadTime;
 	private String quality;
 	private int retakeCounter;
+	private String splitString;
 	public Recording() {
 		// TODO Auto-generated constructor stub
 	}
-	public Recording(int id, int participationId, String userId,
-			String studyId, int subtestId, String startTime, String endTime,
-			String fileIdentifier, String uploadTime, String quality,
-			int retakeCounter) {
+	public Recording(int id, int participationId, String userId, String studyId, int subtestId, String startTime,
+			String endTime, String fileIdentifier, String uploadTime, String quality, int retakeCounter,
+			String splitString) {
 		super();
 		this.id = id;
 		this.participationId = participationId;
@@ -37,72 +37,82 @@ public class Recording implements Serializable{
 		this.uploadTime = uploadTime;
 		this.quality = quality;
 		this.retakeCounter = retakeCounter;
+		this.splitString = splitString;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getParticipationId() {
 		return participationId;
-	}
-	public void setParticipationId(int participationId) {
-		this.participationId = participationId;
 	}
 	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 	public String getStudyId() {
 		return studyId;
-	}
-	public void setStudyId(String studyId) {
-		this.studyId = studyId;
 	}
 	public int getSubtestId() {
 		return subtestId;
 	}
-	public void setSubtestId(int subtestId) {
-		this.subtestId = subtestId;
-	}
 	public String getStartTime() {
 		return startTime;
-	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
 	}
 	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
 	public String getFileIdentifier() {
 		return fileIdentifier;
-	}
-	public void setFileIdentifier(String fileIdentifier) {
-		this.fileIdentifier = fileIdentifier;
 	}
 	public String getUploadTime() {
 		return uploadTime;
 	}
-	public void setUploadTime(String uploadTime) {
-		this.uploadTime = uploadTime;
-	}
 	public String getQuality() {
 		return quality;
-	}
-	public void setQuality(String quality) {
-		this.quality = quality;
 	}
 	public int getRetakeCounter() {
 		return retakeCounter;
 	}
+	public String getSplitString() {
+		return splitString;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setParticipationId(int participationId) {
+		this.participationId = participationId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public void setStudyId(String studyId) {
+		this.studyId = studyId;
+	}
+	public void setSubtestId(int subtestId) {
+		this.subtestId = subtestId;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public void setFileIdentifier(String fileIdentifier) {
+		this.fileIdentifier = fileIdentifier;
+	}
+	public void setUploadTime(String uploadTime) {
+		this.uploadTime = uploadTime;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
 	public void setRetakeCounter(int retakeCounter) {
 		this.retakeCounter = retakeCounter;
+	}
+	public void setSplitString(String splitString) {
+		this.splitString = splitString;
 	}
 	
 }

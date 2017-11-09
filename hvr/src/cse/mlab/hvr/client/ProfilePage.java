@@ -28,7 +28,7 @@ public class ProfilePage extends Composite {
 	private AccountInfoPage accountInfoPage;
 	private MedicalInfoPage medicalInfoPage;
 	
-	private String userId;
+//	private String userId;
 
 	private static ProfileUiBinder uiBinder = GWT.create(ProfileUiBinder.class);
 

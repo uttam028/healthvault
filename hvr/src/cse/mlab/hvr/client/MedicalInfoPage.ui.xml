@@ -21,7 +21,7 @@
 			color: #c9d7e8;
 		}
 		.text_font{
-			font-size: 135%;
+			font-size: 100%;
 		}
 
 	</ui:style>
@@ -31,93 +31,6 @@
 	    </g:HTMLPanel>
 	
 		<h4>Medical Information</h4>
-		<!--b:Panel>
-			<b:PanelHeader>
-				<b:Heading size="H3" text="History" addStyleNames="{style.left_text}" />
-			</b:PanelHeader>
-			<b:PanelBody>
-				<h:Br />
-				
-				<b:Row>
-				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">1. Have you been diagnosed with a speech/language disorder?</g:Label>
-				</b:Row>
-				<b:Row>
-				    <g:HTMLPanel addStyleNames="{style.left_align} col-lg-offset-2">
-						<b:InlineRadio text="Yes" name="radio1" formValue="value1"/>
-						<b:InlineRadio text="No" name="radio1" formValue="value2"/>			    
-				        				        
-				    </g:HTMLPanel>
-				</b:Row>
-				<h:Br />
-				<h:Br />
-				<b:Row>
-				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">2. Have you been diagnosed with any of the following neurological disorder?</g:Label>
-				</b:Row>
-				<b:Row>
-					<g:HorizontalPanel addStyleNames="col-lg-offset-2 {style.left_align}">
-						<b:CheckBox text="ALS" addStyleNames="{style.right_margin}" ui:field="checkboxAls"/>
-						<b:CheckBox text="Parkinsons" addStyleNames="{style.right_margin}" ui:field="checkboxParkinson"/>
-						<b:CheckBox text="Huntington" addStyleNames="{style.right_margin}" ui:field="checkboxHuntington"/>
-						<b:CheckBox text="Stroke" addStyleNames="{style.right_margin}" />
-
-					</g:HorizontalPanel>
-				</b:Row>
-				<b:Row>
-					<g:HorizontalPanel addStyleNames="col-lg-offset-2 {style.left_align}">
-						<b:CheckBox text="Alzheimer" addStyleNames="{style.right_margin}"/>
-						<b:CheckBox text="Vascular Disease" addStyleNames="{style.right_margin}"/>
-						<b:CheckBox text="TBI" addStyleNames="{style.right_margin}"/>
-						<b:CheckBox text="Multiple Sclerosis" addStyleNames="{style.right_margin}"/>
-
-					</g:HorizontalPanel>
-				</b:Row>
-								
-				<h:Br />
-				<h:Br />
-				<b:Row>
-				    <g:Label addStyleNames="{style.left_align} col-lg-offset-1">3. Are you currently taking any medication?</g:Label>
-				</b:Row>
-				<b:Row>
-				    <g:HTMLPanel addStyleNames="{style.left_align} col-lg-offset-2">
-						<b:InlineRadio text="Yes" name="radio2" formValue="value1"/>
-						<b:InlineRadio text="No" name="radio2" formValue="value2"/>			            
-				    </g:HTMLPanel>
-				</b:Row>
-				<h:Br />
-				<h:Br />
-				<h:Hr/>
-				<b:Row>
-					<b:Button addStyleNames="{style.left_align} col-lg-offset-1" type="SUCCESS" ui:field="buttonUpdate">Update</b:Button>
-					<b:Button addStyleNames="{style.left_align} col-lg-offset-1" type="DANGER" ui:field="buttonCancel">Cancel</b:Button>				    
-				</b:Row>
-
-			</b:PanelBody>
-		</b:Panel-->
-		
-		<!--b:Panel>
-			<b:PanelHeader>
-				<b:Heading size="H3" text="Medication" addStyleNames="{style.left_text}" />
-			</b:PanelHeader>
-			<b:PanelBody>
-			    <b:Form ui:field="medicForm">
-					<b:FormGroup addStyleNames="col-lg-8">
-						<b:FormLabel for="formMedic" addStyleNames="{style.left_align}">Medication Name</b:FormLabel>
-						<b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-						<b:TextBox b:id="formMedic" ui:field="textboxMedicName" maxLength="50" allowBlank="false"/>
-					</b:FormGroup>
-					<h:Br />
-					<b:FormGroup addStyleNames="col-lg-8">
-						<b:FormLabel for="formReason" addStyleNames="{style.left_align}">Reason</b:FormLabel>
-						<b:TextArea b:id="formReason" ui:field="textareaReason" maxLength="200"/>
-					</b:FormGroup>
-					<h:Br />
-					<b:FormGroup addStyleNames="col-lg-8">
-						<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="updateButton">Add</b:Button>
-						<b:Button type="DANGER" ui:field="cancelButton">Cancel</b:Button>
-					</b:FormGroup>
-				</b:Form>
-			</b:PanelBody>
-		</b:Panel-->
 		<br/>
 		<b:Panel type="INFO" addStyleNames="{style.text_font}">
 			<b:PanelHeader>

@@ -40,19 +40,22 @@ public class ServiceUtil {
 	
 	public static String getEmailVerificationRoot(){
 		//return "http://129.74.247.110:8080/hvr/";
-		return "http://speechmarker.com/";
+		//return "http://speechmarker.com/";
+		return "https://speechmarker.com/hvr/";
 	}
 	
 	public static String getStudyRoot(){
 		//return "http://10.32.10.188:8080/hvr/metadata/study/";
 		//return "http://129.74.247.110:8080/hvr/metadata/study/";
-		return "http://129.74.247.110/hvr/metadata/study/";
+		//return "http://129.74.247.110/hvr/metadata/study/";
+		return "https://speechmarker.com/hvr/metadata/study/";
 	}
 	
 	public static String getTestRoot(){
 		//return "http://10.32.10.188:8080/hvr/metadata/test/";
 		//return "http://129.74.247.110:8080/hvr/metadata/test/";
-		return "http://129.74.247.110/hvr/metadata/test/";
+		//return "http://129.74.247.110/hvr/metadata/test/";
+		return "https://speechmarker.com/hvr/metadata/test/";
 	}
 	
 	public static void main(String[] args) {

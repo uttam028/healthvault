@@ -66,9 +66,9 @@ public class ConcussionTestNew extends Composite {
 	public ConcussionTestNew() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		players[0] = new AudioBasedCustomPlayer("Speech Test 1", 1,  fragments1);
-		players[1] = new AudioBasedCustomPlayer("Speech Test 2", 2, fragments2);
-		players[2] = new AudioBasedCustomPlayer("Speech Test 3", 3, fragments3);
+//		players[0] = new AudioBasedCustomPlayer("Speech Test 1", 1,  fragments1);
+//		players[1] = new AudioBasedCustomPlayer("Speech Test 2", 2, fragments2);
+//		players[2] = new AudioBasedCustomPlayer("Speech Test 3", 3, fragments3);
 		
 		
 		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,

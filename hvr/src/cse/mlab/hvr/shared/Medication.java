@@ -19,6 +19,8 @@ public class Medication implements Serializable{
 //	String dosageUnit;
 //	String consumeProcess;
 //	String consumeFrequency;
+	String dosage;
+	String frequency;
 	String reason;
 	String startDate;
 	String endDate;
@@ -33,21 +35,24 @@ public class Medication implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 
 	public String getName() {
@@ -55,69 +60,17 @@ public class Medication implements Serializable{
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+
+	public String getDosage() {
+		return dosage;
 	}
 
 
-//	public int getStrength() {
-//		return strength;
-//	}
-//
-//
-//	public void setStrength(int strength) {
-//		this.strength = strength;
-//	}
-//
-//
-//	public String getStrengthUnit() {
-//		return strengthUnit;
-//	}
-//
-//
-//	public void setStrengthUnit(String strengthUnit) {
-//		this.strengthUnit = strengthUnit;
-//	}
 
+	public String getFrequency() {
+		return frequency;
+	}
 
-//	public int getDosage() {
-//		return dosage;
-//	}
-//
-//
-//	public void setDosage(int dosage) {
-//		this.dosage = dosage;
-//	}
-//
-//
-//	public String getDosageUnit() {
-//		return dosageUnit;
-//	}
-//
-//
-//	public void setDosageUnit(String dosageUnit) {
-//		this.dosageUnit = dosageUnit;
-//	}
-//
-//
-//	public String getConsumeProcess() {
-//		return consumeProcess;
-//	}
-//
-//
-//	public void setConsumeProcess(String consumeProcess) {
-//		this.consumeProcess = consumeProcess;
-//	}
-//
-//
-//	public String getConsumeFrequency() {
-//		return consumeFrequency;
-//	}
-//
-//
-//	public void setConsumeFrequency(String consumeFrequency) {
-//		this.consumeFrequency = consumeFrequency;
-//	}
 
 
 	public String getReason() {
@@ -125,19 +78,11 @@ public class Medication implements Serializable{
 	}
 
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
 
 	public String getStartDate() {
 		return startDate;
 	}
 
-
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
 
 
 	public String getEndDate() {
@@ -145,69 +90,53 @@ public class Medication implements Serializable{
 	}
 
 
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public void setDosage(String dosage) {
+		this.dosage = dosage;
+	}
+
+
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+
+
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
-
-//	public String getIsPrescribed() {
-//		return isPrescribed;
-//	}
-//
-//
-//	public void setIsPrescribed(String isPrescribed) {
-//		this.isPrescribed = isPrescribed;
-//	}
-//
-//
-//	public String getPrescribedBy() {
-//		return prescribedBy;
-//	}
-//
-//
-//	public void setPrescribedBy(String prescribedBy) {
-//		this.prescribedBy = prescribedBy;
-//	}
-//
-//
-//	public String getPrescribedDate() {
-//		return prescribedDate;
-//	}
-//
-//
-//	public void setPrescribedDate(String prescribedDate) {
-//		this.prescribedDate = prescribedDate;
-//	}
-
-
-//	public String getInstruction() {
-//		return instruction;
-//	}
-//
-//
-//	public void setInstruction(String instruction) {
-//		this.instruction = instruction;
-//	}
-//
-//
-//	public String getPrescribedQuantity() {
-//		return prescribedQuantity;
-//	}
-//
-//
-//	public void setPrescribedQuantity(String prescribedQuantity) {
-//		this.prescribedQuantity = prescribedQuantity;
-//	}
-//
-//
-//	public String getNote() {
-//		return note;
-//	}
-//
-//
-//	public void setNote(String note) {
-//		this.note = note;
-//	}
 
 
 	@Override

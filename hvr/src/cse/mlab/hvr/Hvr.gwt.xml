@@ -27,9 +27,10 @@
   <inherits name="org.gwtbootstrap3.extras.datetimepicker.DateTimePicker"/>
   <inherits name="org.gwtbootstrap3.extras.datepicker.DatePicker"/>
   <inherits name='com.google.gwt.visualization.Visualization'/>
+  <inherits name="org.gwtbootstrap3.extras.notify.Notify"/>
     
   <!-- Inherit sound support -->
-  <inherits name='com.allen_sauer.gwt.voices.gwt-voices'/>
+  <!--inherits name='com.allen_sauer.gwt.voices.gwt-voices'/-->
   <!--inherits name='fr.hd3d.html5.video.HTML5Video'/-->
   
   <!-- Specify the app entry point class.                         -->

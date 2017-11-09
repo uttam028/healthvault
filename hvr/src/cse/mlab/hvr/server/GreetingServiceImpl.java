@@ -34,6 +34,8 @@ import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.study.Enrollment;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
 import cse.mlab.hvr.shared.study.Participation;
+import cse.mlab.hvr.shared.study.PreTestAnswers;
+import cse.mlab.hvr.shared.study.PreTestQuestion;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
@@ -301,7 +303,102 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return profile;
 	}
 	
+	
+	@Override
+	public ArrayList<PreTestQuestion> getProfileInformation(String email) {
+		try {
+			long start = Calendar.getInstance().getTimeInMillis();
 
+			ClientConfig config = new DefaultClientConfig();
+			Client client = Client.create(config);
+			String url = serverRoot + profilePath + "basicinformation/" +email;
+			WebResource service = client.resource(url);
+
+			String response = service.accept(MediaType.APPLICATION_JSON).get(
+					String.class);
+
+			Gson gson = new Gson();
+			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
+			ArrayList<PreTestQuestion> list = gson.fromJson(response,
+					listOfTestObject);
+
+			System.out.println("response from server:" + response);
+
+			System.out.println("length of list : " + list.size());
+			long end = Calendar.getInstance().getTimeInMillis();
+			System.out.println("time diff get physical information: " + (end - start));
+
+			return list;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@Override
+	public Response updateProfileInfo(PreTestAnswers preTestAnswers) {
+		String url = serverRoot + "/profile/basicinfosubmission";
+		return genericPostMethod(url, preTestAnswers);
+	}
+	
+	@Override
+	public ArrayList<PreTestQuestion> getPhysicalInformation(String email) {
+		try {
+			long start = Calendar.getInstance().getTimeInMillis();
+
+			ClientConfig config = new DefaultClientConfig();
+			Client client = Client.create(config);
+			String url = serverRoot + profilePath + "physicalinformation/" +email;
+			WebResource service = client.resource(url);
+
+			String response = service.accept(MediaType.APPLICATION_JSON).get(
+					String.class);
+
+			Gson gson = new Gson();
+			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
+			ArrayList<PreTestQuestion> list = gson.fromJson(response,
+					listOfTestObject);
+
+			System.out.println("response from server:" + response);
+
+			System.out.println("length of list : " + list.size());
+			long end = Calendar.getInstance().getTimeInMillis();
+			System.out.println("time diff get physical information: " + (end - start));
+
+			return list;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@Override
+	public Response updatePhysicalInfo(PreTestAnswers preTestAnswers) {
+		String url = serverRoot + "/profile/physicalinfosubmission";
+		return genericPostMethod(url, preTestAnswers);
+	}
+	
+	
+	
+	private Response genericPostMethod(String url, Object genericObject){
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, genericObject);
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("response code generic post method: " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff generic post call: " + (end - start));
+
+		return response;
+		
+	}
+	
+	
 	@Override
 	public Response saveProfile(UserProfile userProfile) {
 		// TODO Auto-generated method stub
@@ -324,7 +421,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	//-----------------------------------medication--------------------------//
 	@Override
-	public Response saveMedication(Medication medication) {
+	public Response saveMedication(MedicationList medicationList) {
 		// TODO Auto-generated method stub
 
 		long start = Calendar.getInstance().getTimeInMillis();
@@ -334,7 +431,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String url = serverRoot + "/medication/";
 		WebResource service = client.resource(url);
 		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, medication);
+				.put(ClientResponse.class, medicationList);
 		Response saveMedicResult = nameResource.getEntity(Response.class);
 
 		System.out.println("response code:" + saveMedicResult.getCode()
@@ -406,6 +503,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String response = service.accept(MediaType.APPLICATION_JSON).get(
 				String.class);
 
+		System.out.println("medic list:"+ response);
 		MedicationList medicationList = new Gson().fromJson(response,
 				MedicationList.class);
 		long end = Calendar.getInstance().getTimeInMillis();
@@ -614,61 +712,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("time diff get open study: " + (end - start));
 
 		return list;
-		/*
-		 * String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
-		 * String studyId = "1"; StudyOverview studyOverview1= new
-		 * StudyOverview(studyId, "Notre Dame Parkinson Study", "test1",
-		 * "ahossain@nd.edu", "", "",
-		 * "This is a test for parkinson patient which will take around 10 minutes."
-		 * , "", true, true, pathRoot +studyId+ "/" + "consent.pdf", 2, "1" ,
-		 * "1");
-		 * 
-		 * StudyOverview studyOverview2= new StudyOverview("2",
-		 * "Concussion Study", "test2", "ahossain@nd.edu", "", "",
-		 * "This is a test for parkinson patient which will take around 10 minutes."
-		 * , "", true, true, pathRoot + "2/" + "consent.pdf", 2, "2" , "2");
-		 * 
-		 * 
-		 * ArrayList<QA> qaList1 = new ArrayList<>(); qaList1.add(new
-		 * QA("Can I take the Test?",
-		 * "If you are suffering from neuorological disorder, you can take the test."
-		 * )); qaList1.add(new QA("How long the test will be?",
-		 * "It is around 25 minutes, please don't refresh or back button in the test part."
-		 * )); qaList1.add(new QA("Is there any reward for this test?",
-		 * "For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."
-		 * ));
-		 * 
-		 * ArrayList<QA> qaList2 = new ArrayList<>(); qaList2.add(new
-		 * QA("Can I take the Test?",
-		 * "If you have possibility of concussion, you can take part."));
-		 * qaList2.add(new QA("How long the test will be?",
-		 * "It is around 15 minutes, please don't refresh or back button in the test part."
-		 * ));
-		 * 
-		 * ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
-		 * HealthStatusQuestion q1 = new HealthStatusQuestion(
-		 * "Have you received or are currently receiving speech therapy for your condition?"
-		 * , "", false, 1, true);
-		 * 
-		 * HealthStatusQuestion q2 = new HealthStatusQuestion(
-		 * "What medication are you taking for your current condition?" , "",
-		 * false, 2, true); HealthStatusQuestion q3 = new HealthStatusQuestion(
-		 * "Any other relevant medical information (Condition, Treatments, Medications?)"
-		 * , "Type 'NA' if not applicable", false, 3, true);
-		 * 
-		 * healthQuestions.add(q1); healthQuestions.add(q2);
-		 * healthQuestions.add(q3);
-		 * 
-		 * StudyPrefaceModel model1 = new StudyPrefaceModel(studyOverview1,
-		 * qaList1, healthQuestions);
-		 * 
-		 * StudyPrefaceModel model2 = new StudyPrefaceModel(studyOverview2,
-		 * qaList2, healthQuestions);
-		 * 
-		 * ArrayList<StudyPrefaceModel> testPrefaceModels = new ArrayList<>();
-		 * //testPrefaceModels.add(model1); testPrefaceModels.add(model2);
-		 * return testPrefaceModels;
-		 */
+
 	}
 
 	@Override
@@ -704,45 +748,63 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			// TODO: handle exception
 			return null;
 		}
-/*
+
+	}
+	
+	@Override
+	public ArrayList<PreTestQuestion> getPreTestQuestions(String testId) {
 		try {
-			String pathRoot = "http://10.32.10.188:8080/hvr/metadata/study/";
-			String studyId = "1";
-			StudyOverview studyOverview1 = new StudyOverview(
-					studyId,
-					"Notre Dame Parkinson Study",
-					"test1",
-					"ahossain@nd.edu",
-					"",
-					"",
-					"This is a test for parkinson patient which will take around 10 minutes.",
-					"", true, true, pathRoot + studyId + "/" + "consent.pdf",
-					2, "1", "1");
+			long start = Calendar.getInstance().getTimeInMillis();
 
-			Compliance compliance = new Compliance("1", "weekly", 1, 40);
-			ArrayList<MyStudyDataModel> myStudies = new ArrayList<>();
-			ArrayList<QA> qaList1 = new ArrayList<>();
-			qaList1.add(new QA("Can I take the Test?",
-					"If you are suffering from neuorological disorder, you can take the test."));
-			qaList1.add(new QA(
-					"How long the test will be?",
-					"It is around 25 minutes, please don't refresh or back button in the test part."));
-			qaList1.add(new QA(
-					"Is there any reward for this test?",
-					"For each time, you will earn 10 points and if you achieve 50 points over three months duration you will get 10 dollar scratch card."));
+			ClientConfig config = new DefaultClientConfig();
+			Client client = Client.create(config);
+			String url = serverRoot + "/study/pretestquestion/" + testId;
+			WebResource service = client.resource(url);
 
-			MyStudyDataModel model1 = new MyStudyDataModel(studyOverview1,
-					compliance, qaList1, "2016-08-01", "2016-08-17", 3);
-			myStudies.add(model1);
-			myStudies.add(model1);
-			return myStudies;
+			String response = service.accept(MediaType.APPLICATION_JSON).get(
+					String.class);
+
+			Gson gson = new Gson();
+			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
+			ArrayList<PreTestQuestion> list = gson.fromJson(response,
+					listOfTestObject);
+
+			System.out.println("response from server:" + response);
+
+			System.out.println("length of list : " + list.size());
+			long end = Calendar.getInstance().getTimeInMillis();
+			System.out.println("time diff get pretest questions: " + (end - start));
+
+			return list;
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			return null;
 		}
-		return null;
+	}
+	
+	@Override
+	public Response submitPreTestAnswer(PreTestAnswers preTestAnswers) {
 		
-		*/
+		System.out.println("in gwt server:"+ preTestAnswers.getParticipationId() + "," + preTestAnswers.getParticipationId());
+		
+		long start = Calendar.getInstance().getTimeInMillis();
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		// WebResource service = client.resource(serverRoot + signupPath);
+		String url = serverRoot + "/study/pretestsubmission";
+		WebResource service = client.resource(url);
+		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
+				.post(ClientResponse.class, preTestAnswers);
+		// System.out.println("Client Response \n"
+		// + nameResource.getEntity(String.class));
+		Response response = nameResource.getEntity(Response.class);
+		System.out.println("response of submit pretest answers: " + response.getCode());
+		long end = Calendar.getInstance().getTimeInMillis();
+		System.out.println("time diff end part call: " + (end - start));
+
+		return response;
+
 	}
 
 	@Override
@@ -763,91 +825,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("time diff get meta data: " + (end - start));
 		return speechTest;
 
-		/*
-		 * // TODO Auto-generated method stub String pathRoot =
-		 * "http://10.32.10.188:8080/hvr/metadata/test/"+ testId + "/"; int
-		 * subtestId1 = 1; String subtest1Path = pathRoot + subtestId1 + "/";
-		 * TestFragment sub1frag1 = new TestFragment(1,
-		 * "We saw several wild animals", "", subtest1Path + 1 +
-		 * "/sentences1.mp3", false, -1, true, 5000); TestFragment sub1frag2 =
-		 * new TestFragment(2, "My physician wrote out a prescription", "",
-		 * subtest1Path + 2 + "/sentences2.mp3", false, -1, true, 5000);
-		 * TestFragment sub1frag3 = new TestFragment(3,
-		 * "The municipal judge sentenced the criminal", "", subtest1Path + 3 +
-		 * "/sentences3.mp3", false, -1, true, 5000); ArrayList<TestFragment>
-		 * test1Fragments = new ArrayList<>(); test1Fragments.add(sub1frag1);
-		 * test1Fragments.add(sub1frag2); test1Fragments.add(sub1frag3); SubTest
-		 * subTest1 = new SubTest(subtestId1, "test1", "", "", "", true,
-		 * "Please repeat the sentences after I say them", subtest1Path +
-		 * "/repeatSentences.mp3", test1Fragments);
-		 * 
-		 * int subtestId2 = 2; String subtest2Path = pathRoot + subtestId2 +
-		 * "/"; TestFragment sub2frag1 = new TestFragment(1, "Participate", "",
-		 * subtest2Path + 1 + "/comp1.mp3", false, -1, true, 2500); TestFragment
-		 * sub2frag2 = new TestFragment(2, "Application", "", subtest2Path + 2 +
-		 * "/comp2.mp3", false, -1, true, 2500); TestFragment sub2frag3 = new
-		 * TestFragment(3, "Education", "", subtest2Path + 3 + "/comp3.mp3",
-		 * false, -1, true, 2500); TestFragment sub2frag4 = new TestFragment(4,
-		 * "Difficulty", "", subtest2Path + 4 + "/comp4.mp3", false, -1, true,
-		 * 2500); TestFragment sub2frag5 = new TestFragment(5,
-		 * "Congratulations", "", subtest2Path + 5 + "/comp5.mp3", false, -1,
-		 * true, 2500); TestFragment sub2frag6 = new TestFragment(6,
-		 * "Possibility", "", subtest2Path + 6 + "/comp6.mp3", false, -1, true,
-		 * 2500); TestFragment sub2frag7 = new TestFragment(7, "Mathematical",
-		 * "", subtest2Path + 7 + "/comp7.mp3", false, -1, true, 2500);
-		 * TestFragment sub2frag8 = new TestFragment(8, "Opportunity", "",
-		 * subtest2Path + 8 + "/comp8.mp3", false, -1, true, 3000); TestFragment
-		 * sub2frag9 = new TestFragment(9, "Statistical Analysis", "",
-		 * subtest2Path + 9 + "/comp9.mp3", false, -1, true, 4000); TestFragment
-		 * sub2frag10 = new TestFragment(10, "Methodist Episcopal Church", "",
-		 * subtest2Path + 10 + "/comp10.mp3", false, -1, true, 5000);
-		 * 
-		 * ArrayList<TestFragment> test2Fragments = new ArrayList<>();
-		 * test2Fragments.add(sub2frag1); test2Fragments.add(sub2frag2);
-		 * test2Fragments.add(sub2frag3); test2Fragments.add(sub2frag4);
-		 * test2Fragments.add(sub2frag5); test2Fragments.add(sub2frag6);
-		 * test2Fragments.add(sub2frag7); test2Fragments.add(sub2frag8);
-		 * test2Fragments.add(sub2frag9); test2Fragments.add(sub2frag10);
-		 * SubTest subTest2 = new SubTest(subtestId2, "test2", "", "", "", true,
-		 * "Please repeat the words after I say them", subtest2Path +
-		 * "/repeatWords.mp3", test2Fragments);
-		 * 
-		 * 
-		 * int subtestId3 = 3; String subtest3Path = pathRoot + subtestId3 +
-		 * "/"; TestFragment sub3frag1 = new TestFragment(1, "", subtest3Path +
-		 * 1 +"/family.jpg", subtest3Path + 1 + "/picture.mp3", true, 5000,
-		 * false, -1); ArrayList<TestFragment> test3Fragments = new
-		 * ArrayList<>(); test3Fragments.add(sub3frag1); SubTest subTest3 = new
-		 * SubTest(subtestId3, "test1", "", "", "", true, "", "",
-		 * test3Fragments);
-		 * 
-		 * ArrayList<SubTest> subTests = new ArrayList<>();
-		 * subTests.add(subTest1); subTests.add(subTest2);
-		 * subTests.add(subTest3);
-		 * 
-		 * StudyOverview testOverview= new StudyOverview("1", "Parkinson Study",
-		 * "test1", "ahossain@nd.edu", "", "",
-		 * "This is a test for parkinson patient which will take around 10 minutes."
-		 * , "", true, true, pathRoot + "consent.pdf", 2, "1" , "1");
-		 * 
-		 * ArrayList<HealthStatusQuestion> healthQuestions = new ArrayList<>();
-		 * HealthStatusQuestion q1 = new HealthStatusQuestion(
-		 * "Have you received or are currently receiving speech therapy for your condition?"
-		 * , "", false, 1, true);
-		 * 
-		 * HealthStatusQuestion q2 = new HealthStatusQuestion(
-		 * "What medication are you taking for your current condition?" , "",
-		 * false, 2, true); HealthStatusQuestion q3 = new HealthStatusQuestion(
-		 * "Any other relevant medical information (Condition, Treatments, Medications?)"
-		 * , "Type 'NA' if not applicable", false, 3, true);
-		 * 
-		 * healthQuestions.add(q1); healthQuestions.add(q2);
-		 * healthQuestions.add(q3);
-		 * 
-		 * SpeechTestMetadata speechTestMetadata = new
-		 * SpeechTestMetadata(testOverview, subTests); return
-		 * speechTestMetadata;
-		 */
 	}
 
 	@Override
@@ -900,9 +877,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Response endParticipation(String studyId, String email) {
+	public Response endParticipation(String studyId, String email, String participationId) {
 		
 		Participation participation = new Participation();
+		participation.setId(Integer.parseInt(participationId));
 		participation.setStudyId(Integer.parseInt(studyId));
 		participation.setUserId(email);
 

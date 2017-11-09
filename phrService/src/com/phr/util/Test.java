@@ -1,12 +1,7 @@
 package com.phr.util;
 
-import java.io.File;
-import java.net.URLConnection;
 import java.security.MessageDigest;
-import java.util.UUID;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FilenameUtils;
+import java.util.regex.Pattern;
 
 
 public class Test {
@@ -31,62 +26,12 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		/* String to split. */
-		  String str = "/onethree ";
-		  String[] temp;
-		 
-		  /* delimiter */
-		  String delimiter = "-";
-		  /* given string will be split by the argument delimiter provided. */
-		  temp = str.split(delimiter);
-		  /* print substrings */
-		  for(int i =0; i < temp.length ; i++)
-		    System.out.println(temp[i]);
-		
-		String list = "/hjdkjs2 ";
-		String delim = "\\|";
-		String [] medList = list.split(delim);
-		String medListInQuery = "(";
-		for(int i=0;i<medList.length;i++){
-			medListInQuery += (medList[i].trim() + ",");
-			System.out.println("t:"+ medList[i]);
+		String sep = "_|_";
+		String ids = "";
+		for(int i=0;i<10;i++){
+			ids = ids + sep + i;
 		}
-		//medListInQuery = medListInQuery.substring(0, medListInQuery.length()-1) + ")";
-		//System.out.println("med list in query:"+ medListInQuery + ", original:"+ list + ".........."+ medList.length);
-
-		String n = "3|5";
-		String e = Base64.encodeBase64String(n.getBytes());
-		System.out.println("encoded:"+ e);
-		String d = new String(Base64.decodeBase64(e));
-		System.out.println("decode:"+d);
-		
-		
-		try {
-			System.out.println(Test.getMD5String("uttamjkfljsasljdlshskdnkasdasda").length());
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		String uuid = UUID.randomUUID().toString();
-		System.out.println("random : "+ uuid);
-		
-		
-		
-		File file = new File("C:/test/1to30.pdf");
-		if(file.exists()){
-			System.out.println("file exist");
-			String mimeType= URLConnection.guessContentTypeFromName(file.getName());
-			System.out.println("mime :"+ mimeType);
-		}else {
-			System.out.println("go to hell");
-		}
-		
-		System.out.println(FilenameUtils.getExtension(file.getAbsolutePath()) + ", name:"+ file.getAbsolutePath());
-		
-		File dic = new File("C:/test/uttam/files/man/");
-		System.out.println("status: "+ dic.mkdirs());
-		
-		
+		System.out.println("before: "+ ids);
+		System.out.println("final: "+ ids.substring(3));
 	}
 }

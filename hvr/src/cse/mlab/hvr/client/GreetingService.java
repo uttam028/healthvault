@@ -15,6 +15,8 @@ import cse.mlab.hvr.shared.Session;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
+import cse.mlab.hvr.shared.study.PreTestAnswers;
+import cse.mlab.hvr.shared.study.PreTestQuestion;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
@@ -39,10 +41,14 @@ public interface GreetingService extends RemoteService {
 	  UserRole getRole(String email);
 	  
 	  UserProfile getProfile(String email);
+	  ArrayList<PreTestQuestion> getProfileInformation(String email);
+	  Response updateProfileInfo(PreTestAnswers preTestAnswers);	  
+	  ArrayList<PreTestQuestion> getPhysicalInformation(String email);
+	  Response updatePhysicalInfo(PreTestAnswers preTestAnswers);
 	  Response saveProfile(UserProfile userProfile);
 	  Response profileUpdateRequired(String email);
 	  
-	  Response saveMedication(Medication medication);
+	  Response saveMedication(MedicationList medicationList);
 	  Response updateMedication(Medication medication);
 	  String getMedications(String email);
 	  MedicationList getMedicationsList(String email);
@@ -60,11 +66,14 @@ public interface GreetingService extends RemoteService {
 	  //speech test
 	  ArrayList<StudyPrefaceModel> getOpenStudies(String email);
 	  ArrayList<MyStudyDataModel> getMyStudies(String email);
+	  ArrayList<PreTestQuestion> getPreTestQuestions(String testId);
+	  Response submitPreTestAnswer(PreTestAnswers preTestAnswers);
 	  SpeechTest getSpeechTestMetadata(String testId);
 	  Response enrollToStudy(String studyId, String email);
 	  Response startParticipation(String studyId, String email);
-	  Response endParticipation(String studyId, String email);
+	  Response endParticipation(String studyId, String email, String participationId);
 	  Response relocateSoundFile(Recording recording);
+	  
 	  
 	  
 	  

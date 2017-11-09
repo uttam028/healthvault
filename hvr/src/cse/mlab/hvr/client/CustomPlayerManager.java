@@ -1,7 +1,6 @@
 package cse.mlab.hvr.client;
 
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.ModalHeader;
@@ -21,19 +20,16 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.PreTestState.InternalState;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.TestInterceptState.InterceptState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
-import cse.mlab.hvr.client.events.MicrophoneCheckEvent;
-import cse.mlab.hvr.client.events.MicrophoneCheckEventHandler;
-import cse.mlab.hvr.client.events.PreTestSubmitEvent;
-import cse.mlab.hvr.client.events.PreTestSubmitEventHandler;
+import cse.mlab.hvr.client.events.PreTestInternalEvent;
+import cse.mlab.hvr.client.events.PreTestInternalEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
-import cse.mlab.hvr.client.events.VolumeCheckEvent;
-import cse.mlab.hvr.client.events.VolumeEventHandler;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
@@ -49,9 +45,9 @@ public class CustomPlayerManager extends Composite {
 	static boolean speechTestRunning = false;
 	private Boolean testLoaded = false;
 	@UiField
-	HTMLPanel playerManagerPanel, allowedPlayerHeader, deniedPlayerHeader, playerContentPanel;
-	@UiField
-	Heading permissionHeading;
+	HTMLPanel playerManagerPanel, allowedPlayerHeader, playerContentPanel;
+//	@UiField
+//	Heading permissionHeading;
 	
 	@UiField
 	ProgressBar playerProgressBar;
@@ -61,9 +57,12 @@ public class CustomPlayerManager extends Composite {
 
 	private static Modal exitModal;
 
-	AudioBasedCustomPlayer[] players;
+//	AudioBasedCustomPlayer[] players;
+	AudioBasedCustomPlayerHtml5[] players;
+	BasicSystemChecker basicSystemChecker;
 	SpeechTest metadata;
 	String studyId;
+	private String participationId;
 	
 	private static boolean microphoneAllowed  = false; 
 
@@ -86,7 +85,7 @@ public class CustomPlayerManager extends Composite {
 						
 						uploadFile(studyId, String.valueOf(players[currentPlayerIndex].getSubtestId()), players[currentPlayerIndex].getHeader()
 								, players[currentPlayerIndex].getStartTime(), players[currentPlayerIndex].getEndTime()
-								, String .valueOf(players[currentPlayerIndex].getRetakeCounter()), CustomPlayerManager.this);
+								, String .valueOf(players[currentPlayerIndex].getRetakeCounter()), players[currentPlayerIndex].getSplitString(), CustomPlayerManager.this);
 						//players[currentPlayerIndex]
 						
 						if (speechTestRunning) {
@@ -114,8 +113,7 @@ public class CustomPlayerManager extends Composite {
 									CustomPlayerManager.this.removeFromParent();
 									
 									Hvr.getEventBus().fireEvent(
-											new SpeechTestEvent(
-													new SpeechTestState(studyId, metadata.getTestId(), TestState.COMPLETED)));
+											new SpeechTestEvent(new SpeechTestState(studyId, metadata.getTestId(), participationId, TestState.COMPLETED)));
 								}
 
 							} catch (Exception e) {
@@ -125,33 +123,40 @@ public class CustomPlayerManager extends Composite {
 					}
 				});
 		
-		Hvr.getEventBus().addHandler(VolumeCheckEvent.TYPE, new VolumeEventHandler() {
+		Hvr.getEventBus().addHandler(PreTestInternalEvent.TYPE, new PreTestInternalEventHandler() {
 			
 			@Override
-			public void actionAfterVolumeCheck(VolumeCheckEvent event) {
+			public void actionAfterPreTestEvent(PreTestInternalEvent event) {
+				
 				// TODO Auto-generated method stub
-				playerContentPanel.clear();
-				playerContentPanel.add(new MicrophoneChecker());
-			}
-		});
-		
-		Hvr.eventBus.addHandler(MicrophoneCheckEvent.TYPE, new MicrophoneCheckEventHandler() {
-			
-			@Override
-			public void actionAfterMicrophoneCheck(MicrophoneCheckEvent event) {
-				playerContentPanel.clear();
-				playerContentPanel.add(new PreTestQuestionsPresenter());				
-			}
-		});
-		
-		Hvr.eventBus.addHandler(PreTestSubmitEvent.TYPE, new PreTestSubmitEventHandler() {
-			
-			@Override
-			public void actionAfterPreTestSubmit(PreTestSubmitEvent event) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
-				playerContentPanel.clear();
-				playerContentPanel.add(players[0]);				
+				if(event.getPreTestState().getState() == InternalState.BASIC){
+//					if(microphoneAllowed){
+//						allowedPlayerHeader.setVisible(true);
+//						deniedPlayerHeader.setVisible(false);
+						initializePlayer();
+//					} else {
+//						Window.alert("basic check done...microphone allowed:"+ microphoneAllowed );
+//						allowedPlayerHeader.setVisible(false);
+//						deniedPlayerHeader.setVisible(true);
+//						permissionHeading.setText("Please allow permission to access your microphone.");
+//						askForPermission(CustomPlayerManager.this);
+//					}		
+					
+				}else if (event.getPreTestState().getState() == InternalState.VOLUME) {
+					playerContentPanel.clear();
+					playerContentPanel.add(new MicrophoneChecker());
+//					playerContentPanel.add(players[0]);
+				}else if (event.getPreTestState().getState() == InternalState.MICROPHONE) {
+					playerContentPanel.clear();
+					playerContentPanel.add(new PreTestQuestionsPresenter(metadata.getTestId(), participationId));									
+				}else if (event.getPreTestState().getState() == InternalState.QUESTION) {
+					
+					playerProgressBar.setPercent(0);
+					allowedPlayerHeader.setVisible(true);
+					
+					playerContentPanel.clear();
+					playerContentPanel.add(players[0]);									
+				}
 			}
 		});
 		
@@ -164,24 +169,21 @@ public class CustomPlayerManager extends Composite {
 		return instance;
 	}
 	
-	public void startPlayer(final String studyId, final SpeechTest metadata) {
+	public void startPlayer(final String studyId, final SpeechTest metadata, final String participationId) {
 		this.players = CustomPlayerCreator.getInstance().getAudioBasedCustomPlayer(metadata);
 		this.studyId = studyId;
 		this.metadata = metadata;
-		updateMicroPhoneAccessiblity();
-		if(microphoneAllowed){
-			allowedPlayerHeader.setVisible(true);
-			deniedPlayerHeader.setVisible(false);
-			initializePlayer();
-		} else {
-			allowedPlayerHeader.setVisible(false);
-			deniedPlayerHeader.setVisible(true);
-			permissionHeading.setText("Please allow permission to access your microphone.");
-			askForPermission(this);
-		}		
+		this.participationId = participationId;
 		
+		allowedPlayerHeader.setVisible(false);
+		initializeJSFunctions(this);
 		initializeExitModal(studyId);
 
+		this.playerContentPanel.clear();
+		basicSystemChecker = new BasicSystemChecker();
+		this.playerContentPanel.add(basicSystemChecker);
+		
+		
 	}
 	
 	private void initializePlayer(){
@@ -273,29 +275,29 @@ public class CustomPlayerManager extends Composite {
 		speechTestRunning = state;
 	}
 	
-	public static native void askForPermission(CustomPlayerManager manager)/*-{
-		$wnd.FWRecorder.record("mictest", "mictest.wav");
-		//$wnd.microphonePermission();
-		
-		$wnd.callbackForPermission = $entry(function() {
-			$wnd.FWRecorder.stopRecording("mictest");
-			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateMicroPhoneAccessiblity()();
-			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateManagerAfterPermission()();
-		});
-		
-	}-*/;
+//	public static native void askForPermission(CustomPlayerManager manager)/*-{
+//		$wnd.FWRecorder.record("mictest", "mictest.wav");
+//		//$wnd.microphonePermission();
+//		
+//		$wnd.callbackForPermission = $entry(function() {
+//			$wnd.FWRecorder.stopRecording("mictest");
+////			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateMicroPhoneAccessiblity()();
+//			manager.@cse.mlab.hvr.client.CustomPlayerManager::updateManagerAfterPermission()();
+//		});
+//		
+//	}-*/;
 	
-	private void updateManagerAfterPermission(){
-		if(microphoneAllowed){
-			allowedPlayerHeader.setVisible(true);
-			deniedPlayerHeader.setVisible(false);
-			initializePlayer();
-		} else {
-			allowedPlayerHeader.setVisible(false);
-			deniedPlayerHeader.setVisible(true);
-			permissionHeading.setText("You have denied to access microphone. Please refresh and try again.");
-		}
-	}
+//	private void updateManagerAfterPermission(){
+//		if(microphoneAllowed){
+////			allowedPlayerHeader.setVisible(true);
+//			deniedPlayerHeader.setVisible(false);
+//			initializePlayer();
+//		} else {
+////			allowedPlayerHeader.setVisible(false);
+//			deniedPlayerHeader.setVisible(true);
+//			permissionHeading.setText("You have denied to access microphone. Please refresh and try again.");
+//		}
+//	}
 
 	public static native void askForPermissionSecondTime(CustomPlayerManager manager)/*-{
 		$wnd.microphonePermission();
@@ -308,26 +310,51 @@ public class CustomPlayerManager extends Composite {
 		askForPermissionSecondTime(this);;
 	}*/
 	
-	public native void updateMicroPhoneAccessiblity()/*-{
-		console.log("mic accessible:"
-				+ $wnd.FWRecorder.isMicrophoneAccessible());
-		if ($wnd.FWRecorder.isMicrophoneAccessible()) {
-			@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = true;
-			console.log("mic accessible 1:"
-					+ $wnd.FWRecorder.isMicrophoneAccessible());
-		} else {
-			@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = false;
-			console.log("mic accessible 2 :"
-					+ $wnd.FWRecorder.isMicrophoneAccessible());
-		}
+	public native void initializeJSFunctions(CustomPlayerManager manager)/*-{
+//		console.log("mic accessible:"
+//				+ $wnd.FWRecorder.isMicrophoneAccessible());
+//		if ($wnd.FWRecorder.isMicrophoneAccessible()) {
+//			@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = true;
+//			console.log("mic accessible 1:"
+//					+ $wnd.FWRecorder.isMicrophoneAccessible());
+//		} else {
+//			@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = false;
+//			console.log("mic accessible 2 :"
+//					+ $wnd.FWRecorder.isMicrophoneAccessible());
+//		}
+		$wnd.updateMirophonePermission = $entry(function(permission) {
+			console.log("get permission status from recorder:"+ permission);
+			if(permission){
+				@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = true;
+			}else{
+				@cse.mlab.hvr.client.CustomPlayerManager::microphoneAllowed = false;
+			}
+			manager.@cse.mlab.hvr.client.CustomPlayerManager::microphoneHasBeenAllowed()();
+		});
+		
+		$wnd.updateMirophoneDetection = $entry(function() {
+			console.log("microphone is not available:");
+			manager.@cse.mlab.hvr.client.CustomPlayerManager::microphoneNotDetected()();
+		});
+		
+		
 	}-*/;
 	
-	private void syncUploadInformation(String studyId, String subtestId, String fileIdentifier, String startTime, String endTime, String retakeCounter){
+	private void microphoneNotDetected(){
+		basicSystemChecker.updateMicrophoneDetection();
+	}
+	
+	private void microphoneHasBeenAllowed(){
+		basicSystemChecker.refreshCheck(microphoneAllowed);
+	}
+	
+	private void syncUploadInformation(String studyId, String subtestId, String fileIdentifier, String startTime, String endTime, String retakeCounter, String splitString){
 		Recording recording = new Recording();
 		recording.setUserId(MainPage.getLoggedinUser());
 		recording.setStudyId(studyId);
 		recording.setStartTime(startTime);
 		recording.setEndTime(endTime);
+		recording.setSplitString(splitString);
 		try {
 			recording.setRetakeCounter(Integer.parseInt(retakeCounter));			
 		} catch (Exception e) {
@@ -353,8 +380,11 @@ public class CustomPlayerManager extends Composite {
 		});
 	}
 
-	public native void uploadFile(String studyId, String subtestId, String name, String startTime, String endTime, String retakeCounter, CustomPlayerManager manager)/*-{
-		var blob = $wnd.FWRecorder.getBlob(name);
+	public native void uploadFile(String studyId, String subtestId, String name, String startTime, String endTime, String retakeCounter, String splitString, CustomPlayerManager manager)/*-{
+		//var blob = $wnd.FWRecorder.getBlob(name);
+		
+		var blob = $wnd.Html5Recorder.getBlobData();
+		console.log("window.location.hostname - "+ window.location.hostname + ", document.domain-" + document.domain + ", window.location.host"+ window.location.host + ", split string :"+ splitString);
 		
 		var formData = new FormData();
 		var filename = name.replace(/\s/g, "") + ".wav";
@@ -364,7 +394,8 @@ public class CustomPlayerManager extends Composite {
 					// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
 					// //Server script to process data
 					//url : 'http://10.32.10.188:8080/phrservice/files/upload/',
-					url : 'http://129.74.247.110:8080/markerinterface/files/upload/',
+					//url : 'http://129.74.247.110:80/markerinterface/files/upload/',
+					url : 'https://speechmarker.com/markerinterface/files/upload/',
 					type : 'post',
 					contentType : 'multipart/form-data',
 					//content: 'text/html',
@@ -387,13 +418,13 @@ public class CustomPlayerManager extends Composite {
 						//alert("let see if it calls before sending");
 					},
 					success : function(data, textStatus, myXhr){
-						//alert("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
+						console.log("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
 						if(myXhr.status == 200){
-							manager.@cse.mlab.hvr.client.CustomPlayerManager::syncUploadInformation(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(studyId, subtestId, data, startTime, endTime, retakeCounter);							
+							manager.@cse.mlab.hvr.client.CustomPlayerManager::syncUploadInformation(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(studyId, subtestId, data, startTime, endTime, retakeCounter, splitString);							
 						}
 					},
 					error : function(myXhr, textStatus, errorThrown){
-						//alert("text status:"+ textStatus + ", error : "+ errorThrown);
+						console.log("text status:"+ textStatus + ", error : "+ errorThrown);
 					}, // Form data
 					//complete : function(myXhr, textStatus){
 						//alert("text status :"+ textStatus + "study id:" + studyId + ", subtestId : "+ subtestId + ", name :"+ name);

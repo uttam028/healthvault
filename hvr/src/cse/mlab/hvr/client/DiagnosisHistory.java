@@ -23,7 +23,6 @@ import org.gwtbootstrap3.extras.datepicker.client.ui.DatePicker;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateEvent;
 import org.gwtbootstrap3.extras.datepicker.client.ui.base.events.ChangeDateHandler;
 
-import com.google.gwt.aria.client.SelectedValue;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -31,7 +30,6 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -50,11 +48,9 @@ import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import cse.mlab.hvr.shared.Diagnosis;
 import cse.mlab.hvr.shared.DiagnosisList;
-import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.Response;
 
 public class DiagnosisHistory extends Composite {
@@ -160,6 +156,7 @@ public class DiagnosisHistory extends Composite {
 			@Override
 			public void onChange(ChangeEvent event) {
 				// TODO Auto-generated method stub
+				Window.alert("condition changed....");
 				otherText.setText("");
 				if(conditionList.getSelectedIndex()==0){
 					conditionLabel.setText("Required field");

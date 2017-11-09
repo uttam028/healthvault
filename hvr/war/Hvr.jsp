@@ -17,15 +17,19 @@
     </script>		
     		
 
-    </script>
       <!--script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js'></script-->
-      <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script>
-  <script type="text/javascript" src="js/swfobject.js"></script>
-  <script type="text/javascript" src="js/recorder.js"></script>
+      <!-- script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script-->
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+  <!--script type="text/javascript" src="js/swfobject.js"></script-->
+  <!--script src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script-->
+  <!--script type="text/javascript" src="https://webrtcexperiment-webrtc.netdna-ssl.com/DetectRTC.js"></script-->
+  <!--script type="text/javascript" src="js/recorder.js"></script-->
+  <script type="text/javascript" src="js/html5recorder.js"></script>
+  <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/progressbar.min.js"></script>
   
-  <!--script type="text/javascript" src="js/blockUI.js"></script>
+  <!--script type="text/javascript" src="js/blockUI.js"></script-->
   <!--script type="text/javascript" src="js/test.js"></script-->
   <!--script type="text/javascript" src="js/ConcatenateBlob.js"></script-->
   
@@ -74,12 +78,12 @@
         in order for this application to display correctly.
       </div>
     </noscript>
-    <div id="flashcontent">
+    <!--div id="flashcontent">
     	<br/><br/><br/><br/><br/>
-    	<h2>Your browser must have JavaScript enabled and the up to date Adobe Flash Player installed.</h2>
+    	<h2>Your browser must have the up to date Adobe Flash Player installed.</h2>
     	<h2>Try different browser or install up to date Adobe Falsh Player to use this application properly.</h2>
     	<br/><br/><br/><br/><br/>    
-    </div>
+    </div-->
 
   </body>
 </html>

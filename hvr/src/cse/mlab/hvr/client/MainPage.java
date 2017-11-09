@@ -118,7 +118,7 @@ public class MainPage extends Composite {
 														.getTestState()
 														.getStudyId(), event
 														.getTestState()
-														.getTestId());
+														.getTestId(), result.getMessage());
 												Hvr.updateSpeechTestState(true);
 												// History.newItem("speechtest/"
 												// +
@@ -151,7 +151,7 @@ public class MainPage extends Composite {
 									.getStudyId());
 							loadHomePage();
 							greetingService.endParticipation(event
-									.getTestState().getStudyId(), userId,
+									.getTestState().getStudyId(), userId, event.getTestState().getParticipationId(),
 									new AsyncCallback<Response>() {
 										@Override
 										public void onSuccess(Response result) {
@@ -327,11 +327,11 @@ public class MainPage extends Composite {
 
 	}
 
-	protected void loadSpeechTestProcess(String studyId, String testId) {
+	protected void loadSpeechTestProcess(String studyId, String testId, String participationId) {
 		setActiveAnchor(null);
 
 		mainPageContentPanel.clear();
-		mainPageContentPanel.add(new SpeechTestProcess(studyId, testId));
+		mainPageContentPanel.add(new SpeechTestProcess(studyId, testId, participationId));
 
 	}
 

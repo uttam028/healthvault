@@ -14,10 +14,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.events.MicrophoneCheckEvent;
+import cse.mlab.hvr.client.PreTestState.InternalState;
+import cse.mlab.hvr.client.events.PreTestInternalEvent;
 
 public class MicrophoneChecker extends Composite {
 	
@@ -33,7 +33,7 @@ public class MicrophoneChecker extends Composite {
 	private Div timerDiv = new Div();
 	
 	private static final String testFileName = "testrecording";
-	private static final int recordingTime = 4000;
+	private static final int recordingTime = 5000;
 
 	private static MicrophoneCheckerUiBinder uiBinder = GWT
 			.create(MicrophoneCheckerUiBinder.class);
@@ -94,7 +94,12 @@ public class MicrophoneChecker extends Composite {
 	}
 
 	public native void animateTimerJS(String duration)/*-{
-		$wnd.animateCircleTimer(duration);
+		try{
+			$wnd.animateCircleTimer(duration);
+		}catch(err){
+			alert("error occured:"+ err);
+		}
+		
 	}-*/;
 	
 	@UiHandler("buttonListen")
@@ -130,7 +135,8 @@ public class MicrophoneChecker extends Composite {
 	
 	@UiHandler("buttonYes")
 	void loadSpeechTest(ClickEvent event){
-		Hvr.getEventBus().fireEvent(new MicrophoneCheckEvent());
+//		Hvr.getEventBus().fireEvent(new MicrophoneCheckEvent());
+		Hvr.getEventBus().fireEvent(new PreTestInternalEvent(new PreTestState(InternalState.MICROPHONE)));
 	}
 	
 	void startRecording() {
@@ -138,9 +144,10 @@ public class MicrophoneChecker extends Composite {
 	}
 
 	public native void startRecordingJS(MicrophoneChecker checker)/*-{
-		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
-		$wnd.FWRecorder.configure(44, 90, 0, 0.1);		
-		$wnd.FWRecorder.record(name, name.concat(".wav"));
+//		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
+//		$wnd.FWRecorder.configure(44, 90, 0, 0.1);		
+//		$wnd.FWRecorder.record(name, name.concat(".wav"));
+		$wnd.Html5Recorder.startRecording("test.wav", false);
 	}-*/;
 
 	void stopRecording() {
@@ -148,9 +155,10 @@ public class MicrophoneChecker extends Composite {
 	}
 
 	public native void stopRecordingJS(MicrophoneChecker checker)/*-{
-		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
-		//console.log("will stop recording from custom player ".concat(name))
-		$wnd.FWRecorder.stopRecording(name);
+//		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
+//		//console.log("will stop recording from custom player ".concat(name))
+//		$wnd.FWRecorder.stopRecording(name);
+		$wnd.Html5Recorder.stopRecording();
 	}-*/;
 	
 	void playRecording() {
@@ -158,10 +166,23 @@ public class MicrophoneChecker extends Composite {
 	}
 
 	public static native void playRecording(MicrophoneChecker checker)/*-{
-		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
-		console.log("will playback from custom player ".concat(name))
-		var duration = $wnd.FWRecorder.duration(name);
-		$wnd.FWRecorder.playBack(name);
+//		var name = @cse.mlab.hvr.client.MicrophoneChecker::testFileName;
+//		console.log("will playback from custom player ".concat(name))
+//		var duration = $wnd.FWRecorder.duration(name);
+//		$wnd.FWRecorder.playBack(name);
+		var blob = $wnd.Html5Recorder.getBlobData();
+		window.URL = window.URL || window.webkitURL;
+		var audio = new Audio();
+		audio.src = window.URL.createObjectURL(blob);
+		audio.onloadeddata = function(){
+			audio.play();
+		}
+			
+//			audio.onended = function(){
+//				//alert("audio playback has been finished");
+//				checker.@cse.mlab.hvr.client.VolumeChecker::audioCompleteAction()();
+//			}
+		
 	}-*/;
 
 	private static String randomPhraseGenerator(){

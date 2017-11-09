@@ -130,19 +130,19 @@ public class DysarthiaTestNew extends Composite {
 	public DysarthiaTestNew() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		players[0] = new AudioBasedCustomPlayer("Test 1", 1, fragments1);
-		players[1] = new AudioBasedCustomPlayer("Test 2", 2, fragments2);
-		players[2] = new AudioBasedCustomPlayer("Test 3", 3, fragments3);
-		players[3] = new AudioBasedCustomPlayer("Test 4", 4, fragments4);
-		players[4] = new AudioBasedCustomPlayer("Test 5", 5, fragments5);
-		players[5] = new AudioBasedCustomPlayer("Test 6", 6, fragments6);
-		players[6] = new AudioBasedCustomPlayer("Test 7", 7, fragments7);
-		players[7] = new AudioBasedCustomPlayer("Test 8", 8, fragments8);
-		players[8] = new AudioBasedCustomPlayer("Test 9", 9, fragments9);
-		players[9] = new AudioBasedCustomPlayer("Test 10", 10, fragments10);
-		players[10] = new AudioBasedCustomPlayer("Test 11", 11, fragments11);
-		players[11] = new AudioBasedCustomPlayer("Test 12", 12, fragments12);
-		players[12] = new AudioBasedCustomPlayer("Test 13", 13, fragments13);
+//		players[0] = new AudioBasedCustomPlayer("Test 1", 1, fragments1);
+//		players[1] = new AudioBasedCustomPlayer("Test 2", 2, fragments2);
+//		players[2] = new AudioBasedCustomPlayer("Test 3", 3, fragments3);
+//		players[3] = new AudioBasedCustomPlayer("Test 4", 4, fragments4);
+//		players[4] = new AudioBasedCustomPlayer("Test 5", 5, fragments5);
+//		players[5] = new AudioBasedCustomPlayer("Test 6", 6, fragments6);
+//		players[6] = new AudioBasedCustomPlayer("Test 7", 7, fragments7);
+//		players[7] = new AudioBasedCustomPlayer("Test 8", 8, fragments8);
+//		players[8] = new AudioBasedCustomPlayer("Test 9", 9, fragments9);
+//		players[9] = new AudioBasedCustomPlayer("Test 10", 10, fragments10);
+//		players[10] = new AudioBasedCustomPlayer("Test 11", 11, fragments11);
+//		players[11] = new AudioBasedCustomPlayer("Test 12", 12, fragments12);
+//		players[12] = new AudioBasedCustomPlayer("Test 13", 13, fragments13);
 		
 		Hvr.getEventBus().addHandler(FileUploadEvent.TYPE,
 				new FileUploadEventHandler() {

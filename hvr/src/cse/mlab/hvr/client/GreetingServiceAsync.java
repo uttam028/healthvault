@@ -14,6 +14,8 @@ import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.UserRole;
 import cse.mlab.hvr.shared.study.MyStudyDataModel;
+import cse.mlab.hvr.shared.study.PreTestAnswers;
+import cse.mlab.hvr.shared.study.PreTestQuestion;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
@@ -35,10 +37,14 @@ public interface GreetingServiceAsync {
 	void getRole(String email, AsyncCallback<UserRole> asyncCallback);
 
 	void getProfile(String email, AsyncCallback<UserProfile> callback);
+	void getProfileInformation(String email, AsyncCallback<ArrayList<PreTestQuestion>> callback);
+	void updateProfileInfo(PreTestAnswers preTestAnswers, AsyncCallback<Response> callback);
+	void getPhysicalInformation(String email, AsyncCallback<ArrayList<PreTestQuestion>> callback);
+	void updatePhysicalInfo(PreTestAnswers preTestAnswers, AsyncCallback<Response> callback);
 	void saveProfile(UserProfile userProfile, AsyncCallback<Response> callback);
 	void profileUpdateRequired(String email, AsyncCallback<Response> callback);
 	
-	void saveMedication(Medication medication, AsyncCallback<Response> callback);
+	void saveMedication(MedicationList medicationList, AsyncCallback<Response> callback);
 	void updateMedication(Medication medication, AsyncCallback<Response> callback);
 	void getMedications(String email, AsyncCallback<String> callback);
 	void getMedicationsList(String email, AsyncCallback<MedicationList> callback);
@@ -55,10 +61,12 @@ public interface GreetingServiceAsync {
 	//speech test
 	void getOpenStudies(String email, AsyncCallback<ArrayList<StudyPrefaceModel>> callback);
 	void getMyStudies(String email, AsyncCallback<ArrayList<MyStudyDataModel>> callback);
+	void getPreTestQuestions(String testId, AsyncCallback<ArrayList<PreTestQuestion>> callback);
+	void submitPreTestAnswer(PreTestAnswers preTestAnswers, AsyncCallback<Response> callback);
 	void getSpeechTestMetadata(String testId, AsyncCallback<SpeechTest> callback);
 	void enrollToStudy(String studyId, String email, AsyncCallback<Response> callback);
 	void startParticipation(String studyId, String email, AsyncCallback<Response> callback);
-	void endParticipation(String studyId, String email, AsyncCallback<Response> callback);
+	void endParticipation(String studyId, String email, String participationId, AsyncCallback<Response> callback);
 	void relocateSoundFile(Recording recording, AsyncCallback<Response> callback);
 	
 	//SpeechTestMetadata getSpeechTestMetadata(String testId);

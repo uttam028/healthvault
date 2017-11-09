@@ -15,13 +15,16 @@
 		serif;
 		}
 		.text_font{
-			font-size: 135%;
+			font-size: 120%;
 		}
 		
 		.sub_text_font{
 			font-size: 90%;
 		}
 		
+		.physical_text_font{
+			font-size: 120%;
+		}
 
 	</ui:style>
 	<g:HTMLPanel>
@@ -29,7 +32,7 @@
 	    </g:HTMLPanel>
 	    	    
 		<h4>Personal Information</h4>
-		<b:Panel type="SUCCESS" addStyleNames="{style.text_font}">
+		<!--b:Panel type="SUCCESS" addStyleNames="{style.text_font}">
 			<b:PanelHeader>
 				<b:Heading size="H3" text="Basic" addStyleNames="{style.left_text}" />
 			</b:PanelHeader>
@@ -72,136 +75,38 @@
 					<b:TextBox b:id="formLanguage" ui:field="textboxLanguage"/>
 				</b:FormGroup>
 				<h:Br />
-												
-				<!--b:FormGroup addStyleNames="col-lg-8">
-					<b:FormLabel for="formLast" addStyleNames="{style.left_align}">Phone Number</b:FormLabel>
-					<b:TextBox b:id="formLast" ui:field="textboxPhoneNumber"/>
-				</b:FormGroup>
-				<h:Br />
-				<b:FormGroup addStyleNames="col-lg-11">
-					<b:FormLabel for="formAddress" addStyleNames="{style.left_align}">Address</b:FormLabel>
-					<b:TextBox b:id="formAddress" ui:field="textboxAddress"/>
-				</b:FormGroup-->
-				<b:Row addStyleNames="col-lg-11">
-					<h:Hr/>
-					<h:Br/>
-				</b:Row>
-				
-				<b:FormGroup addStyleNames="col-lg-10">
-					<b:FormLabel addStyleNames="{style.left_align}">Handedness </b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio2" 
-							text="Right Handed" ui:field="inlineRadioRightHand"/>
-						<b:InlineRadio name="radio2" 
-							text="Left Handed" ui:field="inlineRadioLeftHand"/>
-						<b:InlineRadio name="radio2" 
-							text="Ambidextrous" ui:field="inlineRadioAmbid"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:Row addStyleNames="col-lg-11">
-					<h:Hr/>
-				</b:Row>
-				<b:FormGroup addStyleNames="col-lg-10">
-					<b:FormLabel for="formHearing" addStyleNames="{style.left_align}">Hearing </b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio3" 
-							text="Normal" ui:field="inlineRadioNormalHear"/>
-						<b:InlineRadio name="radio3" 
-							text="Impaired" ui:field="inlineRadioImpairHear"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:Row addStyleNames="col-lg-11">
-					<h:Hr/>
-				</b:Row>
-				<b:FormGroup addStyleNames="col-lg-10">
-					<b:FormLabel for="formVision" addStyleNames="{style.left_align}">Vision </b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio4" text="Normal" ui:field="inlineRadioNormalVision"/>
-						<b:InlineRadio name="radio4" text="Impaired" ui:field="inlineRadioImpairVision"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:Row addStyleNames="col-lg-11">
-					<h:Hr/>
-				</b:Row>
-				<b:FormGroup addStyleNames="col-lg-10">
-					<b:FormLabel for="formSwallowing" addStyleNames="{style.left_align}">Swallowing</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio5" text="Normal" ui:field="inlineRadioNormalSwallo"/>
-						<b:InlineRadio name="radio5" text="Difficult" ui:field="inlineRadioDifficult"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				
-				<b:FormGroup addStyleNames="col-lg-offset-1 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingLevel" addStyleNames="{style.left_align}">Range of Difficulty</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio511" text="1" ui:field="inlineRadioSwallowLevel1"/>
-						<b:InlineRadio name="radio512" text="2" ui:field="inlineRadioSwallowLevel2"/>
-						<b:InlineRadio name="radio513" text="3" ui:field="inlineRadioSwallowLevel3"/>
-						<b:InlineRadio name="radio514" text="4" ui:field="inlineRadioSwallowLevel4"/>
-						<b:InlineRadio name="radio515" text="5" ui:field="inlineRadioSwallowLevel5"/>
-						<b:InlineRadio name="radio516" text="6" ui:field="inlineRadioSwallowLevel6"/>
-						<b:InlineRadio name="radio517" text="7" ui:field="inlineRadioSwallowLevel7"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:FormGroup addStyleNames="col-lg-offset-1 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingChoke" addStyleNames="{style.left_align}">Do you choke, cough, gag when you eat?</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio521" text="Yes" ui:field="inlineRadioChokeYes"/>
-						<b:InlineRadio name="radio522" text="No" ui:field="inlineRadioChokeNo"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:FormGroup addStyleNames="col-lg-offset-1 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingLiquid" addStyleNames="{style.left_align}">Do you have more difficulties with liquids or solids?</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio531" text="Solids" ui:field="inlineRadioSolid"/>
-						<b:InlineRadio name="radio532" text="Liquids" ui:field="inlineRadioLiquid"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:FormGroup addStyleNames="col-lg-offset-2 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingLiquidYes" addStyleNames="{style.left_align}">Do you lose liquid out of your mouth, nose, or both?</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio5311" text="Yes" ui:field="inlineRadioLiquidYes"/>
-						<b:InlineRadio name="radio5312" text="No" ui:field="inlineRadioLiquidNo"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:FormGroup addStyleNames="col-lg-offset-3 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingLiquidWhere" addStyleNames="{style.left_align}">From where?</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio53111" text="Mouth" ui:field="inlineRadioLiquidMouth"/>
-						<b:InlineRadio name="radio53112" text="Nose" ui:field="inlineRadioLiquidNose"/>
-						<b:InlineRadio name="radio53112" text="Both" ui:field="inlineRadioLiquidBoth"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				<b:FormGroup addStyleNames="col-lg-offset-2 col-lg-9 {style.sub_text_font}">
-					<b:FormLabel for="formSwallowingLiquidDown" addStyleNames="{style.left_align}">Does liquid goes down your throat before you swallow?</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio5321" text="Yes" ui:field="inlineRadioLiquidDownYes"/>
-						<b:InlineRadio name="radio5322" text="No" ui:field="inlineRadioLiquidDownNo"/>
-					</g:FlowPanel>
-				</b:FormGroup>
-				
-				<b:Row addStyleNames="col-lg-11">
-					<h:Hr/>
-				</b:Row>
-				<b:FormGroup addStyleNames="col-lg-10">
-					<b:FormLabel for="formDentures" addStyleNames="{style.left_align}">Dentures</b:FormLabel>
-					<g:FlowPanel>
-						<b:InlineRadio name="radio6" text="Normal" ui:field="inlineRadioYesDent"/>
-						<b:InlineRadio name="radio6" text="Difficult" ui:field="inlineRadioNoDent"/>
-					</g:FlowPanel>
-				</b:FormGroup>
+																
 				<b:Row addStyleNames="col-lg-11">
 					<h:Hr/>
 					<h:Br/>
 				</b:Row>
 				<b:FormGroup addStyleNames="col-lg-8">
-					<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="buttonUpdate">Update</b:Button>
+					<b:Button addStyleNames="{style.left_align}" type="SUCCESS" ui:field="buttonUpdate" size="LARGE">Update</b:Button>
 					<b:Button type="DANGER" ui:field="buttonCancel">Cancel</b:Button>
 				</b:FormGroup>
-				<!--g:Label>* = required</g:Label-->			        
 			    </b:Form>
 
 			</b:PanelBody>
+		</b:Panel-->
+		<b:Panel type="INFO" addStyleNames="{style.physical_text_font}">
+			<b:PanelHeader>
+				<b:Heading size="H3" text="Basic" addStyleNames="{style.left_text}" />
+			</b:PanelHeader>
+			<b:PanelBody>
+				<g:HTMLPanel ui:field="profileQuestionPanel"></g:HTMLPanel>
+				<b:Button size="LARGE" type="SUCCESS" ui:field="buttonProfileUpdate">Update</b:Button>
+			</b:PanelBody>			
 		</b:Panel>
+		<b:Panel type="INFO" addStyleNames="{style.physical_text_font}">
+			<b:PanelHeader>
+				<b:Heading size="H3" text="Physical" addStyleNames="{style.left_text}" />
+			</b:PanelHeader>
+			<b:PanelBody>
+				<g:HTMLPanel ui:field="physicalQuestionPanel"></g:HTMLPanel>
+				<b:Button size="LARGE" type="SUCCESS" ui:field="buttonPhysicalUpdate">Update</b:Button>
+			</b:PanelBody>			
+		</b:Panel>
+		
+		<br/><br/><br/><br/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -226,7 +226,7 @@ margin-bottom: 2%
 	background-color:#0C2340 !important;
 }
 .jumbo_height{
-	height: 220px;
+	/*height: 220px;*/
 }
 
 .banner_text_color{
@@ -243,7 +243,6 @@ margin-bottom: 2%
 .jumbo_fraction_three_fourth{
 	height: 65%; 
 	width: 65%;
-	/*max-width:65%;*/
 }
 
 

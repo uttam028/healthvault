@@ -18,17 +18,24 @@ public class CustomPlayerCreator {
 		return instance;
 	}
 
-	public AudioBasedCustomPlayer[] getAudioBasedCustomPlayer(SpeechTest metadata) {
+	public AudioBasedCustomPlayerHtml5[] getAudioBasedCustomPlayer(SpeechTest metadata) {
 		if(metadata.getSubTests()==null || metadata.getSubTests().size()==0){
 			return null;
 		} else {
-			ArrayList<AudioBasedCustomPlayer> customPlayers = new ArrayList<>();
+//			ArrayList<AudioBasedCustomPlayer> customPlayers = new ArrayList<>();
+//			for(int i=0;i<metadata.getSubTests().size();i++){
+//				customPlayers.add(new AudioBasedCustomPlayer("Step "+ (i+1) + "     ( Out of " + metadata.getSubTests().size() +" )",
+//						metadata.getSubTests().get(i).getSubtestId(),
+//						SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
+//			}
+//			return customPlayers.toArray(new AudioBasedCustomPlayer[customPlayers.size()]);			
+			ArrayList<AudioBasedCustomPlayerHtml5> customPlayers = new ArrayList<>();
 			for(int i=0;i<metadata.getSubTests().size();i++){
-				customPlayers.add(new AudioBasedCustomPlayer("Step "+ (i+1) + "     ( Out of " + metadata.getSubTests().size() +" )",
+				customPlayers.add(new AudioBasedCustomPlayerHtml5("Step "+ (i+1) + "     ( Out of " + metadata.getSubTests().size() +" )",
 						metadata.getSubTests().get(i).getSubtestId(),
 						SubtestFactory.getInstance().getSubtest(metadata.getSubTests().get(i))));
 			}
-			return customPlayers.toArray(new AudioBasedCustomPlayer[customPlayers.size()]);			
+			return customPlayers.toArray(new AudioBasedCustomPlayerHtml5[customPlayers.size()]);			
 		}
 	}
 }

@@ -54,6 +54,7 @@ public class DiagnosisService {
 					temp.setId(resultSet.getLong("diagnosis_id"));
 					temp.setEmail(resultSet.getString("user_email"));
 					temp.setCondition(resultSet.getString("neuro_condition"));
+					temp.setSubcategory(resultSet.getString("subcategory"));
 					temp.setDiagnosisDate(resultSet.getString("diagnosis_date"));
 					temp.setNote(resultSet.getString("note"));
 
@@ -86,9 +87,9 @@ public class DiagnosisService {
 			System.out.println("diagnosis:" + diagnosis.toString());
 			connection = DatabaseUtil.connectToDatabase();
 			try {
-				String query = "insert into phr.diagnosis_history (user_email, creation_date, modification_date, neuro_condition, "
+				String query = "insert into phr.diagnosis_history (user_email, creation_date, modification_date, neuro_condition, subcategory,"
 						+ "diagnosis_date, note) values "
-						+ "(?, curdate(), curdate(),?,?,?)";
+						+ "(?, curdate(), curdate(),?,?,?,?)";
 
 				preparedStatement = connection.prepareStatement(query);
 
@@ -99,11 +100,15 @@ public class DiagnosisService {
 				if (diagnosis.getCondition() != null) {
 					preparedStatement.setString(2, diagnosis.getCondition());
 				}
+				if(diagnosis.getSubcategory() != null){
+					preparedStatement.setString(3, diagnosis.getSubcategory());
+				}
+				
 				if (diagnosis.getDiagnosisDate() != null) {
-					preparedStatement.setString(3, diagnosis.getDiagnosisDate());
+					preparedStatement.setString(4, diagnosis.getDiagnosisDate());
 				}
 				if (diagnosis.getNote() != null) {
-					preparedStatement.setString(4, diagnosis.getNote());
+					preparedStatement.setString(5, diagnosis.getNote());
 				}
 
 				System.out.println(preparedStatement.toString());
@@ -151,7 +156,7 @@ public class DiagnosisService {
 			try {
 				long diagnosisId = Long.parseLong(id);
 				String query = "update phr.diagnosis_history set modification_date=curdate(), "
-				+ "neuro_condition=?, diagnosis_date=?, note=? "
+				+ "neuro_condition=?, subcategory=?, diagnosis_date=?, note=? "
 				+ " where diagnosis_id=" + diagnosisId;
 
 				preparedStatement = connection.prepareStatement(query);
@@ -160,11 +165,16 @@ public class DiagnosisService {
 				if (diagnosis.getCondition() != null) {
 					preparedStatement.setString(1, diagnosis.getCondition());
 				}
+				
+				if (diagnosis.getSubcategory() != null) {
+					preparedStatement.setString(2, diagnosis.getSubcategory());
+				}
+				
 				if (diagnosis.getDiagnosisDate() != null) {
-					preparedStatement.setString(2, diagnosis.getDiagnosisDate());
+					preparedStatement.setString(3, diagnosis.getDiagnosisDate());
 				}
 				if (diagnosis.getNote() != null) {
-					preparedStatement.setString(3, diagnosis.getNote());
+					preparedStatement.setString(4, diagnosis.getNote());
 				}
 
 				System.out.println(preparedStatement.toString());

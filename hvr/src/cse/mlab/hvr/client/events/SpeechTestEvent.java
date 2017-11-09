@@ -12,6 +12,8 @@ public class SpeechTestEvent extends GwtEvent<SpeechTestEventHandler> {
 		super();
 		this.testState = testState;
 	}
+	
+
 
 	public static Type<SpeechTestEventHandler> TYPE = new Type<SpeechTestEventHandler>();
 
@@ -26,7 +28,8 @@ public class SpeechTestEvent extends GwtEvent<SpeechTestEventHandler> {
 		// TODO Auto-generated method stub
 		handler.actionAfterTestEvent(this);
 	}
-
+	
+	
 	public SpeechTestState getTestState() {
 		return testState;
 	}

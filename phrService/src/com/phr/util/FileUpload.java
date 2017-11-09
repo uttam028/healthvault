@@ -263,8 +263,8 @@ public class FileUpload {
 					return response;
 				}
 				
-				String query = "insert into phr.speech_recording (participation_id, subtest_id, start_time, end_time, upload_time, file_identifier, retake_counter)"
-						+ " values (?, ?, ?, ?, now(), ?, ?)";
+				String query = "insert into phr.speech_recording (participation_id, subtest_id, start_time, end_time, upload_time, file_identifier, retake_counter, split_fragment)"
+						+ " values (?, ?, ?, ?, now(), ?, ?, ?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1,  String.valueOf(participationId));
 				preparedStatement.setString(2, String.valueOf(recording.getSubtestId()));
@@ -272,6 +272,7 @@ public class FileUpload {
 				preparedStatement.setString(4, validateTime(recording.getEndTime())? recording.getEndTime(): null);
 				preparedStatement.setString(5, recording.getFileIdentifier());
 				preparedStatement.setInt(6, recording.getRetakeCounter());
+				preparedStatement.setString(7, recording.getSplitString());
 				
 				preparedStatement.execute();
 				response.setCode(0);

@@ -15,6 +15,8 @@ public class Medication {
 //	String dosageUnit;
 //	String consumeProcess;
 //	String consumeFrequency;
+	String dosage;
+	String frequency;
 	String reason;
 	String startDate;
 	String endDate;
@@ -31,15 +33,11 @@ public class Medication {
 
 
 
+
 	public long getId() {
 		return id;
 	}
 
-
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 
 
@@ -49,11 +47,6 @@ public class Medication {
 
 
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
 
 	public String getName() {
 		return name;
@@ -61,9 +54,18 @@ public class Medication {
 
 
 
-	public void setName(String name) {
-		this.name = name;
+
+	public String getDosage() {
+		return dosage;
 	}
+
+
+
+
+	public String getFrequency() {
+		return frequency;
+	}
+
 
 
 
@@ -73,21 +75,11 @@ public class Medication {
 
 
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-
 
 	public String getStartDate() {
 		return startDate;
 	}
 
-
-
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
 
 
 
@@ -97,9 +89,60 @@ public class Medication {
 
 
 
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+	public void setDosage(String dosage) {
+		this.dosage = dosage;
+	}
+
+
+
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+
+
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+
+
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+
+
+
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
 
 
 
