@@ -1,5 +1,8 @@
 package cse.mlab.hvr.shared;
 
+import java.util.Date;
+import java.util.Map;
+
 import com.google.gwt.ajaxloader.client.ArrayHelper;
 import com.google.gwt.ajaxloader.client.JsDate;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -12,9 +15,6 @@ import com.google.gwt.visualization.client.AbstractDrawOptions;
 import com.google.gwt.visualization.client.DateRange;
 import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.visualizations.Visualization;
-
-import java.util.Date;
-import java.util.Map;
 
 
 /**

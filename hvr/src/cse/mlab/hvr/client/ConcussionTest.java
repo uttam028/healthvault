@@ -15,10 +15,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.FileUploadEvent;
 import cse.mlab.hvr.client.events.FileUploadEventHandler;
-import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.fragments.old.Fragment;
 import cse.mlab.hvr.client.fragments.old.MarkedTextFragment;
 import cse.mlab.hvr.client.fragments.old.MarqueeFragment;

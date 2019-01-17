@@ -83,7 +83,7 @@ public class ServiceUtil {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("ndspeechrespo@gmail.com"));
+			message.setFrom(new InternetAddress("ndspeechrepo@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(toAddress));
 			message.setSubject(subject);

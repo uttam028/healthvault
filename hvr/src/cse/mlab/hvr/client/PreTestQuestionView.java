@@ -10,7 +10,6 @@ import org.gwtbootstrap3.client.ui.Radio;
 import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.StringRadioGroup;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.constants.ColumnPull;
 import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.html.Br;
 import org.gwtbootstrap3.client.ui.html.Hr;

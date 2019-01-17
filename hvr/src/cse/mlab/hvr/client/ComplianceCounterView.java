@@ -5,7 +5,6 @@ import org.gwtbootstrap3.client.ui.Heading;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
-import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;

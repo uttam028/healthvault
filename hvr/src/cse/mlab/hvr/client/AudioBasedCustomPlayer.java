@@ -1,42 +1,6 @@
 package cse.mlab.hvr.client;
 
-import java.util.Date;
-import java.util.LinkedList;
-
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.constants.ButtonSize;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.html.Div;
-
-import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
-import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
-import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
-import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.AudioElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.media.client.Audio;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-
-import cse.mlab.hvr.client.events.FileUploadEvent;
-import cse.mlab.hvr.client.fragments.AudioBasedFragment;
-import cse.mlab.hvr.client.fragments.ButtonControlledTextFragment;
-import cse.mlab.hvr.client.fragments.CommonInstructionFragment;
-import cse.mlab.hvr.client.fragments.TimerControlledImageFragment;
-import cse.mlab.hvr.client.fragments.TimerControlledTextFragment;
 
 public class AudioBasedCustomPlayer extends Composite {
 

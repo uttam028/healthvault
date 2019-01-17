@@ -2,7 +2,6 @@ package com.phr.util;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.sql.DataSource;
 
 
 public class MyAppServletContextListener

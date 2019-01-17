@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.AboutViewer;
 import cse.mlab.hvr.client.Hvr;
-import cse.mlab.hvr.client.SimpleFaqViewer;
 import cse.mlab.hvr.client.SpeechTestState;
 import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.SpeechTestEvent;

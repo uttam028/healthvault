@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.PreTestState.InternalState;
 import cse.mlab.hvr.client.events.PreTestInternalEvent;
-import cse.mlab.hvr.client.events.PreTestSubmitEvent;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.PreTestAnswers;
 import cse.mlab.hvr.shared.study.PreTestQuestion;

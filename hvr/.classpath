@@ -12,6 +12,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwtbootstrap3-0.9.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwtbootstrap3-extras-0.9.3.jar"/>
-	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

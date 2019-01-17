@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import cse.mlab.hvr.shared.QA;
-import cse.mlab.hvr.shared.study.HealthStatusQuestion;
 
 @XmlRootElement
 public class StudyPrefaceModel implements Serializable, IsSerializable {

@@ -1,7 +1,5 @@
 package cse.mlab.hvr.shared.study;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class SpeechTestMetadata implements IsSerializable{
