@@ -72,5 +72,37 @@ public class TestFragment implements Serializable, IsSerializable{
 		return durationToShowNextButton;
 	}
 
+	public void setFragmentId(int fragmentId) {
+		this.fragmentId = fragmentId;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
+	public void setAudioFileName(String audioFileName) {
+		this.audioFileName = audioFileName;
+	}
+
+	public void setTimerAvailable(boolean timerAvailable) {
+		this.timerAvailable = timerAvailable;
+	}
+
+	public void setDurationOfTimer(int durationOfTimer) {
+		this.durationOfTimer = durationOfTimer;
+	}
+
+	public void setNextButtonAvailable(boolean nextButtonAvailable) {
+		this.nextButtonAvailable = nextButtonAvailable;
+	}
+
+	public void setDurationToShowNextButton(int durationToShowNextButton) {
+		this.durationToShowNextButton = durationToShowNextButton;
+	}
+
 
 }

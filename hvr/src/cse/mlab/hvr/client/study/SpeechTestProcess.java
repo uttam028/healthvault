@@ -14,12 +14,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.CustomPlayerManager;
-import cse.mlab.hvr.client.GreetingService;
-import cse.mlab.hvr.client.GreetingServiceAsync;
 import cse.mlab.hvr.client.Hvr;
 import cse.mlab.hvr.client.TestInterceptState;
 import cse.mlab.hvr.client.TestInterceptState.InterceptState;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.shared.study.SpeechTest;
 
 public class SpeechTestProcess extends Composite {
@@ -30,8 +30,7 @@ public class SpeechTestProcess extends Composite {
 	@UiField
 	Button buttonTryLater;	
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final SpeechServiceAsync service = GWT.create(SpeechService.class);
 
 	private static SpeechTestProcessUiBinder uiBinder = GWT
 			.create(SpeechTestProcessUiBinder.class);
@@ -54,7 +53,7 @@ public class SpeechTestProcess extends Composite {
 
 			}
 		});
-		greetingService.getSpeechTestMetadata(testId, new AsyncCallback<SpeechTest>() {
+		service.getSpeechTestMetadata(testId, new AsyncCallback<SpeechTest>() {
 			
 			@Override
 			public void onSuccess(SpeechTest result) {

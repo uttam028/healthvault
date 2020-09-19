@@ -53,6 +53,30 @@ public class SubTest implements IsSerializable {
 		return subtestFragments;
 	}
 
+	public void setSubtestId(int subtestId) {
+		this.subtestId = subtestId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setCommonInstructionText(String commonInstructionText) {
+		this.commonInstructionText = commonInstructionText;
+	}
+
+	public void setCommonInstrcutionAudioFileName(String commonInstrcutionAudioFileName) {
+		this.commonInstrcutionAudioFileName = commonInstrcutionAudioFileName;
+	}
+
+	public void setSubtestFragments(ArrayList<TestFragment> subtestFragments) {
+		this.subtestFragments = subtestFragments;
+	}
+
 
 
 }

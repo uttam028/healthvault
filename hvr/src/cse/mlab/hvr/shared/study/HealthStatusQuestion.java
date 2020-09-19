@@ -56,5 +56,47 @@ public class HealthStatusQuestion implements IsSerializable{
 	public String getAnswer_options() {
 		return answer_options;
 	}
+
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+
+	public void setHint(String hint) {
+		this.hint = hint;
+	}
+
+
+	public void setAnswerRequired(boolean answerRequired) {
+		this.answerRequired = answerRequired;
+	}
+
+
+	public void setSequenceId(int sequenceId) {
+		this.sequenceId = sequenceId;
+	}
+
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+
+	public void setQuestion_type(String question_type) {
+		this.question_type = question_type;
+	}
+
+
+	public void setDefault_answer(String default_answer) {
+		this.default_answer = default_answer;
+	}
+
+
+	public void setAnswer_options(String answer_options) {
+		this.answer_options = answer_options;
+	}
+	
+	
 	
 }

@@ -22,6 +22,10 @@ import cse.mlab.hvr.client.events.EnrollmentEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.SpeechTestEventHandler;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
+import cse.mlab.hvr.client.services.GreetingService;
+import cse.mlab.hvr.client.services.GreetingServiceAsync;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.client.study.EnrollmentProcess;
 import cse.mlab.hvr.client.study.SpeechTestProcess;
 import cse.mlab.hvr.shared.Response;
@@ -30,8 +34,8 @@ import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class MainPage extends Composite {
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final SpeechServiceAsync speechService = GWT.create(SpeechService.class);
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
 	@UiField
 	NavbarNav navbar;
@@ -106,7 +110,7 @@ public class MainPage extends Composite {
 						Hvr.updateSpeechTestState(false);
 						if (event.getTestState().getState() == TestState.START) {
 
-							greetingService.startParticipation(event
+							speechService.startParticipation(event
 									.getTestState().getStudyId(), userId,
 									new AsyncCallback<Response>() {
 
@@ -149,7 +153,7 @@ public class MainPage extends Composite {
 							homePage.updateParticipation(event.getTestState()
 									.getStudyId());
 							loadHomePage();
-							greetingService.endParticipation(event
+							speechService.endParticipation(event
 									.getTestState().getStudyId(), userId, event.getTestState().getParticipationId(),
 									new AsyncCallback<Response>() {
 										@Override

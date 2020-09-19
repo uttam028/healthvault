@@ -13,6 +13,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.services.ProfileService;
+import cse.mlab.hvr.client.services.ProfileServiceAsync;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.client.study.MyStudyManager;
 import cse.mlab.hvr.client.study.StudyPreface;
 import cse.mlab.hvr.shared.Response;
@@ -21,8 +25,9 @@ import cse.mlab.hvr.shared.study.StudyPrefaceModel;
 
 public class HomePage extends Composite {
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final ProfileServiceAsync profileService = GWT.create(ProfileService.class);
+	private final SpeechServiceAsync speechService = GWT.create(SpeechService.class);
+	
 	@UiField
 	HTMLPanel homepagePanel, openStudyPanel, messagePanel, dashboardPanel;
 	
@@ -59,7 +64,7 @@ public class HomePage extends Composite {
 		super.onLoad();
 		if (!homepageLoaded) {
 			
-			greetingService.profileUpdateRequired(this.userEmail, new AsyncCallback<Response>() {
+			profileService.profileUpdateRequired(this.userEmail, new AsyncCallback<Response>() {
 				@Override
 				public void onSuccess(Response result) {
 					if(result.getCode()==1){
@@ -76,7 +81,7 @@ public class HomePage extends Composite {
 
 			
 			openStudyPanel.clear();
-			greetingService.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
+			speechService.getOpenStudies(this.userEmail, new AsyncCallback<ArrayList<StudyPrefaceModel>>() {
 						@Override
 						public void onSuccess(ArrayList<StudyPrefaceModel> result) {
 							openStudyPanel.clear();
@@ -98,7 +103,7 @@ public class HomePage extends Composite {
 						}
 					});
 			
-			greetingService.getMyStudies(this.userEmail, new AsyncCallback<ArrayList<MyStudyDataModel>>() {
+			speechService.getMyStudies(this.userEmail, new AsyncCallback<ArrayList<MyStudyDataModel>>() {
 				@Override
 				public void onSuccess(ArrayList<MyStudyDataModel> result) {
 					if(result == null || result.size()==0){

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="lib/gson-2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jersey-bundle-1.18.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jersey-core-1.18.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gwt-visualization.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gwt-voices-3.3.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/fr.hd3d.html5.video.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gwt-visualization-1.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gwtbootstrap3-0.9.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gwtbootstrap3-extras-0.9.3.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/fr.hd3d.html5.video.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-visualization.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-voices-3.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/gwtbootstrap3-0.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/gwtbootstrap3-extras-0.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/mail-1.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

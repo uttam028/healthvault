@@ -6,11 +6,10 @@
 
 	<context-param>
 		<param-name>serverRoot</param-name>
-		<!--param-value>http://m-health.cse.nd.edu:8000/phrService-0.0.1-SNAPSHOT</param-value -->
 		<!--param-value>http://localhost:8080/phrService-0.0.1-SNAPSHOT</param-value -->
-		<!--param-value>http://m-lab.cse.nd.edu:8080/phrService-0.0.1-SNAPSHOT</param-value -->
 		<!--param-value>http://10.32.10.188:8080/phrService-0.0.1-SNAPSHOT</param-value -->
-		<param-value>http://10.32.10.188:8080/phrservice</param-value>
+		<!--param-value>http://10.32.10.188:8080/phrservice</param-value -->
+		<param-value>http://127.0.0.1:8080/phrservice</param-value>
 	</context-param>
 	<context-param>
 		<param-name>signupPath</param-name>
@@ -21,7 +20,7 @@
 	<servlet>
 		<servlet-name>greetServlet</servlet-name>
 		<servlet-class>cse.mlab.hvr.server.GreetingServiceImpl</servlet-class>
-		<init-param>
+		<!--init-param>
 			<param-name>signupPath</param-name>
 			<param-value>/signup/</param-value>
 		</init-param>
@@ -32,13 +31,50 @@
 		<init-param>
 			<param-name>profilePath</param-name>
 			<param-value>/profile/</param-value>
-		</init-param>
+		</init-param-->
 
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>greetServlet</servlet-name>
 		<url-pattern>/hvr/greet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>profileServlet</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.ProfileServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>profileServlet</servlet-name>
+		<url-pattern>/hvr/profile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>medicationServlet</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.MedicationServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>medicationServlet</servlet-name>
+		<url-pattern>/hvr/medication</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>speechServlet</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.SpeechServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>speechServlet</servlet-name>
+		<url-pattern>/hvr/speech</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>fileupload</servlet-name>
+		<servlet-class>cse.mlab.hvr.server.FileUpload</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>fileupload</servlet-name>
+		<url-pattern>/fileupload</url-pattern>
 	</servlet-mapping>
 
 

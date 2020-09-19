@@ -40,12 +40,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.EnrollmentState;
 import cse.mlab.hvr.client.EnrollmentState.EnrollState;
-import cse.mlab.hvr.client.GreetingService;
-import cse.mlab.hvr.client.GreetingServiceAsync;
 import cse.mlab.hvr.client.Hvr;
 import cse.mlab.hvr.client.MainPage;
 import cse.mlab.hvr.client.SimpleFaqViewer;
 import cse.mlab.hvr.client.events.EnrollmentEvent;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.HealthStatusQuestion;
 import cse.mlab.hvr.shared.study.StudyPrefaceModel;
@@ -69,8 +69,7 @@ public class EnrollmentProcess extends Composite {
 	// private SpeechTestMetadata metadata;
 	private StudyPrefaceModel enrollmentData;
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final SpeechServiceAsync service = GWT.create(SpeechService.class);
 
 	private static EnrollmentProcessUiBinder uiBinder = GWT
 			.create(EnrollmentProcessUiBinder.class);
@@ -183,7 +182,7 @@ public class EnrollmentProcess extends Composite {
 				String studyId = EnrollmentProcess.this.enrollmentData
 						.getStudyOverview().getId();
 				String email = MainPage.getLoggedinUser();
-				greetingService.enrollToStudy(studyId, email,
+				service.enrollToStudy(studyId, email,
 						new AsyncCallback<Response>() {
 
 							@Override
@@ -222,7 +221,7 @@ public class EnrollmentProcess extends Composite {
 			}
 		});
 
-		// greetingService.getSpeechTestMetadata(testId,
+		// service.getSpeechTestMetadata(testId,
 		// new AsyncCallback<SpeechTestMetadata>() {
 		//
 		// @Override

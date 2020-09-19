@@ -17,13 +17,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 import cse.mlab.hvr.client.PreTestState.InternalState;
 import cse.mlab.hvr.client.events.PreTestInternalEvent;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.PreTestAnswers;
 import cse.mlab.hvr.shared.study.PreTestQuestion;
 
 public class PreTestQuestionsPresenter extends Composite  {
 	
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	private final SpeechServiceAsync service = GWT.create(SpeechService.class);
 
 
 	@UiField
@@ -50,7 +52,7 @@ public class PreTestQuestionsPresenter extends Composite  {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.participationId = participationId;
 		
-		greetingService.getPreTestQuestions(testId, new AsyncCallback<ArrayList<PreTestQuestion>>() {
+		service.getPreTestQuestions(testId, new AsyncCallback<ArrayList<PreTestQuestion>>() {
 			
 			@Override
 			public void onSuccess(ArrayList<PreTestQuestion> result) {
@@ -135,7 +137,7 @@ public class PreTestQuestionsPresenter extends Composite  {
 		//Window.alert(answer);
 		
 		
-		greetingService.submitPreTestAnswer(pretestAnswers, new AsyncCallback<Response>() {
+		service.submitPreTestAnswer(pretestAnswers, new AsyncCallback<Response>() {
 			@Override
 			public void onSuccess(Response result) {
 			}

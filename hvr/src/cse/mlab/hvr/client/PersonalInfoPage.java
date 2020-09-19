@@ -17,6 +17,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.services.ProfileService;
+import cse.mlab.hvr.client.services.ProfileServiceAsync;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.study.PreTestAnswers;
@@ -24,8 +26,7 @@ import cse.mlab.hvr.shared.study.PreTestQuestion;;
 
 public class PersonalInfoPage extends Composite{
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final ProfileServiceAsync service = GWT.create(ProfileService.class);
 	
 	@UiField
 	HTMLPanel resultPanel, physicalQuestionPanel, profileQuestionPanel;
@@ -70,7 +71,7 @@ public class PersonalInfoPage extends Composite{
 //		
 //		if(formValidation && genderValidation){
 //			this.profile = populateDataFromFields();
-//			greetingService.saveProfile(profile, new AsyncCallback<Response>() {
+//			service.saveProfile(profile, new AsyncCallback<Response>() {
 //				@Override
 //				public void onSuccess(Response result) {
 //					if(result.getCode()==0){
@@ -113,7 +114,7 @@ public class PersonalInfoPage extends Composite{
 		// TODO Auto-generated method stub
 		super.onLoad();
 		if(!pageLoaded){
-//			greetingService.getProfile(MainPage.getLoggedinUser(), new AsyncCallback<UserProfile>() {
+//			service.getProfile(MainPage.getLoggedinUser(), new AsyncCallback<UserProfile>() {
 //				
 //				@Override
 //				public void onSuccess(UserProfile result) {
@@ -134,7 +135,7 @@ public class PersonalInfoPage extends Composite{
 //				}
 //			});
 			
-			greetingService.getProfileInformation(MainPage.getLoggedinUser(), new AsyncCallback<ArrayList<PreTestQuestion>>() {
+			service.getProfileInformation(MainPage.getLoggedinUser(), new AsyncCallback<ArrayList<PreTestQuestion>>() {
 				@Override
 				public void onSuccess(ArrayList<PreTestQuestion> result) {
 					for(int i=0;i<result.size();i++){
@@ -156,7 +157,7 @@ public class PersonalInfoPage extends Composite{
 				}
 			});
 			
-			greetingService.getPhysicalInformation(MainPage.getLoggedinUser(), new AsyncCallback<ArrayList<PreTestQuestion>>() {
+			service.getPhysicalInformation(MainPage.getLoggedinUser(), new AsyncCallback<ArrayList<PreTestQuestion>>() {
 				@Override
 				public void onSuccess(ArrayList<PreTestQuestion> result) {
 					for(int i=0;i<result.size();i++){
@@ -222,7 +223,7 @@ public class PersonalInfoPage extends Composite{
 			
 		}
 		PreTestAnswers profileQuestionAnswer = new PreTestAnswers(MainPage.getLoggedinUser(), "", "", questions, answers);
-		greetingService.updateProfileInfo(profileQuestionAnswer, new AsyncCallback<Response>() {
+		service.updateProfileInfo(profileQuestionAnswer, new AsyncCallback<Response>() {
 			@Override
 			public void onSuccess(Response result) {
 				Notify.notify("Profile information has been updated.", NotifyType.SUCCESS);
@@ -254,7 +255,7 @@ public class PersonalInfoPage extends Composite{
 			
 		}
 		PreTestAnswers physicalQuestionAnswer = new PreTestAnswers(MainPage.getLoggedinUser(), "", "", questions, answers);
-		greetingService.updatePhysicalInfo(physicalQuestionAnswer, new AsyncCallback<Response>() {
+		service.updatePhysicalInfo(physicalQuestionAnswer, new AsyncCallback<Response>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

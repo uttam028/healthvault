@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Session implements Serializable{
+public class SpeechSession implements Serializable{
 	
 	/**
 	 * 
@@ -16,11 +16,11 @@ public class Session implements Serializable{
 	//1=active, 0=logout, -1=invalid
 	private int state;
 	
-	public Session() {
+	public SpeechSession() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Session(String sessionId, String user, int state) {
+	public SpeechSession(String sessionId, String user, int state) {
 		super();
 		this.sessionId = sessionId;
 		this.user = user;

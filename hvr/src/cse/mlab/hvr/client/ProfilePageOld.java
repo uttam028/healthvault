@@ -22,8 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ProfilePageOld extends Composite{
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);	
+//	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);	
 	
 	@UiField
 	TextBox textProfileFirstName;

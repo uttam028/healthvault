@@ -22,8 +22,10 @@ import cse.mlab.hvr.client.SpeechTestState.TestState;
 import cse.mlab.hvr.client.events.LoadProfileItemEvent;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.SpeechTestEventHandler;
+import cse.mlab.hvr.client.services.GreetingService;
+import cse.mlab.hvr.client.services.GreetingServiceAsync;
 import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.Session;
+import cse.mlab.hvr.shared.SpeechSession;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -36,8 +38,7 @@ public class Hvr implements EntryPoint {
 	final static SimpleEventBus eventBus = new SimpleEventBus();
 	private static boolean loggedIn = false;
 	private static boolean speechTestRunning =false; 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
 	
 	final long SECONDS = 1000;
 	final long MINUTES = 60*SECONDS;
@@ -60,7 +61,7 @@ public class Hvr implements EntryPoint {
 		if(cookies == null || cookies.isEmpty()){
 			loadLogin();
 		} else {
-			greetingService.getSessionInformation(new Session(cookies, "", 1), new AsyncCallback<Response>() {
+			service.getSessionInformation(new SpeechSession(cookies, "", 1), new AsyncCallback<Response>() {
 				
 				@Override
 				public void onSuccess(Response result) {
@@ -277,7 +278,7 @@ public class Hvr implements EntryPoint {
 	public void logout(String userId, String sessionId) {
 		loggedIn = false;
 		speechTestRunning = false;
-		greetingService.logout(new Session(sessionId, userId, 0), new AsyncCallback<Response>() {
+		service.logout(new SpeechSession(sessionId, userId, 0), new AsyncCallback<Response>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub

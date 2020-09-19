@@ -49,14 +49,15 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
+import cse.mlab.hvr.client.services.MedicationService;
+import cse.mlab.hvr.client.services.MedicationServiceAsync;
 import cse.mlab.hvr.shared.Diagnosis;
 import cse.mlab.hvr.shared.DiagnosisList;
 import cse.mlab.hvr.shared.Response;
 
 public class DiagnosisHistory extends Composite {
 	
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final MedicationServiceAsync service = GWT.create(MedicationService.class);
 	
 
 	@UiField
@@ -181,7 +182,7 @@ public class DiagnosisHistory extends Composite {
 		if (!tableLoaded) {
 			diagnosisPanel.add(diagnosisDiv);
 			diagnosisPanel.add(new Br());
-			greetingService.getDiagnosisList(DiagnosisHistory.this.emailId,
+			service.getDiagnosisList(DiagnosisHistory.this.emailId,
 					new AsyncCallback<DiagnosisList>() {
 						@Override
 						public void onSuccess(DiagnosisList diagList) {
@@ -361,7 +362,7 @@ public class DiagnosisHistory extends Composite {
 			buttonSubmit.setDataDismiss(ButtonDismiss.MODAL);
 			
 			if(modalFromEdit){
-				greetingService.updateDiagnosis(diagnosis, new AsyncCallback<Response>() {
+				service.updateDiagnosis(diagnosis, new AsyncCallback<Response>() {
 					@Override
 					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub
@@ -381,7 +382,7 @@ public class DiagnosisHistory extends Composite {
 					}
 				});
 			} else {
-				greetingService.saveDiagnosis(diagnosis, new AsyncCallback<Response>() {
+				service.saveDiagnosis(diagnosis, new AsyncCallback<Response>() {
 
 							@Override
 							public void onSuccess(Response result) {
@@ -445,7 +446,7 @@ public class DiagnosisHistory extends Composite {
 				diagnosisList.getDiagnosisList().remove(checkedDiagObject);
 			}
 			list = list.substring(0, list.length() - 1);
-			greetingService.deleteDiagnosis(this.emailId, list, new AsyncCallback<Response>() {
+			service.deleteDiagnosis(this.emailId, list, new AsyncCallback<Response>() {
 						@Override
 						public void onSuccess(Response result) {
 							// TODO Auto-generated method stub

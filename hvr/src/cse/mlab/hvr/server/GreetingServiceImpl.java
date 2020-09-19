@@ -1,56 +1,68 @@
 package cse.mlab.hvr.server;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Properties;
+import java.util.UUID;
 
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.codec.binary.Base64;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-import cse.mlab.hvr.client.GreetingService;
-import cse.mlab.hvr.shared.Diagnosis;
-import cse.mlab.hvr.shared.DiagnosisList;
-import cse.mlab.hvr.shared.Medication;
-import cse.mlab.hvr.shared.MedicationList;
+import cse.mlab.hvr.client.services.GreetingService;
 import cse.mlab.hvr.shared.Response;
-import cse.mlab.hvr.shared.Session;
+import cse.mlab.hvr.shared.SpeechSession;
 import cse.mlab.hvr.shared.User;
 import cse.mlab.hvr.shared.UserProfile;
 import cse.mlab.hvr.shared.UserRole;
-import cse.mlab.hvr.shared.study.Enrollment;
-import cse.mlab.hvr.shared.study.MyStudyDataModel;
-import cse.mlab.hvr.shared.study.Participation;
-import cse.mlab.hvr.shared.study.PreTestAnswers;
-import cse.mlab.hvr.shared.study.PreTestQuestion;
-import cse.mlab.hvr.shared.study.Recording;
-import cse.mlab.hvr.shared.study.SpeechTest;
-import cse.mlab.hvr.shared.study.StudyPrefaceModel;
+import cse.mlab.hvr.shared.Util;
 
 /**
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
+public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 
 	static String serverRoot = "";
 	static String signupPath = "";
 	static String loginPath = "";
 	static String profilePath = "";
+
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+
+	// private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static String dbUrl, dbUsername, dbPassword;
+	static final String alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	static SecureRandom rnd = new SecureRandom();
+
+	static {
+		try {
+			Class.forName(DRIVER).newInstance();
+			System.out.println("Load DB driver successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String randomString(int len) {
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(alphanumeric.charAt(rnd.nextInt(alphanumeric.length())));
+		return sb.toString();
+	}
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -60,881 +72,494 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		signupPath = getInitParameter("signupPath");
 		loginPath = getInitParameter("loginPath");
 		profilePath = getInitParameter("profilePath");
-		System.out.println("server root : " + serverRoot + ", signuppath : "
-				+ signupPath + ", loginpath : " + loginPath);
+		System.out
+				.println("server root : " + serverRoot + ", signuppath : " + signupPath + ", loginpath : " + loginPath);
+
+		Properties properties = new Properties();
+		InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/system.properties");
+
+		try {
+			properties.load(inputStream);
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema")
+					+ "?serverTimezone=UTC";
+			dbUsername = properties.getProperty("db_username");
+			dbPassword = properties.getProperty("db_password");
+			System.out.println("db prop, dburl:" + dbUrl + ", user:" + dbUsername + ", pass:" + dbPassword);
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public String greetServer(String input) throws IllegalArgumentException {
-		// // Verify that the input is valid.
-		// if (!FieldVerifier.isValidName(input)) {
-		// // If the input is not valid, throw an IllegalArgumentException back
-		// // to
-		// // the client.
-		// throw new IllegalArgumentException(
-		// "Name must be at least 4 characters long");
-		// }
-
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-
-		// Escape data from the client to avoid cross-site script
-		// vulnerabilities.
-		input = escapeHtml(input);
-		userAgent = escapeHtml(userAgent);
-
-		return "Hello, " + input + "!<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+	private Connection connect() {
+		try {
+			return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
-	public Response getSessionInformation(Session session) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + loginPath + "sessioninfo";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, session);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("convert response : " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff session call: " + (end - start));
+	public Response getSessionInformation(SpeechSession session) {
+
+		Connection connection = null;
+		Response response = new Response();
+		try {
+			String sessionId = session.getSessionId();
+			if (!Util.isEmptyString(sessionId)) {
+				try {
+					connection = connect();
+
+					PreparedStatement preparedStatement = connection
+							.prepareStatement("select user_id from phr.session_info where state=1 and session_id=?");
+					preparedStatement.setString(1, sessionId);
+
+					ResultSet resultSet = preparedStatement.executeQuery();
+					if (resultSet.next()) {
+						String userId = resultSet.getString("user_id");
+						response.setCode(0);
+						response.setMessage(userId);
+					}
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				} finally {
+					if (connection != null)
+						try {
+							connection.close();
+						} catch (SQLException ignore) {
+						}
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		return response;
+
 	}
-	
+
 	@Override
 	public Response signupToPhr(UserProfile userProfile) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// userProfile.setPassword("t");
-		System.out.println("f" + userProfile.getFirstName() + ", l:"
-				+ userProfile.getLastName() + ", e:" + userProfile.getEmail()
-				+ ", p:" + userProfile.getPassword());
-		String url = serverRoot + signupPath;
-		WebResource service = client.resource(url);
-		service.accept(MediaType.APPLICATION_XML);
-		ClientResponse nameResource = service.put(ClientResponse.class,
-				userProfile);
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("Client Response \n" + response.getCode());
 
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff sign up call: " + (end - start));
 
+		Connection connection = null;
+		Response response = new Response();
+		boolean invitationActivated = false;
+		boolean proceedToSignup = false;
+		try {
+
+			System.out.println("Connecting database...");
+			connection = connect();
+			try {
+				// statement = connection.createStatement();
+				String email = userProfile.getEmail().trim();
+				PreparedStatement preparedStatement = null;
+
+				if (invitationActivated) {
+					// check invitation and then proceed
+					preparedStatement = connection
+							.prepareStatement("select email from phr.user_invitation where email=?");
+					preparedStatement.setString(1, email);
+					ResultSet resultSet = preparedStatement.executeQuery();
+					if (resultSet.next()) {
+						proceedToSignup = true;
+					} else {
+						proceedToSignup = false;
+					}
+
+				} else {
+					proceedToSignup = true;
+				}
+
+				if (proceedToSignup) {
+					preparedStatement = connection
+							.prepareStatement("insert ignore into  phr.users (email, password, token) values ( ?,?,?)");
+					preparedStatement.setString(1, email);
+					preparedStatement.setString(2, userProfile.getPassword());
+					preparedStatement.setString(3, randomString(32));
+					preparedStatement.execute();
+
+					preparedStatement = connection.prepareStatement(
+							"insert ignore into  phr.user_profile (email, first_name, last_name) values ( ?,?, ?)");
+					preparedStatement.setString(1, email);
+					preparedStatement.setString(2, userProfile.getFirstName());
+					preparedStatement.setString(3, userProfile.getLastName());
+
+					preparedStatement.execute();
+					// success = "The user " + userProfile.getEmail()
+					// + " successfully signed up.";
+					
+					System.out.println("created user profile, going to send activation email");
+
+					preparedStatement = connection.prepareStatement("select token from phr.users where email=?");
+					preparedStatement.setString(1, email);
+					ResultSet resultSet = preparedStatement.executeQuery();
+					if (resultSet.next()) {
+						// got token
+						String token = resultSet.getString("token");
+						String subject = "Activate Speech Marker Account";
+						String name = userProfile.getFirstName() == null ? ""
+								: userProfile.getFirstName() + " " + userProfile.getLastName() == null ? ""
+										: userProfile.getLastName();
+						String emailBody = "\nThank you for registering with the University of Notre Dame Speech Marker Initiative.\n"
+								+ "\nClick the link below to complete your registration:\n"
+								+ Util.getEmailVerificationRoot() + "verifyemail?token=" + token;
+						
+						System.out.println("email writing done, now sending.....");
+
+						sendEmail(email, subject, emailBody, name);
+					}
+
+					// } catch (MySQLIntegrityConstraintViolationException e){
+					// success = "The user " + userProfile.getEmail() +
+					// " already exist in the system." ;
+					response.setCode(0);
+				} else {
+					// user has no invitation
+					response.setCode(1);
+					response.setMessage("User is not authorized to sign up");
+					return response;
+				}
+
+			} catch (SQLException e) {
+				// success =
+				// "Error in user creation. Please refer server logs for more
+				// information";
+				e.printStackTrace();
+				response.setCode(-1);
+				response.setMessage("Error in user creation. Try later.");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
 		return response;
 
 	}
-	
-	
+
+	private boolean sendEmail(String toAddress, String subject, String messageBody, String name) {
+		try {
+			InputStream propertiesInputStream = null;
+			Properties properties = new Properties();
+			propertiesInputStream = getServletContext().getResourceAsStream("/WEB-INF/system.properties");
+			properties.load(propertiesInputStream);
+			final String emailAccount = properties.getProperty("gmail_account");
+			final String emailUser = properties.getProperty("gmail_user");
+			//final String emailPassword = "jzgzxxfqklbiisdr";
+			final String emailPassword = "dvmpowduhtxnwkjp";
+			
+			// properties.getProperty("gmail_password");
+			
+			
+			System.out.println("email account "+ emailAccount + ", user:"+ emailUser + ", email pass:" + emailPassword);
+
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+
+			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(emailUser, emailPassword);
+					// return new PasswordAuthentication("ndspeechrepo",
+					// "mcomlab2017");
+
+				}
+			});
+
+			try {
+				
+				Message message = new MimeMessage(session);
+
+				message.setFrom(new InternetAddress(emailAccount));
+
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
+
+				message.setSubject(subject);
+				if (Util.isEmptyString(name.trim())) {
+					name = "User";
+				}
+				String header = "Dear " + name + ",\n";
+				String footer = "\n\nRegards,\nMobile Computing Lab,\nUniversity of Notre Dame";
+				message.setText(header + messageBody + footer);
+				Transport.send(message);
+
+				return true;
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	@Override
-	public Response logout(Session session) {
-		
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + loginPath + "logout";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, session);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("convert response : " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff logout call: " + (end - start));
+	public Response logout(SpeechSession session) {
+
+		Connection connection = null;
+		Response response = new Response();
+		try {
+			String sessionId = session.getSessionId();
+			if (!Util.isEmptyString(sessionId)) {
+				try {
+					connection = connect();
+					connection.createStatement();
+
+					PreparedStatement preparedStatement = connection.prepareStatement(
+							"update phr.session_info set state=0, logout_time=now() where session_id=?");
+					preparedStatement.setString(1, sessionId);
+					preparedStatement.executeUpdate();
+					response.setCode(0);
+
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				} finally {
+					if (connection != null)
+						try {
+							connection.close();
+						} catch (SQLException ignore) {
+						}
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		return response;
+
 	}
 
 	@Override
 	public Response resetPassword(String email) {
 
-		System.out.println("email :"+ email);
-		String json = "{\"email\":\""+email+"\", \"oldPassword\":\"\", \"newPassword\":\"\"}";
-		
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + loginPath + "resetpassword/";
-		System.out.println("url:" + url);
-		WebResource service = client.resource(url);
-		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
-		String jsonResponse = clientResponse.getEntity(String.class);
-		Response response = new Gson().fromJson(jsonResponse, Response.class);
-		System.out.println("Client Response \n" + response.getCode());
 
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff reset pass call: " + (end - start));
+		Connection connection = null;
+		Response response = new Response();
+		try {
+			connection = connect();
 
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select email from phr.users where state=1 and email=?");
+			preparedStatement.setString(1, email);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				String newPass = randomString(12);
+				String encryptedNewpass = Util.getMD5String(newPass);
+				preparedStatement = connection.prepareStatement("update phr.users set password= ? where email=?");
+				preparedStatement.setString(1, encryptedNewpass);
+				preparedStatement.setString(2, email);
+				preparedStatement.executeUpdate();
+
+				try {
+					String subject = "Reset Speech Marker Password";
+					String emailBody = "\n\nYour password has been reset, and use new one to login. Please change your password from the profile section.\n"
+							+ "\n New Password:		" + newPass;
+
+					sendEmail(email, subject, emailBody, "");
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+				response.setCode(0);
+
+			} else {
+				response.setCode(1);
+				response.setMessage("User does not exist");
+			}
+		} catch (Exception ex) {
+
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
 		return response;
 
 	}
-	
+
 	@Override
 	public Response changePassword(String email, String oldPassword, String newPassword) {
-		// TODO Auto-generated method stub
-		String json = "{\"email\":\""+email+"\", \"oldPassword\":\""+ oldPassword +"\", \"newPassword\":\""+ newPassword +"\"}";
-		System.out.println("json:"+json);		
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + loginPath + "changepassword/";
-		WebResource service = client.resource(url);
-		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
-		String jsonResponse = clientResponse.getEntity(String.class);
-		Response response = new Gson().fromJson(jsonResponse, Response.class);
-		System.out.println("Client Response \n" + response.getCode());
 
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff reset pass call: " + (end - start));
+		Connection connection = null;
+		Response response = new Response();
+		try {
 
+
+			System.out.println("email:" + email + ", old pass :" + oldPassword + ", new pass:" + newPassword);
+
+			if (Util.isEmptyString(email) || Util.isEmptyString(oldPassword) || Util.isEmptyString(newPassword)) {
+				response.setCode(1);
+				response.setMessage("Please try with valid input");
+				return response;
+			}
+
+			try {
+				connection = connect();
+				connection.createStatement();
+
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("select * from phr.users where email=? and password=?");
+				preparedStatement.setString(1, email);
+				preparedStatement.setString(2, oldPassword);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					preparedStatement = connection.prepareStatement("update phr.users set password= ? where email=?");
+					preparedStatement.setString(1, newPassword);
+					preparedStatement.setString(2, email);
+					preparedStatement.executeUpdate();
+					response.setCode(0);
+
+				} else {
+					response.setCode(2);
+					response.setMessage("Old password is not correct");
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			} finally {
+				if (connection != null)
+					try {
+						connection.close();
+					} catch (SQLException ignore) {
+					}
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return response;
+
 	}
 
 	@Override
-	public String checkEmailAvailability(String email) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + signupPath + email;
-		WebResource service = client.resource(url);
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		System.out.println("availability response : " + response);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff email availability call: "
-				+ (end - start));
+	public Boolean checkEmailAvailability(String email) {
 
-		return response;
+		Connection connection = null;
+		try {
+
+			System.out.println("Connecting database...");
+			connection = connect();
+			try {
+
+				// statement = connection.createStatement();
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("select * from phr.users where email=?");
+				preparedStatement.setString(1, email);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					return true;
+
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+
+		return false;
+
 	}
-	
+
 	@Override
 	public UserRole getRole(String email) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		/*
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
 
-		String url = serverRoot + "userrole/" + email;
-		WebResource service = client.resource(url);
-		UserRole response = service.accept(MediaType.APPLICATION_JSON).get(
-				UserRole.class);
-		System.out.println("availability response : " + response);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff email availability call: "
-				+ (end - start));
-		
-		return response;*/
 		return new UserRole(true, false, false);
 	}
-	
 
 	@Override
 	public Response loginToPhr(User user) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + loginPath;
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, user);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("convert response : " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff login call: " + (end - start));
 
-		return response;
-	}
 
-	@Override
-	public Response profileUpdateRequired(String email) {
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + profilePath + "updaterequired/" +email;
-		WebResource service = client.resource(url);
-		String reply = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		System.out.println("update required response:"+ reply);
-		Response response = new Gson().fromJson(reply, Response.class);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update required call: " + (end - start));
-
-		return response;
-	}
-	
-	@Override
-	public UserProfile getProfile(String email) {
-
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + profilePath + email;
-		WebResource service = client.resource(url);
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		System.out.println("profile xml:" + response);
-		UserProfile profile = new Gson().fromJson(response, UserProfile.class);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get profile call: " + (end - start));
-
-		return profile;
-	}
-	
-	
-	@Override
-	public ArrayList<PreTestQuestion> getProfileInformation(String email) {
+		Connection conn = null;
+		Response response = new Response();
 		try {
-			long start = Calendar.getInstance().getTimeInMillis();
+			System.out.println("pass from client:" + user.getPassword());
+			conn = connect();
+			// connection.createStatement();
+			PreparedStatement preparedStatement = conn.prepareStatement("select * from phr.users where email=?");
+			preparedStatement.setString(1, user.getEmail());
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int state = resultSet.getInt("state");
+				if (state == 0) {
+					response.setCode(2);
+					response.setMessage("Please verify your account before login");
+				} else {
+					// check password
+					if (user.getPassword().equals(resultSet.getString("password"))) {
+						String uuid = UUID.randomUUID().toString();
+						try {
+							preparedStatement = conn.prepareStatement(
+									"insert into  phr.session_info (session_id, user_id, login_time) values ( ?,?,now())");
+							preparedStatement.setString(1, uuid);
+							preparedStatement.setString(2, user.getEmail());
+							preparedStatement.execute();
+							response.setCode(0);
+							response.setMessage(uuid);
 
-			ClientConfig config = new DefaultClientConfig();
-			Client client = Client.create(config);
-			String url = serverRoot + profilePath + "basicinformation/" +email;
-			WebResource service = client.resource(url);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						response.setCode(0);
+					} else {
+						response.setCode(3);
+						response.setMessage("Incorrect password");
+					}
 
-			String response = service.accept(MediaType.APPLICATION_JSON).get(
-					String.class);
-
-			Gson gson = new Gson();
-			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
-			ArrayList<PreTestQuestion> list = gson.fromJson(response,
-					listOfTestObject);
-
-			System.out.println("response from server:" + response);
-
-			System.out.println("length of list : " + list.size());
-			long end = Calendar.getInstance().getTimeInMillis();
-			System.out.println("time diff get physical information: " + (end - start));
-
-			return list;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
-	}
-	
-	@Override
-	public Response updateProfileInfo(PreTestAnswers preTestAnswers) {
-		String url = serverRoot + "/profile/basicinfosubmission";
-		return genericPostMethod(url, preTestAnswers);
-	}
-	
-	@Override
-	public ArrayList<PreTestQuestion> getPhysicalInformation(String email) {
-		try {
-			long start = Calendar.getInstance().getTimeInMillis();
-
-			ClientConfig config = new DefaultClientConfig();
-			Client client = Client.create(config);
-			String url = serverRoot + profilePath + "physicalinformation/" +email;
-			WebResource service = client.resource(url);
-
-			String response = service.accept(MediaType.APPLICATION_JSON).get(
-					String.class);
-
-			Gson gson = new Gson();
-			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
-			ArrayList<PreTestQuestion> list = gson.fromJson(response,
-					listOfTestObject);
-
-			System.out.println("response from server:" + response);
-
-			System.out.println("length of list : " + list.size());
-			long end = Calendar.getInstance().getTimeInMillis();
-			System.out.println("time diff get physical information: " + (end - start));
-
-			return list;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
-	}
-	
-	@Override
-	public Response updatePhysicalInfo(PreTestAnswers preTestAnswers) {
-		String url = serverRoot + "/profile/physicalinfosubmission";
-		return genericPostMethod(url, preTestAnswers);
-	}
-	
-	
-	
-	private Response genericPostMethod(String url, Object genericObject){
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, genericObject);
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("response code generic post method: " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff generic post call: " + (end - start));
-
-		return response;
-		
-	}
-	
-	
-	@Override
-	public Response saveProfile(UserProfile userProfile) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + profilePath;
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, userProfile);
-		Response profileUpdateResult = nameResource.getEntity(Response.class);
-
-		System.out.println("response code:" + profileUpdateResult.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update profile call: " + (end - start));
-
-		return profileUpdateResult;
-	}
-
-	//-----------------------------------medication--------------------------//
-	@Override
-	public Response saveMedication(MedicationList medicationList) {
-		// TODO Auto-generated method stub
-
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, medicationList);
-		Response saveMedicResult = nameResource.getEntity(Response.class);
-
-		System.out.println("response code:" + saveMedicResult.getCode()
-				+ "message:" + saveMedicResult.getMessage());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff save medic call: " + (end - start));
-		return saveMedicResult;
-
-	}
-
-	@Override
-	public Response updateMedication(Medication medication) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/medication/update/" + medication.getId();
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, medication);
-		Response updateMedicResult = nameResource.getEntity(Response.class);
-
-		System.out.println("response code:" + updateMedicResult.getCode()
-				+ "message:" + updateMedicResult.getMessage());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update medic call: " + (end - start));
-		return updateMedicResult;
-	}
-
-	@Override
-	public String getMedications(String email) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/medication/" + email;
-		WebResource service = client.resource(url);
-
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-
-		MedicationList medicationList = new Gson().fromJson(response,
-				MedicationList.class);
-		List<Medication> medList = medicationList.getMedicationList();
-		Iterator<Medication> it = medList.iterator();
-		while (it.hasNext()) {
-			Medication med = (Medication) it.next();
-			System.out.println("id:" + med.getId() + ", email:"
-					+ med.getEmail() + ", name:" + med.getName());
-		}
-		System.out.println("response:" + response);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update profile call: " + (end - start));
-		return response;
-	}
-
-	@Override
-	public MedicationList getMedicationsList(String email) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/medication/" + email;
-		WebResource service = client.resource(url);
-
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-
-		System.out.println("medic list:"+ response);
-		MedicationList medicationList = new Gson().fromJson(response,
-				MedicationList.class);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get medic list: " + (end - start));
-		return medicationList;
-	}
-
-	@Override
-	public Response deleteMedications(String email, String list) {
-		// TODO Auto-generated method stub
-		System.out.println("list:" + list);
-		list = Base64.encodeBase64String(list.getBytes());
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/medication/" + email + "/" + list;
-		WebResource service = client.resource(url);
-
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		Response response = new Gson().fromJson(result, Response.class);
-
-		System.out.println("delete response:" + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff delete medic list: " + (end - start));
-
-		return response;
-	}
-
-	@Override
-	public Response stopUsingMedication(long id, String endDate) {
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/medication/endusing/" + id + "/" + endDate;
-		WebResource service = client.resource(url);
-
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		Response response = new Gson().fromJson(result, Response.class);
-
-		System.out.println("end using response:" + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff delete medic list: " + (end - start));
-
-		return response;
-	}
-
-	public void test() {
-		Medication medication = new Medication();
-		medication.setEmail("z@gmail.com");
-		medication.setName("tes");
-//		medication.setStrength(1245);
-//		medication.setStrengthUnit("kg");
-//		medication.setConsumeFrequency("weekly");
-//		medication.setConsumeProcess("pacha");
-//		medication.setDosage(3);
-//		medication.setDosageUnit("stripe");
-		medication.setEndDate("2015-12-31");
-//		medication.setInstruction("take it somehow");
-//		medication.setIsPrescribed("otc");
-//		medication.setNote("");
-//		medication.setPrescribedBy("me");
-//		medication.setPrescribedDate("2012-08-27");
-//		medication.setPrescribedQuantity("3 time daily");
-		medication.setReason("");
-		medication.setStartDate("2014-12-07");
-
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/medication/medication/z@gmail.com/1";
-
-		try {
-			System.out.println("Going to call end using....");
-			WebResource service = client.resource(url);
-			Response response = service.accept(MediaType.APPLICATION_JSON).get(
-					Response.class);
-			System.out.println("end using response:" + response.getCode());
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("GreetingServiceImpl.test()");
+				}
+			} else {
+				response.setCode(1);
+				response.setMessage("Incorrect username");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			response.setCode(-1);
+			response.setMessage("Service not available, please try later");
 			e.printStackTrace();
+		} finally {
+			System.out.println("Closing the connection.");
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (SQLException ignore) {
+				}
 		}
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff end using: " + (end - start));
-
-		// return response;
-
-	}
-	
-	//--------------------------------------diagnosis----------------------------------//
-	
-	@Override
-	public Response saveDiagnosis(Diagnosis diagnosis) {
-		System.out.println("dianosis: "+ diagnosis.toString());
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/diagnosis/";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, diagnosis);
-		Response saveDiagResult = nameResource.getEntity(Response.class);
-
-		System.out.println("response code:" + saveDiagResult.getCode()
-				+ "message:" + saveDiagResult.getMessage());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff save diagnosis call: " + (end - start));
-		return saveDiagResult;
-	}
-	
-	@Override
-	public DiagnosisList getDiagnosisList(String email) {
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/diagnosis/" + email;
-		WebResource service = client.resource(url);
-
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-
-		DiagnosisList diagnosisList = new Gson().fromJson(response,
-				DiagnosisList.class);
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get diagnosis list: " + (end - start));
-		return diagnosisList;
-	}
-	
-	@Override
-	public Response updateDiagnosis(Diagnosis diagnosis) {
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/diagnosis/update/" + diagnosis.getId();
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.put(ClientResponse.class, diagnosis);
-		Response updateDiagnosisResult = nameResource.getEntity(Response.class);
-
-		System.out.println("response code:" + updateDiagnosisResult.getCode()
-				+ "message:" + updateDiagnosisResult.getMessage());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff update diagnosis call: " + (end - start));
-		return updateDiagnosisResult;
-	}
-	
-	@Override
-	public Response deleteDiagnosis(String email, String list) {
-		System.out.println("list:" + list);
-		list = Base64.encodeBase64String(list.getBytes());
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/diagnosis/" + email + "/" + list;
-		WebResource service = client.resource(url);
-
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		Response response = new Gson().fromJson(result, Response.class);
-
-		System.out.println("delete response:" + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff delete diagnosis list: " + (end - start));
-
-		return response;
-	}
-
-	// ------------------speech test----------------------//
-	@Override
-	public ArrayList<StudyPrefaceModel> getOpenStudies(String email) {
-
-		// TODO Auto-generated method stub
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/study/open/" + email;
-		WebResource service = client.resource(url);
-
-		String response = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-
-		// ArrayList<StudyPrefaceModel> models = new Gson().fromJson(response,
-		// new Typetok);
-		Gson gson = new Gson();
-		Type listOfTestObject = new TypeToken<ArrayList<StudyPrefaceModel>>() {
-		}.getType();
-		ArrayList<StudyPrefaceModel> list = gson.fromJson(response,
-				listOfTestObject);
-
-		System.out.println("response from server:" + response);
-
-		System.out.println("length of list : " + list.size());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get open study: " + (end - start));
-
-		return list;
-
-	}
-
-	@Override
-	public ArrayList<MyStudyDataModel> getMyStudies(String email) {
-		try {
-			long start = Calendar.getInstance().getTimeInMillis();
-
-			ClientConfig config = new DefaultClientConfig();
-			Client client = Client.create(config);
-			String url = serverRoot + "/study/enrolled/" + email;
-			WebResource service = client.resource(url);
-
-			String response = service.accept(MediaType.APPLICATION_JSON).get(
-					String.class);
-
-			// ArrayList<StudyPrefaceModel> models = new
-			// Gson().fromJson(response,
-			// new Typetok);
-			Gson gson = new Gson();
-			Type listOfTestObject = new TypeToken<ArrayList<MyStudyDataModel>>() {}.getType();
-			ArrayList<MyStudyDataModel> list = gson.fromJson(response,
-					listOfTestObject);
-
-			System.out.println("response from server:" + response);
-
-			System.out.println("length of list : " + list.size());
-			long end = Calendar.getInstance().getTimeInMillis();
-			System.out.println("time diff get open study: " + (end - start));
-
-			return list;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
-
-	}
-	
-	@Override
-	public ArrayList<PreTestQuestion> getPreTestQuestions(String testId) {
-		try {
-			long start = Calendar.getInstance().getTimeInMillis();
-
-			ClientConfig config = new DefaultClientConfig();
-			Client client = Client.create(config);
-			String url = serverRoot + "/study/pretestquestion/" + testId;
-			WebResource service = client.resource(url);
-
-			String response = service.accept(MediaType.APPLICATION_JSON).get(
-					String.class);
-
-			Gson gson = new Gson();
-			Type listOfTestObject = new TypeToken<ArrayList<PreTestQuestion>>() {}.getType();
-			ArrayList<PreTestQuestion> list = gson.fromJson(response,
-					listOfTestObject);
-
-			System.out.println("response from server:" + response);
-
-			System.out.println("length of list : " + list.size());
-			long end = Calendar.getInstance().getTimeInMillis();
-			System.out.println("time diff get pretest questions: " + (end - start));
-
-			return list;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
-	}
-	
-	@Override
-	public Response submitPreTestAnswer(PreTestAnswers preTestAnswers) {
-		
-		System.out.println("in gwt server:"+ preTestAnswers.getParticipationId() + "," + preTestAnswers.getParticipationId());
-		
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/study/pretestsubmission";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, preTestAnswers);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("response of submit pretest answers: " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff end part call: " + (end - start));
-
 		return response;
 
 	}
 
-	@Override
-	public SpeechTest getSpeechTestMetadata(String testId) {
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/study/metadata/" + testId;
-		WebResource service = client.resource(url);
-
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		System.out.println("response from server : " + result);
-		SpeechTest speechTest = new Gson().fromJson(result, SpeechTest.class);
-
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff get meta data: " + (end - start));
-		return speechTest;
-
-	}
-
-	@Override
-	public Response enrollToStudy(String studyId, String email) {
-		
-		Enrollment enrollment = new Enrollment(0, Integer.parseInt(studyId), email, "", 3);
-		
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/study/enrollment/create";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, enrollment);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("convert response : " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff login call: " + (end - start));
-
-		return response;
-		
-	}
-
-	@Override
-	public Response startParticipation(String studyId, String email) {
-		
-		Participation participation = new Participation();
-		participation.setStudyId(Integer.parseInt(studyId));
-		participation.setUserId(email);
-		
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/study/participation/start";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, participation);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("response start participation : " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff start part call: " + (end - start));
-
-		return response;
-	}
-	
-	@Override
-	public Response endParticipation(String studyId, String email, String participationId) {
-		
-		Participation participation = new Participation();
-		participation.setId(Integer.parseInt(participationId));
-		participation.setStudyId(Integer.parseInt(studyId));
-		participation.setUserId(email);
-
-		long start = Calendar.getInstance().getTimeInMillis();
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		// WebResource service = client.resource(serverRoot + signupPath);
-		String url = serverRoot + "/study/participation/end";
-		WebResource service = client.resource(url);
-		ClientResponse nameResource = service.accept(MediaType.APPLICATION_XML)
-				.post(ClientResponse.class, participation);
-		// System.out.println("Client Response \n"
-		// + nameResource.getEntity(String.class));
-		Response response = nameResource.getEntity(Response.class);
-		System.out.println("response of end participation: " + response.getCode());
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff end part call: " + (end - start));
-
-		return response;
-	}
-	
-	@Override
-	public Response relocateSoundFile(Recording recording) {
-		long start = Calendar.getInstance().getTimeInMillis();
-
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot + "/files/relocate";
-		WebResource service = client.resource(url);
-
-		ClientResponse clientResponse = service.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, new Gson().toJson(recording));
-		String jsonResponse = clientResponse.getEntity(String.class);
-		Response response = new Gson().fromJson(jsonResponse, Response.class);
-		System.out.println("Client Response \n" + response.getCode());
-
-		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff relocate call: " + (end - start));
-
-		return response;
-	}
-	
-	/**
-	 * Escape an html string. Escaping data received from the client helps to
-	 * prevent cross-site script vulnerabilities.
-	 * 
-	 * @param html
-	 *            the html string to escape
-	 * @return the escaped string
-	 */
-	private String escapeHtml(String html) {
-		if (html == null) {
-			return null;
-		}
-		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;");
-	}
 }

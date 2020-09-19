@@ -91,6 +91,58 @@ public class PreTestQuestion implements IsSerializable{
 	public String getDefaultAnswer() {
 		return defaultAnswer;
 	}
+
+	public void setTestId(String testId) {
+		this.testId = testId;
+	}
+
+	public void setQuestionId(String questionId) {
+		this.questionId = questionId;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setPossibleAnswers(String possibleAnswers) {
+		this.possibleAnswers = possibleAnswers;
+	}
+
+	public void setDisplayLevel(int displayLevel) {
+		this.displayLevel = displayLevel;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public void setHasChild(boolean hasChild) {
+		this.hasChild = hasChild;
+	}
+
+	public void setChildVisibleDependentAnswer(String childVisibleDependentAnswer) {
+		this.childVisibleDependentAnswer = childVisibleDependentAnswer;
+	}
+
+	public void setDefaultAnswer(String defaultAnswer) {
+		this.defaultAnswer = defaultAnswer;
+	}
 	
 
 }

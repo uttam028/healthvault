@@ -25,12 +25,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import cse.mlab.hvr.client.services.GreetingService;
+import cse.mlab.hvr.client.services.GreetingServiceAsync;
 import cse.mlab.hvr.shared.Md5Utils;
 import cse.mlab.hvr.shared.Response;
 
 public class AccountInfoPage extends Composite {
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
 	@UiField
 	HTMLPanel resultPanel;

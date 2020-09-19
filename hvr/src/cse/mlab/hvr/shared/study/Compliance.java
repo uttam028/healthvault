@@ -46,4 +46,25 @@ public class Compliance implements IsSerializable{
 		return message;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setTimeFrame(String timeFrame) {
+		this.timeFrame = timeFrame;
+	}
+
+	public void setNumberOfParticipationInTimeFrame(int numberOfParticipationInTimeFrame) {
+		this.numberOfParticipationInTimeFrame = numberOfParticipationInTimeFrame;
+	}
+
+	public void setPercentageToMaintain(int percentageToMaintain) {
+		this.percentageToMaintain = percentageToMaintain;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+
 }

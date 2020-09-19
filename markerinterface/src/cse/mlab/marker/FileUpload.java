@@ -30,7 +30,7 @@ import com.sun.jersey.multipart.FormDataParam;
 @Path("/files")
 public class FileUpload {
 
-	private static final String upload_location = "/phrdata/speechdata/";
+	private static final String upload_location = "/project/speechmarker/speechdata/";
 	
 	@POST
 	@Path("/upload")
@@ -86,6 +86,8 @@ public class FileUpload {
 //	public Response uploadFile(){
 //		return Response.status(200).entity("Success").build();
 //	}
+	
+	
 
 	// save uploaded file to a defined location on the server
 	private void saveFile(InputStream _inputStream, String _location) {

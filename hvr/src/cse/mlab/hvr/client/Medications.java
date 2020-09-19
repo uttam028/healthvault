@@ -51,14 +51,16 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
+import cse.mlab.hvr.client.services.MedicationService;
+import cse.mlab.hvr.client.services.MedicationServiceAsync;
 import cse.mlab.hvr.shared.Medication;
 import cse.mlab.hvr.shared.MedicationList;
 import cse.mlab.hvr.shared.Response;
 
 public class Medications extends Composite {
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final MedicationServiceAsync service = GWT.create(MedicationService.class);
+	
 	private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
 
 	@UiField
@@ -209,7 +211,7 @@ public class Medications extends Composite {
 			// TODO Auto-generated method stub
 			medicationPanel.add(medicationDiv);
 			medicationPanel.add(new Br());
-			greetingService.getMedicationsList(Medications.this.emailId,
+			service.getMedicationsList(Medications.this.emailId,
 					new AsyncCallback<MedicationList>() {
 						@Override
 						public void onSuccess(MedicationList medicList) {
@@ -437,7 +439,7 @@ public class Medications extends Composite {
 			
 			
 			if(modalFromEdit){
-				greetingService.updateMedication(tempMedicationList.getMedicationList().get(0), new AsyncCallback<Response>() {
+				service.updateMedication(tempMedicationList.getMedicationList().get(0), new AsyncCallback<Response>() {
 					@Override
 					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub
@@ -460,7 +462,7 @@ public class Medications extends Composite {
 					}
 				});
 			} else {
-				greetingService.saveMedication(tempMedicationList,
+				service.saveMedication(tempMedicationList,
 						new AsyncCallback<Response>() {
 
 							@Override
@@ -594,7 +596,7 @@ public class Medications extends Composite {
 				medicationList.getMedicationList().remove(checkedMedicObject);
 			}
 			list = list.substring(0, list.length() - 1);
-			greetingService.deleteMedications(this.emailId, list,
+			service.deleteMedications(this.emailId, list,
 					new AsyncCallback<Response>() {
 						@Override
 						public void onSuccess(Response result) {
@@ -653,7 +655,7 @@ public class Medications extends Composite {
 			checkedMedicObject.setEndDate(endDate);
 			// Window.alert("Checked value :"+ dtf.format(date).toString() + " "
 			// + checkedMedicObject.toString());
-			greetingService.stopUsingMedication(checkedMedicObject.getId(),
+			service.stopUsingMedication(checkedMedicObject.getId(),
 					endDate, new AsyncCallback<Response>() {
 						@Override
 						public void onSuccess(Response result) {

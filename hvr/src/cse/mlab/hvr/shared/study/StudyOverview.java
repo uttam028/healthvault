@@ -116,5 +116,69 @@ public class StudyOverview implements IsSerializable {
 		return complianceId;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setModificationDate(String modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setConsentFileAvailable(boolean consentFileAvailable) {
+		this.consentFileAvailable = consentFileAvailable;
+	}
+
+	public void setConsentFileName(String consentFileName) {
+		this.consentFileName = consentFileName;
+	}
+
+	public void setPublishState(int publishState) {
+		this.publishState = publishState;
+	}
+
+	public void setSpeechTestId(String speechTestId) {
+		this.speechTestId = speechTestId;
+	}
+
+	public void setComplianceId(String complianceId) {
+		this.complianceId = complianceId;
+	}
+
 
 }

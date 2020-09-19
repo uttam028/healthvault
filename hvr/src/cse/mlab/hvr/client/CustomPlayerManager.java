@@ -30,6 +30,8 @@ import cse.mlab.hvr.client.events.PreTestInternalEventHandler;
 import cse.mlab.hvr.client.events.SpeechTestEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionEvent;
 import cse.mlab.hvr.client.events.TestProcessInterceptionHandler;
+import cse.mlab.hvr.client.services.SpeechService;
+import cse.mlab.hvr.client.services.SpeechServiceAsync;
 import cse.mlab.hvr.shared.Response;
 import cse.mlab.hvr.shared.study.Recording;
 import cse.mlab.hvr.shared.study.SpeechTest;
@@ -38,8 +40,7 @@ public class CustomPlayerManager extends Composite {
 	
 
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final SpeechServiceAsync service = GWT.create(SpeechService.class);
 
 	static int currentPlayerIndex = 0;
 	static boolean speechTestRunning = false;
@@ -366,7 +367,7 @@ public class CustomPlayerManager extends Composite {
 			// TODO: handle exception
 		}
 		recording.setFileIdentifier(fileIdentifier);
-		greetingService.relocateSoundFile(recording, new AsyncCallback<Response>() {
+		service.relocateSoundFile(recording, new AsyncCallback<Response>() {
 			
 			@Override
 			public void onSuccess(Response result) {
@@ -393,9 +394,9 @@ public class CustomPlayerManager extends Composite {
 					// url:
 					// 'http://m-lab.cse.nd.edu:8080/fileupload/rest/files/upload/',
 					// //Server script to process data
-					//url : 'http://10.32.10.188:8080/phrservice/files/upload/',
 					//url : 'http://129.74.247.110:80/markerinterface/files/upload/',
-					url : 'https://speechmarker.com/markerinterface/files/upload/',
+					//url : 'https://speechmarker.com/markerinterface/files/upload/',
+					url : 'https://speechbiomarker.com//hvr/fileupload',
 					type : 'post',
 					contentType : 'multipart/form-data',
 					//content: 'text/html',
@@ -415,7 +416,7 @@ public class CustomPlayerManager extends Composite {
 					},
 					// Ajax events
 					beforeSend : function(){
-						//alert("let see if it calls before sending");
+//						alert("let see if it calls before sending");
 					},
 					success : function(data, textStatus, myXhr){
 						console.log("file upload done...." + myXhr.status + ", data:" + data + ", text status:"+ textStatus);
@@ -425,6 +426,7 @@ public class CustomPlayerManager extends Composite {
 					},
 					error : function(myXhr, textStatus, errorThrown){
 						console.log("text status:"+ textStatus + ", error : "+ errorThrown);
+//						alert("text status:"+ textStatus + ", error : "+ errorThrown);
 					}, // Form data
 					//complete : function(myXhr, textStatus){
 						//alert("text status :"+ textStatus + "study id:" + studyId + ", subtestId : "+ subtestId + ", name :"+ name);

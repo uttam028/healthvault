@@ -15,75 +15,110 @@
 package cse.mlab.hvr.server;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
-
-import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import cse.mlab.hvr.shared.Response;
 
 public class VerifyEmailImpl extends HttpServlet {
 	static String serverRoot = "";
 	static String signupPath = "";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+
+	private static String dbUrl, dbUsername, dbPassword;
+
+	static {
+		try {
+			Class.forName(DRIVER).newInstance();
+			System.out.println("Load DB driver successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
-		serverRoot = config.getServletContext().getInitParameter("serverRoot");
-		signupPath = config.getServletContext().getInitParameter("signupPath");
+		// serverRoot =
+		// config.getServletContext().getInitParameter("serverRoot");
+		// signupPath =
+		// config.getServletContext().getInitParameter("signupPath");
+
+		Properties properties = new Properties();
+		InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/system.properties");
+
+		try {
+			properties.load(inputStream);
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema")
+					+ "?serverTimezone=UTC";
+			dbUsername = properties.getProperty("db_username");
+			dbPassword = properties.getProperty("db_password");
+			System.out.println("db prop, dburl:" + dbUrl + ", user:" + dbUsername + ", pass:" + dbPassword);
+
+			// gmailAccount = properties.getProperty("gmail_account");
+			// gmailUser = properties.getProperty("gmail_user");
+			// gmailPass = properties.getProperty("gmail_password");
+			// System.out.println("Gmail account:"+ gmailAccount + ", user:"+
+			// gmailUser + ", gmail pass:"+ gmailPass);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String baseUrl = "https://speechmarker.com/hvr/";
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String baseUrl = "https://speechbiomarker.com/hvr/";
 		try {
-//			String toWrite = "";
+			// String toWrite = "";
 			Response response = verifyEmail(req);
-//			boolean forward = false;
+			// boolean forward = false;
 			resp.setContentType("text/html");
 			if (response.getCode() == 0) {
-//				forward = true;
-//				toWrite = "Email verified. You will be redirected to log in.";
-//				req.setAttribute("code", 0);
+				// forward = true;
+				// toWrite = "Email verified. You will be redirected to log
+				// in.";
+				// req.setAttribute("code", 0);
 				resp.sendRedirect(baseUrl + "accountverified.jsp?code=0");
 			} else if (response.getCode() == 1) {
-//				toWrite = "Invalid verification code. Please sign up.";
+				// toWrite = "Invalid verification code. Please sign up.";
 				resp.sendRedirect(baseUrl + "accountverified.jsp?code=1");
 			} else if (response.getCode() == 2) {
-//				forward = true;
-//				toWrite = "Email already verified. You will be redirected to log in.";
+				// forward = true;
+				// toWrite = "Email already verified. You will be redirected to
+				// log in.";
 				resp.sendRedirect(baseUrl + "accountverified.jsp?code=2");
 			} else {
-//				toWrite = "Service is not available, please try later.";
+				// toWrite = "Service is not available, please try later.";
 				resp.sendRedirect(baseUrl + "accountverified.jsp?code=-1");
 			}
-			
-			
-			
-//			resp.getWriter().println(toWrite);
 
-//			if (forward) {
-//				try {
-//					Thread.sleep(3000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				//resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-//				//resp.setHeader("Location", "/hvr/#patient?emailverified=true");
-//				resp.flushBuffer();
-//			}
+			// resp.getWriter().println(toWrite);
+
+			// if (forward) {
+			// try {
+			// Thread.sleep(3000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// //resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+			// //resp.setHeader("Location", "/hvr/#patient?emailverified=true");
+			// resp.flushBuffer();
+			// }
 		} catch (Exception e) {
 			// TODO: handle exception
 			resp.sendRedirect(baseUrl + "accountverified.jsp?code=-1");
@@ -92,19 +127,54 @@ public class VerifyEmailImpl extends HttpServlet {
 
 	}
 
+	private Connection connect() {
+		try {
+			return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	protected Response verifyEmail(HttpServletRequest request) throws Exception {
-		String token = request.getParameter("token");
 
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		String url = serverRoot
-				+ signupPath + "verification/" + token;
-		System.out.println("verification url:" + url);
+		Connection connection = null;
+		Response response = new Response();
+		try {
+			connection = connect();
+			// statement = connection.createStatement();
+			String token = request.getParameter("token");
+			PreparedStatement preparedStatement = connection.prepareStatement("select * from phr.users where token=?");
+			preparedStatement.setString(1, token);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int state = resultSet.getInt("state");
+				if (state == 0) {
+					preparedStatement = connection.prepareStatement("update phr.users set state=1 where token=?");
+					preparedStatement.setString(1, token);
+					preparedStatement.executeUpdate();
+					// successfully update account state
+					response.setCode(0);
+				} else {
+					// email already verified
+					response.setCode(2);
+				}
+			} else {
+				// token does not exist
+				response.setCode(1);
+				response.setMessage("Invalid verification code. Please sign up.");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
 
-		WebResource service = client.resource(url);
-		String result = service.accept(MediaType.APPLICATION_JSON).get(
-				String.class);
-		Response response = new Gson().fromJson(result, Response.class);
+		}
 		return response;
 
 	}
